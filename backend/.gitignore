@@ -1,0 +1,80 @@
+﻿# ============================================================
+#  IELTS Backend — .gitignore
+#  Stack: Spring Boot 4 · Maven · Java 21 · PostgreSQL · Flyway
+# ============================================================
+
+# Maven build output
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.jar
+*.war
+*.ear
+*.nar
+.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot profile configs (chua secrets)
+**/src/main/resources/application-local.*
+**/src/main/resources/application-dev.*
+**/src/main/resources/application-prod.*
+
+# Secrets & credentials
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.truststore
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# IDEs — IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# IDEs — Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+bin/
+
+# IDEs — NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDEs — VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker overrides
+docker-compose.override.yml
+
+# Misc
+HELP.md
+*.orig
+*.bak
+*.tmp
