@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 1 - Farming in the Sky",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 1 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Farming in the Sky",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Cities have long been seen as places that consume food rather than produce it. Farmland lies far beyond the suburbs, and a typical vegetable may travel hundreds of kilometres before it reaches a supermarket shelf. Over the past two decades, however, a growing number of city dwellers have begun to challenge this assumption by planting crops on the one resource that urban areas have in abundance: unused roof space."
+      },
+      {
+        "label": "B",
+        "text": "Growing plants on top of buildings is not a modern invention. Raised gardens were a feature of many ancient cities, where they provided shade and a convenient place to grow herbs. What has changed is the scale and the purpose. In 2012, a small company in a northern port city converted the roof of a disused warehouse into a vegetable farm covering four thousand square metres. It was among the first rooftop farms intended to make a profit rather than serve as a hobby or a community project, and its success encouraged similar businesses to open in other cities."
+      },
+      {
+        "label": "C",
+        "text": "Supporters point out that a planted roof offers benefits beyond food. A layer of soil and leaves absorbs heat that would otherwise pass into the building, and in summer the rooms below can be several degrees cooler, which reduces the need for air conditioning. The same layer holds rainwater like a sponge, easing the pressure on drains during heavy storms. In addition, the plants capture dust and pollution from the air, and the green space provides a habitat for bees and birds that have few other places to live in dense urban districts."
+      },
+      {
+        "label": "D",
+        "text": "The practical difficulties are considerable, however. Soil is heavy, and a saturated layer only fifteen centimetres deep can weigh more than most older roofs were designed to carry. Before any planting begins, an engineer must inspect the structure, and many buildings fail this test. To reduce the load, growers often replace ordinary soil with a lightweight mixture of crushed volcanic rock and recycled compost. Wind is another problem, since crops several storeys above the street dry out quickly and can be damaged by strong gusts. Installing a reliable water supply adds further cost."
+      },
+      {
+        "label": "E",
+        "text": "The economics are equally challenging. Rooftop farms cannot compete with large rural farms on price, so most sell premium products such as salad leaves and herbs directly to restaurants, which will pay more for produce picked on the same day. Some farms earn additional income by running workshops for schools and offering the space for private events. Critics argue that rooftop farming will never feed a city. One study suggested that, even if every suitable roof in a large city were planted, the harvest would supply only a small fraction of the vegetables its residents eat."
+      },
+      {
+        "label": "F",
+        "text": "Defenders of the movement reply that food production is only part of the story. Many rooftop farms employ local residents who have struggled to find work, and children who visit them often learn for the first time where vegetables come from. In this view, the greatest value of the rooftop farm may be its power to change how city dwellers think about food, rather than the number of tonnes it produces."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 1,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 1? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Gardens on top of buildings already existed in ancient cities.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: growing plants on top of buildings is not a modern invention, and raised gardens were a feature of many ancient cities.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The warehouse farm was designed as a community project rather than a business.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: it was among the first rooftop farms intended to make a profit rather than serve as a hobby or a community project.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "A planted roof can make the rooms below it cooler in summer.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: in summer the rooms below can be several degrees cooler.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Rooftop farms use more water than farms in the countryside.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "The passage only says that installing a water supply adds cost (paragraph D). It does not compare water use with rural farms.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Engineers have found that most older roofs can carry a layer of wet soil without any changes.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: a saturated layer of soil can weigh more than most older roofs were designed to carry.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "A layer of soil and leaves holds rainwater like a ______, which eases the pressure on drains during heavy storms.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: the same layer holds rainwater like a sponge.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "sponge", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "To reduce the load on the roof, growers mix crushed volcanic rock with recycled ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: a lightweight mixture of crushed volcanic rock and recycled compost.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "compost", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Most rooftop farms sell their premium products directly to ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: most sell premium products such as salad leaves and herbs directly to restaurants.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "restaurants", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Some farms earn additional income by running ______ for schools.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: some farms earn additional income by running workshops for schools.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "workshops", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph D, why must an engineer inspect a building before planting begins?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph D: wet soil can weigh more than most older roofs were designed to carry. Wind is mentioned as a separate problem.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Strong winds could damage the crops.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. The soil may be heavier than the roof can support.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. The water supply may not be reliable.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. City regulations require a safety certificate.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What is the main point made in paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: the greatest value may be the power to change how city dwellers think about food, rather than the number of tonnes produced.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. Rooftop farms will soon replace rural farms.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Rooftop farms can provide very cheap vegetables.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Rooftop farms may change how people think about food.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Rooftop farms create a large number of jobs.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 1 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a reference to animals that benefit from green space in the city",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph C mentions a habitat for bees and birds.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a claim that rooftop farms could supply only a small part of a city's vegetables",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: one study suggested the harvest would supply only a small fraction of the vegetables residents eat.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}
