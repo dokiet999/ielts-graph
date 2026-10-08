@@ -12,7 +12,11 @@ import java.util.List;
 @Component
 public class CourseMapper {
 
-    public CourseResponse toResponse(Course course) {
+    /**
+     * @param enrollmentCount active enrollments, counted from the enrollments table
+     *                        (the courses.enrollment_count column is not maintained)
+     */
+    public CourseResponse toResponse(Course course, long enrollmentCount) {
         return CourseResponse.builder()
                 .id(course.getId())
                 .teacherId(course.getTeacher().getId())
@@ -26,7 +30,7 @@ public class CourseMapper {
                 .difficultyLevel(course.getDifficultyLevel())
                 .estimatedDuration(course.getEstimatedDuration())
                 .isFeatured(course.getIsFeatured())
-                .enrollmentCount(course.getEnrollmentCount())
+                .enrollmentCount(Math.toIntExact(enrollmentCount))
                 .rating(course.getRating())
                 .courseOutline(course.getCourseOutline())
                 .publishedAt(course.getPublishedAt())

@@ -6,5 +6,8 @@ import java.util.UUID;
 
 public interface LessonService {
 
-    LessonDetailResponse getLessonDetail(UUID lessonId);
+    /**
+     * @param username the logged-in user, or null for anonymous access
+     */
+    LessonDetailResponse getLessonDetail(UUID lessonId, String username);
 }

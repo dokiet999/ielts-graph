@@ -23,7 +23,7 @@ public interface LessonRepository extends JpaRepository<Lesson, UUID> {
             select l from Lesson l
             join fetch l.section s
             join fetch s.course c
-            where l.id = :id and c.isActive = true
+            where l.id = :id and c.isActive = true and c.publishedAt is not null
             """)
-    Optional<Lesson> findActiveByIdWithSectionAndCourse(@Param("id") UUID id);
+    Optional<Lesson> findVisibleByIdWithSectionAndCourse(@Param("id") UUID id);
 }
