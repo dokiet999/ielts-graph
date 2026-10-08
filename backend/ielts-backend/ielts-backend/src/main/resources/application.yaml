@@ -3,9 +3,9 @@ spring:
     name: ielts-backend
 
   datasource:
-    username: postgres
-    password: dokiet999
+    username: 
+    password: 
     url: jdbc:postgresql://localhost:5433/ielts_graph
 
 server:
-  port: 8081
+  port: 8080
