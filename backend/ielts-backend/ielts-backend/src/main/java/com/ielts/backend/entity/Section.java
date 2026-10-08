@@ -33,6 +33,7 @@ public class Section {
     private String description;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp

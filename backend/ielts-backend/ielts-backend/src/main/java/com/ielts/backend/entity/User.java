@@ -4,7 +4,9 @@ import com.ielts.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,7 +39,9 @@ public class User {
     private String avatarUrl;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "role", nullable = false, columnDefinition = "user_role")
+    @Builder.Default
     private Role role = Role.STUDENT;
 
     @Column(name = "bio", columnDefinition = "TEXT")
@@ -50,9 +54,11 @@ public class User {
     private LocalDate dateOfBirth;
 
     @Column(name = "is_active", nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @Column(name = "email_verified", nullable = false)
+    @Builder.Default
     private Boolean emailVerified = false;
 
     @Column(name = "oauth_provider", length = 50)

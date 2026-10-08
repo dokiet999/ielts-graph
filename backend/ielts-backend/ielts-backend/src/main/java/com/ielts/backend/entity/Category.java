@@ -35,9 +35,11 @@ public class Category {
     private String iconUrl;
 
     @Column(name = "is_active", nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp

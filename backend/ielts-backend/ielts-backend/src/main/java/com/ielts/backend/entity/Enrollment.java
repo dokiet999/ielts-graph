@@ -36,15 +36,18 @@ public class Enrollment {
     private Course course;
 
     @Column(name = "enrollment_date", nullable = false)
+    @Builder.Default
     private LocalDateTime enrollmentDate = LocalDateTime.now();
 
     @Column(name = "completion_date")
     private LocalDateTime completionDate;
 
     @Column(name = "progress_percentage", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal progressPercentage = BigDecimal.ZERO;
 
     @Column(name = "is_active", nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @CreationTimestamp

@@ -30,6 +30,7 @@ public class Lesson {
     private String title;
 
     @Column(name = "lesson_type", nullable = false, length = 50)
+    @Builder.Default
     private String lessonType = "VIDEO";
 
     @Column(name = "video_url", length = 512)
@@ -42,9 +43,11 @@ public class Lesson {
     private String documentUrl;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @Column(name = "is_preview", nullable = false)
+    @Builder.Default
     private Boolean isPreview = false;
 
     @CreationTimestamp

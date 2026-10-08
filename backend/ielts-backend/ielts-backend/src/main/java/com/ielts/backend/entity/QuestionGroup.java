@@ -4,7 +4,9 @@ import com.ielts.backend.enums.QuestionType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -40,6 +42,7 @@ public class QuestionGroup {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "question_type", columnDefinition = "question_type")
     private QuestionType questionType;
 
@@ -47,9 +50,11 @@ public class QuestionGroup {
     private String questionRange;
 
     @Column(name = "correct_answer_count", nullable = false)
+    @Builder.Default
     private Integer correctAnswerCount = 0;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp

@@ -49,6 +49,7 @@ public class QuestionAnswer {
     private Boolean isCorrect;
 
     @Column(name = "points_earned", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal pointsEarned = BigDecimal.ZERO;
 
     @Column(name = "ai_points", precision = 5, scale = 2)

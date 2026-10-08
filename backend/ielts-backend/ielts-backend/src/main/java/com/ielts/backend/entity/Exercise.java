@@ -46,10 +46,13 @@ public class Exercise {
     private Map<String, Object> content;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "exercise_type", nullable = false, columnDefinition = "exercise_type")
+    @Builder.Default
     private ExerciseType exerciseType = ExerciseType.LESSON;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "skill_type", nullable = false, columnDefinition = "skill_type")
     private SkillType skillType;
 
@@ -57,12 +60,15 @@ public class Exercise {
     private Integer timeLimit;
 
     @Column(name = "max_attempts", nullable = false)
+    @Builder.Default
     private Integer maxAttempts = 1;
 
     @Column(name = "passing_score", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal passingScore = BigDecimal.ZERO;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp

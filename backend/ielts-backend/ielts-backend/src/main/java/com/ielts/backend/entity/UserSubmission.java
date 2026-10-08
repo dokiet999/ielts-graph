@@ -41,6 +41,7 @@ public class UserSubmission {
     private Exercise exercise;
 
     @Column(name = "attempt_number", nullable = false)
+    @Builder.Default
     private Integer attemptNumber = 1;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -48,9 +49,11 @@ public class UserSubmission {
     private Map<String, Object> answers;
 
     @Column(name = "score", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal score = BigDecimal.ZERO;
 
     @Column(name = "max_score", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal maxScore = BigDecimal.ZERO;
 
     @Column(name = "ai_score", precision = 5, scale = 2)
@@ -66,6 +69,7 @@ public class UserSubmission {
     private String teacherFeedback;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "grading_method", columnDefinition = "grading_method")
     private GradingMethod gradingMethod;
 
@@ -77,10 +81,13 @@ public class UserSubmission {
     private LocalDateTime gradedAt;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", nullable = false, columnDefinition = "submission_status")
+    @Builder.Default
     private SubmissionStatus status = SubmissionStatus.PENDING;
 
     @Column(name = "submitted_at", nullable = false)
+    @Builder.Default
     private LocalDateTime submittedAt = LocalDateTime.now();
 
     @CreationTimestamp

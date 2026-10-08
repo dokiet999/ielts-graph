@@ -4,7 +4,9 @@ import com.ielts.backend.enums.QuestionType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -36,6 +38,7 @@ public class Question {
     private String questionText;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "question_type", nullable = false, columnDefinition = "question_type")
     private QuestionType questionType;
 
@@ -52,9 +55,11 @@ public class Question {
     private String explanation;
 
     @Column(name = "points", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal points = BigDecimal.ONE;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp

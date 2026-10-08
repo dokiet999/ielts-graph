@@ -46,10 +46,12 @@ public class Course {
     private String thumbnail;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "skill_focus", columnDefinition = "skill_type")
     private SkillType skillFocus;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "difficulty_level", columnDefinition = "difficulty_level")
     private DifficultyLevel difficultyLevel;
 
@@ -57,12 +59,15 @@ public class Course {
     private Integer estimatedDuration;
 
     @Column(name = "is_featured", nullable = false)
+    @Builder.Default
     private Boolean isFeatured = false;
 
     @Column(name = "enrollment_count", nullable = false)
+    @Builder.Default
     private Integer enrollmentCount = 0;
 
     @Column(name = "rating", nullable = false, precision = 3, scale = 2)
+    @Builder.Default
     private BigDecimal rating = BigDecimal.ZERO;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -73,6 +78,7 @@ public class Course {
     private LocalDateTime publishedAt;
 
     @Column(name = "is_active", nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @CreationTimestamp

@@ -31,15 +31,18 @@ public class QuestionOption {
     private String optionText;
 
     @Column(name = "is_correct", nullable = false)
+    @Builder.Default
     private Boolean isCorrect = false;
 
     @Column(name = "point", nullable = false, precision = 5, scale = 2)
+    @Builder.Default
     private BigDecimal point = BigDecimal.ZERO;
 
     @Column(name = "explanation", columnDefinition = "TEXT")
     private String explanation;
 
     @Column(name = "ordering", nullable = false)
+    @Builder.Default
     private Integer ordering = 0;
 
     @CreationTimestamp
