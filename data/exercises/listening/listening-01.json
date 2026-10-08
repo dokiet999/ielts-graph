@@ -1,0 +1,183 @@
+{
+  "title": "Listening Section 1 - Photography Course Enquiry",
+  "instruction": "You will hear a telephone conversation between a woman and a receptionist at an arts centre. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://example.com/audio/listening-01.mp3",
+  "content": {
+    "sectionTitle": "Section 1",
+    "transcript": [
+      { "speaker": "Tom", "text": "Good morning, Riverside Community Arts Centre. Tom speaking." },
+      { "speaker": "Maria", "text": "Hello. I saw your poster for the weekend photography course and I'd like to find out a bit more." },
+      { "speaker": "Tom", "text": "Of course. Can I take some details first? What's your name?" },
+      { "speaker": "Maria", "text": "It's Maria Thornley." },
+      { "speaker": "Tom", "text": "Could you spell your surname for me?" },
+      { "speaker": "Maria", "text": "Yes, it's T-H-O-R-N-L-E-Y." },
+      { "speaker": "Tom", "text": "Thank you. And a contact number?" },
+      { "speaker": "Maria", "text": "My mobile is 07700 493826." },
+      { "speaker": "Tom", "text": "07700 493826. Got it. Now, the course starts on the twelfth of March, I think... sorry, let me check. No, I've got an updated timetable here. It's been moved back a week, so it starts on the nineteenth of March." },
+      { "speaker": "Maria", "text": "That's fine, actually it's better for me." },
+      { "speaker": "Tom", "text": "Great. The fee is ninety-five pounds, but members of the centre get a discount. Are you a member?" },
+      { "speaker": "Maria", "text": "Yes, I joined last year." },
+      { "speaker": "Tom", "text": "Then it's eighty-five pounds for you." },
+      { "speaker": "Maria", "text": "Good. Is it held in the main hall?" },
+      { "speaker": "Tom", "text": "No, the main hall is being repainted, so the classes are in Room 14, on the first floor." },
+      { "speaker": "Maria", "text": "Room 14. Okay. Do I need to bring my own equipment?" },
+      { "speaker": "Tom", "text": "You need your own camera, of course, and a tripod. We have a few spare ones, but there aren't many, so it's best to bring your own." },
+      { "speaker": "Maria", "text": "I'll do that." },
+      { "speaker": "Tom", "text": "Can I ask what made you interested in the course? Is it for your work?" },
+      { "speaker": "Maria", "text": "No, nothing like that, and I'm not planning any trips either. I was given a new camera as a birthday present last month and I'd really like to learn how to use it properly." },
+      { "speaker": "Tom", "text": "That's a good reason to join." },
+      { "speaker": "Maria", "text": "What will we be doing in the first session?" },
+      { "speaker": "Tom", "text": "The tutor, Dev, takes everyone into the old town to photograph buildings. People often expect landscapes, but we save those for the second weekend, and we don't do portraits on this course." },
+      { "speaker": "Maria", "text": "How big are the classes?" },
+      { "speaker": "Tom", "text": "Last year we had fifteen students, which was too many, so this year the limit is twelve." },
+      { "speaker": "Maria", "text": "Lovely. And what happens on the last day?" },
+      { "speaker": "Tom", "text": "On the final day we put up an exhibition of everyone's best photographs in the cafe downstairs, and friends and family can come along. Some people expect a trip to a gallery, but that isn't possible this year, and feedback is given in person rather than online." },
+      { "speaker": "Maria", "text": "That sounds wonderful. Thank you for your help." },
+      { "speaker": "Tom", "text": "You're welcome. See you on the nineteenth, then." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 1,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the form below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Surname: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The surname is spelled out: T-H-O-R-N-L-E-Y.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "Thornley", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Mobile number: 07700 ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Maria gives her mobile number as 07700 493826.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "493826", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "493 826", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Course starts on: ______ March",
+          "questionType": "FILL_BLANK",
+          "explanation": "Tom first says the twelfth, then corrects it: the course has moved back a week and starts on the nineteenth.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "19", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "19th", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "nineteenth", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Fee for members: £______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The standard fee is 95 pounds, but Maria is a member so she pays 85 pounds.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "85", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Classes are held in Room ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The main hall is being repainted, so classes are in Room 14.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "14", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Students should bring their own camera and ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Tom says students need their own camera and a tripod.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "tripod", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Why does Maria want to take the course?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "She says it is not for work and she has no trip planned. She received a new camera as a gift and wants to learn to use it.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. She needs better photos for her job.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. She is preparing for a trip.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. She has been given a new camera.", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What will the class photograph in the first session?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The tutor takes everyone into the old town to photograph buildings. Landscapes are saved for the second weekend and there are no portraits.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. portraits", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. buildings", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. landscapes", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What is the maximum number of students in each class this year?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Last year there were fifteen students, which was too many. This year the limit is twelve.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. 8", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. 12", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. 15", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What will happen on the final day of the course?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "There will be an exhibition of the students' best photographs. A gallery trip is not possible and feedback is given in person, not online.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. The class will visit a gallery.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. There will be an exhibition of students' work.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Students will receive feedback online.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}
