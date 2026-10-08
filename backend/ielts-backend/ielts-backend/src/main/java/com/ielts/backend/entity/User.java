@@ -1,6 +1,7 @@
 package com.ielts.backend.entity;
 
 import com.ielts.backend.enums.Role;
+import com.ielts.backend.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
+
+    @Column(name = "username", nullable = false, unique = true, length = 50)
+    private String username;
 
     @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
@@ -52,6 +56,11 @@ public class User {
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    @Builder.Default
+    private UserStatus status = UserStatus.ACTIVE;
 
     @Column(name = "is_active", nullable = false)
     @Builder.Default
