@@ -66,11 +66,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // UC07: only learners can join a course
                         .requestMatchers(HttpMethod.POST, "/api/courses/*/enroll").hasRole("STUDENT")
-                        // Public catalogue. Lesson content access (FR-2.01) is checked in LessonService
-                        .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
-                        // API docs, health check and error dispatch
+                        // Exercise authoring: only teachers and admins can create exercises
+                        .requestMatchers(HttpMethod.POST, "/api/exercises").hasAnyRole("TEACHER", "ADMIN")
+                        // Public catalogue & exercise preview. Answers are guarded at service level
+                        .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**", "/api/exercises/**").permitAll()
+                        // API docs, health check, demo UI and static assets
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
-                                "/actuator/health", "/error").permitAll()
+                                "/actuator/health", "/error", "/listening-demo.html", "/", "/index.html", "/static/**").permitAll()
                         .anyRequest().authenticated())
                 // Temporary until JWT auth is implemented
                 .httpBasic(basic -> basic.authenticationEntryPoint(entryPoint))
