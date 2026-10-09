@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-class ReadingSubmitConcurrencyTest {
+class ExerciseSubmitConcurrencyTest {
 
     private static final String READING = "d9f52c7a-9133-51eb-ad99-e9fef11162b4";
     private static final String STUDENT_NEW = "00000000-0000-0000-0000-000000000012";
@@ -54,7 +54,7 @@ class ReadingSubmitConcurrencyTest {
             for (int i = 0; i < REQUESTS; i++) {
                 results.add(pool.submit(() -> {
                     start.await();
-                    return mockMvc.perform(post("/api/reading/exercises/{id}/submit", READING)
+                    return mockMvc.perform(post("/api/exercises/{id}/submit", READING)
                                     .with(httpBasic("student_new", "Demo@123"))
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content("{\"answers\":{}}"))

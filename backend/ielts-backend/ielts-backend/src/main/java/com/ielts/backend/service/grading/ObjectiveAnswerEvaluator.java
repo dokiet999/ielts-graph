@@ -30,6 +30,9 @@ import java.util.UUID;
 @Component
 public class ObjectiveAnswerEvaluator {
 
+    /** Longest accepted FILL_BLANK answer; IELTS answers are a few words, this only stops abuse. */
+    static final int MAX_TEXT_LENGTH = 200;
+
     private static final Set<QuestionType> CHOICE_TYPES = Set.of(
             QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE, QuestionType.DROPLIST, QuestionType.MATCHING);
 
@@ -45,9 +48,12 @@ public class ObjectiveAnswerEvaluator {
             return Optional.empty();
         }
         if (question.getQuestionType() == QuestionType.FILL_BLANK) {
-            return rawAnswer instanceof String || rawAnswer instanceof Number
-                    ? Optional.empty()
-                    : Optional.of("text answer expected");
+            if (!(rawAnswer instanceof String || rawAnswer instanceof Number)) {
+                return Optional.of("text answer expected");
+            }
+            return rawAnswer.toString().length() > MAX_TEXT_LENGTH
+                    ? Optional.of("answer longer than " + MAX_TEXT_LENGTH + " characters")
+                    : Optional.empty();
         }
         return findSelectedOption(options, rawAnswer).isPresent()
                 ? Optional.empty()

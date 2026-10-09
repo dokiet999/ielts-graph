@@ -1,6 +1,5 @@
 package com.ielts.backend.service.implement;
 
-import com.ielts.backend.dto.request.ListeningSubmissionRequest;
 import com.ielts.backend.dto.response.*;
 import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.Role;
@@ -10,7 +9,6 @@ import com.ielts.backend.exception.UnauthorizedException;
 import com.ielts.backend.mapper.SubmissionMapper;
 import com.ielts.backend.repository.*;
 import com.ielts.backend.security.DbUserDetailsService;
-import com.ielts.backend.service.ListeningGradingService;
 import com.ielts.backend.service.SubmissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,27 +28,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final QuestionAnswerRepository questionAnswerRepository;
     private final QuestionRepository questionRepository;
     private final QuestionOptionRepository questionOptionRepository;
-    private final ListeningGradingService listeningGradingService;
     private final SubmissionMapper submissionMapper;
-
-    @Override
-    @Transactional
-    public SubmissionResultResponse submitListeningExercise(UUID exerciseId, String username, ListeningSubmissionRequest request) {
-        User user = findUser(username);
-        Exercise exercise = exerciseRepository.findById(exerciseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
-
-        // Validate attempt count
-        if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0) {
-            List<UserSubmission> previousAttempts = userSubmissionRepository
-                    .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
-            if (previousAttempts.size() >= exercise.getMaxAttempts()) {
-                throw new ForbiddenException("Maximum attempts (" + exercise.getMaxAttempts() + ") reached for this exercise");
-            }
-        }
-
-        return listeningGradingService.gradeAndSave(user, exercise, request.getAnswers());
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -150,7 +128,6 @@ public class SubmissionServiceImpl implements SubmissionService {
         }
 
         int totalQuestions = questions.size();
-        double bandScore = listeningGradingService.calculateIeltsListeningBand(correctCount, totalQuestions);
 
         BigDecimal percentage = BigDecimal.ZERO;
         if (submission.getMaxScore() != null && submission.getMaxScore().compareTo(BigDecimal.ZERO) > 0) {
@@ -169,7 +146,8 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .score(submission.getScore())
                 .maxScore(submission.getMaxScore())
                 .percentage(percentage)
-                .bandScore(bandScore)
+                // Practice is not converted to a band (SRS 2.2.2.1); mock tests have their own module
+                .bandScore(null)
                 .correctCount(correctCount)
                 .totalQuestions(totalQuestions)
                 .passed(passed)
@@ -191,11 +169,22 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
     }
 
+    /**
+     * The learner who submitted, an admin, or the teacher who owns the course of the exercise
+     * (permission matrix note 3). Standalone practice exercises have no owning teacher.
+     */
     private void ensureSubmissionAccess(UserSubmission submission, User user) {
         boolean isOwner = submission.getUser().getId().equals(user.getId());
-        boolean isPrivileged = user.getRole() == Role.ADMIN || user.getRole() == Role.TEACHER;
-        if (!isOwner && !isPrivileged) {
+        boolean isAdmin = user.getRole() == Role.ADMIN;
+        if (!isOwner && !isAdmin && !isCourseTeacher(submission.getExercise(), user)) {
             throw new ForbiddenException("Access denied to this submission");
         }
+    }
+
+    private boolean isCourseTeacher(Exercise exercise, User user) {
+        if (user.getRole() != Role.TEACHER || exercise.getLesson() == null) {
+            return false;
+        }
+        return exercise.getLesson().getSection().getCourse().getTeacher().getId().equals(user.getId());
     }
 }

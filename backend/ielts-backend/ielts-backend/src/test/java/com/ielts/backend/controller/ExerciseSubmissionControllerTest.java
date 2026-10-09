@@ -1,6 +1,9 @@
 package com.ielts.backend.controller;
 
+import com.ielts.backend.enums.SkillType;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -27,14 +30,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Submits the Reading sample "Farming in the Sky" from V5__seed_sample_exercises.sql.
+ * POST /api/exercises/{id}/submit for Reading and Listening, using the samples
+ * "Farming in the Sky" (Reading) and "Photography Course Enquiry" (Listening) from V5__seed_sample_exercises.sql.
  * Answer keys are read from the database, so the tests follow the seed data.
  * Each test runs in a transaction that is rolled back.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ReadingSubmissionControllerTest {
+class ExerciseSubmissionControllerTest {
 
     private static final String READING = "d9f52c7a-9133-51eb-ad99-e9fef11162b4";
     private static final String LISTENING = "ad96d65b-5c3a-5057-9e9c-39bb9f76d4ee";
@@ -54,15 +58,16 @@ class ReadingSubmissionControllerTest {
 
     // ---------- Grading ----------
 
-    @Test
-    void submit_correctAnswersForEveryReadingExercise_scoresFullMarks() throws Exception {
-        // FR-8.01: automatic grading must match manual grading on the sample data
+    @ParameterizedTest
+    @EnumSource(value = SkillType.class, names = {"READING", "LISTENING"})
+    void submit_correctAnswersForEveryExercise_scoresFullMarks(SkillType skill) throws Exception {
+        // FR-8.01: automatic grading must match manual grading on the sample data, for both skills
         List<String> exercises = jdbcTemplate.queryForList("""
                 SELECT e.id::text FROM exercises e
-                WHERE e.skill_type = 'READING' AND e.exercise_type <> 'MOCK_TEST' AND e.lesson_id IS NULL
+                WHERE e.skill_type = ?::skill_type AND e.exercise_type <> 'MOCK_TEST' AND e.lesson_id IS NULL
                   AND EXISTS (SELECT 1 FROM questions q WHERE q.exercise_id = e.id)
-                """, String.class);
-        assertThat(exercises).contains(READING);
+                """, String.class, skill.name());
+        assertThat(exercises).contains(skill == SkillType.READING ? READING : LISTENING);
 
         for (String exercise : exercises) {
             Map<String, Object> answers = correctAnswers(exercise);
@@ -142,18 +147,20 @@ class ReadingSubmissionControllerTest {
     }
 
     @Test
-    void submit_afterMaxAttempts_returns403() throws Exception {
+    void submit_afterMaxAttempts_returns409() throws Exception {
         jdbcTemplate.update("UPDATE exercises SET max_attempts = 1 WHERE id = ?::uuid", READING);
 
         submit(READING, "student_new", Map.of()).andExpect(status().isOk());
-        submit(READING, "student_new", Map.of()).andExpect(status().isForbidden());
+        submit(READING, "student_new", Map.of())
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("MAX_ATTEMPTS_REACHED"));
     }
 
     // ---------- Access ----------
 
     @Test
     void submit_anonymous_returns401() throws Exception {
-        mockMvc.perform(post("/api/reading/exercises/{id}/submit", READING)
+        mockMvc.perform(post("/api/exercises/{id}/submit", READING)
                         .contentType(MediaType.APPLICATION_JSON).content("{\"answers\":{}}"))
                 .andExpect(status().isUnauthorized());
     }
@@ -171,10 +178,21 @@ class ReadingSubmissionControllerTest {
     // ---------- Validation ----------
 
     @Test
-    void submit_listeningExercise_returns400() throws Exception {
-        submit(LISTENING, "student_new", Map.of())
+    void submit_writingExercise_returns400() throws Exception {
+        // Writing and Speaking are graded by AI in their own flow
+        jdbcTemplate.update("UPDATE exercises SET skill_type = 'WRITING'::skill_type WHERE id = ?::uuid", READING);
+
+        submit(READING, "student_new", Map.of())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("INVALID_EXERCISE"));
+    }
+
+    @Test
+    void submit_fillBlankAnswerTooLong_returns400() throws Exception {
+        String q6 = id(READING, 6);
+        submit(READING, "student_new", Map.of(q6, "x".repeat(201)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.details", hasKey(q6)));
     }
 
     @Test
@@ -224,15 +242,70 @@ class ReadingSubmissionControllerTest {
 
     @Test
     void submit_missingAnswersField_returns400() throws Exception {
-        mockMvc.perform(post("/api/reading/exercises/{id}/submit", READING).with(httpBasic("student_new", PASSWORD))
+        mockMvc.perform(post("/api/exercises/{id}/submit", READING).with(httpBasic("student_new", PASSWORD))
                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isBadRequest());
+    }
+
+    // ---------- Listening and review ----------
+
+    @Test
+    void submit_listening_gradesFillBlankAlternativesAndChoices() throws Exception {
+        Map<Integer, String> key = keyByNumber(LISTENING);
+        Map<String, Object> answers = new LinkedHashMap<>();
+        answers.put(id(LISTENING, 1), " thornley ");      // case and spaces ignored
+        answers.put(id(LISTENING, 2), "493 826");         // accepted alternative spelling
+        answers.put(id(LISTENING, 3), "Nineteenth");      // accepted alternative spelling
+        answers.put(id(LISTENING, 4), "£85");        // "£85" is not in the answer key
+        answers.put(id(LISTENING, 7), key.get(7));        // MC by option id
+
+        submit(LISTENING, "student_new", answers)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.correctCount").value(4))
+                .andExpect(jsonPath("$.result.totalQuestions").value(10))
+                .andExpect(jsonPath("$.result.bandScore").value(nullValue()))
+                .andExpect(jsonPath("$.byQuestionType[*].questionType").value(contains("FILL_BLANK", "MULTIPLE_CHOICE")));
+    }
+
+    @Test
+    void review_afterSubmit_showsTranscriptWithoutBand() throws Exception {
+        String body = submit(LISTENING, "student_new", correctAnswers(LISTENING))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+
+        mockMvc.perform(get("/api/submissions/{id}/review", submissionId).with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.transcript").exists())
+                .andExpect(jsonPath("$.submission.bandScore").value(nullValue()));
+    }
+
+    @Test
+    void submissionDetail_onlyOwnerAdminOrCourseTeacher() throws Exception {
+        String body = submit(READING, "student_new", Map.of()).andReturn().getResponse().getContentAsString();
+        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+
+        mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("admin_demo", PASSWORD)))
+                .andExpect(status().isOk());
+        // A standalone practice exercise has no owning teacher, so no teacher may read it
+        mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("teacher_demo", PASSWORD)))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("student_enrolled", PASSWORD)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void history_anonymous_returns401() throws Exception {
+        mockMvc.perform(get("/api/exercises/{id}/submissions", READING))
+                .andExpect(status().isUnauthorized());
     }
 
     // ---------- Helpers ----------
 
     private ResultActions submit(String exerciseId, String username, Map<String, Object> answers) throws Exception {
-        return mockMvc.perform(post("/api/reading/exercises/{id}/submit", exerciseId)
+        return mockMvc.perform(post("/api/exercises/{id}/submit", exerciseId)
                 .with(httpBasic(username, PASSWORD))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(Map.of("answers", answers))));

@@ -12,7 +12,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReadingSubmissionRequest {
+public class ObjectiveSubmissionRequest {
 
     /**
      * Key: question id. Value: the id of one of the question's options for choice questions,

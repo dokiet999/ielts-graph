@@ -1,10 +1,10 @@
 package com.ielts.backend.service.implement;
 
-import com.ielts.backend.dto.request.ReadingSubmissionRequest;
+import com.ielts.backend.dto.request.ObjectiveSubmissionRequest;
 import com.ielts.backend.dto.response.IncorrectQuestionResponse;
 import com.ielts.backend.dto.response.QuestionResultResponse;
 import com.ielts.backend.dto.response.QuestionTypeStatResponse;
-import com.ielts.backend.dto.response.ReadingSubmissionResultResponse;
+import com.ielts.backend.dto.response.ObjectiveSubmissionResultResponse;
 import com.ielts.backend.dto.response.SubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Question;
@@ -30,7 +30,7 @@ import com.ielts.backend.repository.UserRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
-import com.ielts.backend.service.ReadingSubmissionService;
+import com.ielts.backend.service.ObjectiveSubmissionService;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator.Evaluation;
 import lombok.RequiredArgsConstructor;
@@ -50,18 +50,21 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Reading objective scoring (issue #5). Built next to the Listening flow without changing it:
- * results use the same SubmissionResultResponse and are stored the same way, so the existing
- * submission history and detail endpoints also show Reading attempts.
+ * Answer-key scoring for Reading and Listening exercises (issues #5, #6, FR-8.01).
+ * One flow for both skills: access check, input validation, grading with
+ * {@link ObjectiveAnswerEvaluator}, storage, statistics by question type.
  * <p>
  * Score: sum of question points; percentage = score / maxScore. Every sample question has
  * points = 1, which makes this equal to correct / total as written in issue #5.
  */
 @Service
 @RequiredArgsConstructor
-public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
+public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionService {
 
     private static final BigDecimal HUNDRED = BigDecimal.valueOf(100);
+    /** Writing and Speaking are graded by AI (FR-8.02, FR-8.03) in their own flow. */
+    private static final Set<SkillType> OBJECTIVE_SKILLS = Set.of(SkillType.READING, SkillType.LISTENING);
+    private static final String ATTEMPT_CONSTRAINT = "uq_submission_attempt";
 
     private final ExerciseRepository exerciseRepository;
     private final QuestionRepository questionRepository;
@@ -74,13 +77,13 @@ public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
 
     @Override
     @Transactional
-    public ReadingSubmissionResultResponse submit(UUID exerciseId, String username, ReadingSubmissionRequest request) {
+    public ObjectiveSubmissionResultResponse submit(UUID exerciseId, String username, ObjectiveSubmissionRequest request) {
         // Mock tests are only submitted through a timed mock test session (FR-4.02)
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
-        if (exercise.getSkillType() != SkillType.READING) {
-            throw new BadRequestException("INVALID_EXERCISE", "Only Reading exercises can be submitted here");
+        if (!OBJECTIVE_SKILLS.contains(exercise.getSkillType())) {
+            throw new BadRequestException("INVALID_EXERCISE", "This exercise is not graded automatically");
         }
 
         User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
@@ -103,7 +106,8 @@ public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
                 && previous.size() >= exercise.getMaxAttempts()) {
-            throw new ForbiddenException("Maximum attempts (" + exercise.getMaxAttempts() + ") reached for this exercise");
+            throw new ConflictException("MAX_ATTEMPTS_REACHED",
+                    "Maximum attempts (" + exercise.getMaxAttempts() + ") reached for this exercise");
         }
 
         Map<UUID, List<QuestionOption>> optionsByQuestion = questionOptionRepository
@@ -134,7 +138,7 @@ public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
         }
     }
 
-    private ReadingSubmissionResultResponse gradeAndSave(User user, Exercise exercise, List<Question> questions,
+    private ObjectiveSubmissionResultResponse gradeAndSave(User user, Exercise exercise, List<Question> questions,
                                                          Map<UUID, List<QuestionOption>> optionsByQuestion,
                                                          Map<String, Object> answers, int attemptNumber) {
         BigDecimal score = BigDecimal.ZERO;
@@ -223,7 +227,7 @@ public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
                 .details(details)
                 .build();
 
-        return ReadingSubmissionResultResponse.builder()
+        return ObjectiveSubmissionResultResponse.builder()
                 .result(result)
                 .byQuestionType(statsByType.entrySet().stream()
                         .map(e -> QuestionTypeStatResponse.builder()
@@ -245,8 +249,21 @@ public class ReadingSubmissionServiceImpl implements ReadingSubmissionService {
         try {
             return userSubmissionRepository.saveAndFlush(submission);
         } catch (DataIntegrityViolationException ex) {
+            // Only the attempt-number race is expected here; anything else is a real error
+            if (!isAttemptConflict(ex)) {
+                throw ex;
+            }
             throw new ConflictException("SUBMISSION_CONFLICT", "Another submission for this exercise is being saved, please retry");
         }
+    }
+
+    private static boolean isAttemptConflict(DataIntegrityViolationException ex) {
+        for (Throwable t = ex; t != null; t = t.getCause()) {
+            if (t.getMessage() != null && t.getMessage().contains(ATTEMPT_CONSTRAINT)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static BigDecimal percent(BigDecimal part, BigDecimal whole) {
