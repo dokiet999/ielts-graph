@@ -42,7 +42,7 @@ public final class CourseSpecifications {
         return (root, query, cb) -> cb.like(cb.lower(root.get("title")), pattern, '\\');
     }
 
-    private static String escapeLike(String value) {
+    static String escapeLike(String value) {
         return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
     }
 }

@@ -1,5 +1,6 @@
 package com.ielts.backend.entity;
 
+import com.ielts.backend.enums.DifficultyLevel;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
 import jakarta.persistence.*;
@@ -55,6 +56,11 @@ public class Exercise {
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "skill_type", nullable = false, columnDefinition = "skill_type")
     private SkillType skillType;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "difficulty_level", columnDefinition = "difficulty_level")
+    private DifficultyLevel difficultyLevel;
 
     @Column(name = "time_limit")
     private Integer timeLimit;

@@ -66,8 +66,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // UC07: only learners can join a course
                         .requestMatchers(HttpMethod.POST, "/api/courses/*/enroll").hasRole("STUDENT")
-                        // Public catalogue. Lesson content access (FR-2.01) is checked in LessonService
-                        .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
+                        // Public catalogue. Lesson and exercise access (FR-2.01) is checked in CourseAccessService
+                        .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**", "/api/exercises/**").permitAll()
                         // API docs, health check and error dispatch
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
                                 "/actuator/health", "/error").permitAll()
