@@ -5,6 +5,7 @@ import com.ielts.backend.dto.response.ExerciseDetailResponse;
 import com.ielts.backend.dto.response.ExerciseSummaryResponse;
 import com.ielts.backend.dto.response.PageResponse;
 import com.ielts.backend.entity.Exercise;
+import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.exception.ResourceNotFoundException;
 import com.ielts.backend.mapper.ExerciseMapper;
 import com.ielts.backend.repository.ExerciseRepository;
@@ -65,7 +66,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public ExerciseDetailResponse getExerciseDetail(UUID exerciseId, String username) {
+        // Mock tests are only opened through a timed mock test session (UC18, UC19, FR-4.02),
+        // so they are reported as not found here
         Exercise exercise = exerciseRepository.findByIdWithLessonAndCourse(exerciseId)
+                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
         courseAccessService.checkExerciseAccess(exercise, username);
 

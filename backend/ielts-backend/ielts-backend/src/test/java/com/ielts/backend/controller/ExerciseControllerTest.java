@@ -219,6 +219,25 @@ class ExerciseControllerTest {
     }
 
     @Test
+    void exerciseDetail_mockTest_returns404() throws Exception {
+        // Mock tests open only through a timed session (FR-4.02), never through this endpoint
+        jdbcTemplate.update("UPDATE exercises SET exercise_type = 'MOCK_TEST'::exercise_type WHERE id = ?::uuid",
+                READING_PRACTICE);
+
+        mockMvc.perform(get("/api/exercises/{id}", READING_PRACTICE))
+                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/exercises/{id}", READING_PRACTICE).with(httpBasic("student_enrolled", PASSWORD)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void exerciseSubPath_anonymous_returns401() throws Exception {
+        // Only the list and detail are public; future sub-resources must not become public by accident
+        mockMvc.perform(get("/api/exercises/{id}/attempts", READING_PRACTICE))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void exerciseDetail_unknownId_returns404() throws Exception {
         mockMvc.perform(get("/api/exercises/{id}", UNKNOWN_ID))
                 .andExpect(status().isNotFound())
