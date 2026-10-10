@@ -1,0 +1,161 @@
+{
+  "title": "Listening Section 4 - Lecture on Bird Migration",
+  "instruction": "You will hear a lecturer giving a talk about how migratory birds find their way. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1qPdvplwmC4Q9IdonCl6I4I0SKPl1QCIV",
+  "content": {
+    "sectionTitle": "Section 4",
+    "transcript": [
+      { "speaker": "Lecturer", "text": "Good afternoon. Today's lecture is about bird migration, and in particular how birds manage to find their way across thousands of kilometres. The champion traveller is the Arctic tern. Some individuals fly about seventy thousand kilometres in a single year, travelling from one end of the planet to the other and back again." },
+      { "speaker": "Lecturer", "text": "How do they navigate? Researchers have identified several methods. During the day, many birds use the sun as a compass. At night, they rely on the stars, and experiments in planetariums have shown that birds can learn the pattern of the night sky. A third method is sensing the Earth's magnetic field, which acts rather like an invisible map. Some scientists believe that birds can actually see the field as a pattern of light, though this is still being debated." },
+      { "speaker": "Lecturer", "text": "A common question is how young birds learn the route. In many species, the young fly south weeks after the adults have left, so they cannot follow their parents. They are born with the knowledge, a kind of built-in program that tells them which direction to fly and for how long." },
+      { "speaker": "Lecturer", "text": "Our understanding has improved greatly because of tracking devices. Early tags were too heavy for small birds, so we could only follow large species like geese. Today, a tag can weigh as little as one gram, and we can follow tiny songbirds all the way to Africa." },
+      { "speaker": "Lecturer", "text": "These studies have revealed worrying changes. Because of climate change, birds now arrive at their spring destinations about ten days earlier on average than they did forty years ago. Four days earlier was the figure in the nineteen eighties. The problem is that the insects they feed on do not always appear earlier, so there can be a mismatch between the arrival of the birds and the arrival of their food." },
+      { "speaker": "Lecturer", "text": "Finally, a word about what can be done. Many birds migrate at night, and bright city lights confuse them, which can make them circle until they are exhausted. In some cities, buildings now switch off their lights during the main migration weeks. This simple step has saved thousands of birds, and I would recommend it above any other measure." },
+      { "speaker": "Lecturer", "text": "Next week, we will look at the migration of marine animals. Thank you for listening." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 10,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Some Arctic terns travel about ______ kilometres in a year.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Some individuals fly about seventy thousand kilometres.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "70000", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "70,000", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "seventy thousand", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "During the day, many birds use the ______ as a compass.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Many birds use the sun as a compass by day.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "sun", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "At night, birds rely on the ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "At night they rely on the stars.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "stars", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Birds can also sense the Earth's magnetic ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "A third method is sensing the Earth's magnetic field.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "field", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "A modern tag can weigh as little as one ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Today a tag can weigh as little as one gram.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "gram", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Birds now arrive about ______ days earlier than forty years ago.",
+          "questionType": "FILL_BLANK",
+          "explanation": "About ten days earlier; four days was the figure in the nineteen eighties.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "10", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "ten", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "How do young birds know the route to take?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The young fly weeks after the adults, so they are born with built-in knowledge.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. They follow their parents.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. They are born with the knowledge.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. They learn it from other young birds.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What was the problem with early tracking tags?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Early tags were too heavy for small birds.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. They were too heavy for small birds.", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. They were too expensive.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Birds removed them.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What problem does climate change cause for migratory birds?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "There can be a mismatch between the arrival of the birds and of their food.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. Insects may not appear at the same time as the birds.", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. Routes have become longer.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Winters are colder.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What does the lecturer recommend most strongly?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "She recommends switching off lights in migration weeks above any other measure.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. switching off city lights during migration weeks", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. building more nature reserves", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. banning hunting", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

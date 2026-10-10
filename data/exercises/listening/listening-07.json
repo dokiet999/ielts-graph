@@ -1,0 +1,170 @@
+{
+  "title": "Listening Section 2 - Welcome to the Sports Centre",
+  "instruction": "You will hear the manager of a community sports centre welcoming new members. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1souOs2H02V9an8xEsgpXoNYRvz9CIqdM",
+  "content": {
+    "sectionTitle": "Section 2",
+    "transcript": [
+      { "speaker": "Manager", "text": "Hello, everyone, and welcome to Greenfield Sports Centre. I'm Karen, the manager. I'd like to tell you about our facilities and a few rules before you start using them." },
+      { "speaker": "Manager", "text": "The centre opened in two thousand and eighteen, so it's still quite new. Our pool is twenty-five metres long. Some of you may have expected a bigger one, but it's ideal for lane swimming and family sessions. The pool is closed for cleaning every Wednesday. Many other centres close on Mondays, but we don't." },
+      { "speaker": "Manager", "text": "If you want to use the gym, you must first attend an induction. It lasts forty-five minutes and it's free for members. You can book it at reception or through our app. The app is also how you book exercise classes, so please download it today." },
+      { "speaker": "Manager", "text": "We have a climbing wall, which is very popular with families. Children must be at least eight years old to use it, and anyone under sixteen must be accompanied by an adult. This year we have also added a sauna next to the changing rooms. It's open to adults only." },
+      { "speaker": "Manager", "text": "The class timetable changes every month. You'll find the latest version on our website, and printed copies are not available any more, to save paper. The notice board by the entrance is only for announcements." },
+      { "speaker": "Manager", "text": "A few practical points. Lockers need a refundable coin, which you'll get back when you open the locker. The car park is free for members, but it closes at ten o'clock in the evening. If you leave your car later than that, you won't be able to get it out until the morning." },
+      { "speaker": "Manager", "text": "Finally, please look after your membership card. If you lose it, you can get a replacement at reception for five pounds. You don't need to phone me or send an email. Just come to the desk." },
+      { "speaker": "Manager", "text": "That's all from me. Enjoy the centre, and please ask any member of staff if you need help." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 7,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "The centre opened in ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The centre opened in two thousand and eighteen.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "2018", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "two thousand and eighteen", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "two thousand eighteen", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Length of the pool: ______ metres",
+          "questionType": "FILL_BLANK",
+          "explanation": "The pool is twenty-five metres long.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "25", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "twenty-five", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "twenty five", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Gym induction lasts ______ minutes",
+          "questionType": "FILL_BLANK",
+          "explanation": "The induction lasts forty-five minutes.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "45", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "forty-five", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "forty five", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Minimum age for the climbing wall: ______ years",
+          "questionType": "FILL_BLANK",
+          "explanation": "Children must be at least eight years old.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "8", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "eight", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Car park closes at ______ p.m.",
+          "questionType": "FILL_BLANK",
+          "explanation": "The car park closes at ten o'clock in the evening.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "10", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "ten", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "10.00", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "10pm", "isCorrect": true, "point": 1, "ordering": 4 },
+            { "optionText": "10 pm", "isCorrect": true, "point": 1, "ordering": 5 }
+          ]
+        },
+        {
+          "questionText": "Classes are booked using the ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The app is also how you book exercise classes.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "app", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "On which day is the pool closed for cleaning?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The pool is closed every Wednesday, unlike many centres that close on Mondays.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. Monday", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Wednesday", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Sunday", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What is new at the centre this year?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "This year they have added a sauna.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. a second gym", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. a children's play area", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. a sauna", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Where can members find the class timetable?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The latest timetable is on the website; printed copies are no longer available.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. on the notice board", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. on the website", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. in a printed leaflet", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What should members do if they lose their card?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "A replacement costs five pounds at reception; no need to phone or email.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. phone the manager", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. email the centre", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. get a replacement at reception", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

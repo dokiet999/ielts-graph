@@ -1,0 +1,175 @@
+{
+  "title": "Listening Section 1 - Animal Shelter Volunteer Registration",
+  "instruction": "You will hear a woman registering as a volunteer at an animal shelter. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1TdnzaGFh427MinIty26LWX2HQP1wPHK3",
+  "content": {
+    "sectionTitle": "Section 1",
+    "transcript": [
+      { "speaker": "Daniel", "text": "Hello, Oakfield Animal Shelter, Daniel speaking." },
+      { "speaker": "Imogen", "text": "Hello. I'd like to register as a volunteer, please." },
+      { "speaker": "Daniel", "text": "Wonderful, thank you. I'll just fill in the form while we talk. What's your surname?" },
+      { "speaker": "Imogen", "text": "It's Whitcombe. That's W-H-I-T-C-O-M-B-E." },
+      { "speaker": "Daniel", "text": "And your mobile number?" },
+      { "speaker": "Imogen", "text": "07700 900278." },
+      { "speaker": "Daniel", "text": "Thanks. Can I ask why you'd like to volunteer?" },
+      { "speaker": "Imogen", "text": "I retired last month, and I've always loved animals. I'd like to do something useful with my free time." },
+      { "speaker": "Daniel", "text": "That's a good reason. Which days are you available?" },
+      { "speaker": "Imogen", "text": "Tuesdays and Saturdays are best for me." },
+      { "speaker": "Daniel", "text": "Great. We ask volunteers to give at least one half-day a week, and most people do a Tuesday or a Saturday morning. Have you worked with animals before?" },
+      { "speaker": "Imogen", "text": "Not professionally, but I kept rabbits for many years, and I have also looked after neighbours' dogs." },
+      { "speaker": "Daniel", "text": "Rabbits, good. We have quite a few here at the moment. What kind of jobs will you do? Everyone starts by cleaning the kennels and the cages. Some people hope to walk the dogs straight away, but that only comes after the first month." },
+      { "speaker": "Imogen", "text": "That's fine. I don't mind hard work." },
+      { "speaker": "Daniel", "text": "Excellent. The next training session is on the twelfth of June. It starts at ten and lasts two hours. You should wear sturdy boots, because the yard can be muddy." },
+      { "speaker": "Imogen", "text": "Boots. Okay. Do I need to bring anything else?" },
+      { "speaker": "Daniel", "text": "No, we provide gloves and an apron. After the training, we'll send you the weekly rota by email, so please check your inbox regularly. We used to put it on the noticeboard, but too many people missed it." },
+      { "speaker": "Imogen", "text": "I'll do that. Thank you very much, Daniel." },
+      { "speaker": "Daniel", "text": "Thank you for volunteering. We look forward to meeting you." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 8,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the volunteer form below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Surname: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The surname is spelled W-H-I-T-C-O-M-B-E.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "Whitcombe", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Mobile number: 07700 ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Imogen gives her number as 07700 900278.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "900278", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "900 278", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Days available: Tuesday and ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "She says Tuesdays and Saturdays are best.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "Saturday", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "Saturdays", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "saturday", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Previous experience with: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "She says she kept rabbits for many years.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "rabbits", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Training session on ______ June",
+          "questionType": "FILL_BLANK",
+          "explanation": "The next training session is on the twelfth of June.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "12", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "12th", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "twelfth", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Wear sturdy ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Daniel tells her to wear sturdy boots because the yard can be muddy.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "boots", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Why does Imogen want to volunteer?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "She says she retired last month.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. She wants to become a vet.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. She has recently retired.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Her children want a pet.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What is the minimum commitment for volunteers?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Volunteers give at least one half-day a week.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. one half-day a week", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. two half-days a week", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. one full day a month", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What will Imogen do first?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Everyone starts by cleaning kennels and cages; dog walking comes after the first month.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. walk dogs", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. clean kennels and cages", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. work at reception", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "How will Imogen receive the weekly rota?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The rota will be sent by email; the noticeboard is no longer used.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. by text message", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. by email", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. on the noticeboard", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

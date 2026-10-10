@@ -1,0 +1,249 @@
+{
+  "title": "Reading Passage 2 - The Hidden Work of Sleep",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 2 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "The Hidden Work of Sleep",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For most of history, sleep was regarded as a passive state, a simple pause in which the body and brain switched off to recover from the day. Researchers in the twentieth century overturned this view. By attaching sensors to sleeping volunteers, they showed that the brain remains highly active through the night, passing through a repeating cycle of stages that each last roughly ninety minutes."
+      },
+      {
+        "label": "B",
+        "text": "The stages fall into two main types. During deep sleep, brain activity slows and the body repairs muscles and tissue. In the other type, known as REM sleep, the eyes move rapidly beneath the eyelids and most vivid dreaming occurs. An adult usually completes four or five cycles a night. The proportion of deep sleep is greater in the first half of the night, while REM periods become longer towards morning."
+      },
+      {
+        "label": "C",
+        "text": "One of the most important discoveries concerns memory. In a well-known experiment, students were taught a list of word pairs and then divided into two groups. One group slept for eight hours, while the other stayed awake for the same period. When both groups were tested, those who had slept recalled significantly more pairs. Scientists believe that during deep sleep the brain replays the day's experiences, transferring important information from a temporary store to long-term memory."
+      },
+      {
+        "label": "D",
+        "text": "Sleep also affects mood and judgement. Volunteers who were kept awake for a single night showed stronger emotional reactions to unpleasant images than those who had rested, and they were less able to concentrate on simple tasks. Over a longer period, a lack of sleep has been linked to weight gain and a weaker defence against infection, although researchers caution that these links do not prove that poor sleep is the only cause."
+      },
+      {
+        "label": "E",
+        "text": "Despite this evidence, many people sleep less than they need. Surveys suggest that adults in busy cities average well under the seven to nine hours recommended by doctors, partly because of long working hours and the habit of looking at bright screens late in the evening. The light from these devices is thought to delay the release of a hormone that signals to the body that it is time to rest. Some schools have responded by starting lessons later, and early studies report improved attendance among teenage students."
+      },
+      {
+        "label": "F",
+        "text": "Not everyone agrees on how much sleep is enough. A few people appear to function well on far less than average, and scientists are investigating whether a rare gene explains this. For the majority, however, the advice is simple: regular sleeping times, a dark and quiet bedroom, and a break from screens before bed."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 2,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 2? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Researchers once believed that the brain switches off during sleep.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: sleep was regarded as a passive state in which the body and brain switched off, a view later overturned.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "An adult has more deep sleep in the second half of the night than in the first half.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: the proportion of deep sleep is greater in the first half of the night.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "In the memory experiment, both groups of students were tested at the same time of day.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C says both groups were tested but gives no information about the time of day.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Volunteers who missed a night's sleep reacted more strongly to unpleasant images.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: volunteers kept awake for a night showed stronger emotional reactions to unpleasant images.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Researchers have proved that lack of sleep is the only cause of weight gain.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: researchers caution that the links do not prove that poor sleep is the only cause.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Each cycle of sleep stages lasts roughly ______ minutes.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph A: a repeating cycle of stages that each last roughly ninety minutes.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "ninety", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "90", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Most vivid dreaming occurs during ______ sleep.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph B: in REM sleep the eyes move rapidly and most vivid dreaming occurs.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "REM", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "rem", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "During deep sleep, the brain ______ the day's experiences.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: the brain replays the day's experiences.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "replays", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "The light from screens is thought to delay the release of a ______ that signals that it is time to rest.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: it delays the release of a hormone that signals to the body that it is time to rest.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "hormone", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph C, what do scientists believe happens during deep sleep?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph C: during deep sleep the brain replays the day's experiences, transferring important information to long-term memory.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. The brain stores new words in a temporary area.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. The brain replays experiences and moves important information into long-term memory.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. The brain forgets unimportant information completely.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. The brain prepares itself for vivid dreaming.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What is the main point made in paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: a few people need less sleep, but for the majority the advice is regular times, a dark quiet room and no screens before bed.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. Most people need far less sleep than doctors recommend.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. A rare gene makes people sleep badly.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Sleep needs vary, but good habits help most people.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Teenagers should avoid sleeping during the day.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a reference to a method used to study sleeping volunteers",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph A: researchers attached sensors to sleeping volunteers.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "an example of how schools have adapted to research on sleep",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: some schools have started lessons later.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

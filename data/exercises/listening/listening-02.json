@@ -1,0 +1,179 @@
+{
+  "title": "Listening Section 1 - Library Membership Enquiry",
+  "instruction": "You will hear a telephone conversation between a woman and a librarian about joining a public library. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1AXghlgwAGHhtYlwIS8_tMxKCgTzJHs2D",
+  "content": {
+    "sectionTitle": "Section 1",
+    "transcript": [
+      { "speaker": "Sam", "text": "Good afternoon, Eastfield Public Library, Sam speaking." },
+      { "speaker": "Hannah", "text": "Hello. I've just moved to the area and I'd like to join the library." },
+      { "speaker": "Sam", "text": "Welcome to Eastfield. I can take some details over the phone, and you can collect your card later. Could I have your surname, please?" },
+      { "speaker": "Hannah", "text": "It's Pryce." },
+      { "speaker": "Sam", "text": "Is that P-R-I-C-E?" },
+      { "speaker": "Hannah", "text": "No, it's P-R-Y-C-E." },
+      { "speaker": "Sam", "text": "Thank you. And a mobile number?" },
+      { "speaker": "Hannah", "text": "07700 900415." },
+      { "speaker": "Sam", "text": "07700 900415. And your address?" },
+      { "speaker": "Hannah", "text": "Twenty-seven Willow Road. That's W-I-L-L-O-W." },
+      { "speaker": "Sam", "text": "Got it. We have three kinds of membership: standard, senior and student. Which would suit you?" },
+      { "speaker": "Hannah", "text": "I'm studying part-time at the college, so I think student membership." },
+      { "speaker": "Sam", "text": "Then you'll need to show your student card when you collect your card. Student membership is normally eight pounds a year, but there's an offer this month, so it's only five pounds." },
+      { "speaker": "Hannah", "text": "That's very good. Do I need to bring anything else?" },
+      { "speaker": "Sam", "text": "Yes, proof of your address. A passport won't do, because it doesn't show where you live, and we can't accept letters from the college either. A recent bank statement or a utility bill is fine." },
+      { "speaker": "Hannah", "text": "I have a bank statement from last month." },
+      { "speaker": "Sam", "text": "Perfect. Your card will be ready on Thursday. We're closed on Wednesdays, so please don't come then." },
+      { "speaker": "Hannah", "text": "Thursday, okay. How many books can I borrow?" },
+      { "speaker": "Sam", "text": "It used to be eight, but members can now borrow up to ten books at a time." },
+      { "speaker": "Hannah", "text": "Lovely. And can I reserve a study room? I have some exams coming up." },
+      { "speaker": "Sam", "text": "Yes, but only online. The desk no longer takes bookings, and we don't accept them by phone either." },
+      { "speaker": "Hannah", "text": "That's fine. Is the library open in the evenings?" },
+      { "speaker": "Sam", "text": "Most days we close at six, but on Tuesdays we stay open until eight." },
+      { "speaker": "Hannah", "text": "Great. Thank you so much for your help." },
+      { "speaker": "Sam", "text": "You're welcome. See you on Thursday." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 2,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the form below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Surname: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The surname is spelled P-R-Y-C-E, after Sam suggests the wrong spelling.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "Pryce", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Mobile number: 07700 ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Hannah gives her number as 07700 900415.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "900415", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "900 415", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Address: 27 ______ Road",
+          "questionType": "FILL_BLANK",
+          "explanation": "Hannah says Twenty-seven Willow Road and spells Willow.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "Willow", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Type of membership: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "She is studying part-time, so she chooses student membership.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "student", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Fee this month: £______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Student membership is normally eight pounds, but this month's offer is five pounds.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "5", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "five", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Card will be ready on: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Sam says the card will be ready on Thursday; Wednesday is when the library is closed.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "Thursday", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "thursday", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Which document should Hannah bring as proof of address?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "A passport does not show the address and college letters are not accepted. A bank statement or utility bill is fine.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. her passport", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. a recent bank statement", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. a letter from her college", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "How many books can members borrow at one time?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "It used to be eight, but members can now borrow up to ten.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. 6", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. 8", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. 10", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "How can Hannah book a study room?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Study rooms can only be booked online; the desk and phone are not accepted.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. at the desk", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. online", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. by phone", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "On which day does the library stay open late?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "On Tuesdays the library stays open until eight.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Monday", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Tuesday", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Friday", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

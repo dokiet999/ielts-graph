@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 5 - Learning a Language as an Adult",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 5 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Learning a Language as an Adult",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "It is widely believed that children learn languages more easily than adults, and there is some truth in this. Young children who move to a new country often speak like native speakers within a few years, while adults who arrive at the same time may keep a strong accent for life. Some scientists have even proposed a critical period, after which the brain is no longer able to absorb the sounds of a new language perfectly."
+      },
+      {
+        "label": "B",
+        "text": "Recent research suggests that this picture is too simple. In one large study, researchers tested the grammar of nearly seven hundred thousand people who had learned English at different ages. They found that the ability to master grammar remained high until about the age of seventeen or eighteen, much later than expected, and declined only slowly afterwards. The authors concluded that social factors, such as leaving school, might explain the change better than biology."
+      },
+      {
+        "label": "C",
+        "text": "Adults do have genuine advantages. They understand how grammar works, can use reading and writing to support their memory, and are usually better at planning their studies. In classroom experiments, adults often progress faster than children during the first few months, because they can apply rules they already know from their first language."
+      },
+      {
+        "label": "D",
+        "text": "The difficulty for adults is mainly practical. Few have time to study every day, and many give up after the early excitement fades. Teachers report that the learners who succeed are not necessarily the most talented, but those who build a regular habit, even if it is only fifteen minutes a day. Short, frequent sessions are more effective than a single long lesson once a week."
+      },
+      {
+        "label": "E",
+        "text": "Technology has made such habits easier to form. Language-learning applications set daily goals and reward users for keeping up a streak, and online platforms connect learners with native speakers anywhere in the world. Yet specialists warn that applications alone are not enough. Because most exercises ask users to choose from a list, learners rarely practise speaking spontaneously, which is the skill that most people find hardest."
+      },
+      {
+        "label": "F",
+        "text": "Experts therefore recommend combining methods: using an application for vocabulary, joining a conversation group for speaking, and listening to films or radio to become used to natural speech. Above all, they advise learners to accept mistakes. Adults who are afraid of sounding foolish tend to speak less, and so learn more slowly."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 5,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 5? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Young children who move abroad often speak like native speakers within a few years.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: young children often speak like native speakers within a few years.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The large study found that the ability to master grammar fell sharply at around the age of ten.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: the ability remained high until about seventeen or eighteen and declined only slowly afterwards.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The authors of the study believed that biology was the main reason for the decline.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: social factors might explain the change better than biology.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Older learners spend more money on language courses than younger learners do.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Nothing in the passage compares the money spent by learners of different ages.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Short, frequent study sessions work better than a single long lesson each week.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: short, frequent sessions are more effective than a single long lesson once a week.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Some scientists have proposed a ______ period, after which the brain cannot absorb the sounds of a new language perfectly.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph A: some scientists have proposed a critical period.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "critical", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Adults can use reading and writing to support their ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: adults can use reading and writing to support their memory.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "memory", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "The learners who succeed are those who build a regular ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: those who build a regular habit.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "habit", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Most exercises in applications ask users to choose from a ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: most exercises ask users to choose from a list.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "list", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph B, what did the authors of the large study conclude?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph B: the authors concluded that social factors might explain the change better than biology.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Biology fully explains the decline in grammar ability.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Social factors might explain the change better than biology.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Learners should begin studying before the age of seventeen.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Grammar cannot be learned after the age of eighteen.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What problem with language-learning applications is mentioned in paragraph E?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph E: because most exercises ask users to choose from a list, learners rarely practise speaking spontaneously.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. They are too expensive for most learners.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. They do not connect learners with native speakers.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Learners rarely practise speaking spontaneously.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Their daily goals are too difficult to reach.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 5 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a description of how adults can use what they know about their first language",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph C: adults can apply rules they already know from their first language.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "advice that learners should accept their mistakes",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph F: experts advise learners to accept mistakes.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": true, "point": 1, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

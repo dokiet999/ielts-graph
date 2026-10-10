@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 8 - Building Tall with Timber",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 8 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Building Tall with Timber",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "When people imagine a skyscraper, they usually picture glass, steel and concrete. Yet a growing number of architects are designing tall buildings from wood. In several countries, apartment blocks of ten storeys or more have been completed, and plans exist for towers more than twice that height. Supporters see timber as a way to reduce the damage that construction does to the environment."
+      },
+      {
+        "label": "B",
+        "text": "The reason is carbon. Making cement and steel releases large quantities of carbon dioxide, and the construction industry is responsible for a significant proportion of the world's emissions. Trees, in contrast, absorb carbon dioxide as they grow, and the carbon remains stored in the wood for as long as the building stands. Replacing concrete with timber could therefore make a building a store of carbon instead of a source."
+      },
+      {
+        "label": "C",
+        "text": "Ordinary wood is not strong enough for tall buildings, so engineers use a material called cross-laminated timber. It is made by gluing layers of boards on top of one another, with each layer placed at a right angle to the one below. The result is a thick panel that is remarkably strong, and the process also makes it more resistant to warping."
+      },
+      {
+        "label": "D",
+        "text": "The most common objection is fire. Most people assume that wood must be more dangerous than steel, yet thick timber behaves differently from small pieces. When its surface burns, it forms a layer of charcoal that protects the wood underneath, and the panel keeps its strength for a long time. In laboratory tests, large wooden beams continued to carry a heavy load for several hours. By contrast, steel loses its strength quickly at high temperatures unless it is covered with protective material."
+      },
+      {
+        "label": "E",
+        "text": "There are practical advantages as well. Timber panels are made in factories to exact measurements and delivered to the site ready to be fitted together, so a building can be put up in a fraction of the time needed for concrete. Because wood is lighter, foundations can be smaller, and there is less noise and traffic around the building site, which neighbours appreciate."
+      },
+      {
+        "label": "F",
+        "text": "Nevertheless, challenges remain. Wood is more expensive than concrete in most regions, and building regulations in many countries still limit the height of timber buildings. Some engineers also worry about moisture, since damp conditions during construction can cause the wood to rot. Until these problems are solved, timber towers are likely to remain unusual."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 8,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 8? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Timber apartment blocks of ten storeys or more have been built in several countries.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: apartment blocks of ten storeys or more have been completed in several countries.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Making steel releases less carbon dioxide than making cement.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B says both release large quantities but does not compare them.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The carbon stored in wood is released as soon as a building is finished.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: the carbon remains stored in the wood for as long as the building stands.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "In cross-laminated timber, every layer of boards lies in the same direction as the layer below.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: each layer is placed at a right angle to the one below.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "In laboratory tests, large wooden beams carried a heavy load for several hours.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: large wooden beams continued to carry a heavy load for several hours.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Trees absorb carbon dioxide as they ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph B: trees absorb carbon dioxide as they grow.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "grow", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "When the surface of thick timber burns, it forms a layer of ______ that protects the wood underneath.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: it forms a layer of charcoal.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "charcoal", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Timber panels are made in ______ to exact measurements.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: timber panels are made in factories.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "factories", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Damp conditions during construction can cause the wood to ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph F: damp conditions can cause the wood to rot.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "rot", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph C, what makes cross-laminated timber strong?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph C: layers of boards are glued on top of one another, each at a right angle to the one below.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. It is covered with fire-resistant paint.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Layers of boards are glued together at right angles.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. It is made from a single thick board.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. It contains steel supports.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What does the writer conclude in paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: until these problems are solved, timber towers are likely to remain unusual.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. Timber towers will soon replace concrete towers.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Timber towers are likely to remain unusual until the problems are solved.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Building regulations should be removed.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Wood is now cheaper than concrete.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 8 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a comparison of how steel and wood behave in a fire",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph D compares thick timber, which chars and keeps its strength, with steel, which loses strength quickly.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": true, "point": 1, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a reference to reduced disturbance for people living near building sites",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: there is less noise and traffic around the site, which neighbours appreciate.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

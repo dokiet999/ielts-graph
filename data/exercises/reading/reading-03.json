@@ -1,0 +1,248 @@
+{
+  "title": "Reading Passage 3 - Rebuilding Coral Reefs",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 3 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Rebuilding Coral Reefs",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Coral reefs cover less than one per cent of the ocean floor, yet they support about a quarter of all marine species. Fish use the branching structures for shelter and breeding, and millions of people living on tropical coasts depend on reefs for food and income. Over the past forty years, however, large areas of reef have turned white and died, a process known as bleaching."
+      },
+      {
+        "label": "B",
+        "text": "Bleaching occurs when warm water causes corals to expel the tiny algae that live inside them and give them both colour and energy. A coral can survive a short period without its algae, but if the water stays hot for several weeks it starves. Pollution from farms and the use of explosives by some fishermen have added to the damage, although rising sea temperatures are now considered the greatest threat."
+      },
+      {
+        "label": "C",
+        "text": "In the 1990s, scientists began to experiment with restoration. Their first method was simple: they collected fragments of coral broken by storms and attached them to metal frames fixed to the seabed. The fragments grew into new colonies, and after several years the frames were covered. This approach, often called coral gardening, is still widely used because it needs little equipment and can be carried out by trained volunteers."
+      },
+      {
+        "label": "D",
+        "text": "A newer technique speeds up growth. Corals normally grow only a few centimetres a year, but when a fragment is cut into very small pieces, each piece grows quickly to fill the space around it, and a colony can reach adult size in as little as three years. Researchers call this micro-fragmentation and have used it to restore areas that would otherwise take decades to recover."
+      },
+      {
+        "label": "E",
+        "text": "Another team is trying to produce heat-tolerant corals. They gather specimens from the warmest parts of a reef, breed them in tanks, and plant the offspring in areas at risk. Early results are encouraging, but the work is slow, and some scientists worry that corals bred in this way may be less resistant to disease."
+      },
+      {
+        "label": "F",
+        "text": "Most experts agree that restoration alone cannot save the world's reefs. Planting corals is expensive, costing thousands of dollars per hectare, and new colonies will die again if the sea continues to warm. For that reason, many argue that reducing carbon emissions must come first, with restoration serving as a way to protect the reefs most valuable to local communities while the climate is brought under control."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 3,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 3? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Coral reefs are home to roughly a quarter of all marine species.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: reefs support about a quarter of all marine species.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "A coral can survive for several weeks of hot water without its algae.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: a coral can survive only a short period; if the water stays hot for several weeks it starves.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Rising sea temperatures are now seen as a greater threat than pollution from farms.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: rising sea temperatures are now considered the greatest threat.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Coral gardening requires expensive equipment.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: the approach needs little equipment.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Micro-fragmentation has been tested on reefs in Australia.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D describes micro-fragmentation but does not say where it has been used.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Fragments of broken coral were attached to ______ frames fixed to the seabed.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: attached them to metal frames fixed to the seabed.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "metal", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Using micro-fragmentation, a colony can reach adult size in as little as ______ years.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: a colony can reach adult size in as little as three years.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "three", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "3", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Researchers gather specimens from the ______ parts of a reef to breed heat-tolerant corals.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: they gather specimens from the warmest parts of a reef.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "warmest", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Planting corals costs thousands of ______ per hectare.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph F: costing thousands of dollars per hectare.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "dollars", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph B, what is now considered the greatest threat to coral reefs?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph B: rising sea temperatures are now considered the greatest threat. Farm pollution and explosives are described as additional damage.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. pollution from farms", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. the use of explosives by fishermen", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. rising sea temperatures", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. damage caused by storms", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What do many experts argue in paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: reducing carbon emissions must come first, with restoration protecting the reefs most valuable to local communities.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. Restoration should replace efforts to cut emissions.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Restoration is cheap enough to use on every reef.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Reducing emissions must come first, with restoration protecting the most valuable reefs.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Local communities should pay for restoration projects.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 3 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a description of how bleached corals lose their source of energy",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph B: corals expel the algae that give them colour and energy.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a concern about a possible disadvantage of breeding heat-tolerant corals",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: some scientists worry that bred corals may be less resistant to disease.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

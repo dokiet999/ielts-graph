@@ -17,3 +17,6 @@ desktop.ini
 *.orig
 *.bak
 *.tmp
+
+# Generated listening audio (shared via Drive, see data/manifest.csv)
+data/audio/

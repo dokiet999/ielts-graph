@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 4 - The Story of the Bicycle",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 4 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "The Story of the Bicycle",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "The bicycle seems such a simple machine that it is easy to forget how long it took to perfect. The earliest ancestor appeared in 1817, when a German inventor built a wooden frame with two wheels, which riders pushed along with their feet. It had no pedals and no chain, and it was heavy and uncomfortable on the rough roads of the time, but it was fast enough to attract public attention."
+      },
+      {
+        "label": "B",
+        "text": "The next important step came in the 1860s, when pedals were fixed directly to the front wheel. Riders soon found that a larger wheel meant a greater distance with every turn of the pedals, so manufacturers made front wheels ever bigger, until the penny-farthing appeared, with a front wheel more than a metre and a half high. These machines were fast, but a fall from such a height could cause serious injury, and they were ridden mainly by young, athletic men."
+      },
+      {
+        "label": "C",
+        "text": "In the 1880s, designers solved the problem by moving the power to the back. A chain connected the pedals to the rear wheel, which allowed both wheels to be the same, smaller size. The result, called the safety bicycle, was far easier to balance, and it closely resembled the bicycles ridden today. Soon afterwards, the invention of the air-filled rubber tyre made rides much smoother."
+      },
+      {
+        "label": "D",
+        "text": "The new design had a surprising social effect. Women, who had been discouraged from riding the earlier machines, took up cycling in large numbers. Campaigners for women's rights welcomed the bicycle, arguing that it gave women freedom to travel without depending on anyone else, and it encouraged a change to more practical clothing. Some historians consider it one of the most important influences on the independence of women in that period."
+      },
+      {
+        "label": "E",
+        "text": "By the early twentieth century, the arrival of the motor car had pushed the bicycle to the edge of the road in many wealthy countries. In poorer regions it remained the main form of transport for ordinary families. Only in the 1970s, when fuel prices rose sharply and concern about pollution grew, did cycling begin to regain popularity in the West."
+      },
+      {
+        "label": "F",
+        "text": "Today many cities are redesigning streets to encourage cycling, building separate lanes and offering schemes to rent bicycles by the hour. Supporters claim that these measures reduce traffic and improve public health. Their critics reply that the cost is high and that cycling is difficult in cities with steep hills or very cold winters."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 4,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 4? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "The first machine, built in 1817, was moved along by the rider's feet pushing on the ground.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: riders pushed the machine along with their feet.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Front wheels were made larger because a larger wheel covered less distance with each turn of the pedals.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: a larger wheel meant a greater distance with every turn of the pedals.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Penny-farthings were ridden mainly by young, athletic men.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: they were ridden mainly by young, athletic men.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The safety bicycle was invented by a British engineer.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C does not say who invented the safety bicycle.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Air-filled rubber tyres were invented before the chain-driven bicycle.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: the air-filled tyre came soon after the chain-driven safety bicycle.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "The 1817 machine had no pedals and no ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph A: it had no pedals and no chain.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "chain", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "In the 1860s, pedals were fixed directly to the ______ wheel.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph B: pedals were fixed directly to the front wheel.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "front", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Campaigners said the bicycle encouraged a change to more practical ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: it encouraged a change to more practical clothing.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "clothing", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Cycling began to regain popularity when ______ prices rose sharply in the 1970s.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: when fuel prices rose sharply and concern about pollution grew.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "fuel", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph B, why did manufacturers make front wheels bigger?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph B: a larger wheel meant a greater distance with every turn of the pedals.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Riders wanted a more comfortable journey.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. A bigger wheel covered a greater distance with each turn of the pedals.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Bigger wheels were safer on rough roads.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Bigger wheels could carry heavier loads.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What do critics of cycling schemes say in paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: critics reply that the cost is high and that cycling is difficult in cities with steep hills or very cold winters.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. The schemes increase traffic.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. The schemes are used by too few people.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. The cost is high and cycling is difficult in some cities.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Separate lanes make cycling more dangerous.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 4 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "an explanation of how a change of design made bicycles easier to balance",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph C: the chain-driven safety bicycle with two equal, smaller wheels was far easier to balance.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a claim that cycling helped to increase the independence of women",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph D: some historians consider it one of the most important influences on the independence of women.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": true, "point": 1, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

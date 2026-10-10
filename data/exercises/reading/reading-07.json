@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 7 - The Four-Day Working Week",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 7 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "The Four-Day Working Week",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "The five-day working week, with weekends free, is such a familiar pattern that it is hard to imagine anything else. Yet it is less than a century old. Before the 1920s, many factory workers laboured six days a week, and it was only after a number of employers discovered that rested workers were more productive that the two-day weekend became common. Today, some companies are asking whether it is time for a similar change."
+      },
+      {
+        "label": "B",
+        "text": "The idea of a four-day week is simple: employees work for four days instead of five but receive the same pay. In a recent trial organised by a research group, thirty companies in one European country took part for six months. They ranged from small design studios to a factory and a firm of accountants, and each agreed to measure its output before and after the change."
+      },
+      {
+        "label": "C",
+        "text": "The results were encouraging. Most companies reported that revenue stayed the same or increased, and employees said they felt less stressed and slept better. Absence due to illness fell by about a third, and fewer workers left their jobs during the trial. Managers explained that staff had learned to work more efficiently, cutting unnecessary meetings and reducing the time spent on email."
+      },
+      {
+        "label": "D",
+        "text": "Not all organisations can adapt so easily. A hospital or a restaurant must be staffed for seven days a week, and shorter hours may mean hiring extra employees, which raises costs. In some trials, workers in these industries compressed their hours into four longer days rather than reducing them, and many found the longer shifts tiring."
+      },
+      {
+        "label": "E",
+        "text": "Economists remain divided. Supporters believe that a shorter week could reduce unemployment, because the available work would be shared among more people. Sceptics reply that the evidence comes mainly from small, well-organised firms that chose to take part, and that the results may not apply to the economy as a whole. They also point out that most trials lasted only six months, which is too short to show long-term effects."
+      },
+      {
+        "label": "F",
+        "text": "Several companies have already made the change permanent, and a few governments have begun their own pilot schemes. If these succeed, the four-day week may spread, but experts predict that change will be gradual and will vary between industries. For the moment, most workers will continue to wait for their long weekend."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 7,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 7? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "The two-day weekend has been common for less than a hundred years.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: the five-day week is less than a century old and the two-day weekend became common after the 1920s.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "In the trial, employees were paid less for working four days.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: employees receive the same pay.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Employees in the trial said they felt less stressed.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: employees said they felt less stressed and slept better.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Most of the companies in the trial were in the technology sector.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B lists design studios, a factory and accountants, but gives no information about technology firms.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Hospitals can easily introduce a four-day week without hiring extra staff.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: shorter hours may mean hiring extra employees.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Employers discovered that ______ workers were more productive.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph A: employers discovered that rested workers were more productive.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "rested", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Absence due to illness fell by about a ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: absence due to illness fell by about a third.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "third", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Staff learned to work more efficiently by cutting unnecessary ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: cutting unnecessary meetings and reducing time spent on email.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "meetings", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Sceptics point out that most trials lasted only six ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: most trials lasted only six months.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "months", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph D, what happened in some trials in hospitals and restaurants?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph D: workers compressed their hours into four longer days and many found the longer shifts tiring.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Workers refused to take part.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Workers compressed their hours into four longer days, which many found tiring.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Costs fell because fewer staff were needed.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. The businesses closed for one day each week.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What is the sceptics' view of the evidence in paragraph E?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph E: the evidence comes mainly from small, well-organised firms that chose to take part.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. It comes mainly from small firms that chose to take part.", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. It comes mainly from very large companies.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. It shows that unemployment has risen.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. It contradicts what employees report.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 7 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "an explanation of how managers say staff became more efficient",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph C: staff cut unnecessary meetings and reduced time on email.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a prediction about how the change will spread",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph F: experts predict that change will be gradual and vary between industries.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": true, "point": 1, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

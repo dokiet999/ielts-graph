@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 10 - Doctors on Screen",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 10 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Doctors on Screen",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "A generation ago, seeing a doctor meant travelling to a clinic, waiting in a crowded room and, often, leaving with a single prescription. Today, millions of consultations take place by video call. Known as telemedicine, the practice existed in a limited form for decades, for example in remote regions where patients lived hundreds of kilometres from the nearest hospital, but it expanded rapidly in the early 2020s when many clinics restricted in-person visits."
+      },
+      {
+        "label": "B",
+        "text": "The advantages are easy to see. Patients save travel time and money, and they can take part in a consultation from their own home. This is especially valuable for older people and those with disabilities, for whom a journey to a clinic can be an ordeal. Doctors, too, benefit: a specialist in one city can advise patients in a number of towns without leaving the office."
+      },
+      {
+        "label": "C",
+        "text": "Telemedicine works particularly well for conditions that require conversation rather than examination. Therapists report that many patients are more relaxed when speaking from their own living room, and follow-up appointments for long-term illnesses such as diabetes are often shorter and more convenient on screen. Some clinics also use small devices that patients attach to their phones to measure blood pressure or heart rate, sending the readings directly to the doctor."
+      },
+      {
+        "label": "D",
+        "text": "Yet there are clear limits. A doctor cannot feel a swelling, listen to a chest or take a blood sample through a camera, and some diagnoses depend on such physical tests. Studies show that doctors using video are more likely to ask a patient to come in for a second appointment, which can cancel out any saving of time. Poor internet connections are another barrier, particularly in rural areas, where the need is greatest."
+      },
+      {
+        "label": "E",
+        "text": "Privacy is a further concern. Medical information is highly sensitive, and patients may be using shared computers or speaking in rooms where others can overhear. Providers must therefore use secure software and train staff to protect records. Some patients, especially older ones, admit that they find technology intimidating and prefer to deal with a doctor face to face."
+      },
+      {
+        "label": "F",
+        "text": "Most experts expect the future to be a blend of the two. Routine consultations and check-ups will increasingly be held online, leaving in-person visits for examinations and treatment. Governments will need to invest in faster internet in rural areas, and to ensure that the elderly are given the support they need to use the new services confidently."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 10,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 10? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Telemedicine did not exist before the early 2020s.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: the practice existed in a limited form for decades.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Telemedicine is especially valuable for people who find travelling difficult.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: especially valuable for older people and those with disabilities.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Therapists report that many patients feel more relaxed when speaking from home.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: therapists report that many patients are more relaxed in their own living room.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Most doctors prefer telemedicine to seeing patients in person.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "The passage does not give the preferences of doctors.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Doctors who use video are less likely to ask patients to attend a second appointment.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: they are more likely to ask a patient to come in for a second appointment.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Before the 2020s, telemedicine was used where patients lived hundreds of ______ from the nearest hospital.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph A: hundreds of kilometres from the nearest hospital.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "kilometres", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Some patients attach small devices to their ______ to measure blood pressure or heart rate.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: devices that patients attach to their phones.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "phones", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "A doctor cannot feel a ______ through a camera.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: a doctor cannot feel a swelling through a camera.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "swelling", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Providers must use ______ software to protect sensitive medical information.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: providers must use secure software.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "secure", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph D, why might video consultations not save time?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph D: doctors using video are more likely to ask a patient to come in for a second appointment, which can cancel out any saving of time.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. Doctors speak more slowly on video.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Patients are more likely to be asked to attend a second appointment in person.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Internet connections are always slow.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Patients often forget their appointments.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What do most experts expect, according to paragraph F?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph F: routine consultations online, in-person visits for examinations and treatment.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. In-person visits will disappear completely.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Telemedicine will replace clinics.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Routine consultations will move online while examinations stay in person.", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "D. Governments will limit the use of video consultations.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 10 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a mention of the risk that other people could overhear a consultation",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: patients may be speaking in rooms where others can overhear.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "a reference to patients who live very far from a hospital",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph A: remote regions where patients lived hundreds of kilometres from the nearest hospital.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

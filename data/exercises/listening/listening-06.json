@@ -1,0 +1,162 @@
+{
+  "title": "Listening Section 4 - Lecture on Urban Heat Islands",
+  "instruction": "You will hear a lecturer talking to students about the urban heat island effect. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1IW1czFWDPKtCVWH34-h20SC2rS8we_bi",
+  "content": {
+    "sectionTitle": "Section 4",
+    "transcript": [
+      { "speaker": "Lecturer", "text": "Good morning. Today I'd like to talk about the urban heat island effect. Put simply, a city is usually warmer than the countryside around it, and the difference is greatest at night, when it can reach as much as seven degrees. Many people assume the gap is only one or two degrees, but in large cities it is considerably more." },
+      { "speaker": "Lecturer", "text": "There are three main causes. The first is the materials we build with. Dark surfaces such as asphalt absorb heat during the day and release it slowly in the evening, which is why streets stay warm long after sunset." },
+      { "speaker": "Lecturer", "text": "The second cause is the lack of vegetation. Plants cool the air, because water evaporates from their leaves, and trees also provide shade. In a city, there are far fewer of them." },
+      { "speaker": "Lecturer", "text": "The third cause is waste heat. People often assume that traffic is the biggest source, but in the city centre we studied, the largest share came from factories, with vehicles in second place." },
+      { "speaker": "Lecturer", "text": "Why does this matter? During a heatwave, the extra warmth puts people's health at risk. Hospital admissions rise, and it is the elderly who are most at risk, rather than young children, as many people expect." },
+      { "speaker": "Lecturer", "text": "Now, what can be done? One simple measure is to paint roofs white so that they reflect sunlight instead of absorbing it. In one trial involving two hundred houses, the indoor temperature fell by three degrees. Residents said their homes felt noticeably more comfortable, and nobody complained about the appearance of the roofs." },
+      { "speaker": "Lecturer", "text": "Another approach is planting trees. One city has announced a plan to plant ten thousand new trees over five years. This is certainly helpful, but I would argue that trees alone are not enough. They take years to grow, and in crowded streets there is simply not enough space. The best results come from combining several measures." },
+      { "speaker": "Lecturer", "text": "That brings me to the end of today's lecture. In our next session, we'll look at a different urban problem, the effect of traffic noise on people living in city centres. Please read the first two chapters of the course book before then." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 6,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "At night, a city can be as much as ______ degrees warmer than the countryside.",
+          "questionType": "FILL_BLANK",
+          "explanation": "The difference can reach as much as seven degrees.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "7", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "seven", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Dark surfaces such as ______ absorb heat during the day.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Dark surfaces such as asphalt absorb heat and release it in the evening.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "asphalt", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Plants cool the air because water ______ from their leaves.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Water evaporates from their leaves.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "evaporates", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "In the city centre studied, the largest source of waste heat was ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "The largest share came from factories, with vehicles second.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "factories", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Painting roofs ______ reflects sunlight.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Painting roofs white makes them reflect sunlight.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "white", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "One city plans to plant ______ new trees.",
+          "questionType": "FILL_BLANK",
+          "explanation": "The plan is to plant ten thousand new trees over five years.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "10000", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "10,000", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "ten thousand", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Which group is most at risk during a heatwave?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The elderly are most at risk, rather than young children.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. young children", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. elderly people", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. outdoor workers", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What did residents say about the white roof trial?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Residents said their homes felt more comfortable and nobody complained about the appearance.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. They noticed no difference.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. They felt more comfortable.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. They disliked how the roofs looked.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What is the lecturer's opinion of planting trees?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Trees are helpful, but trees alone are not enough.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. It is the most effective solution.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. It helps but is not enough on its own.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. It is too expensive for most cities.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What will the next lecture be about?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The next session will look at the effect of traffic noise.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. flooding in cities", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. public transport", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. traffic noise", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}
