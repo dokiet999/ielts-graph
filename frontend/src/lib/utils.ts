@@ -16,6 +16,15 @@ export function formatClock(totalSeconds: number) {
   return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`
 }
 
+/** Course length is stored in minutes: 45 → "45 phút", 600 → "10 giờ", 90 → "1 giờ 30 phút". */
+export function formatMinutes(totalMinutes: number) {
+  const m = Math.max(0, Math.round(totalMinutes))
+  if (m < 60) return `${m} phút`
+  const hours = Math.floor(m / 60)
+  const rest = m % 60
+  return rest ? `${hours} giờ ${rest} phút` : `${hours} giờ`
+}
+
 /** 1250 → "20 phút 50 giây". */
 export function formatDuration(totalSeconds: number) {
   const s = Math.max(0, Math.round(totalSeconds))

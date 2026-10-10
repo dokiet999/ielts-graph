@@ -28,41 +28,37 @@ test('reading practice: course → exercise → submit → result → review', a
 
   await page.getByRole('link', { name: 'Khóa học', exact: true }).click()
   await page.getByRole('link', { name: /IELTS Foundation 5.0/ }).click()
-  await page.getByRole('link', { name: /Vào học/ }).click()
+  // Pick the Reading stage explicitly: "Vào học" opens the first unfinished stage.
+  await page.getByRole('link', { name: /Reading nền tảng/ }).click()
   await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible()
 
-  await page.getByRole('link', { name: 'Bài luyện' }).click()
-  await page.getByRole('link', { name: /Reading Passage - The Story of the Pencil/ }).click()
+  await page.getByRole('link', { name: 'Bài luyện', exact: true }).click()
+  await page.getByRole('link', { name: /Farming in the Sky/ }).click()
 
-  // Questions 1-4: matching headings (droplist)
-  await expect(page.getByText('The Story of the Pencil').first()).toBeVisible()
+  // Question 1 (true/false) and question 6 (fill in the blank).
+  await expect(page.getByText('Farming in the Sky').first()).toBeVisible()
   await page
-    .getByRole('combobox', { name: 'Câu 1' })
-    .selectOption({ label: 'ii. The problems with early writing tools' })
-  await page
-    .getByRole('combobox', { name: 'Câu 2' })
-    .selectOption({ label: 'iii. A local discovery with wider uses' })
-  await expect(page.getByText('Đã làm 2 / 8')).toBeVisible()
+    .getByRole('radiogroup', { name: 'Câu 1' })
+    .getByRole('radio', { name: /^A\s*TRUE$/ })
+    .click()
+  await page.getByRole('button', { name: /^Câu 6/ }).click()
+  await page.getByRole('textbox', { name: 'Câu 6' }).fill('sponge')
+  await expect(page.getByText('Đã làm 2 / 13')).toBeVisible()
 
   // Answers survive a reload.
   await page.reload()
-  await expect(page.getByText('Đã làm 2 / 8')).toBeVisible()
+  await expect(page.getByText('Đã làm 2 / 13')).toBeVisible()
 
-  // Jump to the last group with the navigator and answer it.
-  await page.getByRole('button', { name: /^Câu 6/ }).click()
-  await page
-    .getByRole('radiogroup', { name: 'Câu 6' })
-    .getByRole('radio', { name: /^A\s*TRUE$/ })
-    .click()
-
+  // The submit button is on the last group.
+  await page.getByRole('button', { name: /^Câu 13/ }).click()
   await page.getByRole('button', { name: 'Nộp bài' }).click()
   await expect(page.getByRole('dialog', { name: 'Nộp bài?' })).toContainText(
-    'Còn 5 câu chưa trả lời',
+    'Còn 11 câu chưa trả lời',
   )
   await page.getByRole('dialog').getByRole('button', { name: 'Nộp bài' }).click()
 
   await expect(page).toHaveURL(/\/submissions\/sub-/)
-  await expect(correctCount(page)).toHaveText('3/8')
+  await expect(correctCount(page)).toHaveText('2/13')
   // Practice is never converted to a band (backend rule).
   await expect(page.getByText(/band/i)).toHaveCount(0)
 
@@ -74,39 +70,39 @@ test('listening practice shows audio controls and hides the transcript until rev
   page,
 }) => {
   await login(page)
-  await page.goto('/run/ex-listening-library')
-  await expect(page.getByRole('heading', { name: 'Section 2' })).toBeVisible()
+  await page.goto('/run/ex-listening-01')
+  await expect(page.getByRole('heading', { name: 'Section 1' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Phát' })).toBeVisible()
   await expect(page.getByText('Transcript', { exact: true })).toHaveCount(0)
 
-  await page.getByRole('textbox', { name: 'Câu 2' }).fill('twelve')
-  await page.getByRole('button', { name: /5-7/ }).click()
-  await page.getByRole('button', { name: 'Câu 5: D' }).click()
+  await page.getByRole('textbox', { name: 'Câu 1' }).fill('Thornley')
+  await page.getByRole('textbox', { name: 'Câu 2' }).fill('493 826')
+  await page.getByRole('button', { name: /^Câu 10/ }).click()
   await page.getByRole('button', { name: 'Nộp bài' }).click()
   await page.getByRole('dialog').getByRole('button', { name: 'Nộp bài' }).click()
-  await expect(correctCount(page)).toHaveText('2/7')
+  await expect(correctCount(page)).toHaveText('2/10')
 
   await page.getByRole('link', { name: /Xem lại chi tiết/ }).click()
   await expect(page.getByText('Transcript', { exact: true })).toBeVisible()
 })
 
-test('quiz checks each answer and records the attempt', async ({ page }) => {
+test('quiz checks each answer and keeps progress after a reload', async ({ page }) => {
   await login(page)
-  await page.goto('/run/ex-quiz-tfng')
-  await expect(page.getByRole('heading', { name: 'Chọn TRUE, FALSE hoặc NOT GIVEN' })).toBeVisible()
+  await page.goto('/run/ex-st-quiz-reading-01')
+  await expect(page.getByText(/^Câu 1\/13/)).toBeVisible()
 
-  const answers = ['FALSE', 'TRUE', 'NOT GIVEN', 'TRUE']
-  for (const [i, answer] of answers.entries()) {
-    await page.getByRole('radio', { name: new RegExp(`^[A-C]\\s*${answer}$`) }).click()
-    await page.getByRole('button', { name: 'Kiểm tra' }).click()
-    await expect(page.getByText(i < 3 ? 'Chính xác!' : 'Chưa chính xác')).toBeVisible()
-    if (i < answers.length - 1) await page.getByRole('button', { name: 'Tiếp tục' }).click()
-  }
-  await page.getByRole('button', { name: 'Hoàn thành' }).click()
-  await expect(correctCount(page)).toHaveText('3/4')
+  // Question 1 is TRUE (correct); question 2 is FALSE, so answering TRUE is wrong.
+  await page.getByRole('radio', { name: /^A\s*TRUE$/ }).click()
+  await page.getByRole('button', { name: 'Kiểm tra' }).click()
+  await expect(page.getByText('Chính xác!')).toBeVisible()
+  await page.getByRole('button', { name: 'Tiếp tục' }).click()
 
-  await page.goto('/history')
-  await expect(
-    page.getByRole('link', { name: 'Làm quen True / False / Not Given' }).first(),
-  ).toBeVisible()
+  await page.getByRole('radio', { name: /^A\s*TRUE$/ }).click()
+  await page.getByRole('button', { name: 'Kiểm tra' }).click()
+  await expect(page.getByText('Chưa chính xác')).toBeVisible()
+  await expect(page.getByText(/Đáp án đúng:/)).toContainText('FALSE')
+  await page.getByRole('button', { name: 'Tiếp tục' }).click()
+
+  await page.reload()
+  await expect(page.getByText(/^Câu 3\/13/)).toBeVisible()
 })

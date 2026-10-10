@@ -80,27 +80,3 @@ export function buildExercise(raw: RawExercise, p: Placement): Exercise {
     })),
   }
 }
-
-type Opt = string | [string, true]
-
-/** Compact authoring helper: options marked `[text, true]` are correct. */
-export function q(
-  ordering: number,
-  questionType: string,
-  questionText: string,
-  options: Opt[],
-  explanation: string,
-) {
-  return {
-    questionText,
-    questionType,
-    explanation,
-    points: 1,
-    ordering,
-    options: options.map((o, i) => ({
-      optionText: Array.isArray(o) ? o[0] : o,
-      isCorrect: Array.isArray(o),
-      ordering: i + 1,
-    })),
-  }
-}

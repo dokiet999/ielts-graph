@@ -7,7 +7,49 @@ import type { Answers, QuestionGroup, QuestionResult } from '@/lib/types'
 import { QuestionGroupView } from './registry'
 
 const reading01 = exercises.find((e) => e.id === 'ex-reading-01')!
-const pencil = exercises.find((e) => e.id === 'ex-reading-pencil')!
+const option = (qid: string, i: number, text: string) => ({
+  id: `${qid}-o${i}`,
+  optionText: text,
+  ordering: i,
+})
+
+// The sample data has no DROPLIST or "choose TWO" questions, so these two groups are built inline.
+const droplistGroup: QuestionGroup = {
+  id: 'g-drop',
+  groupTitle: 'Questions 1-2',
+  groupInstruction: 'Choose the correct heading for each paragraph.',
+  questionType: 'DROPLIST',
+  questionRange: '1-2',
+  questions: [1, 2].map((n) => ({
+    id: `d${n}`,
+    number: n,
+    questionText: `Paragraph ${n === 1 ? 'A' : 'B'}`,
+    questionType: 'DROPLIST' as const,
+    points: 1,
+    options: [option(`d${n}`, 1, 'i. First heading'), option(`d${n}`, 2, 'ii. Second heading')],
+  })),
+}
+
+const chooseTwoGroup: QuestionGroup = {
+  id: 'g-two',
+  groupTitle: 'Question 5',
+  groupInstruction: 'Choose TWO letters, A-E.',
+  questionType: 'MULTIPLE_CHOICE',
+  questionRange: '5',
+  questions: [
+    {
+      id: 'm1',
+      number: 5,
+      questionText: 'Which TWO statements are mentioned?',
+      questionType: 'MULTIPLE_CHOICE',
+      points: 1,
+      options: ['A. one', 'B. two', 'C. three', 'D. four', 'E. five'].map((t, i) =>
+        option('m1', i + 1, t),
+      ),
+    },
+  ],
+}
+
 const groupOf = (ex: typeof reading01, type: QuestionGroup['questionType']) =>
   ex.questionGroups.find((g) => g.questionType === type)!
 
@@ -51,7 +93,7 @@ describe('QuestionGroupView', () => {
   })
 
   it('limits "choose TWO" questions to two selections', async () => {
-    const group = groupOf(pencil, 'MULTIPLE_CHOICE')
+    const group = chooseTwoGroup
     render(<Harness group={group} />)
     const boxes = screen.getAllByRole('checkbox')
     await userEvent.click(boxes[0])
@@ -69,7 +111,7 @@ describe('QuestionGroupView', () => {
   })
 
   it('renders droplist questions as selects', async () => {
-    const group = groupOf(pencil, 'DROPLIST')
+    const group = droplistGroup
     render(<Harness group={group} />)
     const select = screen.getByRole('combobox', { name: 'Câu 1' })
     await userEvent.selectOptions(select, `${group.questions[0].id}-o2`)

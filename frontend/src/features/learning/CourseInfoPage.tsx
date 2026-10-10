@@ -1,7 +1,7 @@
 import { CoursePageHeader } from '@/layouts/CourseLayout'
 import { useCourseContext } from '@/layouts/courseContext'
 import { Avatar } from '@/components/ui/avatar'
-import { formatDate, LEVEL_LABEL } from '@/lib/utils'
+import { formatDate, formatMinutes, LEVEL_LABEL } from '@/lib/utils'
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -23,7 +23,7 @@ export function CourseInfoPage() {
         <Row label="Danh mục">{course.categoryName ?? '—'}</Row>
         <Row label="Trình độ">{LEVEL_LABEL[course.level]}</Row>
         <Row label="Thời lượng">
-          {course.estimatedDuration ? `${course.estimatedDuration} buổi học` : '—'}
+          {course.estimatedDuration ? formatMinutes(course.estimatedDuration) : '—'}
         </Row>
         <Row label="Ngày bắt đầu">{formatDate(course.enrolledAt)}</Row>
         <Row label="Giáo viên">

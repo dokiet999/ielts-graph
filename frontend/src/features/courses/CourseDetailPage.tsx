@@ -19,7 +19,7 @@ import { ErrorState, PageLoader } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
 import { useCourse } from '@/lib/queries'
 import type { Section } from '@/lib/types'
-import { cn, formatDate, LEVEL_LABEL, percent } from '@/lib/utils'
+import { cn, formatDate, formatMinutes, LEVEL_LABEL, percent } from '@/lib/utils'
 
 function sectionStatus(s: Section) {
   if (s.exerciseCount > 0 && s.completedExerciseCount >= s.exerciseCount) return 'done'
@@ -141,7 +141,7 @@ export function CourseDetailPage() {
                 <Clock className="size-4 text-muted-foreground" /> Thời lượng
               </p>
               <p className="mt-1.5 text-sm text-muted-foreground">
-                {course.estimatedDuration ? `${course.estimatedDuration} buổi học` : '—'}
+                {course.estimatedDuration ? formatMinutes(course.estimatedDuration) : '—'}
                 <br />
                 {course.sectionCount} giai đoạn · {course.exerciseCount} bài luyện
               </p>

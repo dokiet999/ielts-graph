@@ -9,13 +9,6 @@ import type {
   User,
 } from '@/lib/types'
 import { buildExercise, type RawExercise } from './raw'
-import {
-  listeningLibrary,
-  quizLinking,
-  quizListeningTraps,
-  quizTfng,
-  readingPencil,
-} from './authored'
 
 export const DEMO_PASSWORD = '123456'
 
@@ -80,7 +73,7 @@ export const courses: CourseRecord[] = [
     level: 'INTERMEDIATE',
     categoryName: 'IELTS Academic',
     teacher: teachers.minhAnh,
-    estimatedDuration: 24,
+    estimatedDuration: 1440,
     enrollmentStatus: 'IN_PROGRESS',
     enrolledAt: '2026-09-01T08:00:00Z',
     completedAt: null,
@@ -113,7 +106,7 @@ export const courses: CourseRecord[] = [
     level: 'UPPER_INTERMEDIATE',
     categoryName: 'IELTS Academic',
     teacher: teachers.hoangLong,
-    estimatedDuration: 30,
+    estimatedDuration: 1800,
     enrollmentStatus: 'IN_PROGRESS',
     enrolledAt: '2026-09-15T08:00:00Z',
     completedAt: null,
@@ -139,7 +132,7 @@ export const courses: CourseRecord[] = [
     level: 'ELEMENTARY',
     categoryName: 'IELTS Academic',
     teacher: teachers.minhAnh,
-    estimatedDuration: 12,
+    estimatedDuration: 720,
     enrollmentStatus: 'COMPLETED',
     enrolledAt: '2026-06-01T08:00:00Z',
     completedAt: '2026-08-20T08:00:00Z',
@@ -147,7 +140,7 @@ export const courses: CourseRecord[] = [
       {
         id: 's-st1',
         title: 'Làm quen Reading & Listening',
-        description: 'Từ nối, paraphrase và các bẫy Listening.',
+        description: 'Làm quen với dạng bài Reading qua quiz ngắn.',
         lessons: [
           lesson('l-st1-1', 's-st1', 1, 'Từ nối và paraphrase', 'TEXT'),
           lesson('l-st1-2', 's-st1', 2, 'Bẫy trong Listening', 'TEXT'),
@@ -173,31 +166,28 @@ const place = (
 
 const r = (x: unknown) => x as RawExercise
 
+// Every exercise comes from the two sample files in data/exercises (the same content the backend
+// seeds in migration V5). The starter course reuses the Reading file as a short LESSON-type quiz so
+// quiz mode still has sample data.
+const readingQuiz: RawExercise = { ...r(reading01), exerciseType: 'LESSON' }
+
 export const exercises: Exercise[] = [
-  buildExercise(quizLinking, place('ex-quiz-linking', 'c-foundation', 's-f1', 'l-f1-1')),
   buildExercise(r(reading01), place('ex-reading-01', 'c-foundation', 's-f1', 'l-f1-1')),
-  buildExercise(quizTfng, place('ex-quiz-tfng', 'c-foundation', 's-f1', 'l-f1-2')),
-  buildExercise(readingPencil, place('ex-reading-pencil', 'c-foundation', 's-f1', 'l-f1-2')),
-  buildExercise(quizListeningTraps, place('ex-quiz-traps', 'c-foundation', 's-f2', 'l-f2-1')),
   buildExercise(r(listening01), place('ex-listening-01', 'c-foundation', 's-f2', 'l-f2-1')),
-  buildExercise(listeningLibrary, place('ex-listening-library', 'c-foundation', 's-f2', 'l-f2-2')),
 
-  buildExercise(readingPencil, place('ex-i-reading-pencil', 'c-intensive', 's-i1', 'l-i1-1')),
   buildExercise(r(reading01), place('ex-i-reading-01', 'c-intensive', 's-i1', 'l-i1-1')),
-  buildExercise(listeningLibrary, place('ex-i-listening-library', 'c-intensive', 's-i2', 'l-i2-1')),
+  buildExercise(r(listening01), place('ex-i-listening-01', 'c-intensive', 's-i2', 'l-i2-1')),
 
-  buildExercise(quizLinking, place('ex-st-linking', 'c-starter', 's-st1', 'l-st1-1')),
-  buildExercise(quizTfng, place('ex-st-tfng', 'c-starter', 's-st1', 'l-st1-1')),
-  buildExercise(quizListeningTraps, place('ex-st-traps', 'c-starter', 's-st1', 'l-st1-2')),
+  buildExercise(
+    readingQuiz,
+    place('ex-st-quiz-reading-01', 'c-starter', 's-st1', 'l-st1-1', 'Quiz - Farming in the Sky'),
+  ),
 ]
 
 /** Submissions created when the mock DB is first initialised: [exerciseId, correct answers, minutes ago]. */
 export const seedAttempts: [string, number, number][] = [
-  ['ex-st-linking', 5, 60 * 24 * 60],
-  ['ex-st-tfng', 3, 60 * 24 * 58],
-  ['ex-st-traps', 4, 60 * 24 * 55],
-  ['ex-quiz-linking', 4, 60 * 24 * 3],
+  ['ex-st-quiz-reading-01', 11, 60 * 24 * 60],
   ['ex-reading-01', 8, 60 * 24 * 2],
   ['ex-reading-01', 10, 60 * 24],
-  ['ex-quiz-traps', 3, 60 * 5],
+  ['ex-i-listening-01', 6, 60 * 5],
 ]

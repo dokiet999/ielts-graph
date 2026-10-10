@@ -28,15 +28,16 @@ test('demo mode skips login and sends HTTP Basic credentials', async ({ page }) 
 test('demo mode: course → exercise → submit → result → history', async ({ page }) => {
   await page.goto('/courses')
   await page.getByRole('link', { name: /IELTS Foundation 5.0/ }).click()
-  await page.getByRole('link', { name: /Vào học/ }).click()
+  await page.getByRole('link', { name: /Reading nền tảng/ }).click()
   await page.getByRole('link', { name: 'Bài luyện' }).click()
-  await page.getByRole('link', { name: /The Story of the Pencil/ }).click()
+  await page.getByRole('link', { name: /Farming in the Sky/ }).click()
 
   await page
-    .getByRole('combobox', { name: 'Câu 1' })
-    .selectOption({ label: 'ii. The problems with early writing tools' })
+    .getByRole('radiogroup', { name: 'Câu 1' })
+    .getByRole('radio', { name: /^A\s*TRUE$/ })
+    .click()
   const request = page.waitForRequest((r) => r.url().includes('/submit'))
-  await page.getByRole('button', { name: /^Câu 8/ }).click()
+  await page.getByRole('button', { name: /^Câu 13/ }).click()
   await page.getByRole('button', { name: 'Nộp bài' }).click()
   await page.getByRole('dialog').getByRole('button', { name: 'Nộp bài' }).click()
 
@@ -50,5 +51,5 @@ test('demo mode: course → exercise → submit → result → history', async (
 
   await expect(page).toHaveURL(/\/submissions\/sub-/)
   await page.goto('/history')
-  await expect(page.getByRole('link', { name: /The Story of the Pencil/ }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: /Farming in the Sky/ }).first()).toBeVisible()
 })
