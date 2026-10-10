@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 6 - Wind Power at Sea",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 6 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "Wind Power at Sea",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For centuries, people have used the wind to turn mills and push ships. In the last thirty years, the same force has become an important source of electricity, and the most rapid growth is now taking place not on land but at sea. Offshore wind farms, which stand in shallow coastal waters, produce more power than those on land because winds over the ocean are stronger and more constant."
+      },
+      {
+        "label": "B",
+        "text": "The machines are also much larger. A modern offshore turbine can be taller than a sixty-storey building, with blades each longer than a football pitch. Larger blades sweep a bigger area and capture more wind, so a single turbine can supply electricity to thousands of homes. Transporting and assembling such giants requires specialist ships, and only a handful of ports are equipped to handle them."
+      },
+      {
+        "label": "C",
+        "text": "Building in the sea brings special problems. Salt water corrodes metal, storms can damage equipment, and repairs may be possible only when the weather is calm. To limit the risk, engineers coat the towers in several layers of protective paint, and many wind farms now employ drones and remote sensors to inspect the blades, so that workers need to travel out to the turbines less often."
+      },
+      {
+        "label": "D",
+        "text": "The cost of offshore wind has fallen dramatically. A decade ago, the electricity it produced was more than twice as expensive as that from gas. Today it is competitive in many countries, thanks to better designs and to the experience of companies that have built several wind farms. Governments have helped by guaranteeing a minimum price for the electricity during the early years of a project."
+      },
+      {
+        "label": "E",
+        "text": "Wind farms are not welcomed by everyone. Fishing communities worry that their traditional areas will be closed, while some residents of coastal towns dislike the appearance of turbines on the horizon. Environmental groups have raised concerns about the risk to seabirds, although studies suggest that careful placement away from migration routes greatly reduces collisions."
+      },
+      {
+        "label": "F",
+        "text": "A further difficulty is that the wind does not always blow. When it falls calm, other sources must provide electricity, and storing the surplus from windy days remains expensive. One promising solution is to use the extra power to produce hydrogen, which can be stored and burned later. Several pilot projects are testing the idea, but none has yet operated on a commercial scale."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 6,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 6? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Winds over the ocean tend to be stronger than winds over land.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: winds over the ocean are stronger and more constant.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The blades of a modern offshore turbine are shorter than a football pitch.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: each blade is longer than a football pitch.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Most of the world's ports are equipped to handle offshore turbines.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: only a handful of ports are equipped to handle them.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "The first offshore wind farm was built in Denmark.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "The passage does not say where the first offshore wind farm was built.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Governments have guaranteed a minimum price for electricity from some offshore wind projects.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D: governments guaranteed a minimum price during the early years of a project.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Salt water ______ metal, which is a problem for equipment at sea.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: salt water corrodes metal.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "corrodes", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Engineers coat the towers in several layers of protective ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: several layers of protective paint.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "paint", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Some residents of coastal towns dislike the appearance of turbines on the ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: some residents dislike the appearance of turbines on the horizon.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "horizon", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Extra power could be used to produce ______, which can be stored and burned later.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph F: use the extra power to produce hydrogen.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "hydrogen", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "Why do many wind farms now use drones and remote sensors?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph C: drones and sensors inspect the blades so that workers need to travel out to the turbines less often.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. to reduce the noise made by the blades", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. so that workers need to travel out to the turbines less often", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. to measure the speed of the wind", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. to protect seabirds from collisions", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "According to paragraph D, why has the cost of offshore wind fallen?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph D: thanks to better designs and to the experience of companies that have built several wind farms.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. Gas has become more expensive.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. Designs have improved and companies have gained experience.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Turbines have become smaller.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Fewer workers are needed to build them.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 6 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a worry that traditional working areas will be closed",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: fishing communities worry that their traditional areas will be closed.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "an explanation of why larger blades produce more power",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph B: larger blades sweep a bigger area and capture more wind.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

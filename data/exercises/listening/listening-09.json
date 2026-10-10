@@ -1,0 +1,172 @@
+{
+  "title": "Listening Section 3 - Presentation Preparation Tutorial",
+  "instruction": "You will hear a student, Aisha, talking to her tutor, Dr Evans, about a history presentation. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=19n3QjrmoJXgqkTYCn0jQ_ZTQRJVMHyG6",
+  "content": {
+    "sectionTitle": "Section 3",
+    "transcript": [
+      { "speaker": "Evans", "text": "Come in, Aisha. You wanted to talk about your presentation on the Silk Road?" },
+      { "speaker": "Aisha", "text": "Yes, Dr Evans. I'm worried it's too long. I planned fifteen minutes, but I have a lot of material." },
+      { "speaker": "Evans", "text": "The limit for this assignment is twelve minutes, so you will need to cut some. Thirteen would lose you marks." },
+      { "speaker": "Aisha", "text": "Twelve. All right. I also have a lot of slides. Is there a limit?" },
+      { "speaker": "Evans", "text": "No more than ten, I'd say. Otherwise, you'll rush. What are your main sections?" },
+      { "speaker": "Aisha", "text": "I start with the history of silk production, then the main trade goods, which were silk, spices and paper. After that I have a section on modern tourism along the route, and finally a conclusion." },
+      { "speaker": "Evans", "text": "I'd cut the section on modern tourism. It's interesting, but it doesn't answer the question you were set. And for the introduction, try a map. It shows the audience the whole route at a glance, which a quotation or a video wouldn't do." },
+      { "speaker": "Aisha", "text": "Good idea. Should I discuss one city in detail?" },
+      { "speaker": "Evans", "text": "Yes, a case study works well. Samarkand would be a good choice. Do you know how to spell it?" },
+      { "speaker": "Aisha", "text": "S-A-M-A-R-K-A-N-D." },
+      { "speaker": "Evans", "text": "Correct. What about your notes? Last time I noticed you read straight from them." },
+      { "speaker": "Aisha", "text": "I know. I get nervous and I don't want to forget anything." },
+      { "speaker": "Evans", "text": "Write only key words on cards. And practise by recording yourself on your phone, then listen to it. You'll notice where you speed up." },
+      { "speaker": "Aisha", "text": "I'll try that. When is the presentation again?" },
+      { "speaker": "Evans", "text": "It's on Thursday, in room 12. You'll have five minutes for questions at the end." },
+      { "speaker": "Aisha", "text": "Is there anything I should read before then?" },
+      { "speaker": "Evans", "text": "I'll email you a couple of useful articles this afternoon. Don't try to read too much, though. Focus on rehearsing." },
+      { "speaker": "Aisha", "text": "Thank you, Dr Evans. That's really helpful." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 9,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the tutorial notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Presentation length: ______ minutes",
+          "questionType": "FILL_BLANK",
+          "explanation": "The limit is twelve minutes, not the fifteen Aisha planned.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "12", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "twelve", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Maximum number of slides: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Dr Evans suggests no more than ten slides.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "10", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "ten", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Main trade goods: silk, spices and ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Aisha lists silk, spices and paper.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "paper", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Case study city: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Dr Evans suggests Samarkand, which Aisha spells.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "Samarkand", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Practise by recording herself on her ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "He advises recording herself on her phone.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "phone", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Presentation day: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The presentation is on Thursday.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "Thursday", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "thursday", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "What is Aisha's problem with her notes?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Dr Evans noticed that she read straight from her notes.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. They are too short.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. She reads straight from them.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. She keeps losing them.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Which section does Dr Evans suggest cutting?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "He suggests cutting the section on modern tourism.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. the history of silk production", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. modern tourism", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. the conclusion", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What does Dr Evans suggest for the introduction?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "He suggests using a map to show the whole route.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. a quotation", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. a map", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. a short video", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What will Dr Evans do after the tutorial?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "He will email her a couple of useful articles.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. watch Aisha rehearse", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. send her some articles", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. give her a feedback form", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

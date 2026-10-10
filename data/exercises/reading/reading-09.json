@@ -1,0 +1,247 @@
+{
+  "title": "Reading Passage 9 - The Importance of Wild Bees",
+  "instruction": "You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 9 below.",
+  "lessonId": null,
+  "audioUrl": null,
+  "content": {
+    "passageTitle": "The Importance of Wild Bees",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Most people think of the honeybee when they hear the word bee, yet it is only one of more than twenty thousand species. The others, known as wild bees, include bumblebees, mason bees and many small solitary species that live alone rather than in a colony. Wild bees are important pollinators, carrying pollen from flower to flower and enabling plants to produce seeds and fruit."
+      },
+      {
+        "label": "B",
+        "text": "Scientists once assumed that farmers depended mainly on managed honeybees, which are transported from field to field in hives. However, a study of crops on several continents found that fields visited by wild bees produced more fruit than those visited by honeybees alone, even when the number of honeybees was very high. Wild bees tend to move more often between flowers and work in cooler, wetter weather, when honeybees stay in the hive."
+      },
+      {
+        "label": "C",
+        "text": "Unfortunately, wild bees are in decline in many regions. The main cause is the loss of habitat. Modern farms often consist of large fields of a single crop, with few hedges or wild flowers, so bees find food for only a few weeks each year. Solitary species, many of which nest in bare soil or hollow stems, are especially affected when such places are cleared or ploughed."
+      },
+      {
+        "label": "D",
+        "text": "Chemicals add to the problem. A group of insecticides known as neonicotinoids is absorbed by the whole plant, including its pollen and nectar. Experiments show that bees feeding on contaminated flowers find it harder to navigate and produce fewer young. Several countries have restricted the use of these chemicals, but manufacturers and some farmers argue that the evidence from real fields is less clear than that from laboratories."
+      },
+      {
+        "label": "E",
+        "text": "Simple measures can help. Farmers who leave strips of wild flowers along the edges of fields have recorded sharp increases in the number of bees within two years. Gardeners can contribute by planting a variety of flowers that bloom at different times and by leaving small areas of ground undisturbed. Some towns have even created bee corridors, chains of flower-filled sites linking parks and gardens."
+      },
+      {
+        "label": "F",
+        "text": "Researchers also stress the need for better information. Because wild bees are small and hard to identify, many species have never been counted, and some may disappear before they are recorded. Volunteer schemes in which members of the public photograph bees and upload the images to an online database are now helping scientists to map their numbers."
+      }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "READING",
+  "timeLimit": 1200,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 9,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-5",
+      "groupInstruction": "Do the following statements agree with the information given in Reading Passage 9? Choose TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "TRUE_FALSE",
+      "questionRange": "1-5",
+      "correctAnswerCount": 5,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "The honeybee is one of more than twenty thousand species of bee.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: the honeybee is only one of more than twenty thousand species.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "All wild bees live together in colonies.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph A: many wild bees are solitary and live alone rather than in a colony.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Fields visited by wild bees produced more fruit than fields visited only by honeybees.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph B: fields visited by wild bees produced more fruit than those visited by honeybees alone.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Wild bees are in decline in every region of the world.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph C: wild bees are in decline in many regions, not every region.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Neonicotinoids have been banned in all European countries.",
+          "questionType": "TRUE_FALSE",
+          "explanation": "Paragraph D says several countries have restricted them but does not mention a ban in all European countries.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "TRUE", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "FALSE", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "NOT GIVEN", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 6-9",
+      "groupInstruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "6-9",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Many solitary bees nest in bare soil or hollow ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph C: many nest in bare soil or hollow stems.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "stems", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Neonicotinoids are absorbed by the whole plant, including its pollen and ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph D: absorbed by the whole plant, including its pollen and nectar.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "nectar", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Strips of wild flowers at the edges of fields led to sharp increases in bee numbers within two ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph E: sharp increases in the number of bees within two years.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "years", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Volunteers photograph bees and upload the images to an online ______.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Paragraph F: upload the images to an online database.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "database", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 10-11",
+      "groupInstruction": "Choose the correct letter, A, B, C or D.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "10-11",
+      "correctAnswerCount": 2,
+      "ordering": 3,
+      "questions": [
+        {
+          "questionText": "According to paragraph B, why are wild bees effective pollinators?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph B: wild bees move more often between flowers and work in cooler, wetter weather.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. They live in larger colonies than honeybees.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. They move often between flowers and work in cooler, wetter weather.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. They carry more pollen than any other insect.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. They are transported from field to field by farmers.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        },
+        {
+          "questionText": "What do manufacturers and some farmers argue about neonicotinoids?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Paragraph D: they argue that the evidence from real fields is less clear than that from laboratories.",
+          "points": 1,
+          "ordering": 11,
+          "options": [
+            { "optionText": "A. The chemicals have been proved harmless.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. The evidence from real fields is less clear than the evidence from laboratories.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. The restrictions came too late to help bees.", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D. Bees are able to avoid contaminated flowers.", "isCorrect": false, "point": 0, "ordering": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 12-13",
+      "groupInstruction": "Reading Passage 9 has six paragraphs, A-F. Which paragraph contains the following information? Choose the correct letter, A-F.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MATCHING",
+      "questionRange": "12-13",
+      "correctAnswerCount": 2,
+      "ordering": 4,
+      "questions": [
+        {
+          "questionText": "a description of how ordinary gardeners can support bees",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph E: gardeners can plant a variety of flowers and leave small areas of ground undisturbed.",
+          "points": 1,
+          "ordering": 12,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": true, "point": 1, "ordering": 5 },
+            { "optionText": "F", "isCorrect": false, "point": 0, "ordering": 6 }
+          ]
+        },
+        {
+          "questionText": "an explanation of why some bee species are difficult to count",
+          "questionType": "MATCHING",
+          "explanation": "Paragraph F: wild bees are small and hard to identify.",
+          "points": 1,
+          "ordering": 13,
+          "options": [
+            { "optionText": "A", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C", "isCorrect": false, "point": 0, "ordering": 3 },
+            { "optionText": "D", "isCorrect": false, "point": 0, "ordering": 4 },
+            { "optionText": "E", "isCorrect": false, "point": 0, "ordering": 5 },
+            { "optionText": "F", "isCorrect": true, "point": 1, "ordering": 6 }
+          ]
+        }
+      ]
+    }
+  ]
+}

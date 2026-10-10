@@ -1,0 +1,169 @@
+{
+  "title": "Listening Section 2 - Museum Tour Introduction",
+  "instruction": "You will hear a guide giving an introductory talk to a group of visitors at a maritime museum. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1_JHKcHAmi-KWeczCD-d5p__C0QFaV9x1",
+  "content": {
+    "sectionTitle": "Section 2",
+    "transcript": [
+      { "speaker": "Jenny", "text": "Good morning, everyone, and welcome to the Harbour Maritime Museum. My name's Jenny and I'll be your guide today. Before we begin the tour, let me give you some background and a few practical points." },
+      { "speaker": "Jenny", "text": "The museum opened in nineteen eighty-five in what used to be the old customs house. At first it had only two rooms, but today there are six galleries spread over three floors." },
+      { "speaker": "Jenny", "text": "Tickets are normally nine pounds, but as you're a group, you've all been given the group price of seven pounds. Please keep your ticket with you, because you may be asked to show it in some galleries." },
+      { "speaker": "Jenny", "text": "Now, a word about what you can see. The ground-floor whaling gallery is closed for repairs until next month, so I'm afraid we'll have to miss that one. Some people think the shipwreck gallery is also closed because of the flooding last year, but it reopened in May, and we'll visit it later." },
+      { "speaker": "Jenny", "text": "If you'd like refreshments, the cafe is on the top floor, next to the terrace. Older leaflets say it's on the ground floor, but it moved two years ago. The gift shop is near the exit, so you can visit it at the end of your tour." },
+      { "speaker": "Jenny", "text": "You're welcome to take photographs, but please don't use flash in Gallery 3, where the old maps are kept. The light can damage the paper." },
+      { "speaker": "Jenny", "text": "Our free talk about the history of the harbour begins at half past eleven in Gallery 2. It lasts about twenty minutes, so you'll have time for it before lunch." },
+      { "speaker": "Jenny", "text": "Many visitors think that the most popular exhibit is the huge anchor in the entrance hall, and it is certainly the most photographed. But if you ask our staff, they'll tell you that visitors spend longest at the model of the ship Aurora. It was built by hand over eleven years." },
+      { "speaker": "Jenny", "text": "Finally, if you hear the fire alarm, please don't use the lifts. Follow the green signs to the nearest stairs and gather in the car park at the back of the building. Don't go back to the entrance, because the fire engines will arrive there." },
+      { "speaker": "Jenny", "text": "Right, if there are no questions, let's make a start in Gallery 1." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 3,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "The museum opened in ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Jenny says the museum opened in nineteen eighty-five.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "1985", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "nineteen eighty-five", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Number of galleries: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "At first it had only two rooms, but now there are six galleries.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "6", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "six", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Group ticket price: £______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The normal price is nine pounds but the group price is seven pounds.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "7", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "seven", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "The cafe is on the ______ floor.",
+          "questionType": "FILL_BLANK",
+          "explanation": "The cafe is on the top floor, not the ground floor as older leaflets say.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "top", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "third", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Do not use ______ in Gallery 3.",
+          "questionType": "FILL_BLANK",
+          "explanation": "Flash is not allowed in Gallery 3 where the old maps are kept.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "flash", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Free talk begins at: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The free talk begins at half past eleven in Gallery 2.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "11.30", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "11:30", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "half past eleven", "isCorrect": true, "point": 1, "ordering": 3 },
+            { "optionText": "11.30am", "isCorrect": true, "point": 1, "ordering": 4 },
+            { "optionText": "11.30 am", "isCorrect": true, "point": 1, "ordering": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Which gallery is closed for repairs?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The ground-floor whaling gallery is closed; the shipwreck gallery reopened in May.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. whaling", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. shipwrecks", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. maps", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Where is the gift shop?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The gift shop is near the exit.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. next to the entrance", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. next to the cafe", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. near the exit", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Which exhibit do visitors spend longest at?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The anchor is the most photographed, but visitors spend longest at the model of the ship Aurora.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. the anchor", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. the model of the Aurora", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. the old maps", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "If the fire alarm sounds, visitors should",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Use the stairs, not the lifts, and gather in the car park at the back.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. use the lifts", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. gather in the car park", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. return to the entrance", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

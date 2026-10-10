@@ -1,0 +1,177 @@
+{
+  "title": "Listening Section 1 - Holiday Cottage Booking",
+  "instruction": "You will hear a man telephoning a company to book a holiday cottage by the sea. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1DuXB2VToVfqqHNgyaPEirzcRZF94iKmq",
+  "content": {
+    "sectionTitle": "Section 1",
+    "transcript": [
+      { "speaker": "Lucy", "text": "Seaview Cottages, Lucy speaking." },
+      { "speaker": "Owen", "text": "Hello. I'd like to book a cottage for a week in August, please." },
+      { "speaker": "Lucy", "text": "Certainly. Could I take your surname first?" },
+      { "speaker": "Owen", "text": "It's Hargreaves. That's H-A-R-G-R-E-A-V-E-S." },
+      { "speaker": "Lucy", "text": "Thank you. Which dates were you thinking of?" },
+      { "speaker": "Owen", "text": "We'd like to arrive on the ninth of August." },
+      { "speaker": "Lucy", "text": "I'm afraid the cottage with the sea view is already taken from the ninth. The earliest I can offer is the sixteenth." },
+      { "speaker": "Owen", "text": "That works for us too. We'll take the sixteenth." },
+      { "speaker": "Lucy", "text": "Lovely. How many people will be staying?" },
+      { "speaker": "Owen", "text": "Four adults. There will be a dog as well, a small one." },
+      { "speaker": "Lucy", "text": "One dog is fine, but we do ask you to keep it off the furniture. Now, the price. In July the cottage is five hundred and eighty pounds a week, but in August it's six hundred and fifty." },
+      { "speaker": "Owen", "text": "That's fine. Does the price include everything?" },
+      { "speaker": "Lucy", "text": "Electricity and bed linen are included, but you need to bring your own towels." },
+      { "speaker": "Owen", "text": "Okay. And where exactly is the cottage?" },
+      { "speaker": "Lucy", "text": "It's about a mile from the village of Penrose. That's P-E-N-R-O-S-E. There's a small shop there, and the beach is a ten-minute walk." },
+      { "speaker": "Owen", "text": "Sounds perfect. What time can we arrive?" },
+      { "speaker": "Lucy", "text": "Check-in is from four o'clock. A lot of guests think it's two, but the cleaners need the time. Check-out is at ten." },
+      { "speaker": "Owen", "text": "Understood. How do we pay?" },
+      { "speaker": "Lucy", "text": "We need a deposit of one hundred and fifty pounds to confirm the booking. We don't take cheques any more, so I'll email you a link and you can pay online." },
+      { "speaker": "Owen", "text": "That's great. Thank you very much." },
+      { "speaker": "Lucy", "text": "Thank you. We look forward to seeing you in August." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 4,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the booking form below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Surname: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The surname is spelled H-A-R-G-R-E-A-V-E-S.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "Hargreaves", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Arrival date: ______ August",
+          "questionType": "FILL_BLANK",
+          "explanation": "The ninth is unavailable, so they take the sixteenth.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "16", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "16th", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "sixteenth", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Number of adults: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Four adults will stay.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "4", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "four", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Price for one week in August: £______",
+          "questionType": "FILL_BLANK",
+          "explanation": "In July it is 580 pounds, but in August it is 650 pounds.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "650", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "six hundred and fifty", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Deposit: £______",
+          "questionType": "FILL_BLANK",
+          "explanation": "A deposit of one hundred and fifty pounds is needed.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "150", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "one hundred and fifty", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Nearest village: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "The cottage is about a mile from the village of Penrose.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "Penrose", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "What must guests bring with them?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Electricity and linen are included, but guests must bring their own towels.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. towels", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. bed linen", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. cooking equipment", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What is the rule about pets?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "One dog is fine.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. No dogs are allowed.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. One dog is allowed.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. Two dogs are allowed.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "From what time can guests check in?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Check-in is from four o'clock, although many guests think it is two.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. 2 p.m.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. 4 p.m.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. 6 p.m.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "How will Owen pay the deposit?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "The company no longer takes cheques; Lucy will email a link to pay online.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. by cheque", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. online", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. by card over the phone", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "title": "Listening Section 3 - Student Project Discussion",
+  "instruction": "You will hear two students, Priya and Marcus, discussing a project about food waste in their university canteen. Answer Questions 1-10.",
+  "lessonId": null,
+  "audioUrl": "https://drive.google.com/uc?export=download&id=1eSf3gXlFEiJz7wtvhZQ6WCHYy5whDdeP",
+  "content": {
+    "sectionTitle": "Section 3",
+    "transcript": [
+      { "speaker": "Priya", "text": "Marcus, have you had a chance to read the brief for our environmental science project?" },
+      { "speaker": "Marcus", "text": "Yes. I think we should look at food waste in the canteen, rather than the recycling topic." },
+      { "speaker": "Priya", "text": "I agree. Though Ms Cole said we need a clear focus. Should we study all food, or just one type?" },
+      { "speaker": "Marcus", "text": "Just one. When I volunteered in the kitchen last term, the staff told me that more bread was thrown away than anything else, so I'd say bread." },
+      { "speaker": "Priya", "text": "Good idea. How should we collect the data?" },
+      { "speaker": "Marcus", "text": "We could weigh the bin each evening, and also survey students about their habits. I was thinking of fifty students." },
+      { "speaker": "Priya", "text": "Fifty is too few to give reliable results. Let's ask eighty." },
+      { "speaker": "Marcus", "text": "All right, eighty it is. When shall we start weighing?" },
+      { "speaker": "Priya", "text": "Exams begin on the fifteenth, and the canteen is quieter during exams, so we shouldn't start then. Why not the week beginning the eighth of May?" },
+      { "speaker": "Marcus", "text": "That's fine. Do you think the kitchen manager will agree?" },
+      { "speaker": "Priya", "text": "I spoke to him yesterday. He's happy as long as we wear gloves when we handle the waste." },
+      { "speaker": "Marcus", "text": "Good. Afterwards we'll need to enter the figures into a spreadsheet. Shall I do the analysis?" },
+      { "speaker": "Priya", "text": "I did the statistics module last year, so I'll take that on. You could write the introduction instead." },
+      { "speaker": "Marcus", "text": "Fine. How long does the report have to be?" },
+      { "speaker": "Priya", "text": "Two thousand words. I thought the deadline was the fourth of June." },
+      { "speaker": "Marcus", "text": "No, I checked the student portal this morning. It's the fourteenth." },
+      { "speaker": "Priya", "text": "That's better, we'll have more time. What about the recommendations at the end?" },
+      { "speaker": "Marcus", "text": "We could suggest smaller portions." },
+      { "speaker": "Priya", "text": "That would be hard to enforce, since students choose their own. What about selling the unused bread cheaply at the end of the day? It would be popular with students." },
+      { "speaker": "Marcus", "text": "That's a good idea. Let's recommend that." },
+      { "speaker": "Priya", "text": "Great. I'll write up what we've agreed and send it to you tonight." }
+    ]
+  },
+  "exerciseType": "PRACTICE",
+  "skillType": "LISTENING",
+  "timeLimit": 600,
+  "maxAttempts": 99,
+  "passingScore": 0,
+  "ordering": 5,
+  "questionGroups": [
+    {
+      "groupTitle": "Questions 1-6",
+      "groupInstruction": "Complete the project notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "FILL_BLANK",
+      "questionRange": "1-6",
+      "correctAnswerCount": 6,
+      "ordering": 1,
+      "questions": [
+        {
+          "questionText": "Focus of the project: waste of ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Marcus says more bread than anything else is thrown away.",
+          "points": 1,
+          "ordering": 1,
+          "options": [
+            { "optionText": "bread", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Number of students to survey: ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Priya says fifty is too few and suggests eighty.",
+          "points": 1,
+          "ordering": 2,
+          "options": [
+            { "optionText": "80", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "eighty", "isCorrect": true, "point": 1, "ordering": 2 }
+          ]
+        },
+        {
+          "questionText": "Weighing begins on ______ May",
+          "questionType": "FILL_BLANK",
+          "explanation": "They agree on the week beginning the eighth of May.",
+          "points": 1,
+          "ordering": 3,
+          "options": [
+            { "optionText": "8", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "8th", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "eighth", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Figures to be entered into a ______",
+          "questionType": "FILL_BLANK",
+          "explanation": "Marcus says they need to enter the figures into a spreadsheet.",
+          "points": 1,
+          "ordering": 4,
+          "options": [
+            { "optionText": "spreadsheet", "isCorrect": true, "point": 1, "ordering": 1 }
+          ]
+        },
+        {
+          "questionText": "Length of report: ______ words",
+          "questionType": "FILL_BLANK",
+          "explanation": "The report has to be two thousand words.",
+          "points": 1,
+          "ordering": 5,
+          "options": [
+            { "optionText": "2000", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "2,000", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "two thousand", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Report due on ______ June",
+          "questionType": "FILL_BLANK",
+          "explanation": "Priya thought it was the fourth, but Marcus checked and it is the fourteenth.",
+          "points": 1,
+          "ordering": 6,
+          "options": [
+            { "optionText": "14", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "14th", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "fourteenth", "isCorrect": true, "point": 1, "ordering": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "groupTitle": "Questions 7-10",
+      "groupInstruction": "Choose the correct letter, A, B or C.",
+      "passageReference": null,
+      "imageUrl": null,
+      "questionType": "MULTIPLE_CHOICE",
+      "questionRange": "7-10",
+      "correctAnswerCount": 4,
+      "ordering": 2,
+      "questions": [
+        {
+          "questionText": "Why does Priya reject the idea of surveying fifty students?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Priya says fifty is too few to give reliable results.",
+          "points": 1,
+          "ordering": 7,
+          "options": [
+            { "optionText": "A. It would be too expensive.", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. It would give unreliable results.", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. It would take too long.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What condition has the kitchen manager set?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "He is happy as long as they wear gloves.",
+          "points": 1,
+          "ordering": 8,
+          "options": [
+            { "optionText": "A. Students must wear gloves.", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. Weighing must take place after closing time.", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. A tutor must be present.", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "Who will analyse the data?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Priya did the statistics module, so she will do the analysis.",
+          "points": 1,
+          "ordering": 9,
+          "options": [
+            { "optionText": "A. Priya", "isCorrect": true, "point": 1, "ordering": 1 },
+            { "optionText": "B. Marcus", "isCorrect": false, "point": 0, "ordering": 2 },
+            { "optionText": "C. Both of them", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        },
+        {
+          "questionText": "What do they decide to recommend?",
+          "questionType": "MULTIPLE_CHOICE",
+          "explanation": "Smaller portions would be hard to enforce, so they choose selling unused bread cheaply.",
+          "points": 1,
+          "ordering": 10,
+          "options": [
+            { "optionText": "A. smaller portions", "isCorrect": false, "point": 0, "ordering": 1 },
+            { "optionText": "B. selling unused bread cheaply", "isCorrect": true, "point": 1, "ordering": 2 },
+            { "optionText": "C. giving bread to a charity", "isCorrect": false, "point": 0, "ordering": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}
