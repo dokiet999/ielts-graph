@@ -37,14 +37,27 @@ function useFinish(exercise: Exercise) {
         timeSpent: session?.elapsed ?? 0,
       },
       {
-        onSuccess: (detail) => {
+        onSuccess: (submission) => {
           clear(exercise.id)
-          navigate(`/submissions/${detail.id}`, { replace: true })
+          navigate(`/submissions/${submission.id}`, { replace: true })
         },
       },
     )
   }
   return { finish, submit }
+}
+
+/** Shown when a submission fails outside the confirm dialog (auto-submit, quiz), e.g. 409 max attempts. */
+function SubmitError({ error }: { error: unknown }) {
+  if (!error) return null
+  return (
+    <div
+      role="alert"
+      className="fixed inset-x-4 top-20 z-50 mx-auto w-fit max-w-md rounded-xl bg-danger-soft px-4 py-3 text-sm text-danger shadow-lg"
+    >
+      {errorMessage(error)}
+    </div>
+  )
 }
 
 function TestRunner({ exercise }: { exercise: Exercise }) {
@@ -128,6 +141,7 @@ function TestRunner({ exercise }: { exercise: Exercise }) {
         </DialogContent>
       </Dialog>
 
+      {!confirmOpen && <SubmitError error={submit.error} />}
       {submit.isPending && !confirmOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
           <div className="rounded-2xl bg-surface px-6 py-4 font-medium shadow-xl">
@@ -143,12 +157,15 @@ function Quiz({ exercise }: { exercise: Exercise }) {
   const onExit = useExitTo(exercise)
   const { finish, submit } = useFinish(exercise)
   return (
-    <QuizRunner
-      exercise={exercise}
-      onExit={onExit}
-      onFinish={finish}
-      finishing={submit.isPending}
-    />
+    <>
+      <QuizRunner
+        exercise={exercise}
+        onExit={onExit}
+        onFinish={finish}
+        finishing={submit.isPending}
+      />
+      <SubmitError error={submit.error} />
+    </>
   )
 }
 

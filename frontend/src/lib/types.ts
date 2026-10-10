@@ -43,7 +43,8 @@ export interface CourseSummary {
   teacher: Teacher
   estimatedDuration?: number | null
   enrollmentStatus: EnrollmentStatus
-  enrolledAt: string
+  /** null when the viewer has not joined the course. */
+  enrolledAt: string | null
   completedAt?: string | null
   sectionCount: number
   exerciseCount: number
@@ -178,6 +179,7 @@ export interface Submission {
   skillType: SkillType
   exerciseType: ExerciseType
   courseId: string | null
+  sectionId?: string | null
   attemptNumber: number
   status: SubmissionStatus
   score: number

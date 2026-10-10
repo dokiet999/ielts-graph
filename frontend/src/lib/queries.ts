@@ -60,8 +60,7 @@ export function useSubmit() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (body: SubmissionRequest) => api.submit(body),
-    onSuccess: (detail) => {
-      qc.setQueryData(keys.submission(detail.id), detail)
+    onSuccess: () => {
       // Scores, progress and history all depend on submissions.
       qc.invalidateQueries({ queryKey: ['sections'] })
       qc.invalidateQueries({ queryKey: ['lessons'] })

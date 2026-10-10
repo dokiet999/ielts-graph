@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
   Tooltip,
 } from '@/components/ui/menu'
+import { DEMO_MODE } from '@/lib/demo'
 import { useAuthStore } from '@/stores/auth'
 import { useSettingsStore } from '@/stores/settings'
 
@@ -37,6 +38,16 @@ export function UserMenu() {
   const navigate = useNavigate()
   const qc = useQueryClient()
   if (!user) return null
+
+  // Demo mode has no profile page or logout: just show who is signed in.
+  if (DEMO_MODE) {
+    return (
+      <div className="flex items-center gap-2" title="Chế độ demo">
+        <Avatar name={user.fullName} src={user.avatarUrl} />
+        <span className="hidden text-sm font-medium sm:inline">{user.fullName}</span>
+      </div>
+    )
+  }
 
   return (
     <DropdownMenu>

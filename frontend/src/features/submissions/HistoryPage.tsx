@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { EmptyState, ErrorState, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
-import { estimateBand, formatBand } from '@/lib/band'
 import { useMySubmissions } from '@/lib/queries'
 import {
   EXERCISE_TYPE_LABEL,
@@ -65,7 +64,6 @@ export function HistoryPage() {
                 <th className="px-5 py-3 font-medium">Kỹ năng</th>
                 <th className="px-5 py-3 font-medium">Lần</th>
                 <th className="px-5 py-3 font-medium">Kết quả</th>
-                <th className="px-5 py-3 font-medium">Band</th>
                 <th className="px-5 py-3 font-medium">Thời gian</th>
                 <th className="px-5 py-3 font-medium">Ngày nộp</th>
               </tr>
@@ -73,10 +71,6 @@ export function HistoryPage() {
             <tbody className="divide-y">
               {list.map((s) => {
                 const pct = percent(s.correctCount, s.questionCount)
-                const band =
-                  s.exerciseType === 'PRACTICE'
-                    ? estimateBand(s.skillType, s.correctCount, s.questionCount)
-                    : null
                 return (
                   <tr
                     key={s.id}
@@ -102,7 +96,6 @@ export function HistoryPage() {
                         {s.correctCount}/{s.questionCount} · {pct}%
                       </Badge>
                     </td>
-                    <td className="px-5 py-3 font-semibold">{formatBand(band)}</td>
                     <td className="px-5 py-3 text-muted-foreground">
                       {formatDuration(s.timeSpent)}
                     </td>

@@ -13,7 +13,6 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ErrorState, PageLoader } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
-import { estimateBand, formatBand } from '@/lib/band'
 import { useSubmission } from '@/lib/queries'
 import {
   cn,
@@ -56,10 +55,6 @@ export function ResultPage() {
 
   const ex = sub.exercise
   const pct = percent(sub.correctCount, sub.questionCount)
-  const band =
-    sub.exerciseType === 'PRACTICE'
-      ? estimateBand(sub.skillType, sub.correctCount, sub.questionCount)
-      : null
   const results = Object.fromEntries(sub.results.map((r) => [r.questionId, r]))
   const backTo =
     ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/exercises` : '/history'
@@ -102,14 +97,6 @@ export function ResultPage() {
               hint={`${pct}%`}
             />
             <Metric icon={Trophy} label="Điểm" value={`${sub.score}/${sub.maxScore}`} />
-            {band !== null && (
-              <Metric
-                icon={Trophy}
-                label="Band ước lượng"
-                value={formatBand(band)}
-                hint="Quy đổi theo thang 40 câu"
-              />
-            )}
             <Metric icon={Clock} label="Thời gian làm" value={formatDuration(sub.timeSpent)} />
           </div>
           <div className="mt-6 flex flex-wrap gap-3">

@@ -5,9 +5,11 @@ import { DEMO_PASSWORD, exercises, seedAttempts, seedUsers } from './fixtures/co
 // In-browser stand-in for the backend database. Persisted to localStorage so registrations,
 // profile edits and submissions survive reloads. Bump VERSION when the shape changes.
 const KEY = 'ielts-mock-db'
-const VERSION = 1
+const VERSION = 2
 
 export interface StoredUser extends User {
+  /** Backend accounts log in by username (HTTP Basic). */
+  username: string
   password: string
 }
 
@@ -57,9 +59,9 @@ function answersWithScore(ex: Exercise, correct: number): Answers {
     if (q.questionType === 'FILL_BLANK') {
       answers[q.id] = i < correct ? right[0].optionText : 'unknown'
     } else if (i < correct) {
-      answers[q.id] = right.map((o) => o.id)
+      answers[q.id] = right[0].id
     } else if (wrong) {
-      answers[q.id] = [wrong.id]
+      answers[q.id] = wrong.id
     }
   })
   return answers
@@ -85,7 +87,7 @@ function seed(): DbState {
   }
   return {
     version: VERSION,
-    users: seedUsers.map((u) => ({ ...u, password: DEMO_PASSWORD })),
+    users: seedUsers.map((u) => ({ ...u, username: 'student_enrolled', password: DEMO_PASSWORD })),
     submissions,
   }
 }

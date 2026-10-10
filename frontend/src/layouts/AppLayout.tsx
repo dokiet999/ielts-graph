@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { BookOpen, History, House, Menu, UserRound, X } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
+import { DEMO_MODE } from '@/lib/demo'
 import { cn } from '@/lib/utils'
 import { ThemeToggle, UserMenu } from './UserMenu'
 
@@ -11,7 +12,7 @@ const NAV = [
   { to: '/courses', label: 'Khóa học', icon: BookOpen },
   { to: '/history', label: 'Lịch sử làm bài', icon: History },
   { to: '/profile', label: 'Hồ sơ', icon: UserRound },
-]
+].filter((item) => !(DEMO_MODE && item.to === '/profile'))
 
 function SideNav({ onNavigate }: { onNavigate?: () => void }) {
   return (

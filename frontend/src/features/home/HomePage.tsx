@@ -20,6 +20,7 @@ import { errorMessage } from '@/lib/api'
 import { formatBand } from '@/lib/band'
 import { useDashboard, useMyCourses, useMySubmissions } from '@/lib/queries'
 import { formatDateTime, percent, SKILL_LABEL } from '@/lib/utils'
+import { DEMO_MODE } from '@/lib/demo'
 import { useAuthStore } from '@/stores/auth'
 import { answeredCount, useSessionStore } from '@/stores/session'
 
@@ -67,12 +68,17 @@ function ProgressOverview() {
         <Stat icon={ScrollText}>
           Đã nộp <Highlight>{data.submissionCount}</Highlight> lượt
         </Stat>
-        <Stat icon={BookOpen}>
-          Band Reading ước lượng <Highlight>{formatBand(data.readingBand)}</Highlight>
-        </Stat>
-        <Stat icon={Headphones}>
-          Band Listening ước lượng <Highlight>{formatBand(data.listeningBand)}</Highlight>
-        </Stat>
+        {/* Practice is not converted to a band, so these only show if the API ever provides them. */}
+        {data.readingBand !== null && (
+          <Stat icon={BookOpen}>
+            Band Reading <Highlight>{formatBand(data.readingBand)}</Highlight>
+          </Stat>
+        )}
+        {data.listeningBand !== null && (
+          <Stat icon={Headphones}>
+            Band Listening <Highlight>{formatBand(data.listeningBand)}</Highlight>
+          </Stat>
+        )}
       </div>
     </div>
   )
@@ -231,7 +237,7 @@ export function HomePage() {
         <ActiveCourses />
       </div>
       <aside className="space-y-5">
-        <ProfileCard />
+        {!DEMO_MODE && <ProfileCard />}
         <RecentSubmissions />
       </aside>
     </div>

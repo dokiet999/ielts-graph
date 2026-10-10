@@ -63,7 +63,8 @@ test('reading practice: course → exercise → submit → result → review', a
 
   await expect(page).toHaveURL(/\/submissions\/sub-/)
   await expect(correctCount(page)).toHaveText('3/8')
-  await expect(page.getByText('Band ước lượng')).toBeVisible()
+  // Practice is never converted to a band (backend rule).
+  await expect(page.getByText(/band/i)).toHaveCount(0)
 
   await page.getByRole('link', { name: /Xem lại chi tiết/ }).click()
   await expect(page.getByText(/Câu 1: Đúng/)).toBeVisible()

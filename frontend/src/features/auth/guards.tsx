@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { DEMO_MODE } from '@/lib/demo'
 import { useAuthStore } from '@/stores/auth'
 
 export function RequireAuth() {
@@ -12,5 +13,6 @@ export function RequireAuth() {
 
 export function GuestOnly() {
   const token = useAuthStore((s) => s.token)
-  return token ? <Navigate to="/" replace /> : <Outlet />
+  // Demo mode has no login or registration: always go straight to the app.
+  return DEMO_MODE || token ? <Navigate to="/" replace /> : <Outlet />
 }

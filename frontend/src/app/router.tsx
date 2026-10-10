@@ -19,6 +19,7 @@ import { HistoryPage } from '@/features/submissions/HistoryPage'
 import { ProfilePage } from '@/features/profile/ProfilePage'
 import { NotFoundPage } from '@/features/NotFoundPage'
 import { RouteError } from '@/features/RouteError'
+import { DEMO_MODE } from '@/lib/demo'
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,10 @@ export const router = createBrowserRouter([
               { path: '/courses', element: <CourseListPage /> },
               { path: '/courses/:courseId', element: <CourseDetailPage /> },
               { path: '/history', element: <HistoryPage /> },
-              { path: '/profile', element: <ProfilePage /> },
+              {
+                path: '/profile',
+                element: DEMO_MODE ? <Navigate to="/" replace /> : <ProfilePage />,
+              },
               { path: '/submissions/:submissionId', element: <ResultPage /> },
             ],
           },
