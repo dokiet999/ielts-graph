@@ -58,7 +58,8 @@ class CourseLessonControllerTest {
         mockMvc.perform(get("/api/courses"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[?(@.id == '" + READING_COURSE + "')].enrollmentCount").value(contains(1)))
-                .andExpect(jsonPath("$.content[?(@.id == '" + LISTENING_COURSE + "')].enrollmentCount").value(contains(0)));
+                // V6 enrolls student_enrolled in the Listening course
+                .andExpect(jsonPath("$.content[?(@.id == '" + LISTENING_COURSE + "')].enrollmentCount").value(contains(1)));
     }
 
     @Test

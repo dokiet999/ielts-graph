@@ -15,4 +15,5 @@ public class LessonSummaryResponse {
     private Integer videoDuration;
     private Integer ordering;
     private Boolean isPreview;
+    private int exerciseCount;
 }

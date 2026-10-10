@@ -56,6 +56,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return build(HttpStatus.FORBIDDEN, "FORBIDDEN", ex.getMessage(), null);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex) {
+        return build(HttpStatus.BAD_REQUEST, ex.getCode(), ex.getMessage(), ex.getDetails());
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex) {
+        return build(HttpStatus.CONFLICT, ex.getCode(), ex.getMessage(), null);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
         log.error("Unexpected error", ex);
