@@ -1,7 +1,12 @@
 package com.ielts.backend.mapper;
 
+import com.ielts.backend.dto.response.ExerciseReviewResponse;
 import com.ielts.backend.dto.response.QuestionAnswerResponse;
+import com.ielts.backend.dto.response.QuestionScoreResponse;
+import com.ielts.backend.dto.response.SubmissionDetailResponse;
 import com.ielts.backend.dto.response.SubmissionResponse;
+import com.ielts.backend.dto.response.SubmissionSummaryResponse;
+import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.QuestionAnswer;
 import com.ielts.backend.entity.UserSubmission;
 import org.springframework.stereotype.Component;
@@ -69,5 +74,44 @@ public class SubmissionMapper {
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
                 .build();
+    }
+
+    /**
+     * @param questionCount graded questions of the submission
+     * @param correctCount  correctly answered questions
+     */
+    public SubmissionSummaryResponse toSummary(UserSubmission submission, int questionCount, int correctCount) {
+        return withSummary(SubmissionSummaryResponse.builder(), submission, questionCount, correctCount).build();
+    }
+
+    public SubmissionDetailResponse toDetail(UserSubmission submission, List<QuestionScoreResponse> results,
+                                             ExerciseReviewResponse exercise) {
+        int correctCount = (int) results.stream().filter(QuestionScoreResponse::isCorrect).count();
+        return withSummary(SubmissionDetailResponse.builder(), submission, results.size(), correctCount)
+                .answers(submission.getAnswers())
+                .results(results)
+                .exercise(exercise)
+                .build();
+    }
+
+    private static <B extends SubmissionSummaryResponse.SubmissionSummaryResponseBuilder<?, ?>> B withSummary(
+            B builder, UserSubmission submission, int questionCount, int correctCount) {
+        Exercise exercise = submission.getExercise();
+        builder.id(submission.getId())
+                .exerciseId(exercise.getId())
+                .exerciseTitle(exercise.getTitle())
+                .skillType(exercise.getSkillType())
+                .exerciseType(exercise.getExerciseType())
+                .courseId(ExerciseMapper.courseId(exercise))
+                .sectionId(ExerciseMapper.sectionId(exercise))
+                .attemptNumber(submission.getAttemptNumber())
+                .status(submission.getStatus())
+                .score(submission.getScore())
+                .maxScore(submission.getMaxScore())
+                .correctCount(correctCount)
+                .questionCount(questionCount)
+                .timeSpent(submission.getTimeSpent())
+                .submittedAt(submission.getSubmittedAt());
+        return builder;
     }
 }

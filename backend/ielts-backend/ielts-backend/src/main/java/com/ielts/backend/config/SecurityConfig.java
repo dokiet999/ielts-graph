@@ -71,6 +71,8 @@ public class SecurityConfig {
                         // Public catalogue & exercise preview. Answers are guarded at service level
                         // UC09, UC12: only learners submit exercises (also checked in ObjectiveSubmissionService)
                         .requestMatchers(HttpMethod.POST, "/api/exercises/*/submit").hasRole("STUDENT")
+                        // Must come before the public /api/courses/** rule below
+                        .requestMatchers(HttpMethod.GET, "/api/courses/my").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
                         // Only the exercise list and detail are public; /{id}/submissions needs login
                         .requestMatchers(HttpMethod.GET, "/api/exercises", "/api/exercises/*").permitAll()

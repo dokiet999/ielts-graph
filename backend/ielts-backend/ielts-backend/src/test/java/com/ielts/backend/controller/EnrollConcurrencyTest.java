@@ -46,6 +46,8 @@ class EnrollConcurrencyTest {
 
     @Test
     void concurrentEnrollRequests_createExactlyOneEnrollment_andNeverFail() throws Exception {
+        // Other learners may already be enrolled (V6 enrolls student_enrolled), so compare with the count before
+        long before = enrollmentRepository.countByCourseIdAndIsActiveTrue(LISTENING_COURSE);
         ExecutorService pool = Executors.newFixedThreadPool(REQUESTS);
         CountDownLatch start = new CountDownLatch(1);
         List<Future<Integer>> results = new ArrayList<>();
@@ -66,7 +68,7 @@ class EnrollConcurrencyTest {
             }
             assertThat(statuses).allMatch(s -> s == 200 || s == 201);
             assertThat(statuses).filteredOn(s -> s == 201).hasSize(1);
-            assertThat(enrollmentRepository.countByCourseIdAndIsActiveTrue(LISTENING_COURSE)).isEqualTo(1);
+            assertThat(enrollmentRepository.countByCourseIdAndIsActiveTrue(LISTENING_COURSE)).isEqualTo(before + 1);
         } finally {
             pool.shutdownNow();
         }

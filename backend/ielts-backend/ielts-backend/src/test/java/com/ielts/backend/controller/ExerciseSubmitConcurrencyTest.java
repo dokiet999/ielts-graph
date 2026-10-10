@@ -1,6 +1,7 @@
 package com.ielts.backend.controller;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ class ExerciseSubmitConcurrencyTest {
 
     private static final String READING = "d9f52c7a-9133-51eb-ad99-e9fef11162b4";
     private static final String STUDENT_NEW = "00000000-0000-0000-0000-000000000012";
+    private static final String READING_COURSE = "10000000-0000-0000-0000-000000000001";
     private static final int REQUESTS = 6;
 
     @Autowired
@@ -38,11 +40,27 @@ class ExerciseSubmitConcurrencyTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /** True when this test created the enrollment, so it only removes what it added. */
+    private boolean enrolledHere;
+
+    @BeforeEach
+    void enroll() {
+        // Since V6 the Reading sample belongs to a lesson of the Reading course
+        enrolledHere = jdbcTemplate.update("""
+                INSERT INTO enrollments (user_id, course_id) VALUES (?::uuid, ?::uuid)
+                ON CONFLICT (user_id, course_id) DO NOTHING
+                """, STUDENT_NEW, READING_COURSE) == 1;
+    }
+
     @AfterEach
     void cleanUp() {
         // question_answers are removed by ON DELETE CASCADE
         jdbcTemplate.update("DELETE FROM user_submissions WHERE user_id = ?::uuid AND exercise_id = ?::uuid",
                 STUDENT_NEW, READING);
+        if (enrolledHere) {
+            jdbcTemplate.update("DELETE FROM enrollments WHERE user_id = ?::uuid AND course_id = ?::uuid",
+                    STUDENT_NEW, READING_COURSE);
+        }
     }
 
     @Test

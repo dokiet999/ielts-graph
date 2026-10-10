@@ -1,6 +1,7 @@
 package com.ielts.backend.controller;
 
 import com.ielts.backend.enums.SkillType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -20,8 +21,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,7 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * POST /api/exercises/{id}/submit for Reading and Listening, using the samples
  * "Farming in the Sky" (Reading) and "Photography Course Enquiry" (Listening) from V5__seed_sample_exercises.sql.
  * Answer keys are read from the database, so the tests follow the seed data.
- * Each test runs in a transaction that is rolled back.
+ * Since V6 the Reading sample belongs to a non-preview lesson of the Reading course, so student_new
+ * joins that course before each test. Each test runs in a transaction that is rolled back.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,6 +49,8 @@ class ExerciseSubmissionControllerTest {
     // V2: Reading exercise in a normal lesson of the Reading course, without questions
     private static final String READING_LESSON_EXERCISE = "40000000-0000-0000-0000-000000001211";
     private static final String UNKNOWN_ID = "99999999-9999-9999-9999-999999999999";
+    private static final String READING_COURSE = "10000000-0000-0000-0000-000000000001";
+    private static final String STUDENT_NEW = "00000000-0000-0000-0000-000000000012";
     private static final String PASSWORD = "Demo@123";
 
     @Autowired
@@ -56,6 +62,16 @@ class ExerciseSubmissionControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @BeforeEach
+    void setUp() {
+        // Same starting point whatever is already in the shared database
+        jdbcTemplate.update("DELETE FROM user_submissions WHERE user_id = ?::uuid", STUDENT_NEW);
+        jdbcTemplate.update("""
+                INSERT INTO enrollments (user_id, course_id) VALUES (?::uuid, ?::uuid)
+                ON CONFLICT (user_id, course_id) DO NOTHING
+                """, STUDENT_NEW, READING_COURSE);
+    }
+
     // ---------- Grading ----------
 
     @ParameterizedTest
@@ -64,7 +80,7 @@ class ExerciseSubmissionControllerTest {
         // FR-8.01: automatic grading must match manual grading on the sample data, for both skills
         List<String> exercises = jdbcTemplate.queryForList("""
                 SELECT e.id::text FROM exercises e
-                WHERE e.skill_type = ?::skill_type AND e.exercise_type <> 'MOCK_TEST' AND e.lesson_id IS NULL
+                WHERE e.skill_type = ?::skill_type AND e.exercise_type <> 'MOCK_TEST'
                   AND EXISTS (SELECT 1 FROM questions q WHERE q.exercise_id = e.id)
                 """, String.class, skill.name());
         assertThat(exercises).contains(skill == SkillType.READING ? READING : LISTENING);
@@ -172,6 +188,8 @@ class ExerciseSubmissionControllerTest {
 
     @Test
     void submit_lessonExerciseNotEnrolled_returns403() throws Exception {
+        jdbcTemplate.update("DELETE FROM enrollments WHERE user_id = ?::uuid", STUDENT_NEW);
+
         submit(READING_LESSON_EXERCISE, "student_new", Map.of()).andExpect(status().isForbidden());
     }
 
@@ -289,11 +307,130 @@ class ExerciseSubmissionControllerTest {
                 .andExpect(status().isOk());
         mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("admin_demo", PASSWORD)))
                 .andExpect(status().isOk());
-        // A standalone practice exercise has no owning teacher, so no teacher may read it
+        // The Reading sample belongs to teacher_demo's course: its teacher may read it, other teachers may not
         mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("teacher_demo", PASSWORD)))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("teacher_other", PASSWORD)))
                 .andExpect(status().isForbidden());
         mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isForbidden());
+    }
+
+    // ---------- Time spent ----------
+
+    @Test
+    void submit_withTimeSpent_isStoredAndReturned() throws Exception {
+        String body = mockMvc.perform(post("/api/exercises/{id}/submit", READING).with(httpBasic("student_new", PASSWORD))
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"answers\":{},\"timeSpent\":125}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.timeSpent").value(125))
+                .andReturn().getResponse().getContentAsString();
+        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+
+        assertThat(jdbcTemplate.queryForObject("SELECT time_spent FROM user_submissions WHERE id = ?::uuid",
+                Integer.class, submissionId)).isEqualTo(125);
+    }
+
+    @Test
+    void submit_withoutTimeSpent_isAccepted() throws Exception {
+        submit(READING, "student_new", Map.of())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.timeSpent").value(nullValue()));
+    }
+
+    @Test
+    void submit_negativeTimeSpent_returns400() throws Exception {
+        mockMvc.perform(post("/api/exercises/{id}/submit", READING).with(httpBasic("student_new", PASSWORD))
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"answers\":{},\"timeSpent\":-1}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ---------- My submissions ----------
+
+    @Test
+    void mySubmissions_anonymous_returns401() throws Exception {
+        mockMvc.perform(get("/api/submissions/me")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void mySubmissions_noSubmission_returnsEmptyList() throws Exception {
+        // "me" must not be read as a submission id
+        mockMvc.perform(get("/api/submissions/me").with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void mySubmissions_listsOwnAttemptsNewestFirst() throws Exception {
+        submit(READING, "student_new", correctAnswers(READING)).andExpect(status().isOk());
+        submit(LISTENING, "student_new", Map.of()).andExpect(status().isOk());
+        // Another learner's attempt must not show up
+        submit(READING, "student_enrolled", Map.of()).andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/submissions/me").with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[*].exerciseId").value(contains(LISTENING, READING)))
+                .andExpect(jsonPath("$[1].skillType").value("READING"))
+                .andExpect(jsonPath("$[1].exerciseType").value("PRACTICE"))
+                .andExpect(jsonPath("$[1].courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$[1].sectionId").value("20000000-0000-0000-0000-000000000011"))
+                .andExpect(jsonPath("$[1].status").value("GRADED"))
+                .andExpect(jsonPath("$[1].correctCount").value(13))
+                .andExpect(jsonPath("$[1].questionCount").value(13))
+                .andExpect(jsonPath("$[1].score").value(13.0))
+                .andExpect(jsonPath("$[1].maxScore").value(13.0))
+                .andExpect(jsonPath("$[0].correctCount").value(0))
+                .andExpect(jsonPath("$[0].questionCount").value(10));
+    }
+
+    // ---------- Submission result with review ----------
+
+    @Test
+    void submissionResult_owner_getsAnswersResultsAndAnswerKey() throws Exception {
+        String q1 = id(READING, 1);
+        String answer = keyByNumber(READING).get(1);
+        String body = submit(READING, "student_new", Map.of(q1, answer)).andReturn().getResponse().getContentAsString();
+        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+
+        mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(submissionId))
+                .andExpect(jsonPath("$.correctCount").value(1))
+                .andExpect(jsonPath("$.questionCount").value(13))
+                .andExpect(jsonPath("$.answers['" + q1 + "']").value(answer))
+                .andExpect(jsonPath("$.results", hasSize(13)))
+                .andExpect(jsonPath("$.results[0].questionId").value(q1))
+                .andExpect(jsonPath("$.results[0].correct").value(true))
+                .andExpect(jsonPath("$.results[0].earned").value(1.0))
+                .andExpect(jsonPath("$.results[1].correct").value(false))
+                .andExpect(jsonPath("$.exercise.courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.exercise.content.paragraphs").exists())
+                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].explanation").exists())
+                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].options[*].isCorrect",
+                        everyItem(isA(Boolean.class))))
+                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].options[?(@.id == '" + answer + "')].isCorrect")
+                        .value(contains(true)));
+    }
+
+    @Test
+    void submissionResult_otherLearner_returns403() throws Exception {
+        String body = submit(READING, "student_new", Map.of()).andReturn().getResponse().getContentAsString();
+        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+
+        mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_enrolled", PASSWORD)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void submissionResult_unknownId_returns404() throws Exception {
+        mockMvc.perform(get("/api/submissions/{id}/detail", UNKNOWN_ID).with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void submissionResult_anonymous_returns401() throws Exception {
+        mockMvc.perform(get("/api/submissions/{id}/detail", UNKNOWN_ID)).andExpect(status().isUnauthorized());
     }
 
     @Test

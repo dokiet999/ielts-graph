@@ -86,6 +86,10 @@ public class UserSubmission {
     @Builder.Default
     private SubmissionStatus status = SubmissionStatus.PENDING;
 
+    /** Seconds the learner spent on the attempt, as reported by the client. */
+    @Column(name = "time_spent")
+    private Integer timeSpent;
+
     @Column(name = "submitted_at", nullable = false)
     @Builder.Default
     private LocalDateTime submittedAt = LocalDateTime.now();

@@ -116,7 +116,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         Map<String, Object> answers = request.getAnswers();
         validateAnswers(questions, optionsByQuestion, answers);
 
-        return gradeAndSave(user, exercise, questions, optionsByQuestion, answers,
+        return gradeAndSave(user, exercise, questions, optionsByQuestion, answers, request.getTimeSpent(),
                 previous.isEmpty() ? 1 : previous.get(0).getAttemptNumber() + 1);
     }
 
@@ -140,7 +140,8 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
 
     private ObjectiveSubmissionResultResponse gradeAndSave(User user, Exercise exercise, List<Question> questions,
                                                          Map<UUID, List<QuestionOption>> optionsByQuestion,
-                                                         Map<String, Object> answers, int attemptNumber) {
+                                                         Map<String, Object> answers, Integer timeSpent,
+                                                         int attemptNumber) {
         BigDecimal score = BigDecimal.ZERO;
         BigDecimal maxScore = BigDecimal.ZERO;
         int correctCount = 0;
@@ -204,6 +205,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
                 .score(score)
                 .maxScore(maxScore)
                 .status(SubmissionStatus.GRADED)
+                .timeSpent(timeSpent)
                 .submittedAt(LocalDateTime.now())
                 .build());
         questionAnswers.forEach(qa -> qa.setSubmission(submission));
@@ -223,6 +225,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
                 .totalQuestions(questions.size())
                 .passed(exercise.getPassingScore() == null || score.compareTo(exercise.getPassingScore()) >= 0)
                 .status(SubmissionStatus.GRADED)
+                .timeSpent(timeSpent)
                 .submittedAt(submission.getSubmittedAt())
                 .details(details)
                 .build();

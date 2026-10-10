@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Exercise with its answer key (correct options, explanations). Only returned after a submission,
+ * never for practice; see {@link ExerciseDetailPracticeResponse} for the version without answers.
+ */
 @Data
 @Builder
-public class ExerciseDetailPracticeResponse {
+public class ExerciseReviewResponse {
     private UUID id;
     private UUID lessonId;
     private UUID sectionId;
@@ -27,5 +31,5 @@ public class ExerciseDetailPracticeResponse {
     private Integer maxAttempts;
     private BigDecimal passingScore;
     private Integer totalQuestions;
-    private List<QuestionGroupPracticeResponse> questionGroups;
+    private List<QuestionGroupReviewResponse> questionGroups;
 }

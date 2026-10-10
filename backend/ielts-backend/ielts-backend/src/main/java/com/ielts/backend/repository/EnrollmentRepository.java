@@ -31,6 +31,20 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     long countByCourseIdAndIsActiveTrue(UUID courseId);
 
+    Optional<Enrollment> findByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
+
+    /** Active enrollments of a user in visible (active and published) courses, newest first. */
+    @Query("""
+            select e from Enrollment e
+            join fetch e.course c
+            join fetch c.teacher
+            left join fetch c.category
+            where e.user.id = :userId and e.isActive = true
+              and c.isActive = true and c.publishedAt is not null
+            order by e.enrollmentDate desc, c.id asc
+            """)
+    List<Enrollment> findActiveInVisibleCoursesByUserId(@Param("userId") UUID userId);
+
     @Query("""
             select e.course.id as courseId, count(e) as total
             from Enrollment e

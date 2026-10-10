@@ -2,6 +2,7 @@ package com.ielts.backend.mapper;
 
 import com.ielts.backend.dto.response.*;
 import com.ielts.backend.entity.Exercise;
+import com.ielts.backend.entity.Lesson;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionGroup;
 import com.ielts.backend.entity.QuestionOption;
@@ -85,6 +86,8 @@ public class ExerciseMapper {
         return ExerciseDetailPracticeResponse.builder()
                 .id(exercise.getId())
                 .lessonId(exercise.getLesson() != null ? exercise.getLesson().getId() : null)
+                .sectionId(sectionId(exercise))
+                .courseId(courseId(exercise))
                 .title(exercise.getTitle())
                 .instruction(exercise.getInstruction())
                 .audioUrl(exercise.getAudioUrl())
@@ -97,5 +100,91 @@ public class ExerciseMapper {
                 .totalQuestions(totalQuestions)
                 .questionGroups(groupResponses)
                 .build();
+    }
+
+    /**
+     * Same structure as {@link #toPracticeResponse} plus the answer key (correct options and
+     * explanations). Kept as a separate method so the practice view can never expose answers.
+     * Only use it once the learner has submitted.
+     */
+    public ExerciseReviewResponse toReviewResponse(
+            Exercise exercise,
+            List<QuestionGroup> groups,
+            Map<UUID, List<Question>> questionsByGroup,
+            Map<UUID, List<QuestionOption>> optionsByQuestion) {
+
+        int totalQuestions = questionsByGroup.values().stream().mapToInt(List::size).sum();
+
+        List<QuestionGroupReviewResponse> groupResponses = groups.stream().map(g -> {
+            List<Question> questions = questionsByGroup.getOrDefault(g.getId(), Collections.emptyList());
+
+            List<QuestionReviewResponse> questionResponses = questions.stream().map(q -> {
+                List<QuestionOption> options = optionsByQuestion.getOrDefault(q.getId(), Collections.emptyList());
+
+                List<QuestionOptionReviewResponse> optionResponses = options.stream().map(opt ->
+                        QuestionOptionReviewResponse.builder()
+                                .id(opt.getId())
+                                .optionText(opt.getOptionText())
+                                .ordering(opt.getOrdering())
+                                .isCorrect(Boolean.TRUE.equals(opt.getIsCorrect()))
+                                .build()
+                ).toList();
+
+                return QuestionReviewResponse.builder()
+                        .id(q.getId())
+                        .questionText(q.getQuestionText())
+                        .questionType(q.getQuestionType())
+                        .imageUrl(q.getImageUrl())
+                        .audioUrl(q.getAudioUrl())
+                        .readingPassage(q.getReadingPassage())
+                        .points(q.getPoints())
+                        .ordering(q.getOrdering())
+                        .explanation(q.getExplanation())
+                        .options(optionResponses)
+                        .build();
+            }).toList();
+
+            return QuestionGroupReviewResponse.builder()
+                    .id(g.getId())
+                    .groupTitle(g.getGroupTitle())
+                    .groupInstruction(g.getGroupInstruction())
+                    .passageReference(g.getPassageReference())
+                    .imageUrl(g.getImageUrl())
+                    .questionType(g.getQuestionType())
+                    .questionRange(g.getQuestionRange())
+                    .ordering(g.getOrdering())
+                    .questions(questionResponses)
+                    .build();
+        }).toList();
+
+        return ExerciseReviewResponse.builder()
+                .id(exercise.getId())
+                .lessonId(exercise.getLesson() != null ? exercise.getLesson().getId() : null)
+                .sectionId(sectionId(exercise))
+                .courseId(courseId(exercise))
+                .title(exercise.getTitle())
+                .instruction(exercise.getInstruction())
+                .audioUrl(exercise.getAudioUrl())
+                .content(exercise.getContent())
+                .exerciseType(exercise.getExerciseType())
+                .skillType(exercise.getSkillType())
+                .timeLimit(exercise.getTimeLimit())
+                .maxAttempts(exercise.getMaxAttempts())
+                .passingScore(exercise.getPassingScore())
+                .totalQuestions(totalQuestions)
+                .questionGroups(groupResponses)
+                .build();
+    }
+
+    /** Null when the exercise does not belong to a lesson. */
+    public static UUID sectionId(Exercise exercise) {
+        Lesson lesson = exercise.getLesson();
+        return lesson != null ? lesson.getSection().getId() : null;
+    }
+
+    /** Null when the exercise does not belong to a lesson. */
+    public static UUID courseId(Exercise exercise) {
+        Lesson lesson = exercise.getLesson();
+        return lesson != null ? lesson.getSection().getCourse().getId() : null;
     }
 }

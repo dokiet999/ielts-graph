@@ -6,7 +6,9 @@ import com.ielts.backend.enums.Role;
 import com.ielts.backend.exception.ForbiddenException;
 import com.ielts.backend.exception.ResourceNotFoundException;
 import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.mapper.ExerciseMapper;
 import com.ielts.backend.mapper.SubmissionMapper;
+import com.ielts.backend.repository.QuestionAnswerRepository.SubmissionAnswerCount;
 import com.ielts.backend.repository.*;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.SubmissionService;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +32,9 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final QuestionAnswerRepository questionAnswerRepository;
     private final QuestionRepository questionRepository;
     private final QuestionOptionRepository questionOptionRepository;
+    private final QuestionGroupRepository questionGroupRepository;
     private final SubmissionMapper submissionMapper;
+    private final ExerciseMapper exerciseMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -153,6 +159,7 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .passed(passed)
                 .gradingMethod(submission.getGradingMethod())
                 .status(submission.getStatus())
+                .timeSpent(submission.getTimeSpent())
                 .submittedAt(submission.getSubmittedAt())
                 .details(questionResults)
                 .build();
@@ -162,6 +169,68 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .audioUrl(exercise.getAudioUrl())
                 .content(exercise.getContent())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubmissionSummaryResponse> getMySubmissions(String username) {
+        User user = findUser(username);
+        List<UserSubmission> submissions = userSubmissionRepository.findByUserIdWithExercise(user.getId());
+        if (submissions.isEmpty()) {
+            return List.of();
+        }
+
+        // One grouped query for the correct / total counts of every submission
+        Map<UUID, SubmissionAnswerCount> counts = questionAnswerRepository
+                .countBySubmissionIds(submissions.stream().map(UserSubmission::getId).toList()).stream()
+                .collect(Collectors.toMap(SubmissionAnswerCount::getSubmissionId, Function.identity()));
+
+        return submissions.stream()
+                .map(s -> {
+                    SubmissionAnswerCount c = counts.get(s.getId());
+                    return submissionMapper.toSummary(s,
+                            c != null ? Math.toIntExact(c.getQuestionCount()) : 0,
+                            c != null ? Math.toIntExact(c.getCorrectCount()) : 0);
+                })
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SubmissionDetailResponse getSubmissionResult(UUID submissionId, String username) {
+        User user = findUser(username);
+        UserSubmission submission = userSubmissionRepository.findById(submissionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
+
+        ensureSubmissionAccess(submission, user);
+
+        Exercise exercise = submission.getExercise();
+        List<QuestionGroup> groups = questionGroupRepository.findByExerciseIdOrderByOrderingAsc(exercise.getId());
+        List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(exercise.getId());
+        Map<UUID, List<QuestionOption>> optionsByQuestion = questionOptionRepository
+                .findByQuestionIdInOrderByOrderingAsc(questions.stream().map(Question::getId).toList()).stream()
+                .collect(Collectors.groupingBy(o -> o.getQuestion().getId()));
+        Map<UUID, List<Question>> questionsByGroup = questions.stream()
+                .filter(q -> q.getQuestionGroup() != null)
+                .collect(Collectors.groupingBy(q -> q.getQuestionGroup().getId()));
+
+        // Results follow the question order; a question without a stored answer counts as wrong
+        Map<UUID, QuestionAnswer> answerByQuestion = questionAnswerRepository
+                .findBySubmissionIdOrderByCreatedAtAsc(submissionId).stream()
+                .collect(Collectors.toMap(qa -> qa.getQuestion().getId(), Function.identity(), (a, b) -> a));
+        List<QuestionScoreResponse> results = questions.stream()
+                .map(q -> {
+                    QuestionAnswer qa = answerByQuestion.get(q.getId());
+                    return QuestionScoreResponse.builder()
+                            .questionId(q.getId())
+                            .correct(qa != null && Boolean.TRUE.equals(qa.getIsCorrect()))
+                            .earned(qa != null ? qa.getPointsEarned() : BigDecimal.ZERO)
+                            .build();
+                })
+                .toList();
+
+        return submissionMapper.toDetail(submission, results,
+                exerciseMapper.toReviewResponse(exercise, groups, questionsByGroup, optionsByQuestion));
     }
 
     private User findUser(String username) {

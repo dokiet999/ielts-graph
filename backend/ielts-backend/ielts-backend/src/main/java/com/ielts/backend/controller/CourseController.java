@@ -5,6 +5,7 @@ import com.ielts.backend.dto.response.CourseDetailResponse;
 import com.ielts.backend.dto.response.CourseResponse;
 import com.ielts.backend.dto.response.EnrollmentResponse;
 import com.ielts.backend.dto.response.LessonSummaryResponse;
+import com.ielts.backend.dto.response.MyCourseResponse;
 import com.ielts.backend.dto.response.PageResponse;
 import com.ielts.backend.enums.DifficultyLevel;
 import com.ielts.backend.enums.SkillType;
@@ -55,10 +56,17 @@ public class CourseController {
         return courseService.getCourses(new CourseFilter(skill, categoryId, level, q), pageable);
     }
 
+    @GetMapping("/my")
+    @Operation(summary = "Courses the current user is enrolled in, with exercise progress, most recently joined first")
+    public List<MyCourseResponse> getMyCourses(@AuthenticationPrincipal UserDetails principal) {
+        return courseService.getMyCourses(principal.getUsername());
+    }
+
     @GetMapping("/{id}")
-    @Operation(summary = "Course detail with sections and lessons")
-    public CourseDetailResponse getCourseDetail(@PathVariable UUID id) {
-        return courseService.getCourseDetail(id);
+    @Operation(summary = "Course detail with sections and lessons. Logged-in users also get their progress and enrollment")
+    public CourseDetailResponse getCourseDetail(@PathVariable UUID id,
+                                                @AuthenticationPrincipal UserDetails principal) {
+        return courseService.getCourseDetail(id, principal != null ? principal.getUsername() : null);
     }
 
     @GetMapping("/{id}/lessons")

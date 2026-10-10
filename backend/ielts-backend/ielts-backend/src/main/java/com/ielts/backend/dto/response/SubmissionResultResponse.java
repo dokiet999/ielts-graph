@@ -26,6 +26,7 @@ public class SubmissionResultResponse {
     private Boolean passed;
     private GradingMethod gradingMethod;
     private SubmissionStatus status;
+    private Integer timeSpent;
     private LocalDateTime submittedAt;
     private List<QuestionResultResponse> details;
 }
