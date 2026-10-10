@@ -5,12 +5,16 @@ import com.ielts.backend.dto.response.LessonResponse;
 import com.ielts.backend.dto.response.LessonSummaryResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Lesson;
+import com.ielts.backend.service.progress.ExerciseStats;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LessonMapper {
 
-    public LessonSummaryResponse toSummary(Lesson lesson) {
+    /**
+     * @param exerciseCount exercises of the lesson that count towards progress
+     */
+    public LessonSummaryResponse toSummary(Lesson lesson, int exerciseCount) {
         return LessonSummaryResponse.builder()
                 .id(lesson.getId())
                 .sectionId(lesson.getSection().getId())
@@ -19,6 +23,7 @@ public class LessonMapper {
                 .videoDuration(lesson.getVideoDuration())
                 .ordering(lesson.getOrdering())
                 .isPreview(lesson.getIsPreview())
+                .exerciseCount(exerciseCount)
                 .build();
     }
 
@@ -38,7 +43,11 @@ public class LessonMapper {
                 .build();
     }
 
-    public ExerciseSummaryResponse toExerciseSummary(Exercise exercise) {
+    /**
+     * The exercise must belong to a lesson whose section is already loaded.
+     */
+    public ExerciseSummaryResponse toExerciseSummary(Exercise exercise, ExerciseStats stats) {
+        Lesson lesson = exercise.getLesson();
         return ExerciseSummaryResponse.builder()
                 .id(exercise.getId())
                 .title(exercise.getTitle())
@@ -46,6 +55,15 @@ public class LessonMapper {
                 .skillType(exercise.getSkillType())
                 .timeLimit(exercise.getTimeLimit())
                 .ordering(exercise.getOrdering())
+                .lessonId(lesson.getId())
+                .lessonTitle(lesson.getTitle())
+                .sectionId(lesson.getSection().getId())
+                .courseId(lesson.getSection().getCourse().getId())
+                .questionCount(stats.questionCount())
+                .maxScore(stats.maxScore())
+                .attemptCount(stats.attemptCount())
+                .bestScore(stats.bestScore())
+                .lastSubmissionId(stats.lastSubmissionId())
                 .build();
     }
 }

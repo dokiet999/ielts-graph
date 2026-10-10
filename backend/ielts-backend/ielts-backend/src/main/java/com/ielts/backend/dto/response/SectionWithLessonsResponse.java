@@ -14,4 +14,7 @@ public class SectionWithLessonsResponse {
     private String description;
     private Integer ordering;
     private List<LessonSummaryResponse> lessons;
+    private int exerciseCount;
+    /** Null when anonymous. */
+    private Integer completedExerciseCount;
 }

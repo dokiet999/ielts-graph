@@ -2,10 +2,11 @@ spring:
   application:
     name: ielts-backend
 
+  # Credentials come from environment variables so they are never committed (see backend/README.md)
   datasource:
-    username: 
-    password: 
-    url: jdbc:postgresql://localhost:5433/ielts_graph
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/ielts_graph}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
 server:
   port: 8080

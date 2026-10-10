@@ -2,6 +2,7 @@ package com.ielts.backend.service;
 
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Lesson;
+import com.ielts.backend.entity.Section;
 
 /**
  * FR-2.01: content inside a course can only be opened after joining the course.
@@ -25,4 +26,12 @@ public interface CourseAccessService {
      * @param username the logged-in user, or null for anonymous access
      */
     void checkExerciseAccess(Exercise exercise, String username);
+
+    /**
+     * Listing the content of a whole section requires an active enrollment, or being the teacher
+     * who owns the course, even when some of its lessons are previews.
+     *
+     * @param username the logged-in user, or null for anonymous access
+     */
+    void checkSectionAccess(Section section, String username);
 }
