@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "writing_feedback.schema.json",
+  "title": "Writing feedback",
+  "description": "Structured result of AI scoring for one IELTS Academic Writing essay (ontology v0). Estimated band for learning support, not an official score. Band per criterion is an integer 0-9; overall_band is the mean of the 4 criteria rounded to the nearest 0.5 (the backend recomputes it and does not trust the model). IDs follow ontology v0: CRIT_W_*, ERR_*, QT_W*_*. W3 targets Task 2; Task 1 is allowed by the schema but not yet evaluated.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task", "criteria", "overall_band", "out_of_calibration_range", "summary", "improvements"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "task": {
+      "description": "Essay type (QuestionType ID in ontology v0). Task 1 -> first criterion is CRIT_W_TA, Task 2 -> CRIT_W_TR.",
+      "enum": [
+        "QT_W1_LINE", "QT_W1_BAR", "QT_W1_PIE", "QT_W1_TABLE", "QT_W1_PROCESS", "QT_W1_MAP", "QT_W1_MIXED",
+        "QT_W2_OPINION", "QT_W2_DISCUSSION", "QT_W2_PROBLEM_SOLUTION", "QT_W2_ADV_DISADV", "QT_W2_TWO_PART"
+      ]
+    },
+    "criteria": {
+      "type": "object",
+      "description": "One entry per criterion, keyed by the Criterion ID of ontology v0.",
+      "properties": {
+        "CRIT_W_TA": { "$ref": "#/$defs/criterion" },
+        "CRIT_W_TR": { "$ref": "#/$defs/criterion" },
+        "CRIT_W_CC": { "$ref": "#/$defs/criterion" },
+        "CRIT_W_LR": { "$ref": "#/$defs/criterion" },
+        "CRIT_W_GRA": { "$ref": "#/$defs/criterion" }
+      },
+      "required": ["CRIT_W_CC", "CRIT_W_LR", "CRIT_W_GRA"],
+      "additionalProperties": false
+    },
+    "overall_band": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 9,
+      "multipleOf": 0.5
+    },
+    "out_of_calibration_range": {
+      "type": "boolean",
+      "description": "True when the result is outside the calibrated band range 4-8."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short overall comment for the learner."
+    },
+    "improvements": {
+      "type": "array",
+      "description": "What the learner should work on next.",
+      "items": { "type": "string", "minLength": 1 },
+      "maxItems": 5
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "task": { "pattern": "^QT_W1_" } } },
+      "then": {
+        "properties": { "criteria": { "required": ["CRIT_W_TA"], "not": { "required": ["CRIT_W_TR"] } } }
+      },
+      "else": {
+        "properties": { "criteria": { "required": ["CRIT_W_TR"], "not": { "required": ["CRIT_W_TA"] } } }
+      }
+    }
+  ],
+  "$defs": {
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["band", "comment", "evidence"],
+      "properties": {
+        "band": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why this band was given, based on the band descriptors."
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "error_type", "suggestion"],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact sentence or phrase copied from the essay."
+        },
+        "error_type": {
+          "description": "ErrorType ID of ontology v0 (Writing only). The backend derives SubSkill from it through AFFECTS.",
+          "enum": [
+            "ERR_NO_OVERVIEW", "ERR_MISSING_KEY_FEATURE", "ERR_DATA_INACCURATE",
+            "ERR_OFF_TOPIC", "ERR_PARTIAL_ANSWER", "ERR_UNDER_LENGTH", "ERR_UNCLEAR_POSITION", "ERR_UNDERDEVELOPED",
+            "ERR_LINKER_MISUSE", "ERR_LINKER_OVERUSE", "ERR_NO_PARAGRAPH", "ERR_UNCLEAR_REFERENCE",
+            "ERR_WORD_CHOICE", "ERR_COLLOCATION", "ERR_REPETITION", "ERR_SPELLING", "ERR_WORD_FORM",
+            "ERR_ARTICLE", "ERR_VERB_TENSE", "ERR_SVA", "ERR_NOUN_NUM", "ERR_PREP", "ERR_SENT_STRUCTURE", "ERR_PUNCT"
+          ]
+        },
+        "suggestion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How to fix or improve the quoted part."
+        }
+      }
+    }
+  }
+}
