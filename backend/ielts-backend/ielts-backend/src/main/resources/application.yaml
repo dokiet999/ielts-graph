@@ -9,4 +9,13 @@ spring:
     password: ${DB_PASSWORD}
 
 server:
-  port: 8080
+  port: 8081
+
+app:
+  llm:
+    provider: ${LLM_PROVIDER:gemini}
+    api-key: ${GEMINI_API_KEY:${LLM_API_KEY:}}
+    model: ${GEMINI_MODEL:gemini-2.5-flash}
+    temperature: 0.3
+    max-tokens: 8192
+    timeout-seconds: 60
