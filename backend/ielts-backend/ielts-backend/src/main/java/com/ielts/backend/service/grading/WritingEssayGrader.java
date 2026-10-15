@@ -72,8 +72,9 @@ public class WritingEssayGrader {
                 this.systemPrompt = new String(is.readAllBytes(), StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
-            log.warn("Could not load ai/prompts/writing_v1.system.txt from classpath, using fallback: {}", e.getMessage());
-            this.systemPrompt = "You are an expert IELTS Writing examiner. Return JSON matching writing_feedback.schema.json.";
+            // No fallback prompt: grading with a stand-in prompt would silently give unreliable bands
+            log.error("Could not load ai/prompts/writing_v1.system.txt from classpath", e);
+            throw new IllegalStateException("Failed to load the Writing system prompt", e);
         }
     }
 
@@ -109,6 +110,9 @@ public class WritingEssayGrader {
         String effectiveTask = (expectedTask != null && expectedTask.startsWith("QT_W2_"))
                 ? expectedTask
                 : "QT_W2_OPINION";
+        if (!effectiveTask.equals(expectedTask)) {
+            log.warn("Exercise has no valid Task 2 type (content.task = {}), defaulting to {}", expectedTask, effectiveTask);
+        }
         String userPrompt = buildUserPrompt(effectiveTask, questionPrompt, essayText, wordCount);
 
         WritingGradingException lastError = null;
@@ -181,6 +185,10 @@ public class WritingEssayGrader {
             rootNode.put("task", expectedTask);
         }
 
+        // 1b. overall_band and out_of_calibration_range are derived from the 4 criterion bands, so set them
+        //     before validating: a wrong or missing value from the LLM must not fail the whole grading
+        applyDerivedBands(rootNode);
+
         // 2. Validate JSON Schema Draft 2020-12
         validateAgainstSchema(rootNode);
 
@@ -227,13 +235,8 @@ public class WritingEssayGrader {
         }
 
         // 4. Tính lại overall_band theo chuẩn IELTS: trung bình 4 tiêu chí làm tròn tới 0.5 gần nhất
-        BigDecimal mean = bandSum.divide(BigDecimal.valueOf(4), 4, RoundingMode.HALF_UP);
-        BigDecimal computedOverallBand = mean.multiply(BigDecimal.valueOf(2))
-                .setScale(0, RoundingMode.HALF_UP)
-                .divide(BigDecimal.valueOf(2), 1, RoundingMode.HALF_UP);
-
-        boolean outOfCalibration = computedOverallBand.compareTo(BigDecimal.valueOf(4.0)) < 0
-                || computedOverallBand.compareTo(BigDecimal.valueOf(8.0)) > 0;
+        BigDecimal computedOverallBand = overallBandFromSum(bandSum);
+        boolean outOfCalibration = isOutOfCalibration(computedOverallBand);
 
         rootNode.put("overall_band", computedOverallBand.doubleValue());
         rootNode.put("out_of_calibration_range", outOfCalibration);
@@ -311,6 +314,39 @@ public class WritingEssayGrader {
                 .latencyMs(latencyMs)
                 .promptVersion(PROMPT_VERSION)
                 .build();
+    }
+
+    /** Mean of the 4 criterion bands rounded to the nearest 0.5 (6.25 -> 6.5, 6.75 -> 7.0). */
+    private static BigDecimal overallBandFromSum(BigDecimal bandSum) {
+        BigDecimal mean = bandSum.divide(BigDecimal.valueOf(4), 4, RoundingMode.HALF_UP);
+        return mean.multiply(BigDecimal.valueOf(2))
+                .setScale(0, RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(2), 1, RoundingMode.HALF_UP);
+    }
+
+    /** The calibrated range is band 4-8 (ontology v0, section 2.1). */
+    private static boolean isOutOfCalibration(BigDecimal overallBand) {
+        return overallBand.compareTo(BigDecimal.valueOf(4.0)) < 0
+                || overallBand.compareTo(BigDecimal.valueOf(8.0)) > 0;
+    }
+
+    /**
+     * Sets overall_band and out_of_calibration_range from the criterion bands. Does nothing when a band is
+     * missing or not an integer, so the schema validation still reports that problem.
+     */
+    private void applyDerivedBands(ObjectNode rootNode) {
+        JsonNode criteria = rootNode.path("criteria");
+        BigDecimal bandSum = BigDecimal.ZERO;
+        for (String critKey : TASK_2_CRITERIA) {
+            JsonNode band = criteria.path(critKey).path("band");
+            if (!band.isIntegralNumber()) {
+                return;
+            }
+            bandSum = bandSum.add(BigDecimal.valueOf(band.asInt()));
+        }
+        BigDecimal overallBand = overallBandFromSum(bandSum);
+        rootNode.put("overall_band", overallBand.doubleValue());
+        rootNode.put("out_of_calibration_range", isOutOfCalibration(overallBand));
     }
 
     private void validateAgainstSchema(JsonNode rootNode) {

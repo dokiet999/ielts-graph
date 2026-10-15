@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class WritingSubmissionRequest {
 
     @NotBlank(message = "essayText must not be blank")
-    @Size(min = 50, max = 10000, message = "Essay must be between 50 and 10000 characters")
+    @Size(max = 10000, message = "Essay must be at most 10000 characters")
     private String essayText;
 
     @PositiveOrZero(message = "timeSpent must not be negative")

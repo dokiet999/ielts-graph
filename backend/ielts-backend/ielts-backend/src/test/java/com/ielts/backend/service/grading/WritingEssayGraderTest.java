@@ -1,11 +1,13 @@
 package com.ielts.backend.service.grading;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ielts.backend.exception.WritingGradingException;
 import com.ielts.backend.service.llm.LlmClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
@@ -133,5 +135,56 @@ class WritingEssayGraderTest {
         String jsonMean60 = sampleJson.replace("\"band\": 7", "\"band\": 6");
         WritingGradingResult result60 = grader.parseAndValidate(jsonMean60, sampleEssay);
         assertThat(result60.getOverallBand()).isEqualByComparingTo(BigDecimal.valueOf(6.0));
+    }
+
+    @Test
+    void grade_wrongOverallBandFromLlm_isRecomputedWithoutRetry() throws Exception {
+        ObjectNode json = (ObjectNode) objectMapper.readTree(sampleJson);
+        json.put("overall_band", 6.3);          // not a multiple of 0.5, would fail the schema
+        json.put("out_of_calibration_range", true);
+        when(llmClient.chat(any(), any())).thenReturn(objectMapper.writeValueAsString(json));
+
+        WritingGradingResult result = grader.grade("QT_W2_OPINION", "Prompt", sampleEssay, 300);
+
+        assertThat(result.getOverallBand()).isEqualByComparingTo(BigDecimal.valueOf(6.5));
+        assertThat(result.isOutOfCalibrationRange()).isFalse();
+        verify(llmClient, times(1)).chat(any(), any());
+    }
+
+    @Test
+    void grade_missingOverallBandFromLlm_isFilledIn() throws Exception {
+        ObjectNode json = (ObjectNode) objectMapper.readTree(sampleJson);
+        json.remove("overall_band");
+        json.remove("out_of_calibration_range");
+        when(llmClient.chat(any(), any())).thenReturn(objectMapper.writeValueAsString(json));
+
+        WritingGradingResult result = grader.grade("QT_W2_OPINION", "Prompt", sampleEssay, 300);
+
+        assertThat(result.getOverallBand()).isEqualByComparingTo(BigDecimal.valueOf(6.5));
+        assertThat(result.getRawJson().path("overall_band").asDouble()).isEqualTo(6.5);
+        verify(llmClient, times(1)).chat(any(), any());
+    }
+
+    @Test
+    void grade_taskFromExercise_overridesTaskReturnedByLlm() {
+        when(llmClient.chat(any(), any())).thenReturn(sampleJson);   // sample says QT_W2_OPINION
+
+        WritingGradingResult result = grader.grade("QT_W2_DISCUSSION", "Prompt", sampleEssay, 300);
+
+        assertThat(result.getTaskType()).isEqualTo("QT_W2_DISCUSSION");
+        assertThat(result.getRawJson().path("task").asText()).isEqualTo("QT_W2_DISCUSSION");
+
+        ArgumentCaptor<String> userMessage = ArgumentCaptor.forClass(String.class);
+        verify(llmClient).chat(any(), userMessage.capture());
+        assertThat(userMessage.getValue()).contains("Task: QT_W2_DISCUSSION");
+    }
+
+    @Test
+    void grade_exerciseWithoutTask_defaultsToOpinion() {
+        when(llmClient.chat(any(), any())).thenReturn(sampleJson);
+
+        WritingGradingResult result = grader.grade(null, "Prompt", sampleEssay, 300);
+
+        assertThat(result.getTaskType()).isEqualTo("QT_W2_OPINION");
     }
 }

@@ -26,6 +26,9 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -118,13 +121,13 @@ class WritingSubmissionControllerTest {
                 .andExpect(jsonPath("$.outOfCalibrationRange").value(false))
                 .andExpect(jsonPath("$.status").value("GRADED"))
                 .andExpect(jsonPath("$.gradingMethod").value("AI"))
-                .andExpect(jsonPath("$.criteria", hasSize(4)))
-                .andExpect(jsonPath("$.criteria[0].criterionId").value("CRIT_W_TR"))
-                .andExpect(jsonPath("$.criteria[0].name").value("Task Response"))
-                .andExpect(jsonPath("$.criteria[0].band").value(6.0))
                 .andExpect(jsonPath("$.summary").isNotEmpty())
                 .andExpect(jsonPath("$.improvements", hasSize(4)))
-                .andExpect(jsonPath("$.aiModel").value("gemini-2.5-flash"));
+                .andExpect(jsonPath("$.aiModel").value("gemini-2.5-flash"))
+                // rawFeedback is the feedback JSON itself (schema shape), not a serialized JsonNode object
+                .andExpect(jsonPath("$.rawFeedback.criteria.CRIT_W_TR.band").value(6))
+                .andExpect(jsonPath("$.rawFeedback.overall_band").value(6.5))
+                .andExpect(jsonPath("$.rawFeedback.task").value("QT_W2_OPINION"));
 
         // Verify saved to database
         Integer submissionCount = jdbcTemplate.queryForObject(
@@ -142,7 +145,14 @@ class WritingSubmissionControllerTest {
 
         submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
+                .andExpect(jsonPath("$.code").value("ESSAY_TOO_SHORT"));
+
+        // Rejected before anything is saved and before the LLM is called
+        Integer saved = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid",
+                Integer.class, WRITING_EXERCISE_ID.toString());
+        assertThat(saved).isZero();
+        verify(llmClient, never()).chat(any(), any());
     }
 
     @Test
@@ -220,6 +230,47 @@ class WritingSubmissionControllerTest {
                 "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'FAILED'",
                 Integer.class, WRITING_EXERCISE_ID.toString());
         assertThat(failedCount).isEqualTo(1);
+    }
+
+    @Test
+    void submit_failedAttempts_doNotCountTowardsMaxAttempts() throws Exception {
+        WritingSubmissionRequest request = WritingSubmissionRequest.builder()
+                .essayText(sampleEssay)
+                .timeSpent(1200)
+                .build();
+
+        // Two failed attempts (max_attempts = 2) ...
+        when(llmClient.chat(any(), any())).thenThrow(new LlmTimeoutException("timeout"));
+        for (int i = 0; i < 2; i++) {
+            submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
+                    .andExpect(status().isBadGateway());
+        }
+
+        // ... still leave both attempts available, and numbering continues after the failed ones
+        doReturn(sampleJson).when(llmClient).chat(any(), any());   // when(...) would call the throwing stub
+        submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.attemptNumber").value(3));
+    }
+
+    @Test
+    void submit_failedSubmission_keepsOnlyErrorCodeNotDetails() throws Exception {
+        when(llmClient.chat(any(), any())).thenThrow(new LlmUnavailableException("secret detail https://x?key=SECRET"));
+
+        WritingSubmissionRequest request = WritingSubmissionRequest.builder()
+                .essayText(sampleEssay)
+                .timeSpent(1200)
+                .build();
+
+        submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.code").value("LLM_UNAVAILABLE"))
+                .andExpect(jsonPath("$.message").value(not(containsString("SECRET"))));
+
+        String stored = jdbcTemplate.queryForObject(
+                "SELECT ai_feedback FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'FAILED'",
+                String.class, WRITING_EXERCISE_ID.toString());
+        assertThat(stored).isEqualTo("LLM_UNAVAILABLE");
     }
 
     @Test

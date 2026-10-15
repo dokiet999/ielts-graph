@@ -32,7 +32,7 @@ import java.util.Map;
 public class GeminiLlmClient implements LlmClient {
 
     private static final String GEMINI_API_URL_TEMPLATE =
-            "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s";
+            "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent";
 
     private final LlmConfig config;
     private final ObjectMapper objectMapper;
@@ -67,7 +67,8 @@ public class GeminiLlmClient implements LlmClient {
         }
 
         String model = getModelName();
-        String url = String.format(GEMINI_API_URL_TEMPLATE, model, config.getApiKey());
+        // The key goes in a header, never in the URL: Spring puts the request URL into I/O error messages
+        String url = String.format(GEMINI_API_URL_TEMPLATE, model);
 
         Map<String, Object> requestPayload = new HashMap<>();
 
@@ -101,6 +102,7 @@ public class GeminiLlmClient implements LlmClient {
             log.debug("Calling Gemini API with model: {}", model);
             String responseBody = restClient.post()
                     .uri(url)
+                    .header("x-goog-api-key", config.getApiKey())
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(requestPayload)
                     .retrieve()
@@ -120,7 +122,7 @@ public class GeminiLlmClient implements LlmClient {
                     || (ex.getMessage() != null && ex.getMessage().toLowerCase().contains("timeout"))) {
                 throw new LlmTimeoutException("Gemini API request timed out after " + config.getTimeoutSeconds() + "s", ex);
             }
-            throw new LlmUnavailableException("Cannot connect to Gemini API: " + ex.getMessage(), ex);
+            throw new LlmUnavailableException("Cannot connect to Gemini API", ex);
         } catch (Exception ex) {
             if (ex instanceof WritingGradingException || ex instanceof LlmTimeoutException || ex instanceof LlmUnavailableException) {
                 throw ex;

@@ -72,22 +72,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     /** LLM returned unparseable or schema-invalid JSON, even after retry. */
     @ExceptionHandler(WritingGradingException.class)
     public ResponseEntity<ErrorResponse> handleWritingGrading(WritingGradingException ex) {
+        // Details (LLM output fragments, schema errors) stay in the log, not in the response
         log.warn("Writing grading failed: {} — {}", ex.getCode(), ex.getMessage());
-        return build(HttpStatus.BAD_GATEWAY, ex.getCode(), ex.getMessage(), null);
+        return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
+                "The AI could not produce a valid grading result. Please try again", null);
     }
 
     /** LLM API call exceeded configured timeout. */
     @ExceptionHandler(LlmTimeoutException.class)
     public ResponseEntity<ErrorResponse> handleLlmTimeout(LlmTimeoutException ex) {
         log.warn("LLM timeout: {}", ex.getMessage());
-        return build(HttpStatus.BAD_GATEWAY, "LLM_TIMEOUT", ex.getMessage(), null);
+        return build(HttpStatus.BAD_GATEWAY, "LLM_TIMEOUT",
+                "The AI service took too long to respond. Please try again", null);
     }
 
     /** LLM API returned 401/403 or a server-side 5xx. */
     @ExceptionHandler(LlmUnavailableException.class)
     public ResponseEntity<ErrorResponse> handleLlmUnavailable(LlmUnavailableException ex) {
         log.warn("LLM unavailable: {}", ex.getMessage());
-        return build(HttpStatus.SERVICE_UNAVAILABLE, "LLM_UNAVAILABLE", ex.getMessage(), null);
+        return build(HttpStatus.SERVICE_UNAVAILABLE, "LLM_UNAVAILABLE",
+                "The AI service is temporarily unavailable. Please try again later", null);
     }
 
     @ExceptionHandler(Exception.class)

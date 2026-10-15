@@ -1,6 +1,5 @@
 package com.ielts.backend.entity;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.*;
@@ -66,7 +65,7 @@ public class UserSubmission {
     /** Full structured AI feedback JSON (WritingFeedback schema). Null for non-AI-graded submissions. */
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "ai_structured_feedback", columnDefinition = "jsonb")
-    private JsonNode aiStructuredFeedback;
+    private Map<String, Object> aiStructuredFeedback;
 
     /** LLM model identifier used for grading, e.g. "gemini-2.5-flash". */
     @Column(name = "ai_model", length = 100)

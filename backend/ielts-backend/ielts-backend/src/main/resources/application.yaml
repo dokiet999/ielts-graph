@@ -9,7 +9,7 @@ spring:
     password: ${DB_PASSWORD}
 
 server:
-  port: 8081
+  port: 8080
 
 app:
   llm:

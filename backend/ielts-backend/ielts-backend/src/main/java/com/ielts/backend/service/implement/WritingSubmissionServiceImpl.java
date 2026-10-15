@@ -1,7 +1,6 @@
 package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.request.WritingSubmissionRequest;
-import com.ielts.backend.dto.response.CriterionFeedbackResponse;
 import com.ielts.backend.dto.response.WritingSubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Question;
@@ -36,16 +35,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Service implementation for submitting IELTS Writing essays and grading with AI (FR-8.02).
+ * Submitting IELTS Writing essays and grading them with AI (FR-8.02).
+ * <p>
+ * The LLM call takes several seconds, so the work is split into three steps and the call itself runs
+ * outside any transaction (no database connection is held while waiting):
+ * <ol>
+ *   <li>short transaction: validate and insert the submission with status GRADING;</li>
+ *   <li>no transaction: grade with the LLM;</li>
+ *   <li>short transaction: store the result (GRADED) or the failure (FAILED), and only then throw.</li>
+ * </ol>
+ * A FAILED submission does not count towards the maximum number of attempts.
  */
 @Slf4j
 @Service
@@ -53,6 +62,9 @@ import java.util.UUID;
 public class WritingSubmissionServiceImpl implements WritingSubmissionService {
 
     private static final String ATTEMPT_CONSTRAINT = "uq_submission_attempt";
+    /** Shorter essays are rejected before any LLM call (Task 2 asks for 250 words; below 250 gets a warning). */
+    private static final int MIN_WORDS = 50;
+    private static final BigDecimal MAX_BAND = BigDecimal.valueOf(9.0);
 
     private final ExerciseRepository exerciseRepository;
     private final QuestionRepository questionRepository;
@@ -62,10 +74,50 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
     private final CourseAccessService courseAccessService;
     private final WritingEssayGrader essayGrader;
     private final LlmClient llmClient;
+    private final TransactionTemplate transactionTemplate;
+
+    /** What step 1 hands over to steps 2 and 3. Ids only, so nothing detached is reused across transactions. */
+    private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
+                                  String task, String questionPrompt, UUID questionId) {
+    }
 
     @Override
-    @Transactional(noRollbackFor = {WritingGradingException.class, LlmTimeoutException.class, LlmUnavailableException.class})
     public WritingSubmissionResultResponse submit(UUID exerciseId, String username, WritingSubmissionRequest request) {
+        String essay = request.getEssayText();
+        int wordCount = WritingEssayGrader.countWords(essay);
+        if (wordCount < MIN_WORDS) {
+            throw new BadRequestException("ESSAY_TOO_SHORT", "Essay must have at least " + MIN_WORDS + " words");
+        }
+
+        // Step 1: validate and record the submission as GRADING
+        PendingGrading pending = transactionTemplate.execute(status -> startGrading(exerciseId, username, request));
+
+        // Step 2: grade, outside any transaction
+        long startNanos = System.nanoTime();
+        WritingGradingResult gradingResult = null;
+        Exception failure = null;
+        try {
+            gradingResult = essayGrader.grade(pending.task(), pending.questionPrompt(), essay, wordCount);
+        } catch (Exception ex) {
+            failure = ex;
+        }
+        int latencyMs = (int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+
+        // Step 3: store the outcome; a failure is committed first and the exception is thrown afterwards
+        if (failure != null) {
+            log.error("Writing grading failed for user {} exercise {}: {}", username, exerciseId, failure.getMessage());
+            Exception cause = failure;
+            transactionTemplate.executeWithoutResult(status -> markFailed(pending.submissionId(), cause, latencyMs));
+            if (failure instanceof RuntimeException re) {
+                throw re;
+            }
+            throw new WritingGradingException("GRADING_FAILED", failure.getMessage(), failure);
+        }
+        WritingGradingResult graded = gradingResult;
+        return transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+    }
+
+    private PendingGrading startGrading(UUID exerciseId, String username, WritingSubmissionRequest request) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
@@ -85,19 +137,19 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+        long usedAttempts = previous.stream().filter(s -> s.getStatus() != SubmissionStatus.FAILED).count();
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
-                && previous.size() >= exercise.getMaxAttempts()) {
+                && usedAttempts >= exercise.getMaxAttempts()) {
             throw new ConflictException("MAX_ATTEMPTS_REACHED",
                     "Maximum attempts (" + exercise.getMaxAttempts() + ") reached for this exercise");
         }
-
+        // Numbered after the latest attempt of any status, so a FAILED attempt never reuses its number
         int attemptNumber = previous.isEmpty() ? 1 : previous.get(0).getAttemptNumber() + 1;
 
         List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(exerciseId);
+        Question question = questions.isEmpty() ? null : questions.get(0);
         String questionPrompt;
-        Question question = null;
-        if (!questions.isEmpty()) {
-            question = questions.get(0);
+        if (question != null) {
             questionPrompt = question.getQuestionText();
         } else {
             questionPrompt = exercise.getInstruction() != null && !exercise.getInstruction().isBlank()
@@ -105,114 +157,97 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                     : exercise.getTitle();
         }
 
-        long startTime = System.currentTimeMillis();
-        WritingGradingResult gradingResult = null;
-        Exception gradingException = null;
-
-        try {
-            gradingResult = essayGrader.grade(questionPrompt, request.getEssayText());
-        } catch (Exception ex) {
-            gradingException = ex;
-        }
-
-        int latencyMs = (int) (System.currentTimeMillis() - startTime);
-
-        if (gradingException != null) {
-            log.error("Writing grading failed for user {} exercise {}: {}", username, exerciseId, gradingException.getMessage());
-            UserSubmission failedSubmission = UserSubmission.builder()
-                    .user(user)
-                    .exercise(exercise)
-                    .attemptNumber(attemptNumber)
-                    .answers(Map.of("essayText", request.getEssayText()))
-                    .score(BigDecimal.ZERO)
-                    .maxScore(BigDecimal.valueOf(9.0))
-                    .aiFeedback(gradingException.getMessage())
-                    .aiModel(llmClient.getModelName())
-                    .aiPromptVersion(WritingEssayGrader.PROMPT_VERSION)
-                    .aiLatencyMs(latencyMs)
-                    .status(SubmissionStatus.FAILED)
-                    .gradingMethod(GradingMethod.AI)
-                    .timeSpent(request.getTimeSpent())
-                    .submittedAt(LocalDateTime.now())
-                    .build();
-
-            saveSubmission(failedSubmission);
-
-            if (gradingException instanceof RuntimeException re) {
-                throw re;
-            }
-            throw new WritingGradingException("GRADING_FAILED", gradingException.getMessage(), gradingException);
-        }
-
-        UserSubmission submission = UserSubmission.builder()
+        UserSubmission submission = saveSubmission(UserSubmission.builder()
                 .user(user)
                 .exercise(exercise)
                 .attemptNumber(attemptNumber)
                 .answers(Map.of("essayText", request.getEssayText()))
-                .score(gradingResult.getOverallBand())
-                .maxScore(BigDecimal.valueOf(9.0))
-                .aiScore(gradingResult.getOverallBand())
-                .aiFeedback(gradingResult.getSummary())
-                .aiStructuredFeedback(gradingResult.getRawJson())
+                .score(BigDecimal.ZERO)
+                .maxScore(MAX_BAND)
                 .aiModel(llmClient.getModelName())
                 .aiPromptVersion(WritingEssayGrader.PROMPT_VERSION)
-                .aiLatencyMs(latencyMs)
-                .status(SubmissionStatus.GRADED)
+                .status(SubmissionStatus.GRADING)
                 .gradingMethod(GradingMethod.AI)
                 .timeSpent(request.getTimeSpent())
                 .submittedAt(LocalDateTime.now())
-                .build();
+                .build());
 
-        submission = saveSubmission(submission);
+        return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
+                taskOf(exercise), questionPrompt, question != null ? question.getId() : null);
+    }
 
-        if (question != null) {
-            QuestionAnswer qa = QuestionAnswer.builder()
-                    .submission(submission)
-                    .question(question)
-                    .answerText(request.getEssayText())
-                    .aiPoints(gradingResult.getOverallBand())
-                    .aiFeedback(gradingResult.getSummary())
-                    .pointsEarned(gradingResult.getOverallBand())
-                    .build();
-            questionAnswerRepository.save(qa);
+    private void markFailed(UUID submissionId, Exception failure, int latencyMs) {
+        UserSubmission submission = userSubmissionRepository.findById(submissionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
+        submission.setStatus(SubmissionStatus.FAILED);
+        submission.setAiFeedback(failureCode(failure));
+        submission.setAiLatencyMs(latencyMs);
+        userSubmissionRepository.saveAndFlush(submission);
+    }
+
+    private WritingSubmissionResultResponse markGraded(PendingGrading pending, WritingGradingResult result, int latencyMs) {
+        UserSubmission submission = userSubmissionRepository.findById(pending.submissionId())
+                .orElseThrow(() -> new ResourceNotFoundException("Submission", pending.submissionId()));
+        submission.setScore(result.getOverallBand());
+        submission.setAiScore(result.getOverallBand());
+        submission.setAiFeedback(result.getSummary());
+        submission.setAiStructuredFeedback(result.getFeedbackMap());
+        submission.setAiLatencyMs(latencyMs);
+        submission.setStatus(SubmissionStatus.GRADED);
+        submission.setGradedAt(LocalDateTime.now());
+        userSubmissionRepository.saveAndFlush(submission);
+
+        if (pending.questionId() != null) {
+            questionRepository.findById(pending.questionId()).ifPresent(question ->
+                    questionAnswerRepository.saveAndFlush(QuestionAnswer.builder()
+                            .submission(submission)
+                            .question(question)
+                            .answerText(String.valueOf(submission.getAnswers().get("essayText")))
+                            .aiPoints(result.getOverallBand())
+                            .aiFeedback(result.getSummary())
+                            .pointsEarned(result.getOverallBand())
+                            .build()));
         }
-
-        List<CriterionFeedbackResponse> criteriaResponses = gradingResult.getCriteria().stream()
-                .map(c -> CriterionFeedbackResponse.builder()
-                        .criterionId(c.getCriterionId())
-                        .name(CriterionFeedbackResponse.resolveName(c.getCriterionId()))
-                        .band(c.getBand())
-                        .feedback(c.getFeedback())
-                        .evidence(c.getEvidence().stream()
-                                .map(e -> CriterionFeedbackResponse.EvidenceResponse.builder()
-                                        .quote(e.getQuote())
-                                        .comment(e.getComment())
-                                        .errorType(e.getErrorType())
-                                        .build())
-                                .toList())
-                        .build())
-                .toList();
 
         return WritingSubmissionResultResponse.builder()
                 .submissionId(submission.getId())
-                .exerciseId(exercise.getId())
-                .exerciseTitle(exercise.getTitle())
-                .attemptNumber(attemptNumber)
-                .overallBand(gradingResult.getOverallBand())
-                .outOfCalibrationRange(gradingResult.isOutOfCalibrationRange())
+                .exerciseId(pending.exerciseId())
+                .exerciseTitle(pending.exerciseTitle())
+                .attemptNumber(pending.attemptNumber())
+                .overallBand(result.getOverallBand())
+                .outOfCalibrationRange(result.isOutOfCalibrationRange())
                 .status(SubmissionStatus.GRADED)
                 .gradingMethod(GradingMethod.AI)
-                .timeSpent(request.getTimeSpent())
+                .timeSpent(submission.getTimeSpent())
                 .submittedAt(submission.getSubmittedAt())
-                .taskType(gradingResult.getTaskType())
-                .criteria(criteriaResponses)
-                .summary(gradingResult.getSummary())
-                .improvements(gradingResult.getImprovements())
+                .taskType(result.getTaskType())
+                .summary(result.getSummary())
+                .improvements(result.getImprovements())
                 .aiModel(submission.getAiModel())
                 .aiPromptVersion(submission.getAiPromptVersion())
                 .aiLatencyMs(submission.getAiLatencyMs())
-                .rawFeedback(gradingResult.getRawJson())
+                .rawFeedback(result.getFeedbackMap())
                 .build();
+    }
+
+    /** Essay type of the exercise (QuestionType ID, e.g. QT_W2_DISCUSSION) stored in exercises.content.task. */
+    private static String taskOf(Exercise exercise) {
+        Map<String, Object> content = exercise.getContent();
+        return content != null && content.get("task") instanceof String task ? task : null;
+    }
+
+    /** Short error code kept in ai_feedback of a FAILED submission; details stay in the log only. */
+    private static String failureCode(Exception ex) {
+        if (ex instanceof WritingGradingException wge) {
+            return wge.getCode();
+        }
+        if (ex instanceof LlmTimeoutException) {
+            return "LLM_TIMEOUT";
+        }
+        if (ex instanceof LlmUnavailableException) {
+            return "LLM_UNAVAILABLE";
+        }
+        return "GRADING_FAILED";
     }
 
     private UserSubmission saveSubmission(UserSubmission submission) {
