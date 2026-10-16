@@ -1,0 +1,762 @@
+[
+  {
+    "id": "w2_001",
+    "source_id": "6446b5cabc145000188d04f7",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "Some people rely too much on doctors instead of taking care of their own health. They think all health problems can just be \"fixed\" by visiting doctors. What problems could this approach to healthcare cause and how might they be solved?",
+    "essay": "First of all, I think one of the reasons that cause this problem is because of their lack of knowledge. Some people might not know what may cause a disease or they may not know what to do when they are sick, so they end up visiting doctors instead of try to find a way their own. I suggest that making some commercials about disease or how we can deal it and post it on bus stops or train stops. This can help people to learn what we should do when we get sick.\r\n\r\nSecondly, another reason that cause this problem is because of their bad diet or lifestyle. Some people may having a diet in a bad and not healthy way. For example, they may refuse to eat and having only one meal a day. Also, some people may have a bad lifestyle. For example, they may always eating junk food instead of eating a proper meal. However, these bad habits will make them sick and end up seeing a doctor. I suggest that maybe we can help a lesson teaching people having a good and healthy diet and lifestyle, also learn how to take care theirselfs so they won't get sick easily.\r\n\r\nIn conclusion, most people who rely too much on doctors mostly is because of their lack of knowledge. They didn't know how to care theirselfs properly, so I think we should find a way to teach them how. For example, held a lesson or make some commercials. So that they can learn to take care of their own health.",
+    "word_count": 263,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 4.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_002",
+    "source_id": "655539f24c7b5b0012fc7eba",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "In the past most working people had only one job. however, nowaday is more and more people have more than one job at the same time. what are the reasons for this development? what are the advantages and disadvantages of having done one job?",
+    "essay": "Having single job was popular for people in previously years, theas days, being multi jobs is increase among people a lot,. There are some results in it, that are related to people's lifestyle, so I would argued both its benefits and harmful aspects.\r\n\r\nIn fact, there are some results in the person's life, who prefer to take two or more jobs. Firstly, when the person tend to choose multiple jobs, certainly, the management time would be improved by their ability. Besides, handling time both of the occupation is crucial in their survival. Secondly, discovering the person's talents related to their ability in doing different activities, so, this kind of choices in jobs assisstant them to acquisition them. For instance, many people are doctors for treating their patients, likewise University Processor. Finally, being multi worker would require some equipment and technological facilities to improve their activities, like individual acts or their action related to the jobs.\r\n\r\nFurthermore, some benefits that are in personal life among people, hence, we cannot ignore its  disadvantages. Obviously, the advantages are causes in developing people life that are results of their jobs would be different. Such as increasing their income, because of two or more received salary. Also, creating more communication to a variety people related to their occupations, eventually, improving in their level of life. Regardless of, these kinds of advantages are more popular and favorite for people. The harmful aspects of doing Multi jobs is increasing. From my point of view, the restrictions on time to visit family members or Friends group is a disappointment factor, because of their run schedule. Also, their health would be indangered, because they do not have suitable plan for doing rutine exercise and providing the Balance diet plan. Eventually.,their lifestyle would be impacted of their busy schedule lead to depression or tiredness. Whereas we should not attention of these aspects the advantages or the disadvantages, because they are complicated together.\r\n\r\nIn conclusion, in my opinion, having some jobs can be affected in people's life by considering its benefits and drowbacks, it would be important, because many people tend to aacquirethese opportunities.",
+    "word_count": 353,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 4.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_003",
+    "source_id": "65901e8407eb1c0011bcb15d",
+    "task": "QT_W2_OPINION",
+    "prompt": "In many countries around the world, rural people are moving to cities, so the population in the countryside is decreasing. Do you think this is a positive or a negative development? Give reasons for your answer and include any relevant examples from your own knowledge or experience.",
+    "essay": "Most nations across the globe have experienced a trend where more people from rural areas are moving to the cities which means there is a decrease in terms of population living in the countryside. This essay strongly argues that this phenomenon is bad for the development of many countries due to two main reasons.\r\n\r\nFirstly, leaving our hometowns to cities just because of finding better opportunities means that we have overlooked the potential of those rural areas. This is not a correct perspective since it will lead to a situation where skilled workers or those who are exposed to recent technological advancements are not willing to develop the resources that are often only available in the countryside into products which have much bigger values to be sold. If this trend continues, then the economic activities will be only centred around several big cities. For example, there are many villages in Indonesia which have great potential in agriculture and fishing sectors. However, because of the non-existance of skilled workers in those areas, many of them still rely on traditional methods. By only using these kind of techniques, they often cannot get good outcomes.\r\n\r\nSecondly, people that are left behind in the rural areas are becoming poorer and those who are moving to big cities are often richer. The reason for this is due to the fact that people living in the countryside are not getting priviledges to have minimum wages as big as those who are in the cities. People that are still in the villages usually do not hesitant to receive small salaries as long as they can feed themselves and their families. \r\n\r\nIn conclusion, we need to socialize about the importance of staying in our hometowns and focus to create new economic opportunities by using artificial intelligence or other state of the art technologies in order to make more jobs in the rural areas and improve the welfare of people living there. By doing this, we can also minimize the gap in terms of the wealth between people who are still in the countryside and those who are already staying in the cities.",
+    "word_count": 354,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 4.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_004",
+    "source_id": "69358f45cf32480011963afc",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "An increasing number of schools provide tablets and laptop computers forstudents to use in school, replacing books and other printed materials likeexams and assignments.What are the advantages and disadvantages of this trend?",
+    "essay": "Nowadays, most schools provide tablets and laptops as a replacement, to printed books and documents, including tests papers and projects. This shift in teaching methods, have changed the ways of learning and distributing knowledge.\r\n\r\nIn old times, paper backs were the only way of making notes. Children would pen down the information given by teachers, in their books and files. This made the notes more personal and understandable, making it easier to grasp and better to retain. Furthermore, schools would ask the students to submit assigments, that were hand written and neatly filed. Thus, making it more chalenging, competitive and artistic, giving them a personalised outlook. Writing down notes in hand also made it a permanent memory, and helped alot during examinations. There were no typing errors or computer glitches in play. It was way simpler and easier before, then it is now.\r\n\r\nWhile, physical copies are easier to memories, it is also hard to carry them. With the amount of knowledge we grasp in toady's world, writing down everything would collect piles of papers, thus making it harder to organise. It is way more accesible to seach paragraphs by typing a single word than turning hundreds of apges of numerous books to find a single topic. Also, these materials add a lot of weight to the bags, which becomes a challenge for the children, to carry around in schools. Carrying a laptop or a tablet it definitely way more covenient, than walking around with 20 different folders for various subject. Having all you need in one place is definitely a good way of studying. Moreover, typing will prove to be faster than writing, over the generations. Albiet the typos and techonology failures, having a single source for both, recieving and retaining information, is a major advantage. With practice these small errors can be nullified, thus, making schooling more convenient and less tiring. In the bigger picture, this might also motivate the youngsters to got school in turn raise the rate of literacy.\r\n\r\nOverall ,the introduction of technology as a source of wisdom, can be both advantageous and disadvantageous to the growth of minds.",
+    "word_count": 354,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 4.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_005",
+    "source_id": "6561ece328737e0011a34aa6",
+    "task": "QT_W2_OPINION",
+    "prompt": "People are against the legalization of euthanasia while other people support it. Discuss both views and give your own opinion.",
+    "essay": "A lot of people disagree that euthanasia should be legalized. Others believe that putting people to sleep at a certain stage might have some advantages, thus they agree with it. In my opinion, I stand with the idea of euthanizing people and I think it should be allowed by the government. \r\n\r\nEuthanizing people is often get negative response because it is unnatural and hardly contradictive. Many people think that death is something that human cannot decide. It is againts the rule to take other people's life just based on their health conditions. It is also not allign with the norms and habbits most people believe in their life. In addition, it is also in contrary with some religions, where they take euthanizing people is the same as killing people. \r\n\r\nHowever, other people think that euthanizing people might end the suffering, as most of the patients to be euthanized are often in their final stage. The patients are usually using a life support such as ventilator, where they cannot breathe without it and thus they cannot live a normal life. When a doctor ends their life, it is like freeing them from pain that they used to hold for a long time. Moreover, when patients are in their terminal stage, families are also depressed and do not want to see their loved one in pain. It is understandable for them to choose letting their loved one go by putting them to sleep. \r\n\r\nIn conclusion, although there are lots of people who oppose euthanasia, I believe that euthanasia has a view of advantages which I think it should be legal.",
+    "word_count": 268,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 5,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 4.5
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_006",
+    "source_id": "64700e207e89e60018c80652",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "It has been suggested that everyone in the world want to own a car, a TV and a fridge. Do you think disadvantages of such development outweigh advantages?",
+    "essay": "Every people around the world desire to have his or her own vehicle, TV and fridge in other words in our modern era we  want to have machines. As we live  in an age of advanced technology we need new equipment cell phones, laptops, iceboxes and automobiles but in my point of view, there are more drawbacks rather than improvements.                                                                                                                                                                                                                 For about many years humans invented  new types of technologies which are changed the world. Firstly, if we literally want to have some kind of innovation we would work by heart on it. Secondly, with the help of  such kind of technologies we would keep our meal good, we can do any projects online, we can make online meetings and conferences with people from other types of the world, and we can easily get for a long distances, watch football or some kind of TV shows. Everything has a good side as well as a bad side and we should recollect that. Fact, when society watches TV every time  absolutely young generation it has bad effects. For instance,  these days the public becomes fatter, people become lazy, spend a lot of electricity for nothing important to them, vehicles use more petrol and  will cause harm to the ozone layer, on the other ,hand it rises more accidents. For more years , technologies frequently change and become more needful for humanity.                                                                                          To sum up, there are several bad and negative sides rather than positive sides. The most per cent of  people's cup of tea to have their own technologies like car, fridges and TV. In  faster-developing world innovations are the most needful things for all people around the world.",
+    "word_count": 278,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_007",
+    "source_id": "64722dd87e89e60018c80a53",
+    "task": "QT_W2_OPINION",
+    "prompt": "Individual greed and selfishness have been the basic of modern society. Some people think that we must return to the older and more traditional values of respects for the family and the local community in order to create a better world to live in. To what extent do you agree or disagree.",
+    "essay": "In this modern epoch, our society considers thinking for themselves only and being greedy is the major Operandi. However, it's our core responsibility to give back to our culture and tradition by respecting the community in order to maintain harmony around the globe is the thinking of some folk. Although every human is into running in the global race and following the trend which is being spread worldwide, the values of ethics are fading away which will not be available to the future generation if not preserved. I completely agree with this viewpoint and there any many reasons which will be discussed below.\r\n\r\nFirst and foremost, globalisation is one of the biggest culprits that has affected modern society with its global products. Hence, the population do not prefer locally made goods. For example, in Bangladesh, the biggest cotton fabric producer, residents prefer wearing branded clothes despite considering the garments made in their country which are not only cheaper but also have better quality. Certainly, the significance of our tradition and culture is getting faded despite being respected. Thus, modernisation has taken over the customs and importance of ethics in communities throughout the globe.\r\n\r\nSecondly, migration has been increasing due to which people leave their homeland to settle abroad permanently and adapt their accustoms which eventually leads to decreasing the value of their own culture. For instance, in Canada, many people are migrating from India specifically from the northern part and they are trying to adjust to Canadian life despite staying in their home country and flourishing their own traditions. Consequently, this change has led to the degradation of the importance of the tradition. If this trend will continue to elevate then most of our upcoming generation will not be aware of the ethics and background.\r\n\r\nIn conclusion, the greed to grow is being increased in individuals which has led to the decrease in our cultural values that need to be preserved before it's too late. This could be done if we try to respect our locally made products and stay in our birth country.",
+    "word_count": 344,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 4,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_008",
+    "source_id": "655c811165c99b0012a5c2b7",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "In recent years, young people in many countries have chosen to live by themselves. What are the reasons and is it a positive or negative for the development of society?",
+    "essay": "In recent times, many young generations in the world prefer to live separately from their parents. I believe it has more positive impact and this essay will explain the causes of this phenomenon.\r\n\r\nTo begin with, the most reason is because young people need more private space for themselves. It makes them free for doing their hobbies such as reading books, playing music, or even doing sports regularly. However, if they live with their family, they will be disturbed frequently, preventing them from enjoying their time. Furthermore, some individuals fail to get along well with their family members. For instance, many children in a family feeling uncomfortable to tell their problem with their parents and prefer to share their problem with their friends. It can cause the lack of communication between them. Some parents are also judging the lifestyle of their children and it makes the younger generation tend to move out and live by themselves.\r\n\r\nMoreover, the increasing number of this trend can be beneficial from personal life perspectives. When living alone, they learn to manage their household and professional workload at the same time. For example, They have to cook food, wash clothes and do all other household while pursuing a job or studies. People who are willing to live alone in large cities can explore better job opportunities, which is simply because they can move around anywhere and anytime. \r\n\r\nIn conclusion, young people can take the positive impact from this phenomenon such as personal growth and it can make them more independent.",
+    "word_count": 255,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_009",
+    "source_id": "65835afc0493470011af0999",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "Today many people buy imported food, rather than consuming local products. Do advantages outweigh disadvantages?",
+    "essay": "Many individuals tend to consume more goods from foreign countries rather than the local ones. While there are may be some benefits of obtain the overseas product by the consumers, I believe that the drawbacks of this tendency are more significant. \r\n\r\nPurchasing foreign commodities is extremely beneficial from the buyers’ point of view. They may get to experience great extent of variety of products which can give them the opportunity to choose their desired selection. There is a likelihood that imported food may not even exist in a particular country, consequently it would capture the enormous segment of market. However, from the economic stance, it would demotivate the local farmers and producers to actively engaging in food production and delivery to the market, additionally, there is a huge possibility that it would endanger the economic and food security of the state.\r\n\r\nIn my opinion, the negative sides of this trend outweigh the positive ones. One of the major disadvantages is that when the population redirect its preferences towards international products, it creates massive inflation among aforementioned items, as a result, not only these products and also local’s one price will change up. Another negative side is the decoupling domestic farmers and producers from the desire of to be involved in trade relations. Therefore, their reluctance and hesitation would be encroached by formed unprecedented situation.\r\n\r\nIn conclusion, even though consuming the international commodities can be plausible from the consumer standpoint, this advantage is clearly overshadowed by two major disadvantages :  the surge of prices in the whole market due to buyers’ decision not to select the domestic foods and the discouragement of farmers from producing local products.",
+    "word_count": 276,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_010",
+    "source_id": "65e08b6c39714a001162b8e4",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "Even though governments have worked hard to bring about improvements in the healthcare system, the overall standard of physical health in developed countries is decreasing. What are the potential reasons for this, and what are some of the long- term effects?",
+    "essay": "Health problems including heart disease, obesities and diabetes becoming more widespread in developing countries. There are several reasons contributing to this problem as well as potentially drastic long- term effects.\r\n\r\nLifestyle is important and major cause of poor health in developed countries. These days, it is perhaps easier and cheaper to follow and unhealthy diet. for example, the recent boom in fast food restaurants and chains has enticed people to eat at these establishments rather than cooking healthy meals at home. Stress is another factor that has contributed to poor health. The fast- paced corporate culture and competitive work atmospheres make for a difficult work- life balance, resulting in little to no time for eating healthy or taking care of oneself.\r\n\r\nThese lifestyle choices will have drastic long-term effect. If generations continue to partake in these unhealthy habits, they will continue on for generations to come. For instance, parents who have diabetes or are prone to obesity have a higher chance of passing these conditions on to their children, and so on. Consequently, these health problems could result in a higher cost of living. Due to increased demand for services, it is only natural that the health care industry would charge higher prices to its clients, resulting in higher costs.\r\n\r\nPoor lifestyle choices, ranging from unhealth diets and higher stress, have certainly contributed to the decrease in health standards. If no properly taken care of, these problems could cause harmful long- term effects to future generations in terms of disease and higher cost of living.",
+    "word_count": 255,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_011",
+    "source_id": "66c6f8dd4dcc5a00110dc7a6",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people believe that the government should fund art and culture, while others think that it should only fund sciences. Discuss both these views and give your own opinion.",
+    "essay": "Government fund allocation is a matter which has fueled heated debate. While it is generally agreed that these money should be spend on social matters like art and culture, there are those who argue that the fund should be focused on sciences in general. Personally, I am inclined to support the former perspective.\r\n\r\nOn the one hand, the position that major spending on science purposes can improve people quality of life is perfectly plausible for the main reason. The most importance point is that from sciences study and analization, many discoveries in medical field have been found and applied to help curing many physical health issues of mankind. For example, during the pandamic period, the vaccine for Covid 19 is one of the best invention within a short time to help human prevent and control the disease. However, what has been left out of their consideration is that these studies sometimes return no positive result while lots of money was spent and many years of study were wasted.\r\n\r\nOn the other hand, there are convincing arguments in favour of the advantages of art and culture on national economic and people' mental health . One obvious reason for these investment is that our cultural are so diversed and we are spending many years in our life try to reserve these cultural heritages for our children generation. Furthermore, effort spent on these reservations will also help the government improving the tourism business and spreading the nation image in internation market, which will also help in return more money for future funds. Another point of view of this discussion is that art in general is a way for public member to relive their stress and improve the quality of mental health. For instance, art gallery can become a destination for anyone to visit in their free time and to enjoy the showcase of many pieces of the art from around the world.\r\n\r\nTo conclude, a thorough discussion of this statement copes with both angles in a broader sense. In a more personal aspect, the support lends to the more on the fact that although science studies may bring many benefits to human kinds, it is also importance mission for human to focus on art and culture for presevation and improvement of the society.",
+    "word_count": 380,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_012",
+    "source_id": "688cc80157734f00157373b0",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people think there is no need for professional photographers as everybody knows how to click pictures. What is your opinion? Include any relevant personal experience and knowledge",
+    "essay": "Clicking pictures is an age-old habit usually followed by the majority people, because photos keep old memories alive and fresh in the memory. Photographs are generally clicked by professional photographers, but in recent times many people argue that it is not necessary to have photographers, when everybody can click photos. However, I am having a balanced stance on this, and reasons to support my viewpoint are elaborated in the following paragraphs.\r\n\r\nTo begin with, those who say the cameramen are required asset that they know how to and when to capture a perfect shot. As a matter of fact, the professional photographs have years of experience, which makes shooting a little easy for them. Moreover, they have best knowledge of all the camera angles and light settings. For example, Dabbu Ratnani, is a famous Bollywood photographer, and he has done portfolio shoots for many fresh faces and everyone prefers him, because he got enough knowledge and skill set to perform his task with accuracy. Therefore, it is always handy to go for a professional, when individuals want good photographs on special events.\r\n\r\nOn the other hand, people who are against photographers opine that these days, with the availability of modern gadgets and picture editing softwares a person with a little skill can click photographs with ease. In fact, nowadays, there are different type of cameras and lenses available in the market, which enable an individual to click good photographs with minimum adjustments. Adding more to it, there are different kinds of editing softwares such as, Coral, Picasa, etc, which can correct small defect in the photos. Hence, it is possible for a person with some knowledge of photography to click the photographs and there is no need to hire professional cameramen for this.\r\n\r\nIn conclusion, undoubtedly, photographers have knowlege and specific skill set to capture perfect photographs, but having said that with the availability of good cameras and editing softwares, it has become a little easy to capture photos for almost anyone.",
+    "word_count": 332,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 5,
+      "CRIT_W_LR": 4,
+      "CRIT_W_GRA": 4,
+      "overall": 5.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_013",
+    "source_id": "62640ec4257ecf00185410c2",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "In some countries young people have become richer, healthier and live longer, but they are less happy. What are the causes? What can be done to address this situation?",
+    "essay": "It has been observed that in many nations the youngsters are becoming  wealthier, fitness enthusiasts and have longer life expectancy however they are miserable. In this essay, I shall discuss the few causes behind this and provide some measures to mitigate the situation.\r\n\r\nTo commence, the foremost reason is nowadays youngsters are comparing themselves with others. To elaborate on this , they are competing with themselves with others which will put them in a consistent disconnect. They may be comparing the strengths of another person with their weakness. Thus, it may never give themselves a sense of fulfilment, which is the  real source of happiness. For example, it is ubiquitous in today's era that young individuals have been focusing on other materials (cars) or creating and analysing  their own set of materials (other vehicles two-wheeler) therefore,they never fill the sense of the satisfaction and become unhappy at last. Moreover, another reason is overthinking. This is to state that, it tries that, youth pay more attention to the future events as compared to the present. Also, they are always anxious about  what will happen next ergo they may not take appropriate decisions and are stuck with different thoughts. Thus, they do not move further and their growth is difficult which can be the major reason for their reduction in happiness.\r\n\r\nTo overcome this situation, some proactive measures are there. Firstly, mankind ought to pay attention to the present life. They need to understand that only present which will take the shape of the past and tomorrow. No one can able to change the past similarly no one can go to the future and make  things happen. Therefore, the only  present situation is crucial for youth and they should try to make it enjoyable instead of priorities past events and future predictions. Secondly, they need to become an independent.\r\n\r\nThis means, they do not make expectations from others to accomplish tasks because it may give undesirable outcomes which can put unnecessary pressure on the mind.\r\n\r\nIn conclusion, notwithstanding fundamental causes such as comparison and overthinking can lead to awful life for youth meanwhile concerning about only present and self-dependent is the key for youngblood to become happy in their lives.",
+    "word_count": 368,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 4,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 5.5
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_014",
+    "source_id": "63824373d1146c0019607cfe",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "Nowadays many people complain that they have difficulty getting enough sleep. What problems can lack of sleep cause ? What can be done about lack of sleep?",
+    "essay": "In recent times, insomnia has become the major complaint among adults and led to a lot of issues. This essay will be discussing the problems that result from insufficient sleep as well as the possible solution.\r\n\r\nWhen people lack enough sleep, it can result in psychological problems such as depression,confusion, loss of concentration and in the worst case psychosis which can affect in decisions making and autonomy in regard to their jobs or families. For example ,my uncle who has always been a workaholic throughout his life is now battling with depression and an inability to focus just because he didn't take proper care of his health while hustling for money for his family. Furthermore, insomnia can also lead to fatigue, dizziness and general body malaise. Since the body is not getting sufficient rest that it has to, it will break down resulting to the above problems. Also, insufficient sleep can cause compromising  immune system which the body will be prone to different diseases  and won't be able to fight any antibodies.\r\n\r\nHowever, there is something that can be done to solve this problem.Firstly, proper time management,there should be time for everything and one should create time for rest,sleep and relaxation to prevent breakdown. Secondly, if an individual is suffering from insomnia, he should visit a doctor who can prescribe some medication that can help manage his sleeping partners. \r\n\r\nIn summary,people can develop sleeping pattern disturbances if they have some unresolved problems. However, they should try and deal with or solve the problems that are causing it first before seeking  a counsellor or doctor for further investigation.",
+    "word_count": 267,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 5,
+      "CRIT_W_GRA": 5,
+      "overall": 5.5
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_015",
+    "source_id": "6776e6012bd9350011e9f233",
+    "task": "QT_W2_OPINION",
+    "prompt": "ies have legal ages at which people can drink. Other countries believe not having strict laws is a better policy. Discuss both sides and give your own opinion.",
+    "essay": "Varieties nations are strict about the limited ages for drinking while some countries think the age restriction will make underage people violating and difficult to control. In my view, it will have a negative effect on when limiting the age of drinking.\r\n\r\nNowadays, a plethora of countries have an age restriction for alcohol consequences, their assessment of the side effect when juveniles drink  alcohol  can't handle the effects of intoxication as adults and the rate of fights broke out due to the child's lack of awareness will , which could lead to a serious crime. In addition, young adults don't have there are no harsh laws for children who commit the worst crimes and most of the problems of teenagers come from a lack of awareness. Therefore, if the body receives more alcohol than it can't handle, it will have many negative effects and if grave crimes occur, the children cannot be punished fairly for the victims. Therefore, the best solution for this matter is to limit the age of children.\r\n\r\nOn the other hand, some countries have perspective on this topic as they do not limit the age of children to drink  alcohol in fact, this is the biggest vulnerability for young adults who want to try to drink so they will pay for police or people who can sale it for them in particular the pub and bar. Subsequence, it can not control children and it is a reminder of the weakness of the law. Although, the government knows the side effects such as  the crime rate in juveniles or physical health problems after drinking too much alcohol since there was young however, it is the responsibility of families to assess and approve whether children can drink or not if they start to drink  family it would be safe then.\r\n\r\nTo sum up, age limitation makes teenagers want to try and it leads to cheating by collecting money from children who want to try to break the rules, however, they know the side effects but is the way they choose so it is the family's duty to concern and approve this trouble.",
+    "word_count": 354,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 5,
+      "CRIT_W_GRA": 6,
+      "overall": 5.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_016",
+    "source_id": "64efd2d3364e440019a8a24b",
+    "task": "QT_W2_OPINION",
+    "prompt": "The economic growth in developing and developed countries is making people richer. However the research indicates that people in the developing countries is happier than people in develped countries. What is your opinion on this?",
+    "essay": "It is undeniable that with economic development comes a wealthier population. Also, It is important to think about why recent research showed that developing countries are contented with economic growth while developed countries are less happy with that. In this essay, I will state my opinion in this matter and explain some reasons.\r\n\r\nIn my opinion, there are several factors that make the population of developing countries more satisfied with economic growth. First of all, citizens of these nations have lived in impoverished conditions, so when the country's conditions improve this means more money for the people. Furthermore, economic augmentation means more facilities and work opportunities for the poor subsequently, subsequently improving life conditions. For example, if a family lives in a rural and dirty area, they can now move to a better place and have a good education. To sum it up, there are more incentives for the people of developing countries to be happy for economic heightening. The citizens of  developed countries already have several amenities for a good life.\r\n\r\nOn the other hand, developed people are indifferent to economic advancement of their nations.\r\n\r\nThis is because they have many luxuries in their life and are not in need of more money. Moreover, Their country supports them with all the requirements needed. For instance, all jobs pay a good wage for their workers so they can provide for their families. In addition, they live in civilized, clean cities with a large number of amenities that make their life easier. In conclusion, the enhancement of the economy will not make such a difference for more advanced nations because they already financially stable.\r\n\r\nIn conclusion, it can be reiterated that I agree with the research that states that the residents of less fortunate countries will be happier with economic enhancement than other residents in richer states.",
+    "word_count": 306,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_017",
+    "source_id": "6564a8cccee4d6001156d42a",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "Freshwater is a limited resource in certain regions of the world. Today, the escalating demand has transformed it into a global problem. What are the causes of increasing demand? What measures can governments and individuals take to respond to the problem? \"",
+    "essay": "In this day and age , more and more contemporary attention has been placed on the hot phenomenon that freshwater scarcity is becoming an increasingly pressing environmental concern globally. This essay will delve into the major causes for the escalating demand for freshwater and propose some effective strategies to address this  critical issue by governments and individuals’ indeavors.\r\n\r\nOn the one hand, there are a couple of reasons for the need for  pure water. Firstly, population growth is one of the primary causes of this issue. Understandably, water plays an important role in people’s daily routines and activities such as bathing, cooking and drinking, sanitation, and food production.As a result, the more crowded we are, the more water we consume. To be more specific, citizens in some overpopulated cities often face to a lack of water on a daily basis due to the high concentration of people dependent on finite water supplies.Secondly, industrialization and urbanization’ s expansion  also result in the raising of water needs. In fact if some construction organizations  carry on  industrial or urbanizational processes,it will be consumed a massive amount of water for all sustainable requirements . Consequently, these activities contribute to the overexploitation of local water sources.\r\n\r\nOn the other hand , there are suitable measures which can be considered to tackle these mentioned problems above are enhance the community’s awareness in terms of the water’s value and investment in alternative technologies.For one thing, it is a reasonable strategy to educate the dwellers to get a deeper understanding of water’s value so that they can use the freshwater productively.Therefore, its demand can be controlled effectively,and the population has the qualified water for regular activities. For instance, the young will lock the tap off  the water while brushing their teeth ,or save it more for showering.For another thing, encouraging and investing the advanced technologies brings more benefits.Technologies can revolutionize how water is sourced and utilized like desalination plants, which convert seawater into freshwater, hold promise for regions facing acute water shortages. \r\n\r\nIn conclusion, despite the fact that fresh water is limited and its demand is increasing more and more intensively. overpopulation and urbanization take responsibility for those dramatic issues. Additionally, there are approachable methods for society and individuals as a whole to deal with such as building positive environmental education and revolutions of the advanced technologies.",
+    "word_count": 389,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_018",
+    "source_id": "65a9174f65d9f800112963d3",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people say that parents should encourage their children to take part in organised group activities in their free time. Others say that It is important for children to learn how to occupy themselves on their own. Discuss both these views and give your own opinion.",
+    "essay": "Today, many parents enroll their children in various courses or organized group classes. While others give their children the freedom to decide for themselves what they want to do. This essay will explore both points of view. I believe parents need to strike a balance when it comes to their daughters and sons. In my opinion, you can motivate them to participate in different activities and also choose what they like.\r\n\r\n On the one hand, our parents do not wish us anything bad and want us to develop. In fact, children who went to different clubs learned social skills like cooperation, teamwork and leadership faster than those who didn't. For example, when they participate in various games and competitions such as football, volleyball, they realize the importance of teamwork and achieving a common goal. In addition, they develop their physical skills, coordination, and agility, which also help them stay healthy and energetic.\r\n\r\nLooking from the other side, many people believe that the child needs to decide for himself what to do in his free time. So, it helps them to use their imagination and creativity. They learn to think independently and make decisions on their own, without parental permission. Another plus is that when they are not forced to go to different activities, it helps them relax and feel calmer, which is very good for the child’s mental health. Thanks to all this, it allows the child to understand his interests and do what he likes.\r\n\r\n In conclusion, parents should find a balance and a special approach to their child. Because it is important to pay attention to the development of their children and ensure this. It is important for them to be able to communicate with peers and to have good health. But you can’t do everything your own way, because children should be able to explore their interests.",
+    "word_count": 310,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_019",
+    "source_id": "65f48eb0ecea9d0011e70510",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "In the future, more people will choose to go on holidays in their own country and not travel abroad on holiday. Discuss both views and give your advantage and disadvantages?",
+    "essay": "The question of whether some individuals would prefer to vacation in their home country, rather than overseas, in no distant time, has sparked a substantial discussion. While many advocate for this, because it is cost-effective, others dispute it, because abroad trips avail them the opportunity to soak in foreign cultures. Analyzing these facts will give a comprehensive overview of the subject matter.\r\n\r\nOn the one hand, it is affordable to spend our holiday in our home country, since we can save money on cheaper flight tickets since domestic flight fares are lower compared to international flights. For instance, I spent 3000 dollars on my ticket from Nigeria to Canada during my last vacation. Obviously, I would not spend such an amount if my holiday tour was booked within Nigeria. Therefore, one of the reasons why people might prefer their vacation in their own country in the future.\r\n\r\nOn the other hand, people who travel overseas have the chance to experience new cultures within their host community. For example, the survey report, from my recently completed capstone project on an international retort, shows that 95 per cent of customers picked up some local way of life from the new environment, such as; preparing new delicacies. Clearly, this is not a skill they would have learned within their own state. Thus, why individuals would continue to travel abroad for their holidays in the near future.\r\n\r\nIn conclusion, the discussion surrounding whether more folks ought to stay in their home country for their holidays, instead of travelling to a foreign land, has prompted considerable debate. Many champion this, as it is more affordable, whereas others contend against it, because it opens up the possibility to explore other cultures and beliefs. Examining this factuality has given an extensive understanding of this topic.",
+    "word_count": 298,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_020",
+    "source_id": "66ea06cfac434e0014cbe25f",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people say that what children is their behaviour. other leave the amount of time they spend on television influences their behaviour most. Discuss both views and give your opinion.",
+    "essay": "There is no doubt that our personalities are judged by the behaviour or discipline we portray in front of others. But this is not true in the case of children as they are in their growing phase and waiting for their personalities and maturity to develop. So to stereotype them is not a reliable approach. To also claim that every child is influenced by television is also wrong. In this essay, i will discuss both views and estate my opinion.\r\n\r\nFirstly, a child has a whole life ahead of him  which he will be groomed both physically and mentally. His appearance will change and so will his thinking. For instance, if a kid is mischievous or likes to play around it will not dictate the fact that he will grow up to be the same person likewise if an adult is not obeying the law or not leading a straight life this does not reflect that he was disobedient in his childhood.\r\n\r\nMoving on to the alter view, it is true that TV has a great influence on a kid's brain and the shows or videos he watches will reflect in his behaviour as well. for example, there has been a survey in the USA which shows that the children who watch action movies displayed more aggression than the children who stick to watching cartoons only. Moreover, it depends on the time a child is spending in front of a screen. Doctor Robert Frost dean of Las Vegas University said \" A child should only be allowed to spend a maximum of 45 minutes in front of the screen in the whole day\".\r\n\r\nIn conclusion, it is a topic divided by two different opinions, One side believes that a child is what he displays and others believe that they are more influenced by television. I agree with the fact that a child perpetrates what he sees and learns. So in my oipnion the TV screen have more impact on a child's behaviour.",
+    "word_count": 332,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_021",
+    "source_id": "672ea78c1357400011728eaf",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "In order to solve traffic problems ,government should tax private car owners heavily and use the funds to improve public transportation. What are the positive and negative sites of this solution.",
+    "essay": "In the   days of the developing Era,the vehicle is a debatable issue in all the nations across the world.For controlling problems, some folks assert that legal bodies should gather more tax from the car owners and use these tariffs to enhance the performance of local mobility. In the  essay , I clarified the pros and cons of the given resolution. \r\n\r\n  To commence with ,  there is no doubt if authorities will compile fees from private ride holders it will help  society in numerous ways . First and foremost, having a large number of transits causes air pollution and noise pollution,  therefore it starts affecting the human organism in various manners like breathing problems and earning issues. For instance,in a survey conducted by Time News of UZBEKISTAN in Tashkent, the number of non-public auto landlord rose 32%in 2023, notwithstanding the condition, the pollution level  increased by 30% in 2023. Other scientists calculated all the positive and  negative sites of this approach by doing research too.\r\n\r\n     If regulatory will display some negative effects.  People will stop buying personal   logistics which will damage the commuting industry badly.Many big transportation companies assist in growing the country's economy.  From this their other problems will be produced financially. For example, many big transportation companies established in European countries like Germany are aiding to boost the country's economy.   Many citizens depend on  public shipping. Consequently, it will make their life more busy  and not wasting their money ,to save their time  by arriving particular destinations .\r\n\r\n             In a nutshell , every resident deserves a good public conveyance,  nevertheless,  getting more duties from an intimate automobile possessor is not the best remedy.  The government should find another method to solve the transit troubles.",
+    "word_count": 285,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 6,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_022",
+    "source_id": "686bc8d0dae560001174c41e",
+    "task": "QT_W2_OPINION",
+    "prompt": "In some countries, shopping online is replacing shopping at the store. Do you think it is a positive or negative development",
+    "essay": "In recent years, the issue of shopping online has emerged as a matter of significant concern to the general public.While some individuals maintain that shopping is gradually changing shopping physical stores ,I contend that traditional store still holds an important position. This essay aims to provide a comprehensive analysis of these differing viewpoints.\r\n\r\nOn the one hand, it is imperative to recognise that individuals should appreciate the considerable benefits of online shopping.A pivotal point to consider is that they can be easily carried in a single device, which emphasises that they can be used conveniently everywhere with the help of smart devices.Moreover, an additional crucial aspect to highlight is that they can buy cheaper // more reasonable items than shopping online//\r\n\r\n Shopping in physical stores. This stems from the understanding that shoppers can compare the prices and decide which shops they want. Finally, an advantage of online shopping is that it is more convenient and updates the latest trends. For example,one can observe that they can save time and money\r\n\r\nOnline shopping brings some negative effects. First, it makes people buy things they do not really need, which can waste money. Second, it causes more packaging waste and pollution. Third, many small shops lose customers because people shop online more. Lastly, some products bought online are of low quality or hard to return. Therefore, online shopping is not always a good choice. On the other hand, it is crucial to consider the opposing viewpoint that shopping in physical stores also plays a critical role in life. A significant factor to explore is that they can make the right choice , which underscores that they can look, touch the material and choose the right size. Furthermore, it is essential to highlight that it is a fun activity. This assertion is supported by the fact that they can relax  when shopping with their friends or family. In addition, shopping in a real store can be a great way to lift their mood and recharge their battery. What's more, It is essential to update the fashion trend in contemporary times.\r\n\r\nIn conclusion,an analysis of the differing perspectives on shopping online highlights the issue that it can be steady instead of shopping at the store , and physical stores will still hold an important position in the market.Ultimately ,it's clear that online shopping is very convenient,easy to compare prices,time saving , and they can read feedback about the product . Besides that, shopping in physical stores helps make the right choice,have fun activities and save time.This examination prompts individuals to thoughtfully consider their preferences and experiences that influence their enjoyment.",
+    "word_count": 436,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 5,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 6.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_023",
+    "source_id": "630dc1080751a40019b4db9c",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "Some companies have uniforms for their staffs which must be worn at all times. What are the advantages for a company having a uniform? Are there any benefits of having a uniform for the staffs?",
+    "essay": "In today’s modern era, there is a common trend to show your belonging to the company through different signs. In some organizations workers just wear a special uniform, in others receive goods with the company’s logo like pens, covers for phones or even t-shirts. This essay considers the advantages that a company gets if making their staff have special clothes and answers the question if there are any benefits for the staff from such a policy.\r\n\r\nFirstly, I will examine the situation from the employer’s point of view. The most obvious advantage is the separation of workers and consumers. In other words, the uniform increases the security level of the particular place. Furthermore, another possible benefit is that such a system pleases consumers' views. In other words, it is better for the business to launch a set of signs that differentiate it from the competitors. For instance, special caps that McDonald’s staff wear have recently become the symbol of this brand. Consumers tend to be loyal to a company that has its own signs. Last but not least, the workers also feel belonging to the system which declines labour turnover.\r\n\r\nSecondly, let me observe the situation from the employee’s point. There are significantly fewer benefits for this side. The first one is that wearing a uniform makes the staff feel their usefulness, which motivates them to work more effectively. In addition, special clothes unite people around common goals, in order to make their achievement much less complicated.\r\n\r\nTo conclude, I want to outline again that a uniform is a perfect way to create a real united team of distinctive workers. Such signs establish and support the atmosphere of accomplishing hard tasks together.",
+    "word_count": 282,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 6.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_024",
+    "source_id": "64558230fab8980018c7c66f",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "Some people believe that it is important to spend money on family celebration.while others think is a waste of money.discus both views",
+    "essay": "It has been noticed that some people enjoy spending wealth on family celebration because they are financially buoyant,there is financial security and it helps in bringing all the families together .while others thinks that it is a waste of capital because they have so much to do with funds and because they don't have enough of money or are having financial insecurity.I will expatiate more on both notions with relevant examples and draw logical conclusions.  \r\n\r\nTo begin , the family believe in spending a lot on occasions and accomplishments in the family  because they are financially buoyant enough,having enough money makes them want to throw parties and invite other family members will be invited to come  and  celebrate with them.They believe that spending lavishly helps to bring familiar together .for example in a situation where the whole family are not staying together and one of the members of the family delivered a bouncing baby boy,they will love to spread the whole news and inform the whole families to come rejoice and celebrate with them in that way they will get to see each other again after a long while .\r\n\r\nAdditionally, they believe as long as the wealth is there ,why will they not spend it .in a case whereby Tunde the son of Mr Okoro came out with first class in the university and the family decided to throw a big party to the son's success and achievement it will encourage other members  to want to do more and bring others close in the family .\r\n\r\nFurthermore, others think that spending lavishly is not necessary and believe is a waste of funds and resources because they are having financial insecurity,the family is not having enough and as a  result will not want to spend lavishly .for example in a family that they hardly have a 3square meal in a day will not want to use the little fund they have to throw parties and do celebrate but prefer to use the fund to stock the house with food for the family.Also,if the spend unnecessary it will affect other things they need to use the money for like children's school fees,house rent,and clothes \r\n\r\nIn conclusion,it is important and necessary to spend when you have enough cash and it is not a bad idea if the family are not  financially stabilized and secure,they need to be cautious of the way they spend unnecessarily and spend when need be.",
+    "word_count": 407,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 6.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_025",
+    "source_id": "6477215191cbdc0018c4d911",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people think that it’s a good idea to socialize with work colleagues during evenings and weekends. Other people think it’s important to keep working life completely separate from social life. Discuss both these views and give your own opinion.",
+    "essay": "Nowadays, it is becoming increasingly common for people to socialize with colleagues in the evening and on weekends. Some people believe that it will be beneficial to build a bond. While others argue that it will be better to keep working life completely separate from social life. However, I side with those who believe it will be a good idea to socialize with workmates.\r\n\r\nOn the one hand, having time together in the evening and on days off with workmates will build a strong bond. By having a good relationship with colleagues, the worker will feel more welcome in the company. Moreover, they will feel at home because they love the environment and people that work around them. For illustration, doing the project will be easy because good communication is already built because of a strong relationship between coworkers. As a result, the profit of the company will be easily achieved. \r\n\r\nOn the other hand, spending time together with a teammate can be annoying. By having too close a relationship, coworkers can not separate their work life and social life. It will affect their attitude toward their teammate, such as feeling reluctant to refuse any kind of asking help. For instance, workers can not reject a telephone from their workmate in the middle of the night because they think it is a must to help their workmate in any kind of situation and condition. Consequently, workers can not feel enjoy doing their jobs in the company.\r\n\r\nTo sum up, it is a common thing to socialize with teammates in work life. People tend to spend their evenings and days off with their workmates. Many people think that it will be good to build a good relationship by spending time together with their colleagues during evenings and weekends, while others argue that it will be better to separate social life and work life to limit the relationship. I am firmly convinced that spending evenings and days off with teammates is a wise decision.",
+    "word_count": 332,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 6,
+      "overall": 6.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_026",
+    "source_id": "66d60ff44dcc5a00110deb81",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "In the future ,we will have more and more leisure time as machines replace many of the tasks we do at home amd at work.Discuss thr challenges and benefits this will bring",
+    "essay": "Some say that, leisure time in the future is increasing rapidly because the machines will do most of people's tasks. This will have some benefits but it has also some challenges, I will discuss both of those aspects further. In my opinion, the benefits outweigh the risks by far.\r\n\r\nFirstly, use of the machines gives much more freedom to the people so they can implement their passion. Secondly, increased leisure time could  positively influence individuals, for example,  stress levels can drop dramatically. Thirdly, the effect on society can be  massive, for instance, humans working time will be freed up for more demanding tasks.\r\n\r\nOn the other hand, prolonged leisure time could promote laziness among humans, therefore even the smallest task can break the human. Some can be overwhelmed by uselessness to the point of mental health collapse. Also, diminishing the number of jobs will more likely be a serious problem. According to the survey conducted by Cambridge university 25% of employees lost their jobs because of technology. Finally,  companies can not give more preference to their skilled worker. \r\n\r\nTo summarize, an increase in leisure time among the population due to the machines can promote time spent on  hobbies. Also, humans could do more demanding tasks more often. However, this also has its flip side, too much free time can lead to the boredom and uselessness of the individual. In my conclusion, both perspectives have good points but the benefits outweigh the disadvantages. The Future is looking good for the human race.",
+    "word_count": 251,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 5,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 6.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_027",
+    "source_id": "687b87ac0214090011cb55ac",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "In some countries, birth rates are falling and experts say that by 2050, older people will be 65% more than children onder 15. What problems might this cause in the future? Can anything be done to solve this issue? Give reasons for your answer and include any relevant examples from your own knowledge or experience.",
+    "essay": "The number of live births is declining around the globe, which can cause a number of struggles in the future in both the country and to business owners. In certain regions, the rate of childbirth is decreasing , and scientists predict that in 25 years, the elderly will be almost two-thirds more than teenagers below 15. Nevertheless, I believe developing a few approaches , such as honouring the parent, can help solve the  decline caused by a trend among the younger.\r\n\r\nFirstly, decreasing the frequency of births will have negative effects on the economy as well as the labour force of the region. To illustrate, the elderly in Japan are approximately 40% higher than the new generation, leading to a lack of workforce for numerous businesses. In other words, there is high demand for workers, but a labour shortage persists. Furthermore, this will lead to the disruption of the economic balance of the country, since manpower is a vital source of cash flow. \r\n\r\nHowever, we can solve this issue with the help of the government. For example, in Mongolia, the government provides a fund for every child of the family monthly, as well as awarding the mothers by the number of times she has given birth. According to research, the approach has increased the birth rate by almost 40% as of now. Methods like these could be implemented in places that are suffering from similar issues. \r\n\r\nIn conclusion, birth rates are declining around the globe , and experts are warning that older people will be 65% more than teenagers, resulting in problems such as  economic slowdown and decline in manpower. While it is not completely solvable, it is reducible if governments start implementing strategies, including giving allowances to  teenagers and honouring mothers, the decrease could slow down.",
+    "word_count": 297,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 6,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 6.5
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_028",
+    "source_id": "646ecf0d7e89e60018c803d1",
+    "task": "QT_W2_OPINION",
+    "prompt": "International marketing is sometimes seen as invasive and an intrusion into the country in question. Others argue that it is a necessary and economical form of education in addition to spreading ideas, language and culture. Discuss both views and then give your opinion",
+    "essay": "The growth of overseas companies in the country become a debatable reason for taking the place of the nation's own products. However, some minds claim that with the invasion of these marketing, the growth and development of the nation by exchanging ideas, language and culture  overseas. I personally agree with the latter aforementioned statement.\r\n\r\nTo begin with, disturbing the public by least using  their own nation's made product. By manufacturing  foreign products in local areas,  people attract to Western countries' products. For example, with the expansion of foreign factories, people prefer these products instead of local products which causes loss to local companies and shopkeepers. Thus, it intrudes into the country. Additionally, sometimes people prefer Western culture to their own culture.\r\n\r\nMoving to the benefits of overseas manufacturing, it increases the economic growth of the countries by expanding their business between them. To illustrate this, India imports electric machinery, crude petroleum and so on and exports jewellery, pharmaceutical products and many more to other countries. Moreover, this business between the different nations enhances their friendship and a peaceful environment between these nations which leads to minimising chances of war between them. Eventually, the mingling of culture and language and exchanging of ideas happens only in international business by which the hope for the growth of the nation is for sure.\r\n\r\nTo conclude, there is no doubt, that international marketing may hurt  local businesses nonetheless cons are more for the acceleration of the production of the country which we can't unsee.",
+    "word_count": 250,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 8,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 6,
+      "overall": 7.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_029",
+    "source_id": "64e4d5b8efce1f0018b49885",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "In many countries people are now living longer than ever before. Some people say an ageing population creates problems for governments. Other people think there are benefits if society has more elderly people. To what extent do the advantages of having an ageing population outweigh the disadvantages? Give reasons for your answer and include any relevant examples from your own knowledge or experience.",
+    "essay": "In most of the countries around the world, elderly people are increasing these days. It became a debatable topic, few people believe that the older generation will cause trouble to the government, while others believe that they are useful to society. I think the positive aspects are more than the negatives. \r\n\r\nOne compelling advantage of having a larger proportion of elderly individuals is the wealth of experience they bring to society. The older generation possesses a lifetime of insights and knowledge, which can prove invaluable to younger people in various aspects of life, both personal and professional. For instance, my own grandfather, an accomplished organic farmer and respected community leader, provided me with practical insights into organic farming techniques that I hadn't encountered in textbooks. Beyond agriculture, he also imparted wisdom about interpersonal skills and human understanding, lessons that are seldom found in formal education.\r\n\r\nMoreover, the aging population can contribute significantly to the economy and the job market. Many elderly individuals are engaging in entrepreneurship, opening businesses that offer part-time employment opportunities, particularly for college students. This dynamic not only allows students to earn income to cover their daily expenses but also injects vitality into the economy. To illustrate, my friend pursuing a master's degree in the United States supports himself by working part-time at a store run by a 60-year-old shop owner. This symbiotic relationship benefits both the student and the economy as a whole.\r\n\r\nIn conclusion, older people are contributing to the Nation in many ways such as by sharing life experiences and guiding young people in the proper direction in their life, also working even after retirement.",
+    "word_count": 271,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 8,
+      "CRIT_W_GRA": 6,
+      "overall": 7.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_030",
+    "source_id": "65b9c9ce2d0c430011eb47f2",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people say music is a good way of bringing people of different cultures and ages together. To with extent do you agree or disagree with this opinion?",
+    "essay": "Music has many genres that can be enjoyed by a various of people without background limitations, namely culture and age. This happens because music can bring relatable experiences and create solidarity. I absolutely agree with this statement that music is a good way to unify people despite their differences.\r\n\r\nFirst of all, many artists write songs based on their experiences, such as our love life. Usually, they write sad lyrics that relate to the majority of people. There is no limitation in experiencing a sad relationship because it might happen to everyone. That is why, people can enjoy songs without cultural or age barriers. Take Justin Bieber for instance, he has the biggest listener in the world because his lyrics are relatable to general people's experiences.\r\n\r\nMoreover, people who have the same music taste are most likely to form a fanbase. In this group, people can get a sense of friendship although coming from different backgrounds. This happens because they share the same interest so they feel more open to other people. Consider the now-rising Korean boy group, BTS: they have a solid fanbase from all over the world called ARMY that gives people the opportunity to meet people from different countries.\r\n\r\nTo sum up, I believe that music can eradicate the barriers of cultures and ages because people can feel a relation to their own experiences. Moreover, fans of music can also create a group where they can share their interest freely. Hence, music is an enjoyable entertainment that gathers people together.",
+    "word_count": 253,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 7.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_031",
+    "source_id": "678212422bd9350011ea0a8c",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "In many cities there is a lack of space to develop and as a result, in order to modernise, old buildings are demolished and replaces with new buildings. What are the disadvantages of knocking down old building? Do the advantages outweigh the disadvantages?",
+    "essay": "Following the advancement of humanity, urban infrastructure isn't to be excluded, therefore leading to the practice of taking down old-age buildings and replacing them with modern ones. As I think, the drawbacks which this approach brings can't be compared to its advantages.\r\n\r\nOn the one hand, demolishing old buildings comes with significant disadvantages. Firstly, many older structures carry cultural and historical value, representing a city’s heritage and identity. Destroying them can result in the loss of unique landmarks, which diminishes the cultural richness and character of urban areas. For instance, historical neighborhoods and iconic buildings often attract tourists and preserve the legacy of previous generations. Additionally, demolition and reconstruction contribute to environmental degradation. The process generates significant construction waste and consumes large amounts of natural resources, exacerbating the already critical issue of climate change. Lastly, the financial burden of tearing down and replacing buildings can strain public and private budgets, as construction costs often surpass renovation expenses, making this approach economically challenging.\r\n\r\nOn the other hand, there are undeniable advantages to replacing old buildings with modern ones. One major benefit is the ability to adapt urban spaces to meet the demands of growing populations and changing lifestyles. Modern buildings are often more space-efficient and better equipped with advanced technologies, such as energy-efficient systems, which reduce long-term operating costs. For example, high-rise buildings can provide more housing or commercial space, alleviating issues like overcrowding and housing shortages in many cities. Moreover, new buildings are designed with improved safety standards, such as earthquake resistance and fire prevention systems, ensuring greater protection for occupants. These advancements make urban living more practical and convenient in a rapidly evolving world.\r\n\r\nIn conclusion, while the demolition of old buildings offers practical advantages in terms of modernization and safety, the loss of cultural heritage, environmental harm, and economic challenges are significant drawbacks. Therefore, the disadvantages outweigh the benefits, and cities should strive to find a balance between preserving the past and embracing the future.",
+    "word_count": 327,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 8,
+      "CRIT_W_CC": 6,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 7,
+      "overall": 7.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_032",
+    "source_id": "67b07fa9c749ba00134609f6",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "Nowadays, many people spend less and less time at home. What are the *causes* of this? What are the effects of this on individuals and on the society?",
+    "essay": "These days, it is increasingly common to observe that more and more individuals are spending less time at home. This phenomenon can be attributed to several reasons, and it clearly has various impacts on both individuals and society as a whole.\r\n\r\nThere are multiple causes for why people today do not spend much time at home. To begin with, many individuals are overwhelmed by their hectic schedules. While adults must dedicate their time and effort to work harder for higher income or promotion opportunities, children who are students have numerous classes at school and attend many extracurricular activities. For example, after spending 8 hours at the workplace, employees may need to meet clients or participate in important conferences, whereas children often go to English centers or study with tutors in the evenings after school. Additionally, when people do have spare time, they tend to prefer hanging out and traveling with friends, which means they do not stay at home regularly.\r\n\r\nFrom my perspective, this trend may have significant effects on both individuals and society. First, regarding individuals, it can be detrimental to spend less time at home, as they may lose their connection with family members. For instance, parents and children may no longer share mealtimes or watch TV together, which are essential for maintaining a close-knit family, and instead frequently have lunch with colleagues or play with classmates. However, this trend may also bring about some positive impacts on our community, as individuals tend to spend more money when they go out, such as dining at restaurants, buying coffee, or staying at hotels during vacations. Clearly, this could help a country's economy thrive considerably.\r\n\r\nIn conclusion, many people are spending less and less time at home. This is primarily because adults must work, children must study, and their free time is often dedicated to social activities. Although this trend may be beneficial for the public, it can adversely affect each person's relationship with their family.",
+    "word_count": 326,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 6,
+      "CRIT_W_GRA": 7,
+      "overall": 7.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_033",
+    "source_id": "630198f70751a40019b4c6ef",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "More and more people are choosing to work from home via computer. Companies are increasingly allowing their employees to do so. What might be some causes of this development?What are the benefits of doing this?",
+    "essay": "Nowadays, almost everyone thinks that money is the most important aspect for them to live and enjoy their lives. We often go to work for at least eight hours or more a day to earn our salary in order to pay for daily bills, purchase daily goods or satisfy our demands. For instance: a ticket to the movie theatre, shopping, and traveling. But is money the only factor that people need to be happy? In my opinion, this depends on each person’s choices\r\n\r\n      It is widely accepted that money plays an important role in our today’s society as it helps to improve our lives and make our society become more enjoyable and pleasurable. In Vietnam, there are lots of wealthy people such as singers, masters of ceremonies or MCs, and comedians. They contribute a huge effort to our community. That leads to the result that there are a lot of fans or admirers following them and they make a lot of money. Yet, this doesn’t mean all of them are happy with their lives because those people don’t often seem to show it. In fact, many newspapers’ articles reported that some celebrities had admitted they sometimes fell into a state of stress which made them become aggressive or rude toward other people. Therefore, these examples indicate that happiness doesn’t associate with those negative behaviors.\r\n\r\n     So if happiness is not the main factor that is necessary for people then what are the other factors? Some people are enjoying their lives thanks to having good friends around them or following an active, positive social life which helps them reduce stress and have a positive perspective. Meanwhile, there are others who find satisfaction in daily lives when they help those who are disadvantaged, handicapped, or simply poorer than they are. From my personal experience, I prefer to spend my free time enjoying simple things like going out with my loved ones or eating out at a nice restaurant. Having more money surely can make everyone’s life become more enjoyable or better but it doesn’t mean we have to rely on earning them all the time.\r\n\r\nIn conclusion, without money, we can’t live to our fullest or enjoy it. However, we have to remember that we don’t have to spend entire our lives chasing money as there are many other simpler ways to pursue a relaxing, healthy lifestyle.",
+    "word_count": 394,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 9,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 7.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_034",
+    "source_id": "64ce6eeb38e60a001869c4e8",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "Some people prefer to use energy-saving modes of transportation like hybrid cars and bicycles. Others prefer the usual mode of transportation like buses and trains because it is fast and efficient. Which mode of transportation do you prefer and why? Use specific reasons and details to support your answer.",
+    "essay": "regardless of the choice of transportation, people all around the round share one objective and that is a convenient commute. while one party prefers energy-saving transports like hybrid cars and bicycles, others simply choose the usual options such as trains and buses. putting aside different notions, I personally favor the latter. \r\n\r\nit is evident that, these days global warming has become an alarming issue all over the globe. transportation being one of the main contributors to this problem, people are selecting their mode of transport carefully. therefore, many are biased toward using electric cars and bicycles since they do not run on fuel and reduce nature pollution. also, owning a personal vehicle gives one the freedom of comfort. \r\n\r\non the other hand, public vehicles like trains and buses are less convenient in terms of flexibility. the reason is, these services are pre-scheduled and designed to stop at particular points. As a result, the free will of traveling to a certain place at any given time is unavailable to them. however, since they are routined it implies that the system is very organized and timed. in addition, since they follow fixed routes it is easier for them to avoid traffic and arrive timely on a destination faster. furthermore, it is also cost-effective, making it a popular and convenient choice for all socio-economic households to move. one shortcoming is, rides like these are contributing to the damage to our surroundings. \r\n\r\nto sum up, even though both energy-friendly and non-energy-friendly methods of transport have their fair share of pros and cons, the personal benefits of using a common public transport outweigh the potential of eco-friendly commutes. hence, I strongly support the practice of using local transportation.",
+    "word_count": 283,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 9,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 7.5
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_035",
+    "source_id": "660d6aa6143b1d0011539a57",
+    "task": "QT_W2_OPINION",
+    "prompt": "The best manager is one who is warm and friendly with their staff. Do agree or disagree?",
+    "essay": "There has been quite an obvious discussion about the topic of the best management. While some people believe that they should have a cold personality and also be bossy, I would argue that the good ones should be kind and take care of their staff, Which I will explain my reasons in the following paragraphs. \r\n\r\nTo begin with, there is no doubt that seniors have to control a large number of staff and that may lead them to have a seriously bad manner. This is because controlling the team to achieve the target needs a powerful leader to lead the whole group in the same direction. For instance, big company in Thailand, the managers are always serious and bossy with their members. As a result, it could increase the staff turnover rate and also the absent rate.\r\n\r\nOn the other hand, it is worth pointing out that leading people with good manners and kind behaviour would benefit more for both the company and management. This is based on the fact that working in a good environment and friendship will make employees more willing to participate in the team and the company's goals. For example, when brainstorming, if the manager has a good relationship with their staff, they will get a variety of ideas from the members, as they are willing to support and also they can create an idea freely. \r\n\r\nIn conclusion, we can observe that the best manager should be the one  who can encourage the team and also create a good environment at work. Overall, I firmly agree with the statement.",
+    "word_count": 263,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 8,
+      "CRIT_W_GRA": 8,
+      "overall": 7.5
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_036",
+    "source_id": "612674cdfa83ba0018b44a75",
+    "task": "QT_W2_PROBLEM_SOLUTION",
+    "prompt": "The environmental problems that today's world is facing are so great that there is little ordinary people can do to improve the situation. So, governments and large organizations should be responsible for reducing the amount of damage being done to the environment.",
+    "essay": "The environmental issue is a general issue in human life that  is always tried to be fixed. Even though not all people realize that they have a responsibility to keep their environment since most of them believe that it should be done by government and large organizations. This essay completely disagrees with that statement as not only government and organization but also people who live in their place.\r\n\r\nFirst of all, it is  absolutely true that government has a big responsibility to solve the environmental issues in their country that it is helped by a large organization which is related by that issue. For instance, Global warming has been happening since  the early of 20 century and it has been breaking the atmosphere. Nowadays, this case is completely changing our weather so that sometimes humans cannot predict the changing of weather and the range of season. Due to this problem, the government is worked together with the National Geographic group to make a plan to plant 1.000 trees in every subdistrict in many countries. It is clear that to solve the environmental problems we need a big source that it cannot do by a citizen.\r\n\r\nOtherwise, although large organizations have already done a big plan to tackle this issue, people as  good citizens have to support this problem solving by doing a small act that it can be affected to a better world without global warming. For example, many volunteers have already planted many trees in Subang, West Java in  early  2015, but it cannot give a big impact as it is not supported by local people who live in that area. Even there are a few people who destroyed the city forest by cutting the trees and they will sell it to a local company. It is clear, that government and organizations are not enough to tackle this problem.\r\n\r\nTo conclude, solving environmental issues should not do only by the big organizations and governments but also local people have the same responsibility to tackle this issue. So that global warming impacts cannot break our environment.",
+    "word_count": 346,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 9,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 8,
+      "overall": 8.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_037",
+    "source_id": "6158a3214ba3dc0012fe405c",
+    "task": "QT_W2_OPINION",
+    "prompt": "The age at which people have children has risen. Some people believe that because of this, the families and countries will suffer some problems. What is your opinion",
+    "essay": "The average childbearing age of women has increased over the years.  A few people are of the belief that the impact would be felt by the families and the countries. In my view, it is better to have children early on rather than planning parenthood for the future as there are a lot of evolving complexities.\r\n\r\nIn the past, couples had children in their mid-twenties and a second child by their thirties but lately many couples prefer to have children after thirty years of age as they feel it might affect their career and prospects of having various life experiences. Furthermore, with the advent of newer medical technologies like oocyte preservation where a woman can collect a few of her viable eggs and store them for future conception many couples prefer to settle very late.  According to  a recent survey conducted by the Oxford University, children who were born to younger parents had a better bond with their parents when they became adults in contrast to the children who were born to older parents.\r\n\r\nOn the other hand, if people do end up having children at their desired age sometimes the number of ovarian reserves required for conceiving a baby inversely goes down with an increase in age. This can lead to an increase in medical costs for seeking various infertility treatments. Likewise, sometimes peer pressure or pressure from parents can cause anxiety and depression at a later stage when the couple realize that it would be difficult to bear a child. For instance, a recent article published by the American Association of Gynecologists has revealed that as maternal age advances the chances of having complicated labor are higher. It is better for prospective parents to make well-informed decisions regarding childbirth than making decisions that suit their convenience.\r\n\r\nIn conclusion, due to the increasing medical costs and due to medical complications attributed to delayed motherhood it would be better to have children at an early age.  329 words",
+    "word_count": 328,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 8,
+      "CRIT_W_CC": 9,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 7,
+      "overall": 8.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_038",
+    "source_id": "62b47d16a21aef00182b5d9c",
+    "task": "QT_W2_ADV_DISADV",
+    "prompt": "In recent years more and more students are choosing to read e-books rather than paper-based books. Do the advantages outweigh the disadvantages?",
+    "essay": "There has been controversy about whether electronic and paper books are more beneficial for students in studying. After the consideration, I believe that both electronic books and printed ones are equally advantageous.\r\n\r\nThere are several reasons why teenagers have been using e-books in studying in recent years. First, they do not have to carry the actual books in their bags which are heavy and significantly cause back and shoulder pain if they carry for a long time. Meanwhile, electronic books provide a storage function and are capable of accessing the internet by using the smartphone or other gadgets to download any books, and anywhere they like. For instance, when we get stuck in traffic congestion or waiting for the professor arrived. Thus, they can make good use of their time to study.\r\n\r\nHowever, there are many underprivileged students who might not afford to purchase computers or other devices. In some rural areas, they cannot connect to the internet, restricting them from using the paper book and having no other alternatives. Accordingly, working or studying behind the screen for an extended period significant result in some health problem, such as eye strain. Similarly, using a long period of paper in insufficient light might cause a similar illness with e-books.\r\n\r\nIn conclusion, both e-books and paper-based books are beneficial to student learning; while they are affordable to buy technological devices and have sufficient light, electronic books are a better option. On the other hand, if there are not capable of connecting to the internet, the printed version is an appropriate choice.",
+    "word_count": 259,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 9,
+      "CRIT_W_LR": 7,
+      "CRIT_W_GRA": 9,
+      "overall": 8.0
+    },
+    "reference_feedback": null,
+    "split": "test"
+  },
+  {
+    "id": "w2_039",
+    "source_id": "63ebc8e796e92a00181ae32b",
+    "task": "QT_W2_DISCUSSION",
+    "prompt": "Plastics and chemicals are becoming threat to the planet. Discuss its reasons and solution.",
+    "essay": "In recent times, the consumption of plastic and chemical products has drastically increased leading to additional unwanted environmental hazards. The main causes are extreme usage of the things made of these items in our day-to-day lives and inefficient recycling methods. These issues can be best resolved by reducing consumption with the help of alternatives.\r\n\r\nThe most prominent reason is that a large volume of these products used by humans are directly disposed without appropriate recycling measures because of which the environment is getting contaminated. For instance, when these toxic materials are disposed into the soil , they deteriorate the quality of agricultural land thereby reducing its yield immensely. Another reason is that their extensive usage by people leads to a higher demand due to which more and more industries are being established. As a result, the emission of harmful gasses and waste from these industries causes more destruction to  nature.\r\n\r\nThe most effective solution could be replacing these substances with alternatives which can be reusable and are environmentally friendly. Moreover, government authorities must educate its people about the need to change and impose heavy penalties for those who breach these rules. For example, polythene covers can be replaced with either cloth bags or wheel carts so that they can be used repetitively. Although this solution covers the majority of the scenarios, however, there are situations where the utilization of these substances cannot be completely replaced. For that reason, recycling procedures need to be revived by concerned authorities so that these are not disposed of directly into the soil and water.\r\n\r\nTo conclude, to keep the environment clean, avoid the usage of chemical and plastic products as much as possible in our day-to-day lives. For whatever reason, if they are needed then ensure proper recycling procedures are followed as per the regulations.",
+    "word_count": 301,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 9,
+      "CRIT_W_LR": 8,
+      "CRIT_W_GRA": 8,
+      "overall": 8.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  },
+  {
+    "id": "w2_040",
+    "source_id": "66eef265518ab60011f66eed",
+    "task": "QT_W2_OPINION",
+    "prompt": "Some people think young people are not suitable for important position in the government while other people think it is a good idea for young people to take on the positions. Discuss both views and give your opinion.",
+    "essay": "Inclusivity among governmental job positions is paramount for nations, including youth involvement in it. Many people argue that youngsters are unfit for many major governmental positions, while others believe that it is a marvellous idea to involve young people to take part in the positions. This essay will explain both points of view and give my personal standpoint in detail.\r\n\r\nFirst of all, many individuals think that young people or Generation Z are not suitable for important jobs to serve the authority due to their lack of experience. For example, a fresh graduate usually has no more than two years of experience. In addition, youngsters usually need to adapt to the company culture that has a wide range of age gap. In particular, generation Z language often makes the boomer generation confused and leads to task misunderstanding.\r\n\r\nOn the other hand, involving youth to take substantial jobs in the government will give a structural refreshment of the political approach. For instance, generation Z can process complaints from societies through many social media such as Instagram and TikTok. Moreover, youngsters are more energetic and able to multitask. This is due to their young age, so their body is mostly stronger than the older ones. \r\n\r\nTo summarize, allowing youth to the jobs related to authority will produce more magnificent advantages. Therefore, it is clear that the idea of banning young people from many governmental positions cannot be supported. After a thorough analysis of this subject, I firmly believe that creating inclusive job positions for all age groups should be prioritized.",
+    "word_count": 258,
+    "source": "writing9.com via Hugging Face ndtran0101/writing9-ielts-essays",
+    "license": "unknown (research and educational use per dataset card)",
+    "reference_bands": {
+      "CRIT_W_TR": 7,
+      "CRIT_W_CC": 7,
+      "CRIT_W_LR": 8,
+      "CRIT_W_GRA": 9,
+      "overall": 8.0
+    },
+    "reference_feedback": null,
+    "split": "dev"
+  }
+]
