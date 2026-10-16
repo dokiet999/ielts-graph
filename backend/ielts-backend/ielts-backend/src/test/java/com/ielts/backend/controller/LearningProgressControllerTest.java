@@ -39,6 +39,7 @@ class LearningProgressControllerTest {
 
     private static final String READING_COURSE = "10000000-0000-0000-0000-000000000001";
     private static final String LISTENING_COURSE = "10000000-0000-0000-0000-000000000002";
+    private static final String WRITING_COURSE = "10000000-0000-0000-0000-000000000009";
     private static final String GETTING_STARTED_SECTION = "20000000-0000-0000-0000-000000000011";
     private static final String DRAFT_SECTION = "20000000-0000-0000-0000-000000000041";
     private static final String SKIMMING_LESSON = "30000000-0000-0000-0000-000000000112";
@@ -72,11 +73,12 @@ class LearningProgressControllerTest {
     }
 
     @Test
-    void myCourses_demoStudent_seesReadingAndListening() throws Exception {
+    void myCourses_demoStudent_seesReadingListeningAndWriting() throws Exception {
         mockMvc.perform(get("/api/courses/my").with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(READING_COURSE, LISTENING_COURSE)))
-                .andExpect(jsonPath("$[*].exerciseCount").value(contains(1, 1)))
+                .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(READING_COURSE, LISTENING_COURSE, WRITING_COURSE)))
+                // Writing course (V11): the V8 sample and the 16 dev prompts of V10
+                .andExpect(jsonPath("$[*].exerciseCount").value(containsInAnyOrder(1, 1, 17)))
                 .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].sectionCount").value(contains(2)))
                 .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].teacherName").value(contains("Demo Teacher")))
                 .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].difficultyLevel").value(contains("INTERMEDIATE")));
