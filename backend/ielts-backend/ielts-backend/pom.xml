@@ -119,9 +119,30 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- JSON Schema Draft 2020-12 validation for LLM feedback (WritingEssayGrader) -->
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.5.4</version>
+        </dependency>
     </dependencies>
 
 	<build>
+		<!-- Expose ai/schema and ai/prompts from the repo root on the classpath
+		     so WritingEssayGrader can load them with ClassPathResource. -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>../../../ai</directory>
+				<targetPath>ai</targetPath>
+				<includes>
+					<include>**/*.json</include>
+					<include>**/*.txt</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

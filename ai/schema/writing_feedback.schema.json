@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "writing_feedback.schema.json",
+  "$id": "https://ielts-graph.local/schemas/writing_feedback.schema.json",
   "title": "Writing feedback",
   "description": "Structured result of AI scoring for one IELTS Academic Writing essay (ontology v0). Estimated band for learning support, not an official score. Band per criterion is an integer 0-9; overall_band is the mean of the 4 criteria rounded to the nearest 0.5 (the backend recomputes it and does not trust the model). IDs follow ontology v0: CRIT_W_*, ERR_*, QT_W*_*. W3 targets Task 2; Task 1 is allowed by the schema but not yet evaluated.",
   "type": "object",

@@ -1,10 +1,13 @@
 package com.ielts.backend.controller;
 
 import com.ielts.backend.dto.request.ObjectiveSubmissionRequest;
+import com.ielts.backend.dto.request.WritingSubmissionRequest;
 import com.ielts.backend.dto.response.ObjectiveSubmissionResultResponse;
 import com.ielts.backend.dto.response.SubmissionResponse;
+import com.ielts.backend.dto.response.WritingSubmissionResultResponse;
 import com.ielts.backend.service.ObjectiveSubmissionService;
 import com.ielts.backend.service.SubmissionService;
+import com.ielts.backend.service.WritingSubmissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -30,18 +33,27 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/exercises")
 @RequiredArgsConstructor
-@Tag(name = "Exercise submissions", description = "Submit Reading/Listening exercises and view attempts")
+@Tag(name = "Exercise submissions", description = "Submit Reading/Listening/Writing exercises and view attempts")
 public class ExerciseSubmissionController {
 
     private final ObjectiveSubmissionService objectiveSubmissionService;
+    private final WritingSubmissionService writingSubmissionService;
     private final SubmissionService submissionService;
 
     @PostMapping("/{id}/submit")
     @Operation(summary = "Submit a Reading or Listening exercise (students only). Returns score, statistics by question type and incorrect questions")
     public ObjectiveSubmissionResultResponse submit(@PathVariable UUID id,
-                                                    @AuthenticationPrincipal UserDetails principal,
-                                                    @Valid @RequestBody ObjectiveSubmissionRequest request) {
+                                                     @AuthenticationPrincipal UserDetails principal,
+                                                     @Valid @RequestBody ObjectiveSubmissionRequest request) {
         return objectiveSubmissionService.submit(id, principal.getUsername(), request);
+    }
+
+    @PostMapping("/{id}/submit/writing")
+    @Operation(summary = "Submit a Writing essay (students only). Evaluates via AI and returns detailed band score and feedback")
+    public WritingSubmissionResultResponse submitWriting(@PathVariable UUID id,
+                                                         @AuthenticationPrincipal UserDetails principal,
+                                                         @Valid @RequestBody WritingSubmissionRequest request) {
+        return writingSubmissionService.submit(id, principal.getUsername(), request);
     }
 
     @GetMapping("/{id}/submissions")
