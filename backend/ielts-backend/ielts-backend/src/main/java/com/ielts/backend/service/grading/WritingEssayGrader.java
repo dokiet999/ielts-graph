@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WritingEssayGrader {
 
-    public static final String PROMPT_VERSION = "writing-v1.0";
+    public static final String PROMPT_VERSION = "writing-v1.1";
     private static final int MAX_RETRIES = 1;
     private static final int TASK_2_MIN_WORDS = 250;
     private static final int MAX_IMPROVEMENTS = 5;
@@ -46,7 +46,7 @@ public class WritingEssayGrader {
     private static final List<String> TASK_2_CRITERIA = List.of("CRIT_W_TR", "CRIT_W_CC", "CRIT_W_LR", "CRIT_W_GRA");
 
     private static final Map<String, Set<String>> ALLOWED_ERRORS_BY_CRITERION = Map.of(
-            "CRIT_W_TR", Set.of("ERR_OFF_TOPIC", "ERR_PARTIAL_ANSWER", "ERR_UNDER_LENGTH", "ERR_UNCLEAR_POSITION", "ERR_UNDERDEVELOPED"),
+            "CRIT_W_TR", Set.of("ERR_OFF_TOPIC", "ERR_PARTIAL_ANSWER", "ERR_UNCLEAR_POSITION", "ERR_UNDERDEVELOPED"),
             "CRIT_W_CC", Set.of("ERR_LINKER_MISUSE", "ERR_LINKER_OVERUSE", "ERR_NO_PARAGRAPH", "ERR_UNCLEAR_REFERENCE"),
             "CRIT_W_LR", Set.of("ERR_WORD_CHOICE", "ERR_COLLOCATION", "ERR_REPETITION", "ERR_SPELLING", "ERR_WORD_FORM"),
             "CRIT_W_GRA", Set.of("ERR_ARTICLE", "ERR_VERB_TENSE", "ERR_SVA", "ERR_NOUN_NUM", "ERR_PREP", "ERR_SENT_STRUCTURE", "ERR_PUNCT")
