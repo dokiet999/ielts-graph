@@ -12,6 +12,7 @@ import { isAnswered, useSessionStore } from '@/stores/session'
 import { QuizRunner } from './quiz/QuizRunner'
 import { SplitPaneRunner } from './test/SplitPaneRunner'
 import { useRunnerTimer } from './test/useRunnerTimer'
+import { WritingRunner } from './writing/WritingRunner'
 
 const questionCount = (ex: Exercise) =>
   ex.questionGroups.reduce((n, g) => n + g.questions.length, 0)
@@ -187,9 +188,14 @@ export function RunnerPage() {
       </div>
     )
   }
+  if (exercise.skillType === 'WRITING') return <WritingRunnerPage exercise={exercise} />
   return exercise.exerciseType === 'LESSON' ? (
     <Quiz exercise={exercise} />
   ) : (
     <TestRunner exercise={exercise} />
   )
+}
+
+function WritingRunnerPage({ exercise }: { exercise: Exercise }) {
+  return <WritingRunner exercise={exercise} onExit={useExitTo(exercise)} />
 }

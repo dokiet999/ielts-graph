@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from './api'
-import type { SubmissionRequest } from './types'
+import type { SubmissionRequest, WritingSubmissionRequest } from './types'
 
 export const keys = {
   me: ['me'] as const,
@@ -56,17 +56,30 @@ export const useSubmission = (id: string | undefined) =>
 export const useMySubmissions = () =>
   useQuery({ queryKey: keys.mySubmissions, queryFn: api.mySubmissions })
 
-export function useSubmit() {
+function useInvalidateAfterSubmit() {
   const qc = useQueryClient()
+  // Scores, progress and history all depend on submissions.
+  return () => {
+    qc.invalidateQueries({ queryKey: ['sections'] })
+    qc.invalidateQueries({ queryKey: ['lessons'] })
+    qc.invalidateQueries({ queryKey: ['courses'] })
+    qc.invalidateQueries({ queryKey: keys.mySubmissions })
+    qc.invalidateQueries({ queryKey: keys.dashboard })
+  }
+}
+
+export function useSubmit() {
+  const invalidate = useInvalidateAfterSubmit()
   return useMutation({
     mutationFn: (body: SubmissionRequest) => api.submit(body),
-    onSuccess: () => {
-      // Scores, progress and history all depend on submissions.
-      qc.invalidateQueries({ queryKey: ['sections'] })
-      qc.invalidateQueries({ queryKey: ['lessons'] })
-      qc.invalidateQueries({ queryKey: ['courses'] })
-      qc.invalidateQueries({ queryKey: keys.mySubmissions })
-      qc.invalidateQueries({ queryKey: keys.dashboard })
-    },
+    onSuccess: invalidate,
+  })
+}
+
+export function useSubmitWriting() {
+  const invalidate = useInvalidateAfterSubmit()
+  return useMutation({
+    mutationFn: (body: WritingSubmissionRequest) => api.submitWriting(body),
+    onSuccess: invalidate,
   })
 }

@@ -11,6 +11,7 @@ import {
   toLesson,
   toSubmission,
   toSubmissionDetail,
+  toWritingResult,
 } from './adapters'
 import type {
   BeCourseDetail,
@@ -21,6 +22,7 @@ import type {
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
+  BeWritingResult,
 } from './backend-types'
 import type {
   AnswerValue,
@@ -28,7 +30,9 @@ import type {
   CheckAnswerResponse,
   SubmissionRequest,
   User,
+  WritingSubmissionRequest,
 } from './types'
+import { isRetryableWritingError, writingSubmitMessage } from './writing'
 
 export const http = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? '/api',
@@ -62,6 +66,23 @@ export function errorMessage(error: unknown, fallback = 'Đã có lỗi xảy ra
     return data?.message ?? fallback
   }
   return fallback
+}
+
+/**
+ * A failed essay submission as the UI shows it: Vietnamese text for the known backend codes, and
+ * whether trying again may work (AI overloaded or slow, not a rule such as the attempt limit).
+ */
+export function writingSubmitError(error: unknown): { message: string; retryable: boolean } {
+  if (axios.isAxiosError(error)) {
+    const code = (error.response?.data as { code?: string } | undefined)?.code
+    const status = error.response?.status
+    // No response at all: the request timed out, or the network is down.
+    const timedOut = error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT'
+    const message =
+      writingSubmitMessage(timedOut ? 'LLM_TIMEOUT' : code, status) ?? errorMessage(error)
+    return { message, retryable: timedOut || isRetryableWritingError(code, status) }
+  }
+  return { message: errorMessage(error), retryable: false }
 }
 
 const data = <T>(p: Promise<{ data: T }>) => p.then((r) => r.data)
@@ -123,6 +144,15 @@ export const api = {
         timeSpent: Math.round(body.timeSpent),
       }),
     ).then((r) => ({ id: r.result.submissionId })),
+  /** The AI call takes several seconds: the backend's own limit is 60s, so wait a little longer. */
+  submitWriting: (body: WritingSubmissionRequest) =>
+    data(
+      http.post<BeWritingResult>(
+        `/exercises/${body.exerciseId}/submit/writing`,
+        { essayText: body.essayText, timeSpent: Math.round(body.timeSpent) },
+        { timeout: 90_000 },
+      ),
+    ).then(toWritingResult),
   submission: (id: string) =>
     data(http.get<BeSubmissionDetail>(`/submissions/${id}/detail`)).then(toSubmissionDetail),
   mySubmissions,

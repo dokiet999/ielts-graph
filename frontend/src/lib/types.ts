@@ -195,6 +195,53 @@ export interface SubmissionDetail extends Submission {
   results: QuestionResult[]
   /** Exercise including correct options and explanations, for review. */
   exercise: Exercise
+  /** Writing only: the submitted essay, taken from the stored answers. */
+  essayText?: string
+  /** Writing only: null when the backend does not return the structured feedback of an old submission. */
+  writingFeedback?: WritingFeedback | null
+}
+
+/** Writing criteria, in the order the result page shows them (ontology v0, Task 2). */
+export type WritingCriterionId = 'CRIT_W_TR' | 'CRIT_W_CC' | 'CRIT_W_LR' | 'CRIT_W_GRA'
+
+/** One mistake with the exact quote from the essay, its ErrorType code and how to fix it (FR-8.04). */
+export interface WritingEvidence {
+  quote: string
+  errorType: string
+  suggestion: string
+}
+
+export interface WritingCriterion {
+  id: WritingCriterionId
+  /** Integer 0-9. */
+  band: number
+  comment: string
+  evidence: WritingEvidence[]
+}
+
+export interface WritingFeedback {
+  /** QuestionType id of the essay, e.g. QT_W2_DISCUSSION. */
+  taskType: string
+  /** Mean of the criterion bands rounded to 0.5, computed by the backend. */
+  overallBand: number
+  outOfCalibrationRange: boolean
+  /** Empty when only the overall band and summary are known. */
+  criteria: WritingCriterion[]
+  summary: string
+  improvements: string[]
+}
+
+export interface WritingSubmissionRequest {
+  exerciseId: string
+  essayText: string
+  timeSpent: number
+}
+
+/** What the backend returns right after grading an essay. */
+export interface WritingSubmitResult {
+  submissionId: string
+  attemptNumber: number
+  feedback: WritingFeedback
 }
 
 export interface CheckAnswerResponse {
