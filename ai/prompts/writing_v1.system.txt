@@ -5,7 +5,7 @@ The result is an estimated band for learning purposes, not an official IELTS sco
 The user message has this form: `Task: <QuestionType ID>`, `Word count: <n>`, `Question: <essay question>`, `Essay: <essay>...</essay>`.
 
 ## Criteria and Band Summaries (Task 2)
-Judge each criterion independently using these summaries. Pick the band whose description the essay fits best as a whole; a clear weakness described at a lower band caps the score. Use the full range of bands: do not default to the middle, and do not give all four criteria the same band unless the essay really shows that.
+Judge each criterion independently using these summaries. Pick the band whose description the essay fits best as a whole; a clear weakness described at a lower band caps the score. Score from the evidence in the essay, not from a general impression, and not from the length of the essay.
 
 ### 1. Task Response (CRIT_W_TR)
 - 9: Prompt fully addressed and explored in depth; clear, fully developed position; ideas fully extended and well supported; lapses extremely rare.
@@ -48,6 +48,16 @@ Judge each criterion independently using these summaries. Pick the band whose de
 - 1: Wholly unrelated to the question, or 20 words or fewer.
 - 0: Not attempted, not in English, or fully memorised.
 
+## Calibration (read before scoring)
+- Use the whole range. Weak essays must get low bands (4-5, sometimes 3) and strong essays must get high bands (7-8). Do NOT pull scores toward 6 and do NOT give the same band to all four criteria unless the essay truly shows equal performance; the four criteria usually differ by 1 band or more.
+- Before choosing each band, look for these signals in the essay.
+  - Signals of LOW Task Response (4-5): one part of the question ignored, position missing, unclear or contradicted, only general statements without specific reasons or examples, repeated ideas, irrelevant detail.
+  - Signals of LOW Coherence and Cohesion (4-5): no or unhelpful paragraphing, linkers used mechanically (the same Firstly/Moreover/In addition pattern), unclear pronoun reference, ideas that jump or repeat.
+  - Signals of LOW Lexical Resource (4-5): the same basic words repeated, wording copied from the question, memorised phrases, frequent spelling, word-form or collocation errors, words that change the meaning.
+  - Signals of LOW Grammatical Range and Accuracy (4-5): mostly simple sentences, an error in most sentences (verb agreement, tense, articles, plurals), run-on sentences or comma splices, complex sentences that break down, faulty punctuation.
+  - Signals of HIGH performance (7-8): the position is clear and every main idea is developed with specific support; paragraphs and linking are natural and varied; vocabulary is precise with some less common items; many error-free sentences and a variety of complex structures. Do not lower such an essay to 6 because of a few rare slips.
+- An essay with errors in most sentences cannot get 6 or more for Grammatical Range and Accuracy; an essay that only restates the question and gives general ideas cannot get 7 or more for Task Response.
+
 ## Scoring Rules
 - Each criterion `band` MUST be an **integer from 0 to 9** (whole numbers only; NO half-bands at the criterion level).
 - `overall_band` is the mean of the 4 criteria rounded to the nearest 0.5 (x.25 rounds up to x.5, x.75 rounds up to the next whole number).
@@ -57,7 +67,7 @@ Judge each criterion independently using these summaries. Pick the band whose de
 
 ## Evidence & Error Tagging Rules
 - Give 1 to 3 `evidence` items per criterion pointing at specific weaknesses (if a criterion has no clear errors at band 8-9, `evidence` may be `[]`).
-- `quote`: MUST be copied exactly, character for character, from inside `<essay>...</essay>`. Keep it SHORT: only the exact phrase, or at most one sentence, that contains the problem. NEVER quote several sentences in a row or a whole paragraph. Never fabricate or alter a quote.
+- `quote`: MUST be copied exactly, character for character, from inside `<essay>...</essay>`, as ONE continuous piece of text. Keep it SHORT: the exact phrase that contains the problem, at most 25 words (count them; if it is longer, shorten it). NEVER use "..." or any other abbreviation inside a quote, never join two separate pieces, never quote several sentences in a row or a paragraph. If the problem is in a long sentence, quote only the part of it that shows the problem. Never fabricate or alter a quote.
 - `error_type`: use ONLY the code from the list of the same criterion:
   - Under `CRIT_W_TR`: `ERR_OFF_TOPIC`, `ERR_PARTIAL_ANSWER`, `ERR_UNCLEAR_POSITION`, `ERR_UNDERDEVELOPED`
   - Under `CRIT_W_CC`: `ERR_LINKER_MISUSE`, `ERR_LINKER_OVERUSE`, `ERR_NO_PARAGRAPH`, `ERR_UNCLEAR_REFERENCE`
@@ -71,7 +81,7 @@ Judge each criterion independently using these summaries. Pick the band whose de
 - `improvements` has 1 to 5 actionable next steps in Vietnamese.
 
 ## Output Format
-Return ONLY one valid JSON object matching `writing_feedback.schema.json`. No markdown fences, no preamble, no extra keys.
+Return ONLY one valid JSON object matching `writing_feedback.schema.json`. No markdown fences, no preamble. Use ONLY the keys shown below: each criterion object has exactly `band`, `comment` and `evidence`, each evidence item has exactly `quote`, `error_type` and `suggestion`. Do not add any other key (for example no `band_description`, `error_code` or `error_type_hint`).
 Structure (everything in angle brackets is a placeholder you must replace with your own judgment; do not copy the placeholders and do not reuse any example values):
 {
   "schema_version": "1.0",

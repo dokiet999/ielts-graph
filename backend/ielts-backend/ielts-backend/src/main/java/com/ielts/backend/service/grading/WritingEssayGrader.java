@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WritingEssayGrader {
 
-    public static final String PROMPT_VERSION = "writing-v1.1";
+    public static final String PROMPT_VERSION = "writing-v1.2";
     private static final int MAX_RETRIES = 1;
     private static final int TASK_2_MIN_WORDS = 250;
     private static final int MAX_IMPROVEMENTS = 5;

@@ -177,6 +177,6 @@ public class GeminiLlmClient implements LlmClient {
     public String getModelName() {
         return config.getModel() != null && !config.getModel().isBlank()
                 ? config.getModel()
-                : "gemini-2.5-flash";
+                : "gemini-3.5-flash-lite";
     }
 }

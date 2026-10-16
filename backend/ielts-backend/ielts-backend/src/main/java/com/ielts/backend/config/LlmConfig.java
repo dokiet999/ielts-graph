@@ -16,7 +16,7 @@ public class LlmConfig {
 
     private String provider = "gemini";
     private String apiKey;
-    private String model = "gemini-2.5-flash";
+    private String model = "gemini-3.5-flash-lite";
     private Double temperature = 0.3;
     private Integer maxTokens = 8192;
     private Integer timeoutSeconds = 60;
