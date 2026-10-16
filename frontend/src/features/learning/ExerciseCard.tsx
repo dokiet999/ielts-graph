@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CheckCircle2, Circle, CornerDownRight, Loader, Timer } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { formatBand } from '@/lib/band'
 import type { ExerciseSummary } from '@/lib/types'
 import { EXERCISE_TYPE_LABEL, SKILL_LABEL } from '@/lib/utils'
 import { answeredCount, useSessionStore } from '@/stores/session'
@@ -37,16 +38,22 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         {exercise.bestScore !== null && (
           <Badge tone="success">
-            Best score {exercise.bestScore}/{exercise.maxScore}
+            {exercise.skillType === 'WRITING'
+              ? `Band tốt nhất ${formatBand(exercise.bestScore)}`
+              : `Best score ${exercise.bestScore}/${exercise.maxScore}`}
           </Badge>
         )}
         {status === 'in-progress' && (
           <Badge tone="info">
-            Đang làm {answered}/{exercise.questionCount}
+            {exercise.skillType === 'WRITING'
+              ? 'Đang viết dở'
+              : `Đang làm ${answered}/${exercise.questionCount}`}
           </Badge>
         )}
         {exercise.bestScore === null && status === 'todo' && (
-          <Badge>{exercise.questionCount} câu hỏi</Badge>
+          <Badge>
+            {exercise.skillType === 'WRITING' ? 'Bài luận' : `${exercise.questionCount} câu hỏi`}
+          </Badge>
         )}
         {exercise.timeLimit && (
           <Badge>

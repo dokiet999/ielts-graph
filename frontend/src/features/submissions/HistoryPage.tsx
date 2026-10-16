@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { EmptyState, ErrorState, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
+import { formatBand } from '@/lib/band'
 import { useMySubmissions } from '@/lib/queries'
 import {
   EXERCISE_TYPE_LABEL,
@@ -15,6 +16,7 @@ import {
   percent,
   SKILL_LABEL,
 } from '@/lib/utils'
+import { bandTone } from '@/lib/writing'
 
 export function HistoryPage() {
   const { data, isLoading, error, refetch } = useMySubmissions()
@@ -36,6 +38,7 @@ export function HistoryPage() {
           <option value="">Tất cả kỹ năng</option>
           <option value="READING">Reading</option>
           <option value="LISTENING">Listening</option>
+          <option value="WRITING">Writing</option>
         </Select>
       </div>
 
@@ -92,9 +95,15 @@ export function HistoryPage() {
                     </td>
                     <td className="px-5 py-3">#{s.attemptNumber}</td>
                     <td className="px-5 py-3">
-                      <Badge tone={pct >= 80 ? 'success' : pct >= 50 ? 'warning' : 'danger'}>
-                        {s.correctCount}/{s.questionCount} · {pct}%
-                      </Badge>
+                      {s.skillType === 'WRITING' ? (
+                        <Badge tone={s.status === 'GRADED' ? bandTone(s.score) : 'neutral'}>
+                          {s.status === 'GRADED' ? `Band ${formatBand(s.score)}` : 'Chưa có điểm'}
+                        </Badge>
+                      ) : (
+                        <Badge tone={pct >= 80 ? 'success' : pct >= 50 ? 'warning' : 'danger'}>
+                          {s.correctCount}/{s.questionCount} · {pct}%
+                        </Badge>
+                      )}
                     </td>
                     <td className="px-5 py-3 text-muted-foreground">
                       {formatDuration(s.timeSpent)}
