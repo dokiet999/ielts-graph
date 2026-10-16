@@ -31,6 +31,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -134,6 +135,27 @@ class WritingSubmissionControllerTest {
                 "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'GRADED'",
                 Integer.class, WRITING_EXERCISE_ID.toString());
         assertThat(submissionCount).isEqualTo(1);
+    }
+
+    @Test
+    void getSubmission_afterGrading_returnsStoredStructuredFeedback() throws Exception {
+        when(llmClient.chat(any(), any())).thenReturn(sampleJson);
+
+        WritingSubmissionRequest request = WritingSubmissionRequest.builder()
+                .essayText(sampleEssay)
+                .timeSpent(1500)
+                .build();
+        String body = submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        String submissionId = objectMapper.readTree(body).get("submissionId").asText();
+
+        // Reopening a graded essay must still show the structured feedback
+        mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_new", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.aiStructuredFeedback.criteria.CRIT_W_TR.band").value(6))
+                .andExpect(jsonPath("$.aiStructuredFeedback.overall_band").value(6.5))
+                .andExpect(jsonPath("$.aiFeedback").isNotEmpty());
     }
 
     @Test

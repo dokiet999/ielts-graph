@@ -91,6 +91,8 @@ public class SubmissionMapper {
                 .answers(submission.getAnswers())
                 .results(results)
                 .exercise(exercise)
+                .aiStructuredFeedback(submission.getAiStructuredFeedback())
+                .aiFeedback(submission.getAiFeedback())
                 .build();
     }
 

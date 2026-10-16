@@ -19,4 +19,8 @@ public class SubmissionDetailResponse extends SubmissionSummaryResponse {
     /** One entry per question, in question order. */
     private List<QuestionScoreResponse> results;
     private ExerciseReviewResponse exercise;
+    /** Writing only: the AI feedback as stored after grading (schema writing_feedback), so a result can be reopened. */
+    private Map<String, Object> aiStructuredFeedback;
+    /** Writing only: the AI summary text. */
+    private String aiFeedback;
 }
