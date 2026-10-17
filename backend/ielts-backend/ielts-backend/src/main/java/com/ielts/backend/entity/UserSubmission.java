@@ -62,6 +62,23 @@ public class UserSubmission {
     @Column(name = "ai_feedback", columnDefinition = "TEXT")
     private String aiFeedback;
 
+    /** Full structured AI feedback JSON (WritingFeedback schema). Null for non-AI-graded submissions. */
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "ai_structured_feedback", columnDefinition = "jsonb")
+    private Map<String, Object> aiStructuredFeedback;
+
+    /** LLM model identifier used for grading, e.g. "gemini-2.5-flash". */
+    @Column(name = "ai_model", length = 100)
+    private String aiModel;
+
+    /** Prompt version tag used for grading, e.g. "writing-v1.0". */
+    @Column(name = "ai_prompt_version", length = 50)
+    private String aiPromptVersion;
+
+    /** Round-trip latency in milliseconds from calling the LLM to receiving the parsed response. */
+    @Column(name = "ai_latency_ms")
+    private Integer aiLatencyMs;
+
     @Column(name = "teacher_score", precision = 5, scale = 2)
     private BigDecimal teacherScore;
 

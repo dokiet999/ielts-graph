@@ -183,9 +183,58 @@ export interface BeSubmissionDetail extends BeSubmissionSummary {
   answers: Record<string, string | string[]>
   results: { questionId: Id; correct: boolean; earned: Num }[]
   exercise: BeExercise
+  /**
+   * Writing only. The endpoint does not return the structured AI feedback yet (branch
+   * 20-w3-backend-writing-submission-and-llm-scoring); the adapter reads these two fields as soon
+   * as the backend adds them, and the UI falls back to the result cached after grading.
+   */
+  aiStructuredFeedback?: BeWritingFeedback | null
+  aiFeedback?: string | null
 }
 
 /** POST /exercises/{id}/submit */
 export interface BeSubmitResult {
   result: { submissionId: Id }
+}
+
+/** One mistake in the raw feedback; the schema calls the fix `suggestion`, older output `comment`. */
+export interface BeWritingEvidence {
+  quote: string
+  error_type: string
+  suggestion?: string
+  comment?: string
+}
+
+/** ai/schema/writing_feedback.schema.json: the JSON the LLM returns, after server-side clean-up. */
+export interface BeWritingFeedback {
+  schema_version?: string
+  task?: string
+  overall_band?: Num
+  out_of_calibration_range?: boolean
+  criteria?: Record<
+    string,
+    { band: Num; comment?: string; feedback?: string; evidence?: BeWritingEvidence[] }
+  >
+  summary?: string
+  improvements?: string[]
+}
+
+/** POST /exercises/{id}/submit/writing */
+export interface BeWritingResult {
+  submissionId: Id
+  exerciseId: Id
+  exerciseTitle: string
+  attemptNumber: number
+  overallBand: Num
+  outOfCalibrationRange: boolean | null
+  status: string
+  timeSpent: number | null
+  submittedAt: string
+  taskType: string | null
+  summary: string | null
+  improvements: string[] | null
+  aiModel?: string | null
+  aiPromptVersion?: string | null
+  aiLatencyMs?: number | null
+  rawFeedback: BeWritingFeedback | null
 }

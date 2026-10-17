@@ -10,3 +10,12 @@ spring:
 
 server:
   port: 8080
+
+app:
+  llm:
+    provider: ${LLM_PROVIDER:gemini}
+    api-key: ${GEMINI_API_KEY:${LLM_API_KEY:}}
+    model: ${GEMINI_MODEL:gemini-3.5-flash-lite}
+    temperature: 0.3
+    max-tokens: 8192
+    timeout-seconds: 60

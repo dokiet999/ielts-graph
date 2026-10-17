@@ -1,0 +1,82 @@
+{
+  "rubric_version": "writing-task2-rubric-v1",
+  "scope": "IELTS Academic Writing Task 2",
+  "source": {
+    "name": "IELTS Writing Band Descriptors (Task 2), public version",
+    "publisher": "IELTS (ielts.org)",
+    "descriptor_version": "Updated May 2023",
+    "accessed": "2026-10-02",
+    "note": "Each band entry below is a paraphrased summary written by the team, not a verbatim copy of the official descriptors. Bands 0-2 are condensed into 'floor_rules'."
+  },
+  "scoring_notes": [
+    "Each criterion is scored as an integer 0-9. A response should fit the positive features of a band to receive it; negative features cap the band.",
+    "Estimated band for learning purposes only, not an official IELTS result.",
+    "Calibration range is band 4-8; results outside it are flagged out_of_calibration_range."
+  ],
+  "floor_rules": {
+    "band_2": "Content barely relates to the prompt, no position can be identified, almost no control of organisation, vocabulary or sentence forms.",
+    "band_1": "20 words or fewer, or content wholly unrelated to the prompt; no usable language.",
+    "band_0": "Not attempted, not in English, or proven to be fully memorised."
+  },
+  "criteria": {
+    "CRIT_W_TR": {
+      "name": "Task Response",
+      "focus": "Addresses every part of the prompt, takes a clear position, and develops relevant ideas with support.",
+      "bands": {
+        "9": "Prompt fully addressed and explored in depth; position is clear and fully developed; ideas are relevant, fully extended and well supported; lapses are extremely rare.",
+        "8": "Prompt addressed appropriately and sufficiently; position is clear and well developed; ideas are relevant and well extended and supported; only occasional omissions.",
+        "7": "Main parts of the prompt addressed; position is clear and developed; main ideas are extended and supported, but may over-generalise or lack focus and precision in support.",
+        "6": "Main parts addressed, some more fully than others; position is relevant but conclusions may be unclear, unjustified or repetitive; some ideas are underdeveloped or have weak or irrelevant support.",
+        "5": "Main parts only partly addressed; a position is stated but its development is not always clear; ideas are limited, thinly developed, with irrelevant detail or repetition.",
+        "4": "Prompt handled minimally or somewhat off to the side; position hard to find; main ideas unclear, irrelevant or unsupported; large parts may repeat.",
+        "3": "No part of the prompt adequately addressed or it was misunderstood; no relevant position; few ideas, irrelevant or undeveloped."
+      },
+      "error_types": ["ERR_OFF_TOPIC", "ERR_PARTIAL_ANSWER", "ERR_UNCLEAR_POSITION", "ERR_UNDERDEVELOPED"]
+    },
+    "CRIT_W_CC": {
+      "name": "Coherence and Cohesion",
+      "focus": "Logical organisation and progression, paragraphing, and accurate, natural use of linking and reference.",
+      "bands": {
+        "9": "Message followed effortlessly; cohesion rarely draws attention; lapses minimal; paragraphing handled skilfully.",
+        "8": "Message followed with ease; ideas logically sequenced and cohesion well managed; occasional lapses; paragraphing sufficient and appropriate.",
+        "7": "Clear logical organisation and progression with minor lapses; a range of cohesive devices, including reference and substitution, used flexibly but with some inaccuracy or over/under-use; paragraphing generally effective.",
+        "6": "Ideas generally coherent with clear overall progression; linking works to some effect but can be faulty or mechanical (misuse, overuse, omission); reference may lack clarity; paragraphing not always logical.",
+        "5": "Organisation visible but not wholly logical, progression may be lacking though some underlying coherence remains; ideas can be followed but sentences link poorly; limited or overused linkers; repetitive reference; paragraphing inadequate or missing.",
+        "4": "Ideas present but not arranged coherently, no clear progression; relationships between ideas unclear; only basic, possibly inaccurate or repetitive linkers; poor reference; paragraphing may be absent.",
+        "3": "No apparent logical organisation; ideas hard to relate; minimal linking that does not signal real relationships; reference hard to follow; paragraphing unhelpful."
+      },
+      "error_types": ["ERR_LINKER_MISUSE", "ERR_LINKER_OVERUSE", "ERR_NO_PARAGRAPH", "ERR_UNCLEAR_REFERENCE"]
+    },
+    "CRIT_W_LR": {
+      "name": "Lexical Resource",
+      "focus": "Range, precision and appropriacy of vocabulary, including collocation, word formation and spelling.",
+      "bands": {
+        "9": "Wide vocabulary used precisely, naturally and with sophisticated control; spelling and word-formation slips are extremely rare.",
+        "8": "Wide vocabulary used fluently and flexibly for precise meaning; skilful use of uncommon or idiomatic items, with occasional word-choice or collocation slips; occasional spelling or word-form errors with minimal impact.",
+        "7": "Vocabulary sufficient for some flexibility and precision; some use of less common or idiomatic items; awareness of style and collocation though inappropriate uses occur; only a few spelling or word-form errors.",
+        "6": "Vocabulary generally adequate; meaning generally clear despite restricted range or imprecise choices; risk-taking brings range but more inaccuracy; some spelling or word-form errors that do not impede understanding.",
+        "5": "Vocabulary limited but minimally adequate; simple words mostly accurate but little variation; frequent inappropriate choices, simplification and repetition; noticeable spelling or word-form errors that can strain the reader.",
+        "4": "Vocabulary limited, basic and repetitive, possibly inadequate for the task; may misuse memorised phrases or wording copied from the prompt; word-choice, word-form or spelling errors can impede meaning.",
+        "3": "Vocabulary inadequate (possibly because the essay is far too short); heavy reliance on the prompt or memorised language; errors in word choice and spelling predominate and may block meaning."
+      },
+      "error_types": ["ERR_WORD_CHOICE", "ERR_COLLOCATION", "ERR_REPETITION", "ERR_SPELLING", "ERR_WORD_FORM"]
+    },
+    "CRIT_W_GRA": {
+      "name": "Grammatical Range and Accuracy",
+      "focus": "Variety and control of sentence structures, grammatical accuracy and punctuation.",
+      "bands": {
+        "9": "Wide range of structures used with full flexibility and control; grammar and punctuation appropriate throughout; minor errors extremely rare.",
+        "8": "Wide range of structures used flexibly and accurately; most sentences error-free and punctuation well managed; occasional non-systematic errors with minimal impact.",
+        "7": "Variety of complex structures used with some flexibility and accuracy; grammar and punctuation generally well controlled with frequent error-free sentences; a few persistent errors that do not impede understanding.",
+        "6": "Mix of simple and complex sentences but limited flexibility; complex structures less accurate than simple ones; errors in grammar and punctuation occur but rarely impede understanding.",
+        "5": "Range of structures limited and repetitive; complex sentences attempted but usually faulty, simple sentences most accurate; frequent errors that can cause difficulty; punctuation may be faulty.",
+        "4": "Very limited range, mostly simple sentences with few subordinate clauses; some accurate structures but frequent errors that may impede meaning; punctuation often faulty.",
+        "3": "Sentence forms attempted but errors predominate, preventing most meaning from coming through; too short to show control of sentence forms."
+      },
+      "error_types": ["ERR_ARTICLE", "ERR_VERB_TENSE", "ERR_SVA", "ERR_NOUN_NUM", "ERR_PREP", "ERR_SENT_STRUCTURE", "ERR_PUNCT"]
+    }
+  },
+  "excluded_error_types": {
+    "ERR_UNDER_LENGTH": "Word count is handled by the backend (warning added to improvements when under 250 words); the LLM must not use this code."
+  }
+}

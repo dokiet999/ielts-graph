@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "task": "QT_W2_OPINION",
+  "criteria": {
+    "CRIT_W_TR": {
+      "band": 6,
+      "comment": "Bài nêu quan điểm rõ ràng và trả lời đủ các phần của đề, nhưng ý ở đoạn thân bài thứ hai chưa được phát triển bằng ví dụ cụ thể.",
+      "evidence": [
+        {
+          "quote": "Technology makes life better for everyone.",
+          "error_type": "ERR_UNDERDEVELOPED",
+          "suggestion": "Thêm một ví dụ cụ thể (ví dụ: học trực tuyến ở vùng xa) để hỗ trợ cho ý chính."
+        }
+      ]
+    },
+    "CRIT_W_CC": {
+      "band": 6,
+      "comment": "Bố cục 4 đoạn rõ ràng và có dùng từ nối, nhưng một số từ nối dùng máy móc hoặc không hợp ngữ cảnh.",
+      "evidence": [
+        {
+          "quote": "Moreover, many people live in cities.",
+          "error_type": "ERR_LINKER_MISUSE",
+          "suggestion": "Câu này không bổ sung cho ý trước, nên dùng 'In addition' hoặc bỏ từ nối."
+        }
+      ]
+    },
+    "CRIT_W_LR": {
+      "band": 7,
+      "comment": "Vốn từ khá rộng và có dùng một số cụm từ ít phổ biến; vẫn còn vài lỗi chọn từ và collocation.",
+      "evidence": [
+        {
+          "quote": "do a decision",
+          "error_type": "ERR_COLLOCATION",
+          "suggestion": "Dùng 'make a decision'."
+        }
+      ]
+    },
+    "CRIT_W_GRA": {
+      "band": 6,
+      "comment": "Có dùng câu phức nhưng còn lỗi mạo từ và thì động từ lặp lại, đôi khi gây khó hiểu.",
+      "evidence": [
+        {
+          "quote": "Student can learn at home.",
+          "error_type": "ERR_ARTICLE",
+          "suggestion": "Dùng 'Students' hoặc 'A student' vì danh từ đếm được số ít cần mạo từ."
+        },
+        {
+          "quote": "Last year, the number of users increase quickly.",
+          "error_type": "ERR_VERB_TENSE",
+          "suggestion": "Dùng quá khứ: 'increased'."
+        }
+      ]
+    }
+  },
+  "overall_band": 6.5,
+  "out_of_calibration_range": false,
+  "summary": "Bài viết có quan điểm rõ và bố cục hợp lý. Điểm cần cải thiện nhất là phát triển ý bằng ví dụ cụ thể và sửa lỗi mạo từ, thì động từ.",
+  "improvements": [
+    "Thêm ví dụ cụ thể cho mỗi ý chính ở thân bài",
+    "Kiểm tra mạo từ trước danh từ đếm được số ít",
+    "Dùng từ nối theo đúng quan hệ ý giữa hai câu"
+  ]
+}

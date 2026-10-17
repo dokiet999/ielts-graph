@@ -9,6 +9,7 @@ import {
   toLesson,
   toSubmission,
   toSubmissionDetail,
+  toWritingResult,
 } from './adapters'
 import type {
   BeCourseDetail,
@@ -17,6 +18,7 @@ import type {
   BeLessonDetail,
   BeMyCourse,
   BeSubmissionDetail,
+  BeWritingResult,
 } from './backend-types'
 
 const myCourse: BeMyCourse = {
@@ -326,5 +328,125 @@ describe('toDashboardStats', () => {
       readingBand: null,
       listeningBand: null,
     })
+  })
+})
+
+const rawFeedback = {
+  task: 'QT_W2_DISCUSSION',
+  overall_band: 6.5,
+  criteria: {
+    // Deliberately not in display order: the adapter fixes the order.
+    CRIT_W_GRA: { band: 6, comment: 'Gra', evidence: [] },
+    CRIT_W_TR: {
+      band: 7,
+      comment: 'Tr',
+      evidence: [{ quote: 'a technology', error_type: 'ERR_ARTICLE', suggestion: 'Remove a' }],
+    },
+    CRIT_W_LR: {
+      band: 7,
+      feedback: 'Lr via feedback',
+      evidence: [{ quote: 'do a decision', error_type: 'ERR_COLLOCATION', comment: 'make' }],
+    },
+  },
+  summary: 'Summary from raw',
+  improvements: ['One'],
+}
+
+const writingResult: BeWritingResult = {
+  submissionId: 'sub-w1',
+  exerciseId: 'ex-w1',
+  exerciseTitle: 'Writing Task 2',
+  attemptNumber: 2,
+  overallBand: '6.5',
+  outOfCalibrationRange: false,
+  status: 'GRADED',
+  timeSpent: 900,
+  submittedAt: '2026-10-16T10:00:00',
+  taskType: 'QT_W2_DISCUSSION',
+  summary: 'Summary of the response',
+  improvements: ['Of the response'],
+  rawFeedback,
+}
+
+describe('toWritingResult', () => {
+  it('keeps the backend overall band and orders the criteria', () => {
+    const { submissionId, attemptNumber, feedback } = toWritingResult(writingResult)
+    expect(submissionId).toBe('sub-w1')
+    expect(attemptNumber).toBe(2)
+    expect(feedback.overallBand).toBe(6.5)
+    expect(feedback.taskType).toBe('QT_W2_DISCUSSION')
+    expect(feedback.criteria.map((c) => c.id)).toEqual(['CRIT_W_TR', 'CRIT_W_LR', 'CRIT_W_GRA'])
+    expect(feedback.summary).toBe('Summary from raw')
+    expect(feedback.improvements).toEqual(['One'])
+  })
+
+  it('maps evidence and accepts the older field names', () => {
+    const [tr, lr] = toWritingResult(writingResult).feedback.criteria
+    expect(tr.evidence).toEqual([
+      { quote: 'a technology', errorType: 'ERR_ARTICLE', suggestion: 'Remove a' },
+    ])
+    expect(lr.comment).toBe('Lr via feedback')
+    expect(lr.evidence[0].suggestion).toBe('make')
+  })
+
+  it('falls back to the response fields when there is no raw feedback', () => {
+    const { feedback } = toWritingResult({ ...writingResult, rawFeedback: null })
+    expect(feedback.criteria).toEqual([])
+    expect(feedback.summary).toBe('Summary of the response')
+    expect(feedback.improvements).toEqual(['Of the response'])
+  })
+})
+
+describe('toSubmissionDetail for Writing', () => {
+  const exercise: BeExercise = {
+    id: 'ex-w1',
+    lessonId: null,
+    title: 'Writing Task 2',
+    instruction: 'Discuss both views.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'PRACTICE',
+    skillType: 'WRITING',
+    timeLimit: 2400,
+    maxAttempts: 5,
+    questionGroups: [],
+  }
+  const detail: BeSubmissionDetail = {
+    id: 'sub-w1',
+    exerciseId: 'ex-w1',
+    exerciseTitle: 'Writing Task 2',
+    skillType: 'WRITING',
+    exerciseType: 'PRACTICE',
+    courseId: null,
+    attemptNumber: 1,
+    status: 'GRADED',
+    score: '6.5',
+    maxScore: '9.0',
+    correctCount: 0,
+    questionCount: 1,
+    timeSpent: 600,
+    submittedAt: '2026-10-16T10:00:00',
+    answers: { essayText: 'My essay.' },
+    results: [],
+    exercise,
+  }
+
+  it('returns the essay and the band, and no feedback the backend did not send', () => {
+    const sub = toSubmissionDetail(detail)
+    expect(sub.essayText).toBe('My essay.')
+    expect(sub.score).toBe(6.5)
+    expect(sub.maxScore).toBe(9)
+    expect(sub.answers).toEqual({})
+    expect(sub.writingFeedback).toBeNull()
+  })
+
+  it('reads the structured feedback as soon as the backend returns it', () => {
+    const sub = toSubmissionDetail({
+      ...detail,
+      aiStructuredFeedback: rawFeedback,
+      aiFeedback: 'Short summary',
+    })
+    expect(sub.writingFeedback?.overallBand).toBe(6.5)
+    expect(sub.writingFeedback?.criteria).toHaveLength(3)
   })
 })

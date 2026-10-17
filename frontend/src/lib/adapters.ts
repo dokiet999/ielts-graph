@@ -7,6 +7,8 @@ import type {
   BeMyCourse,
   BeSubmissionDetail,
   BeSubmissionSummary,
+  BeWritingFeedback,
+  BeWritingResult,
 } from './backend-types'
 import type {
   Answers,
@@ -24,6 +26,10 @@ import type {
   Submission,
   SubmissionDetail,
   SubmissionStatus,
+  WritingCriterion,
+  WritingCriterionId,
+  WritingFeedback,
+  WritingSubmitResult,
 } from './types'
 
 // Turns backend JSON into the models the UI uses. All knowledge of backend field names lives
@@ -198,8 +204,83 @@ export function toSubmission(s: BeSubmissionSummary): Submission {
   }
 }
 
+export const WRITING_CRITERIA: readonly WritingCriterionId[] = [
+  'CRIT_W_TR',
+  'CRIT_W_CC',
+  'CRIT_W_LR',
+  'CRIT_W_GRA',
+]
+
+/**
+ * Raw feedback → UI model. The overall band is the backend's (derived from the criterion bands
+ * and rounded to 0.5); the UI never recomputes it. Criteria the LLM left out are skipped, and a
+ * missing `raw` gives a feedback with only the overall band and summary.
+ */
+export function toWritingFeedback(
+  raw: BeWritingFeedback | null | undefined,
+  base: {
+    taskType: string | null
+    overallBand: number | string
+    outOfCalibrationRange: boolean | null
+    summary: string | null
+    improvements: string[] | null
+  },
+): WritingFeedback {
+  const criteria: WritingCriterion[] = []
+  for (const id of WRITING_CRITERIA) {
+    const c = raw?.criteria?.[id]
+    if (!c) continue
+    criteria.push({
+      id,
+      band: num(c.band),
+      comment: c.comment ?? c.feedback ?? '',
+      evidence: (c.evidence ?? []).map((e) => ({
+        quote: e.quote,
+        errorType: e.error_type,
+        suggestion: e.suggestion ?? e.comment ?? '',
+      })),
+    })
+  }
+  return {
+    taskType: raw?.task ?? base.taskType ?? 'QT_W2_OPINION',
+    overallBand: num(base.overallBand),
+    outOfCalibrationRange: base.outOfCalibrationRange ?? raw?.out_of_calibration_range ?? false,
+    criteria,
+    summary: raw?.summary ?? base.summary ?? '',
+    improvements: raw?.improvements ?? base.improvements ?? [],
+  }
+}
+
+export function toWritingResult(r: BeWritingResult): WritingSubmitResult {
+  return {
+    submissionId: r.submissionId,
+    attemptNumber: r.attemptNumber,
+    feedback: toWritingFeedback(r.rawFeedback, r),
+  }
+}
+
 export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
   const exercise = toExercise(s.exercise)
+  if (s.skillType === 'WRITING') {
+    const stored = s.aiStructuredFeedback
+    return {
+      ...toSubmission(s),
+      answers: {},
+      results: [],
+      exercise,
+      essayText: String(s.answers?.essayText ?? ''),
+      // Without the structured feedback only the band is known: the page then asks the cache.
+      writingFeedback: stored
+        ? toWritingFeedback(stored, {
+            taskType: null,
+            overallBand: s.score,
+            outOfCalibrationRange: null,
+            summary: s.aiFeedback ?? null,
+            improvements: null,
+          })
+        : null,
+    }
+  }
   const types = new Map(
     exercise.questionGroups.flatMap((g) => g.questions.map((q) => [q.id, q.questionType] as const)),
   )

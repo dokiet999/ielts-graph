@@ -10,6 +10,7 @@ import type {
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
+  BeWritingResult,
 } from '@/lib/backend-types'
 import type { AnswerValue, CheckAnswerResponse, Exercise, User } from '@/lib/types'
 import {
@@ -21,6 +22,8 @@ import {
   type StoredUser,
 } from './db'
 import { courses, exercises, type CourseRecord } from './fixtures/courses'
+import { fakeWritingFeedback } from './writingGrader'
+import { countWords, WRITING_MIN_SUBMIT_WORDS } from '@/lib/writing'
 
 // The mock mirrors the REAL backend contract (paths, JSON shapes, error format), so the same
 // adapters run in mock and live mode. Auth endpoints and /exercises/{id}/check do not exist on
@@ -53,8 +56,13 @@ function currentUser(request: Request): StoredUser | null {
 
 const userSubmissions = (userId: string) => db.submissions.filter((s) => s.userId === userId)
 const doneIds = (userId: string) => new Set(userSubmissions(userId).map((s) => s.exerciseId))
-const questionCount = (ex: Exercise) => allQuestions(ex).length
-const maxScore = (ex: Exercise) => allQuestions(ex).reduce((sum, q) => sum + q.points, 0)
+// A Writing exercise has one essay question and is scored as a band out of 9.
+const WRITING_MAX_BAND = 9
+const questionCount = (ex: Exercise) => (ex.skillType === 'WRITING' ? 1 : allQuestions(ex).length)
+const maxScore = (ex: Exercise) =>
+  ex.skillType === 'WRITING'
+    ? WRITING_MAX_BAND
+    : allQuestions(ex).reduce((sum, q) => sum + q.points, 0)
 
 const findCourseOf = (sectionId: string | null) =>
   courses.find((c) => c.sections.some((s) => s.id === sectionId))
@@ -224,6 +232,8 @@ function toBeSubmissionDetail(s: StoredSubmission): BeSubmissionDetail {
     answers: s.answers,
     results: s.results,
     exercise: toBeExercise(ex, true),
+    // Like the real backend today, the detail of a Writing submission has no structured feedback:
+    // the result page then uses what it kept after grading.
   }
 }
 
@@ -427,6 +437,81 @@ export const handlers = [
     db.submissions.push(stored)
     persist()
     const result: BeSubmitResult = { result: { submissionId: stored.id } }
+    return HttpResponse.json(result)
+  }),
+
+  // Writing: same contract as POST /exercises/{id}/submit/writing of the backend. Put `[503]` in the
+  // essay to make the AI fail, to see how the page handles an unavailable service.
+  http.post(`${API}/exercises/:id/submit/writing`, async ({ request, params }) => {
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const ex = exercises.find((e) => e.id === params.id)
+    if (!ex) return fail(404, 'NOT_FOUND', 'Exercise not found')
+    if (ex.skillType !== 'WRITING') {
+      return fail(400, 'INVALID_EXERCISE', 'This exercise is not a Writing exercise')
+    }
+    const body = (await request.json()) as { essayText?: string; timeSpent?: number }
+    const essay = body.essayText ?? ''
+    if (essay.trim() === '') return fail(400, 'BAD_REQUEST', 'essayText must not be blank')
+    if (countWords(essay) < WRITING_MIN_SUBMIT_WORDS) {
+      return fail(
+        400,
+        'ESSAY_TOO_SHORT',
+        `Essay must have at least ${WRITING_MIN_SUBMIT_WORDS} words`,
+      )
+    }
+    const previous = userSubmissions(user.id).filter((s) => s.exerciseId === ex.id).length
+    if (previous >= ex.maxAttempts) {
+      return fail(
+        409,
+        'MAX_ATTEMPTS_REACHED',
+        `Maximum attempts (${ex.maxAttempts}) reached for this exercise`,
+      )
+    }
+    await delay(1500) // the real AI call takes seconds
+    if (essay.includes('[503]')) {
+      return fail(
+        503,
+        'LLM_UNAVAILABLE',
+        'The AI service is temporarily unavailable. Please try again later',
+      )
+    }
+    const feedback = fakeWritingFeedback(essay, 'QT_W2_DISCUSSION')
+    const band = Number(feedback.overall_band)
+    const stored: StoredSubmission = {
+      id: `sub-${crypto.randomUUID()}`,
+      userId: user.id,
+      exerciseId: ex.id,
+      attemptNumber: previous + 1,
+      answers: { essayText: essay },
+      results: [],
+      score: band,
+      maxScore: WRITING_MAX_BAND,
+      correctCount: 0,
+      questionCount: 1,
+      timeSpent: Math.round(body.timeSpent ?? 0),
+      submittedAt: new Date().toISOString(),
+    }
+    db.submissions.push(stored)
+    persist()
+    const result: BeWritingResult = {
+      submissionId: stored.id,
+      exerciseId: ex.id,
+      exerciseTitle: ex.title,
+      attemptNumber: stored.attemptNumber,
+      overallBand: band,
+      outOfCalibrationRange: false,
+      status: 'GRADED',
+      timeSpent: stored.timeSpent,
+      submittedAt: stored.submittedAt,
+      taskType: 'QT_W2_DISCUSSION',
+      summary: feedback.summary ?? null,
+      improvements: feedback.improvements ?? null,
+      aiModel: 'mock',
+      aiPromptVersion: 'writing-v1.0',
+      aiLatencyMs: 1500,
+      rawFeedback: feedback,
+    }
     return HttpResponse.json(result)
   }),
 

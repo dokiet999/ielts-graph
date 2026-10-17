@@ -100,7 +100,7 @@ export const courses: CourseRecord[] = [
   },
   {
     id: 'c-intensive',
-    title: 'IELTS Intensive 6.5 - Reading & Listening',
+    title: 'IELTS Intensive 6.5',
     description:
       'Khóa luyện chuyên sâu với đề dài, thời gian thực và các dạng câu hỏi khó như Matching Headings.',
     level: 'UPPER_INTERMEDIATE',
@@ -122,6 +122,12 @@ export const courses: CourseRecord[] = [
         title: 'Listening chuyên sâu',
         description: 'Section 2 – độc thoại về địa điểm và dịch vụ.',
         lessons: [lesson('l-i2-1', 's-i2', 1, 'Section 2: mô tả địa điểm')],
+      },
+      {
+        id: 's-i3',
+        title: 'Writing Task 2',
+        description: 'Viết bài luận nghị luận và đọc nhận xét của AI theo 4 tiêu chí.',
+        lessons: [lesson('l-i3-1', 's-i3', 1, 'Discuss both views', 'TEXT')],
       },
     ],
   },
@@ -177,6 +183,24 @@ export const exercises: Exercise[] = [
 
   buildExercise(r(reading01), place('ex-i-reading-01', 'c-intensive', 's-i1', 'l-i1-1')),
   buildExercise(r(listening01), place('ex-i-listening-01', 'c-intensive', 's-i2', 'l-i2-1')),
+
+  // Same essay prompt as the sample Writing exercise the backend seeds in migration V8.
+  {
+    id: 'ex-i-writing-01',
+    lessonId: 'l-i3-1',
+    sectionId: 's-i3',
+    courseId: 'c-intensive',
+    title: 'IELTS Writing Task 2 - Technology and Education',
+    instruction:
+      'You should spend about 40 minutes on this task. Write about the following topic: Some people believe that online learning is more effective than traditional classroom learning, while others disagree. Discuss both views and give your own opinion. Write at least 250 words.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'PRACTICE',
+    skillType: 'WRITING',
+    timeLimit: 2400,
+    maxAttempts: 5,
+    questionGroups: [],
+  },
 
   buildExercise(
     readingQuiz,
