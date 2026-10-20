@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ielts-graph.local/schemas/speaking_feedback.schema.json",
+  "title": "Speaking feedback",
+  "description": "Structured result of AI scoring for ONE audio answer of IELTS Academic Speaking (ontology v0), based on the transcript, the speech features and the optional pronunciation scores (see speaking_asr.schema.json). Estimated band for learning support, not an official score. Band per criterion is an integer 0-9; overall_band is the mean of the 4 criteria rounded to the nearest 0.5 (the backend recomputes it and does not trust the model). The Speaking band of a whole test (mean over the 3 Parts) is computed later and is not part of this schema. IDs follow ontology v0: CRIT_S_*, ERR_*, QT_S_PART*.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "part", "criteria", "overall_band", "out_of_calibration_range", "summary", "improvements"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "part": {
+      "description": "Part of the answer (QuestionType ID in ontology v0).",
+      "enum": ["QT_S_PART1", "QT_S_PART2", "QT_S_PART3"]
+    },
+    "criteria": {
+      "type": "object",
+      "description": "One entry per criterion, keyed by the Criterion ID of ontology v0. All four are required.",
+      "properties": {
+        "CRIT_S_FC": { "$ref": "#/$defs/criterion" },
+        "CRIT_S_LR": { "$ref": "#/$defs/criterion" },
+        "CRIT_S_GRA": { "$ref": "#/$defs/criterion" },
+        "CRIT_S_P": { "$ref": "#/$defs/criterion" }
+      },
+      "required": ["CRIT_S_FC", "CRIT_S_LR", "CRIT_S_GRA", "CRIT_S_P"],
+      "additionalProperties": false
+    },
+    "overall_band": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 9,
+      "multipleOf": 0.5
+    },
+    "out_of_calibration_range": {
+      "type": "boolean",
+      "description": "True when the result is outside the calibrated band range 4-8."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short overall comment for the learner."
+    },
+    "improvements": {
+      "type": "array",
+      "description": "What the learner should work on next.",
+      "items": { "type": "string", "minLength": 1 },
+      "maxItems": 5
+    }
+  },
+  "$defs": {
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["band", "comment", "evidence"],
+      "properties": {
+        "band": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why this band was given, based on the band descriptors. For CRIT_S_P, when pronunciation was null in the input, say that the band is only an indirect estimate."
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "error_type", "suggestion"],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact phrase copied from the transcript (the backend drops evidence whose quote is not in the transcript). For a pause or a pronunciation problem, quote the words around the problem."
+        },
+        "error_type": {
+          "description": "ErrorType ID of ontology v0 (Speaking only). Allowed per criterion (the backend drops evidence with a code of another criterion): CRIT_S_FC -> ERR_LONG_PAUSE, ERR_SELF_CORRECTION, ERR_SHORT_ANSWER; CRIT_S_LR -> ERR_WORD_CHOICE, ERR_COLLOCATION, ERR_REPETITION; CRIT_S_GRA -> ERR_ARTICLE, ERR_VERB_TENSE, ERR_SVA, ERR_NOUN_NUM, ERR_PREP, ERR_SENT_STRUCTURE; CRIT_S_P -> ERR_MISPRONOUNCE, ERR_WORD_STRESS, ERR_MONOTONE. ERR_SPELLING, ERR_WORD_FORM and ERR_PUNCT are Writing only. The backend derives SubSkill from the code through AFFECTS.",
+          "enum": [
+            "ERR_LONG_PAUSE", "ERR_SELF_CORRECTION", "ERR_SHORT_ANSWER",
+            "ERR_WORD_CHOICE", "ERR_COLLOCATION", "ERR_REPETITION",
+            "ERR_ARTICLE", "ERR_VERB_TENSE", "ERR_SVA", "ERR_NOUN_NUM", "ERR_PREP", "ERR_SENT_STRUCTURE",
+            "ERR_MISPRONOUNCE", "ERR_WORD_STRESS", "ERR_MONOTONE"
+          ]
+        },
+        "suggestion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How to fix or improve the quoted part."
+        }
+      }
+    }
+  }
+}
