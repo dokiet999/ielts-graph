@@ -134,6 +134,28 @@ class SpeakingAsrClientTest {
         assertThat(client.transcribe(audio, "answer.webm").pronunciation().prosody()).isNull();
     }
 
+    @Test
+    void toMaps_useTheSnakeCaseKeysOfTheContract() {
+        server.expect(requestTo(URL)).andRespond(withSuccess(sampleJson, MediaType.APPLICATION_JSON));
+
+        SpeakingAsrResult result = client.transcribe(audio, "answer.webm");
+
+        // The submission flow stores these maps in answers and the frontend reads these keys
+        assertThat(result.toFeaturesMap()).containsOnlyKeys("duration_sec", "word_count", "speech_rate_wpm",
+                "pause_count", "total_pause_sec", "longest_pause_sec");
+        assertThat(result.toFeaturesMap()).containsEntry("word_count", 79).containsEntry("speech_rate_wpm", 123.4);
+        assertThat(result.toPronunciationMap()).containsOnlyKeys("accuracy", "fluency", "completeness", "prosody");
+        assertThat(result.toPronunciationMap()).containsEntry("accuracy", 78.5).containsEntry("prosody", 68.0);
+    }
+
+    @Test
+    void toMaps_missingParts_returnNull() {
+        SpeakingAsrResult result = new SpeakingAsrResult("1.0", "whisper-small", "en", "", null, null);
+
+        assertThat(result.toFeaturesMap()).isNull();
+        assertThat(result.toPronunciationMap()).isNull();
+    }
+
     // ---- failures of the service ----
 
     @Test
