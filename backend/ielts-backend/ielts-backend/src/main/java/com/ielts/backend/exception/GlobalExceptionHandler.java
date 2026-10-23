@@ -78,6 +78,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "The AI could not produce a valid grading result. Please try again", null);
     }
 
+    /** The speech recognition service (Whisper) timed out, was unreachable or answered badly. */
+    @ExceptionHandler(SpeakingAsrException.class)
+    public ResponseEntity<ErrorResponse> handleSpeakingAsr(SpeakingAsrException ex) {
+        // Only the code is logged: nothing from the audio or the transcript
+        log.warn("Speaking ASR failed: {}", ex.getCode());
+        HttpStatus status = "ASR_UNAVAILABLE".equals(ex.getCode()) ? HttpStatus.SERVICE_UNAVAILABLE : HttpStatus.BAD_GATEWAY;
+        return build(status, ex.getCode(), "The speech recognition service failed. Please try again", null);
+    }
+
+    /** LLM returned unparseable or schema-invalid Speaking feedback, even after retry. */
+    @ExceptionHandler(SpeakingGradingException.class)
+    public ResponseEntity<ErrorResponse> handleSpeakingGrading(SpeakingGradingException ex) {
+        log.warn("Speaking grading failed: {}", ex.getCode());
+        return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
+                "The AI could not produce a valid grading result. Please try again", null);
+    }
+
     /** LLM API call exceeded configured timeout. */
     @ExceptionHandler(LlmTimeoutException.class)
     public ResponseEntity<ErrorResponse> handleLlmTimeout(LlmTimeoutException ex) {
