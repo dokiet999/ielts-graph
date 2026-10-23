@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "asr_model": "whisper-small",
+  "language": "en",
+  "transcript": "Um, I want to talk about a city I visit last year, it is Da Nang. I go there with my family, and we stay in a small hotel near the beach. The weather was very good, so we swim every morning. Also, the food is, the food was really delicious, especially the seafood. I think it is a good place, because people is friendly and the sea is very beautiful. I want to go back there next summer.",
+  "features": {
+    "duration_sec": 38.4,
+    "word_count": 79,
+    "speech_rate_wpm": 123.4,
+    "pause_count": 3,
+    "total_pause_sec": 4.2,
+    "longest_pause_sec": 1.6
+  },
+  "pronunciation": {
+    "accuracy": 78.5,
+    "fluency": 72.0,
+    "completeness": 96.0,
+    "prosody": 68.0
+  }
+}
