@@ -1,0 +1,89 @@
+{
+  "rubric_version": "speaking-rubric-v1",
+  "scope": "IELTS Academic Speaking, one answer to one question (Part 1, 2 or 3)",
+  "source": {
+    "name": "IELTS Speaking Band Descriptors, public version",
+    "publisher": "IELTS (ielts.org)",
+    "url": "https://ielts.org/cdn/ielts-downloadable-assets/ielts-guidance-and-support/ielts-guides/ielts-speaking-band-descriptors.pdf",
+    "descriptor_version": "PDF created 16 September 2025 (no version number printed)",
+    "accessed": "2026-10-23",
+    "note": "Each band entry below is a paraphrased summary written by the team, not a verbatim copy of the official descriptors. Bands 0-2 are condensed into 'floor_rules'."
+  },
+  "scoring_notes": [
+    "Each criterion is scored as an integer 0-9. A response should fit the positive features of a band to receive it; a clear weakness described at a lower band caps the score.",
+    "The official descriptors rate a candidate on the average performance across all parts of the test. Here a single answer is scored, so the result is only an estimate for learning, not an official IELTS result.",
+    "The grader sees a machine transcript and numbers, not the audio. Pronunciation is judged from the pronunciation scores; without them the band is only an indirect estimate.",
+    "Calibration range is band 4-8; results outside it are flagged out_of_calibration_range."
+  ],
+  "expected_length": {
+    "QT_S_PART1": "A short, direct answer of about 2-4 sentences.",
+    "QT_S_PART2": "A long turn of about 1-2 minutes that covers the points on the cue card.",
+    "QT_S_PART3": "An extended answer that gives reasons, comparisons or examples."
+  },
+  "floor_rules": {
+    "band_2": "Long pauses before almost every word; only isolated words or memorised phrases; speech carries almost no meaning.",
+    "band_1": "No rateable language except a few isolated words; nothing can be understood.",
+    "band_0": "Did not attend or did not complete the test; for a single answer, also no speech at all."
+  },
+  "criteria": {
+    "CRIT_S_FC": {
+      "name": "Fluency and Coherence",
+      "focus": "Keeps speaking at a natural pace, develops the answer, and links ideas clearly.",
+      "bands": {
+        "9": "Speaks fluently; repetition or self-correction is very rare; any hesitation is for planning content, not for finding words; ideas fully developed and coherent.",
+        "8": "Fluent, with very rare repetition or self-correction; hesitation is mostly about content, with only occasional word-finding pauses; development is coherent and relevant.",
+        "7": "Keeps going and produces long turns without visible effort; some hesitation, repetition or self-correction, often mid-sentence, shows trouble finding language but does not harm coherence; discourse markers and connectives used flexibly.",
+        "6": "Willing to give long turns; coherence is sometimes lost through hesitation, repetition or self-correction; uses a range of connectives and discourse markers, not always appropriately.",
+        "5": "Usually keeps going but leans on repetition, self-correction or slow speech; pauses often come while searching for basic words; some linking words are overused; harder content breaks the flow while simple content can be fluent.",
+        "4": "Cannot continue without noticeable pauses; slow, repeats itself and often corrects itself; joins simple sentences with repetitive connectives; coherence sometimes breaks down.",
+        "3": "Frequent and sometimes long pauses while searching for words; little ability to link sentences or go beyond simple answers; often cannot get the basic message across."
+      }
+    },
+    "CRIT_S_LR": {
+      "name": "Lexical Resource",
+      "focus": "Range, precision and naturalness of vocabulary, including paraphrasing.",
+      "bands": {
+        "9": "Total flexibility and precision in every context; accurate, idiomatic language sustained throughout.",
+        "8": "Wide vocabulary used readily and flexibly for all topics; skilful use of less common and idiomatic items despite occasional slips in word choice or collocation; paraphrases effectively.",
+        "7": "Vocabulary used flexibly across a variety of topics; some less common and idiomatic items with awareness of style and collocation, though inappropriate uses occur; paraphrases effectively.",
+        "6": "Enough vocabulary to discuss topics at length; some word choices are inappropriate but the meaning stays clear; generally paraphrases successfully.",
+        "5": "Enough vocabulary for familiar and unfamiliar topics but with little flexibility; tries to paraphrase with mixed success.",
+        "4": "Enough for familiar topics, but only basic meaning on unfamiliar ones; frequent inappropriate or wrong word choices; rarely tries to paraphrase.",
+        "3": "Only simple words, mostly for personal information; vocabulary is inadequate for unfamiliar topics."
+      }
+    },
+    "CRIT_S_GRA": {
+      "name": "Grammatical Range and Accuracy",
+      "focus": "Variety of sentence structures and how accurately they are used.",
+      "bands": {
+        "9": "Structures precise and accurate at all times, apart from slips typical of native speech.",
+        "8": "Wide range of structures used flexibly; most sentences are error-free; only occasional non-systematic errors, and a few basic errors may persist.",
+        "7": "A range of structures used flexibly; error-free sentences are frequent; simple and complex sentences both work despite some errors, and a few basic errors persist.",
+        "6": "Mix of short and complex sentences and a variety of structures with limited flexibility; complex structures often contain errors, but these rarely get in the way of meaning.",
+        "5": "Basic sentence forms are fairly accurate; complex structures are tried but limited in range, nearly always faulty, and may need rephrasing.",
+        "4": "Basic forms only, and some short utterances are error-free; subordinate clauses are rare, turns are short, structures repeat and errors are frequent.",
+        "3": "Basic forms are attempted but errors are numerous, except in memorised phrases."
+      }
+    },
+    "CRIT_S_P": {
+      "name": "Pronunciation",
+      "focus": "Clarity and control of sounds, stress, rhythm and intonation. Judged from the pronunciation scores, because the transcript carries no sound.",
+      "bands": {
+        "9": "Full range of features used to convey fine meaning, sustained; effortless to understand; accent does not affect intelligibility.",
+        "8": "Wide range of features; keeps an appropriate rhythm and uses stress and intonation flexibly over long stretches despite occasional lapses; easy to understand; accent has minimal effect.",
+        "7": "Shows the positive features of band 6 and some, but not all, of band 8.",
+        "6": "Uses a range of features with variable control; chunking is mostly appropriate but rhythm can suffer; stress and intonation are not sustained; some words or sounds are mispronounced but clarity is only occasionally lost; generally understood without much effort.",
+        "5": "Shows the positive features of band 4 and some, but not all, of band 6.",
+        "4": "Some acceptable features but limited range; frequent lapses in rhythm; limited control of stress and intonation; words and sounds are often mispronounced, so understanding takes effort and some stretches cannot be understood.",
+        "3": "Shows some features of band 2 and some, but not all, of band 4."
+      },
+      "score_hints": {
+        "note": "Hints for reading the Azure pronunciation scores (0-100). They are rough guides written by the team, not part of the official descriptors, and must be checked on real samples before they are relied on.",
+        "accuracy": "Main basis for how clear the sounds are.",
+        "fluency": "Second opinion for rhythm and pauses; never the only reason for a band.",
+        "prosody": "Main basis for stress, intonation and rhythm; may be null.",
+        "completeness": "A low value may mean words were skipped or not recognised."
+      }
+    }
+  }
+}
