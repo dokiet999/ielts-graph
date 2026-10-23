@@ -69,8 +69,11 @@ public class SecurityConfig {
                         // Exercise authoring: only teachers and admins can create exercises
                         .requestMatchers(HttpMethod.POST, "/api/exercises").hasAnyRole("TEACHER", "ADMIN")
                         // Public catalogue & exercise preview. Answers are guarded at service level
-                        // UC09, UC12: only learners submit exercises (also checked in ObjectiveSubmissionService)
-                        .requestMatchers(HttpMethod.POST, "/api/exercises/*/submit", "/api/exercises/*/submit/writing").hasRole("STUDENT")
+                        // UC09, UC12: only learners submit exercises (also checked in submission services)
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/exercises/*/submit",
+                                "/api/exercises/*/submit/writing",
+                                "/api/exercises/*/submit/speaking").hasRole("STUDENT")
                         // Must come before the public /api/courses/** rule below
                         .requestMatchers(HttpMethod.GET, "/api/courses/my").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
