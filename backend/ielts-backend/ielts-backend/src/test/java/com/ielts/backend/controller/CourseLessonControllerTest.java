@@ -28,6 +28,7 @@ class CourseLessonControllerTest {
     private static final String READING_COURSE = "10000000-0000-0000-0000-000000000001";
     private static final String LISTENING_COURSE = "10000000-0000-0000-0000-000000000002";
     private static final String WRITING_COURSE = "10000000-0000-0000-0000-000000000009"; // V11
+    private static final String SPEAKING_COURSE = "10000000-0000-0000-0000-000000000010"; // V12
     private static final String INACTIVE_COURSE = "10000000-0000-0000-0000-000000000003";
     private static final String DRAFT_COURSE = "10000000-0000-0000-0000-000000000004";
     private static final String ACADEMIC_CATEGORY = "00000000-0000-0000-0000-0000000000c1";
@@ -47,8 +48,8 @@ class CourseLessonControllerTest {
     void listCourses_returnsOnlyPublishedActiveCourses_newestFirst() throws Exception {
         mockMvc.perform(get("/api/courses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(3))
-                .andExpect(jsonPath("$.content[*].id").value(contains(WRITING_COURSE, LISTENING_COURSE, READING_COURSE)))
+                .andExpect(jsonPath("$.totalElements").value(4))
+                .andExpect(jsonPath("$.content[*].id").value(contains(SPEAKING_COURSE, WRITING_COURSE, LISTENING_COURSE, READING_COURSE)))
                 .andExpect(jsonPath("$.content[*].id").value(not(hasItem(INACTIVE_COURSE))))
                 .andExpect(jsonPath("$.content[*].id").value(not(hasItem(DRAFT_COURSE))))
                 .andExpect(jsonPath("$.content[0].teacherName").value("Demo Teacher"));
@@ -76,7 +77,7 @@ class CourseLessonControllerTest {
     void listCourses_filtersByCategory() throws Exception {
         mockMvc.perform(get("/api/courses").param("categoryId", ACADEMIC_CATEGORY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(3));
+                .andExpect(jsonPath("$.totalElements").value(4));
     }
 
     @Test
@@ -113,7 +114,7 @@ class CourseLessonControllerTest {
     void listCourses_blankKeywordIsIgnored() throws Exception {
         mockMvc.perform(get("/api/courses").param("q", "   "))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(3));
+                .andExpect(jsonPath("$.totalElements").value(4));
     }
 
     @Test
@@ -121,8 +122,8 @@ class CourseLessonControllerTest {
         mockMvc.perform(get("/api/courses").param("page", "0").param("size", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.length()").value(1))
-                .andExpect(jsonPath("$.totalElements").value(3))
-                .andExpect(jsonPath("$.totalPages").value(3));
+                .andExpect(jsonPath("$.totalElements").value(4))
+                .andExpect(jsonPath("$.totalPages").value(4));
     }
 
     @Test

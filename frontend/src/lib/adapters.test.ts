@@ -7,6 +7,7 @@ import {
   toExercise,
   toExerciseSummaries,
   toLesson,
+  toSpeakingResult,
   toSubmission,
   toSubmissionDetail,
   toWritingResult,
@@ -17,6 +18,7 @@ import type {
   BeExerciseSummary,
   BeLessonDetail,
   BeMyCourse,
+  BeSpeakingResult,
   BeSubmissionDetail,
   BeWritingResult,
 } from './backend-types'
@@ -448,5 +450,118 @@ describe('toSubmissionDetail for Writing', () => {
     })
     expect(sub.writingFeedback?.overallBand).toBe(6.5)
     expect(sub.writingFeedback?.criteria).toHaveLength(3)
+  })
+})
+
+const rawSpeakingFeedback = {
+  part: 'QT_S_PART2',
+  overall_band: 6.0,
+  criteria: {
+    CRIT_S_P: { band: 6, comment: 'Pronunciation ok', evidence: [] },
+    CRIT_S_FC: {
+      band: 6,
+      comment: 'Fluency ok',
+      evidence: [{ quote: 'Um, I want to talk', error_type: 'ERR_LONG_PAUSE', suggestion: 'Start directly' }],
+    },
+    CRIT_S_LR: { band: 6, comment: 'Vocab ok', evidence: [] },
+    CRIT_S_GRA: { band: 5, comment: 'Grammar ok', evidence: [] },
+  },
+  summary: 'Speaking summary',
+  improvements: ['Practice past tense'],
+}
+
+const speakingResult: BeSpeakingResult = {
+  submissionId: 'sub-spk-1',
+  exerciseId: 'ex-spk-1',
+  exerciseTitle: 'Speaking Part 2',
+  attemptNumber: 1,
+  part: 'QT_S_PART2',
+  overallBand: '6.0',
+  outOfCalibrationRange: false,
+  status: 'GRADED',
+  timeSpent: 38,
+  submittedAt: '2026-10-20T10:00:00',
+  transcript: 'Um, I want to talk about Da Nang.',
+  features: {
+    duration_sec: 38.4,
+    word_count: 79,
+    speech_rate_wpm: 123.4,
+    pause_count: 3,
+    total_pause_sec: 4.2,
+    longest_pause_sec: 1.6,
+  },
+  pronunciation: {
+    accuracy: 78.5,
+    fluency: 72.0,
+    completeness: 96.0,
+    prosody: null,
+  },
+  summary: 'Speaking summary',
+  improvements: ['Practice past tense'],
+  rawFeedback: rawSpeakingFeedback,
+}
+
+describe('toSpeakingResult & toSubmissionDetail for Speaking', () => {
+  it('orders speaking criteria and preserves features & nullable prosody', () => {
+    const { submissionId, feedback } = toSpeakingResult(speakingResult)
+    expect(submissionId).toBe('sub-spk-1')
+    expect(feedback.overallBand).toBe(6)
+    expect(feedback.part).toBe('QT_S_PART2')
+    expect(feedback.criteria.map((c) => c.id)).toEqual([
+      'CRIT_S_FC',
+      'CRIT_S_LR',
+      'CRIT_S_GRA',
+      'CRIT_S_P',
+    ])
+    expect(feedback.features?.speechRateWpm).toBe(123.4)
+    expect(feedback.pronunciation?.accuracy).toBe(78.5)
+    expect(feedback.pronunciation?.prosody).toBeNull()
+  })
+
+  it('reconstructs speakingFeedback from stored answers and aiStructuredFeedback', () => {
+    const exercise: BeExercise = {
+      id: 'ex-spk-1',
+      lessonId: null,
+      title: 'Speaking Part 2',
+      instruction: 'Describe a city.',
+      audioUrl: null,
+      content: null,
+      exerciseType: 'PRACTICE',
+      skillType: 'SPEAKING',
+      timeLimit: 180,
+      maxAttempts: 5,
+      questionGroups: [],
+    }
+    const detail: BeSubmissionDetail = {
+      id: 'sub-spk-1',
+      exerciseId: 'ex-spk-1',
+      exerciseTitle: 'Speaking Part 2',
+      skillType: 'SPEAKING',
+      exerciseType: 'PRACTICE',
+      courseId: null,
+      attemptNumber: 1,
+      status: 'GRADED',
+      score: '6.0',
+      maxScore: '9.0',
+      correctCount: 0,
+      questionCount: 1,
+      timeSpent: 38,
+      submittedAt: '2026-10-20T10:00:00',
+      answers: {
+        transcript: 'Um, I want to talk about Da Nang.',
+        part: 'QT_S_PART2',
+        features: speakingResult.features,
+        pronunciation: null,
+      },
+      results: [],
+      exercise,
+      aiStructuredFeedback: rawSpeakingFeedback,
+      aiFeedback: 'Speaking summary',
+    }
+    const sub = toSubmissionDetail(detail)
+    expect(sub.transcript).toBe('Um, I want to talk about Da Nang.')
+    expect(sub.speakingFeedback?.overallBand).toBe(6)
+    expect(sub.speakingFeedback?.criteria).toHaveLength(4)
+    expect(sub.speakingFeedback?.pronunciation).toBeNull()
   })
 })

@@ -129,6 +129,12 @@ export const courses: CourseRecord[] = [
         description: 'Viết bài luận nghị luận và đọc nhận xét của AI theo 4 tiêu chí.',
         lessons: [lesson('l-i3-1', 's-i3', 1, 'Discuss both views', 'TEXT')],
       },
+      {
+        id: 's-i4',
+        title: 'Speaking Part 2',
+        description: 'Luyện nói theo cue card và nhận phản hồi AI theo 4 tiêu chí IELTS Speaking.',
+        lessons: [lesson('l-i4-1', 's-i4', 1, 'Cue Card: Describe a city', 'TEXT')],
+      },
     ],
   },
   {
@@ -198,6 +204,23 @@ export const exercises: Exercise[] = [
     exerciseType: 'PRACTICE',
     skillType: 'WRITING',
     timeLimit: 2400,
+    maxAttempts: 5,
+    questionGroups: [],
+  },
+
+  {
+    id: 'ex-i-speaking-01',
+    lessonId: 'l-i4-1',
+    sectionId: 's-i4',
+    courseId: 'c-intensive',
+    title: 'Speaking Part 2 - Describe a city you visited',
+    instruction:
+      'Describe a city you visited recently that left a strong impression on you. You should say: where it is, when and why you went there, what you did there, and explain why you liked it.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'PRACTICE',
+    skillType: 'SPEAKING',
+    timeLimit: 180,
     maxAttempts: 5,
     questionGroups: [],
   },

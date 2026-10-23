@@ -7,11 +7,13 @@ import type {
   BeExerciseSummary,
   BeLessonDetail,
   BeMyCourse,
+  BeSpeakingResult,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
   BeWritingResult,
 } from '@/lib/backend-types'
+import { isSupportedAudioFilename, SPEAKING_MIN_DURATION_SEC } from '@/lib/speaking'
 import type { AnswerValue, CheckAnswerResponse, Exercise, User } from '@/lib/types'
 import {
   allQuestions,
@@ -22,6 +24,12 @@ import {
   type StoredUser,
 } from './db'
 import { courses, exercises, type CourseRecord } from './fixtures/courses'
+import {
+  fakeSpeakingFeedback,
+  SAMPLE_SPEAKING_FEATURES,
+  SAMPLE_SPEAKING_PRONUNCIATION,
+  SAMPLE_SPEAKING_TRANSCRIPT,
+} from './speakingGrader'
 import { fakeWritingFeedback } from './writingGrader'
 import { countWords, WRITING_MIN_SUBMIT_WORDS } from '@/lib/writing'
 
@@ -56,11 +64,12 @@ function currentUser(request: Request): StoredUser | null {
 
 const userSubmissions = (userId: string) => db.submissions.filter((s) => s.userId === userId)
 const doneIds = (userId: string) => new Set(userSubmissions(userId).map((s) => s.exerciseId))
-// A Writing exercise has one essay question and is scored as a band out of 9.
+// Writing and Speaking exercises have one prompt question and are scored as a band out of 9.
 const WRITING_MAX_BAND = 9
-const questionCount = (ex: Exercise) => (ex.skillType === 'WRITING' ? 1 : allQuestions(ex).length)
+const questionCount = (ex: Exercise) =>
+  ex.skillType === 'WRITING' || ex.skillType === 'SPEAKING' ? 1 : allQuestions(ex).length
 const maxScore = (ex: Exercise) =>
-  ex.skillType === 'WRITING'
+  ex.skillType === 'WRITING' || ex.skillType === 'SPEAKING'
     ? WRITING_MAX_BAND
     : allQuestions(ex).reduce((sum, q) => sum + q.points, 0)
 
@@ -232,8 +241,6 @@ function toBeSubmissionDetail(s: StoredSubmission): BeSubmissionDetail {
     answers: s.answers,
     results: s.results,
     exercise: toBeExercise(ex, true),
-    // Like the real backend today, the detail of a Writing submission has no structured feedback:
-    // the result page then uses what it kept after grading.
   }
 }
 
@@ -510,6 +517,86 @@ export const handlers = [
       aiModel: 'mock',
       aiPromptVersion: 'writing-v1.0',
       aiLatencyMs: 1500,
+      rawFeedback: feedback,
+    }
+    return HttpResponse.json(result)
+  }),
+
+  // Speaking: same contract as POST /exercises/{id}/submit/speaking of the backend.
+  http.post(`${API}/exercises/:id/submit/speaking`, async ({ request, params }) => {
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const ex = exercises.find((e) => e.id === params.id)
+    if (!ex) return fail(404, 'NOT_FOUND', 'Exercise not found')
+    if (ex.skillType !== 'SPEAKING') {
+      return fail(400, 'INVALID_EXERCISE', 'This exercise is not a Speaking exercise')
+    }
+    const formData = await request.formData()
+    const audio = formData.get('audio')
+    const partParam = formData.get('part')
+    const durationParam = formData.get('durationSec')
+    if (!(audio instanceof Blob) || audio.size === 0) {
+      return fail(400, 'AUDIO_TOO_SHORT', 'Audio file must not be empty')
+    }
+    const filename = audio instanceof File ? audio.name : 'recording.webm'
+    if (!isSupportedAudioFilename(filename)) {
+      return fail(400, 'UNSUPPORTED_AUDIO', 'Unsupported audio format')
+    }
+    const durationSec = durationParam ? Number(durationParam) : 38
+    if (durationSec > 0 && durationSec < SPEAKING_MIN_DURATION_SEC) {
+      return fail(400, 'AUDIO_TOO_SHORT', 'Audio recording is too short')
+    }
+    const previous = userSubmissions(user.id).filter((s) => s.exerciseId === ex.id).length
+    if (previous >= ex.maxAttempts) {
+      return fail(
+        409,
+        'MAX_ATTEMPTS_REACHED',
+        `Maximum attempts (${ex.maxAttempts}) reached for this exercise`,
+      )
+    }
+    await delay(1200)
+    const part = typeof partParam === 'string' && partParam ? partParam : 'QT_S_PART2'
+    const feedback = fakeSpeakingFeedback(part)
+    const band = Number(feedback.overall_band)
+    const stored: StoredSubmission = {
+      id: `sub-${crypto.randomUUID()}`,
+      userId: user.id,
+      exerciseId: ex.id,
+      attemptNumber: previous + 1,
+      answers: {
+        transcript: SAMPLE_SPEAKING_TRANSCRIPT,
+        part,
+      },
+      results: [],
+      score: band,
+      maxScore: WRITING_MAX_BAND,
+      correctCount: 0,
+      questionCount: 1,
+      timeSpent: Math.round(durationSec),
+      submittedAt: new Date().toISOString(),
+    }
+    db.submissions.push(stored)
+    persist()
+    const result: BeSpeakingResult = {
+      submissionId: stored.id,
+      exerciseId: ex.id,
+      exerciseTitle: ex.title,
+      attemptNumber: stored.attemptNumber,
+      part,
+      overallBand: band,
+      outOfCalibrationRange: false,
+      status: 'GRADED',
+      timeSpent: stored.timeSpent,
+      submittedAt: stored.submittedAt,
+      transcript: SAMPLE_SPEAKING_TRANSCRIPT,
+      features: SAMPLE_SPEAKING_FEATURES,
+      pronunciation: SAMPLE_SPEAKING_PRONUNCIATION,
+      summary: feedback.summary ?? null,
+      improvements: feedback.improvements ?? null,
+      asrModel: 'whisper-small',
+      aiModel: 'mock',
+      aiPromptVersion: 'speaking-v1.0',
+      aiLatencyMs: 1200,
       rawFeedback: feedback,
     }
     return HttpResponse.json(result)
