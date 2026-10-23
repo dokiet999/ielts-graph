@@ -20,3 +20,9 @@ desktop.ini
 
 # Generated listening audio (shared via Drive, see data/manifest.csv)
 data/audio/
+
+# ASR service (venv, local models, test audio, scratch output)
+ai/asr_service/.venv/
+ai/asr_service/__pycache__/
+ai/asr_service/tmp/
+data/speaking_v1/audio/
