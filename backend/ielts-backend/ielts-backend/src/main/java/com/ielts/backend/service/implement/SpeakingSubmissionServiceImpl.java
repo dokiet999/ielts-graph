@@ -115,6 +115,9 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     @Value("${app.speaking.min-duration-seconds:2.0}")
     private double minDurationSeconds = 2.0;
 
+    @Value("${app.speaking.min-transcript-words:10}")
+    private int minTranscriptWords = 10;
+
     private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
                                   String part, String questionPrompt, UUID questionId, String audioFilename,
                                   Integer timeSpent) {
@@ -276,6 +279,11 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         }
         if (asr.transcript() == null || asr.transcript().isBlank()) {
             throw new BadRequestException("AUDIO_TOO_SHORT", "No speech was detected in the audio recording");
+        }
+        int words = asr.transcript().trim().split("\\s+").length;
+        if (words < minTranscriptWords) {
+            throw new BadRequestException("AUDIO_TOO_SHORT",
+                    "Too little speech was detected. Please speak for longer (at least " + minTranscriptWords + " words)");
         }
     }
 

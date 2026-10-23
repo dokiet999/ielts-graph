@@ -534,7 +534,7 @@ export const handlers = [
     const formData = await request.formData()
     const audio = formData.get('audio')
     const partParam = formData.get('part')
-    const durationParam = formData.get('durationSec')
+    const durationParam = formData.get('timeSpent')
     if (!(audio instanceof Blob) || audio.size === 0) {
       return fail(400, 'AUDIO_TOO_SHORT', 'Audio file must not be empty')
     }

@@ -175,7 +175,7 @@ export const api = {
       body.filename ?? (body.audio instanceof File ? body.audio.name : 'recording.webm')
     form.append('audio', body.audio, filename)
     if (body.part) form.append('part', body.part)
-    if (body.durationSec !== undefined) form.append('durationSec', String(Math.round(body.durationSec)))
+    if (body.durationSec !== undefined) form.append('timeSpent', String(Math.round(body.durationSec)))
     return data(
       http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
         timeout: 120_000,
