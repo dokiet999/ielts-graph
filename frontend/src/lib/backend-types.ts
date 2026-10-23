@@ -179,16 +179,11 @@ export interface BeSubmissionSummary {
 
 /** GET /submissions/{id}/detail */
 export interface BeSubmissionDetail extends BeSubmissionSummary {
-  /** Choice questions: the option id. FILL_BLANK: the typed text. */
-  answers: Record<string, string | string[]>
+  /** Choice questions: the option id. FILL_BLANK: the typed text. Speaking/Writing: structured jsonb. */
+  answers: Record<string, unknown>
   results: { questionId: Id; correct: boolean; earned: Num }[]
   exercise: BeExercise
-  /**
-   * Writing only. The endpoint does not return the structured AI feedback yet (branch
-   * 20-w3-backend-writing-submission-and-llm-scoring); the adapter reads these two fields as soon
-   * as the backend adds them, and the UI falls back to the result cached after grading.
-   */
-  aiStructuredFeedback?: BeWritingFeedback | null
+  aiStructuredFeedback?: BeWritingFeedback | BeSpeakingFeedback | null
   aiFeedback?: string | null
 }
 
@@ -237,4 +232,58 @@ export interface BeWritingResult {
   aiPromptVersion?: string | null
   aiLatencyMs?: number | null
   rawFeedback: BeWritingFeedback | null
+}
+
+export interface BeSpeakingFeatures {
+  duration_sec?: Num
+  word_count?: Num
+  speech_rate_wpm?: Num
+  pause_count?: Num
+  total_pause_sec?: Num
+  longest_pause_sec?: Num
+}
+
+export interface BeSpeakingPronunciation {
+  accuracy?: Num
+  fluency?: Num
+  completeness?: Num
+  prosody?: Num | null
+}
+
+/** ai/schema/speaking_feedback.schema.json: the JSON the LLM returns, after server-side clean-up. */
+export interface BeSpeakingFeedback {
+  schema_version?: string
+  part?: string
+  overall_band?: Num
+  out_of_calibration_range?: boolean
+  criteria?: Record<
+    string,
+    { band: Num; comment?: string; feedback?: string; evidence?: BeWritingEvidence[] }
+  >
+  summary?: string
+  improvements?: string[]
+}
+
+/** POST /exercises/{id}/submit/speaking */
+export interface BeSpeakingResult {
+  submissionId: Id
+  exerciseId: Id
+  exerciseTitle: string
+  attemptNumber: number
+  part: string | null
+  overallBand: Num
+  outOfCalibrationRange: boolean | null
+  status: string
+  timeSpent: number | null
+  submittedAt: string
+  transcript: string | null
+  features: BeSpeakingFeatures | null
+  pronunciation: BeSpeakingPronunciation | null
+  summary: string | null
+  improvements: string[] | null
+  asrModel?: string | null
+  aiModel?: string | null
+  aiPromptVersion?: string | null
+  aiLatencyMs?: number | null
+  rawFeedback: BeSpeakingFeedback | null
 }

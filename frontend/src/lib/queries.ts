@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from './api'
-import type { SubmissionRequest, WritingSubmissionRequest } from './types'
+import type {
+  SpeakingSubmissionRequest,
+  SubmissionRequest,
+  WritingSubmissionRequest,
+} from './types'
 
 export const keys = {
   me: ['me'] as const,
@@ -80,6 +84,14 @@ export function useSubmitWriting() {
   const invalidate = useInvalidateAfterSubmit()
   return useMutation({
     mutationFn: (body: WritingSubmissionRequest) => api.submitWriting(body),
+    onSuccess: invalidate,
+  })
+}
+
+export function useSubmitSpeaking() {
+  const invalidate = useInvalidateAfterSubmit()
+  return useMutation({
+    mutationFn: (body: SpeakingSubmissionRequest) => api.submitSpeaking(body),
     onSuccess: invalidate,
   })
 }

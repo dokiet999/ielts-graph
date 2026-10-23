@@ -23,6 +23,7 @@ import {
   SKILL_LABEL,
 } from '@/lib/utils'
 import { describeAnswer, describeCorrect } from '../runner/questions/helpers'
+import { SpeakingResultPage } from './SpeakingResultPage'
 import { WritingResultPage } from './WritingResultPage'
 
 function Metric({
@@ -55,6 +56,7 @@ export function ResultPage() {
   if (error || !sub) return <ErrorState message={errorMessage(error)} onRetry={() => refetch()} />
 
   if (sub.skillType === 'WRITING') return <WritingResultPage sub={sub} />
+  if (sub.skillType === 'SPEAKING') return <SpeakingResultPage sub={sub} />
 
   const ex = sub.exercise
   const pct = percent(sub.correctCount, sub.questionCount)

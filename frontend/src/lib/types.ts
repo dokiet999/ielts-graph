@@ -199,6 +199,10 @@ export interface SubmissionDetail extends Submission {
   essayText?: string
   /** Writing only: null when the backend does not return the structured feedback of an old submission. */
   writingFeedback?: WritingFeedback | null
+  /** Speaking only: transcript of the learner's spoken answer, taken from the stored answers. */
+  transcript?: string
+  /** Speaking only: structured feedback and ASR features/pronunciation. */
+  speakingFeedback?: SpeakingFeedback | null
 }
 
 /** Writing criteria, in the order the result page shows them (ontology v0, Task 2). */
@@ -242,6 +246,65 @@ export interface WritingSubmitResult {
   submissionId: string
   attemptNumber: number
   feedback: WritingFeedback
+}
+
+/** Speaking parts and criteria (ontology v0). */
+export type SpeakingPartId = 'QT_S_PART1' | 'QT_S_PART2' | 'QT_S_PART3'
+export type SpeakingCriterionId = 'CRIT_S_FC' | 'CRIT_S_LR' | 'CRIT_S_GRA' | 'CRIT_S_P'
+
+export interface SpeakingEvidence {
+  quote: string
+  errorType: string
+  suggestion: string
+}
+
+export interface SpeakingCriterion {
+  id: SpeakingCriterionId
+  band: number
+  comment: string
+  evidence: SpeakingEvidence[]
+}
+
+export interface SpeakingFeatures {
+  durationSec: number
+  wordCount: number
+  speechRateWpm: number
+  pauseCount: number
+  totalPauseSec: number
+  longestPauseSec: number
+}
+
+export interface SpeakingPronunciation {
+  accuracy: number
+  fluency: number
+  completeness: number
+  prosody: number | null
+}
+
+export interface SpeakingFeedback {
+  part: SpeakingPartId
+  overallBand: number
+  outOfCalibrationRange: boolean
+  criteria: SpeakingCriterion[]
+  summary: string
+  improvements: string[]
+  transcript: string
+  features: SpeakingFeatures | null
+  pronunciation: SpeakingPronunciation | null
+}
+
+export interface SpeakingSubmissionRequest {
+  exerciseId: string
+  audio: Blob | File
+  filename?: string
+  part?: string | null
+  durationSec?: number
+}
+
+export interface SpeakingSubmitResult {
+  submissionId: string
+  attemptNumber: number
+  feedback: SpeakingFeedback
 }
 
 export interface CheckAnswerResponse {

@@ -10,6 +10,7 @@ import type { Exercise } from '@/lib/types'
 import { cn, EXERCISE_TYPE_LABEL, formatClock } from '@/lib/utils'
 import { isAnswered, useSessionStore } from '@/stores/session'
 import { QuizRunner } from './quiz/QuizRunner'
+import { SpeakingRunner } from './speaking/SpeakingRunner'
 import { SplitPaneRunner } from './test/SplitPaneRunner'
 import { useRunnerTimer } from './test/useRunnerTimer'
 import { WritingRunner } from './writing/WritingRunner'
@@ -189,6 +190,7 @@ export function RunnerPage() {
     )
   }
   if (exercise.skillType === 'WRITING') return <WritingRunnerPage exercise={exercise} />
+  if (exercise.skillType === 'SPEAKING') return <SpeakingRunnerPage exercise={exercise} />
   return exercise.exerciseType === 'LESSON' ? (
     <Quiz exercise={exercise} />
   ) : (
@@ -198,4 +200,8 @@ export function RunnerPage() {
 
 function WritingRunnerPage({ exercise }: { exercise: Exercise }) {
   return <WritingRunner exercise={exercise} onExit={useExitTo(exercise)} />
+}
+
+function SpeakingRunnerPage({ exercise }: { exercise: Exercise }) {
+  return <SpeakingRunner exercise={exercise} onExit={useExitTo(exercise)} />
 }

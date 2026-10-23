@@ -9,6 +9,7 @@ import {
   toExercise,
   toExerciseSummaries,
   toLesson,
+  toSpeakingResult,
   toSubmission,
   toSubmissionDetail,
   toWritingResult,
@@ -19,6 +20,7 @@ import type {
   BeExerciseSummary,
   BeLessonDetail,
   BeMyCourse,
+  BeSpeakingResult,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
@@ -28,10 +30,12 @@ import type {
   AnswerValue,
   AuthResponse,
   CheckAnswerResponse,
+  SpeakingSubmissionRequest,
   SubmissionRequest,
   User,
   WritingSubmissionRequest,
 } from './types'
+import { isRetryableSpeakingError, speakingSubmitMessage } from './speaking'
 import { isRetryableWritingError, writingSubmitMessage } from './writing'
 
 export const http = axios.create({
@@ -81,6 +85,18 @@ export function writingSubmitError(error: unknown): { message: string; retryable
     const message =
       writingSubmitMessage(timedOut ? 'LLM_TIMEOUT' : code, status) ?? errorMessage(error)
     return { message, retryable: timedOut || isRetryableWritingError(code, status) }
+  }
+  return { message: errorMessage(error), retryable: false }
+}
+
+export function speakingSubmitError(error: unknown): { message: string; retryable: boolean } {
+  if (axios.isAxiosError(error)) {
+    const code = (error.response?.data as { code?: string } | undefined)?.code
+    const status = error.response?.status
+    const timedOut = error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT'
+    const message =
+      speakingSubmitMessage(timedOut ? 'LLM_TIMEOUT' : code, status) ?? errorMessage(error)
+    return { message, retryable: timedOut || isRetryableSpeakingError(code, status) }
   }
   return { message: errorMessage(error), retryable: false }
 }
@@ -153,6 +169,19 @@ export const api = {
         { timeout: 90_000 },
       ),
     ).then(toWritingResult),
+  submitSpeaking: (body: SpeakingSubmissionRequest) => {
+    const form = new FormData()
+    const filename =
+      body.filename ?? (body.audio instanceof File ? body.audio.name : 'recording.webm')
+    form.append('audio', body.audio, filename)
+    if (body.part) form.append('part', body.part)
+    if (body.durationSec !== undefined) form.append('durationSec', String(Math.round(body.durationSec)))
+    return data(
+      http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
+        timeout: 120_000,
+      }),
+    ).then(toSpeakingResult)
+  },
   submission: (id: string) =>
     data(http.get<BeSubmissionDetail>(`/submissions/${id}/detail`)).then(toSubmissionDetail),
   mySubmissions,
