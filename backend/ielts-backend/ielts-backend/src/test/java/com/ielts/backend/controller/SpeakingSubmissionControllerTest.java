@@ -1,11 +1,10 @@
 package com.ielts.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ielts.backend.exception.AsrTimeoutException;
-import com.ielts.backend.exception.AsrUnavailableException;
-import com.ielts.backend.service.asr.SpeakingAsrClient;
-import com.ielts.backend.service.asr.SpeakingAsrResult;
+import com.ielts.backend.exception.SpeakingAsrException;
 import com.ielts.backend.service.llm.LlmClient;
+import com.ielts.backend.service.speaking.SpeakingAsrClient;
+import com.ielts.backend.service.speaking.SpeakingAsrResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +108,7 @@ class SpeakingSubmissionControllerTest {
                 .file(audioFile)
                 .param("part", "QT_S_PART2");
         if (durationSec != null) {
-            req.param("durationSec", durationSec.toString());
+            req.param("timeSpent", durationSec.toString());
         }
         if (username != null) {
             req.with(httpBasic(username, password));
@@ -179,14 +178,8 @@ class SpeakingSubmissionControllerTest {
 
     @Test
     void submit_nullPronunciation_returns200Safely() throws Exception {
-        SpeakingAsrResult noPronAsr = SpeakingAsrResult.builder()
-                .schemaVersion("1.0")
-                .asrModel("whisper-small")
-                .language("en")
-                .transcript(sampleAsrResult.getTranscript())
-                .features(sampleAsrResult.getFeatures())
-                .pronunciation(null)
-                .build();
+        SpeakingAsrResult noPronAsr = new SpeakingAsrResult("1.0", "whisper-small", "en",
+                sampleAsrResult.transcript(), sampleAsrResult.features(), null);
         when(speakingAsrClient.transcribe(any(), any())).thenReturn(noPronAsr);
         when(llmClient.chat(any(), any())).thenReturn(sampleFeedbackJson);
 
@@ -221,7 +214,7 @@ class SpeakingSubmissionControllerTest {
         MockMultipartFile audio = new MockMultipartFile(
                 "audio", "short.webm", "audio/webm", dummyAudioBytes);
 
-        submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 2)
+        submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 1)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("AUDIO_TOO_SHORT"));
 
@@ -278,7 +271,7 @@ class SpeakingSubmissionControllerTest {
     @Test
     void submit_asrTimeout_returns502AndRecordsFailedSubmission() throws Exception {
         when(speakingAsrClient.transcribe(any(), any()))
-                .thenThrow(new AsrTimeoutException("ASR timed out"));
+                .thenThrow(new SpeakingAsrException("ASR_TIMEOUT", "ASR timed out"));
 
         MockMultipartFile audio = new MockMultipartFile(
                 "audio", "recording.webm", "audio/webm", dummyAudioBytes);
@@ -296,7 +289,7 @@ class SpeakingSubmissionControllerTest {
     @Test
     void submit_asrUnavailable_returns503AndRecordsFailedSubmission() throws Exception {
         when(speakingAsrClient.transcribe(any(), any()))
-                .thenThrow(new AsrUnavailableException("ASR service down"));
+                .thenThrow(new SpeakingAsrException("ASR_UNAVAILABLE", "ASR service down"));
 
         MockMultipartFile audio = new MockMultipartFile(
                 "audio", "recording.webm", "audio/webm", dummyAudioBytes);
@@ -317,7 +310,7 @@ class SpeakingSubmissionControllerTest {
                 "audio", "recording.webm", "audio/webm", dummyAudioBytes);
 
         when(speakingAsrClient.transcribe(any(), any()))
-                .thenThrow(new AsrTimeoutException("ASR timed out"));
+                .thenThrow(new SpeakingAsrException("ASR_TIMEOUT", "ASR timed out"));
 
         for (int i = 0; i < 2; i++) {
             submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 60)

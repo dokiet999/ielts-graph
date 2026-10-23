@@ -11,14 +11,13 @@ import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.AsrTimeoutException;
-import com.ielts.backend.exception.AsrUnavailableException;
 import com.ielts.backend.exception.BadRequestException;
 import com.ielts.backend.exception.ConflictException;
 import com.ielts.backend.exception.ForbiddenException;
 import com.ielts.backend.exception.LlmTimeoutException;
 import com.ielts.backend.exception.LlmUnavailableException;
 import com.ielts.backend.exception.ResourceNotFoundException;
+import com.ielts.backend.exception.SpeakingAsrException;
 import com.ielts.backend.exception.SpeakingGradingException;
 import com.ielts.backend.exception.UnauthorizedException;
 import com.ielts.backend.repository.ExerciseRepository;
@@ -29,11 +28,11 @@ import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.SpeakingSubmissionService;
-import com.ielts.backend.service.asr.SpeakingAsrClient;
-import com.ielts.backend.service.asr.SpeakingAsrResult;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
+import com.ielts.backend.service.speaking.SpeakingAsrClient;
+import com.ielts.backend.service.speaking.SpeakingAsrResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -158,7 +157,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
             if (failure instanceof RuntimeException re) {
                 throw re;
             }
-            throw new SpeakingGradingException("GRADING_FAILED", failure.getMessage(), failure);
+            throw new SpeakingGradingException("GRADING_FAILED", "Speaking grading failed");
         }
 
         SpeakingAsrResult finalAsr = asrResult;
@@ -267,15 +266,15 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
     private void validateAsrOutput(SpeakingAsrResult asr) {
         if (asr == null) {
-            throw new AsrUnavailableException("ASR service returned empty result");
+            throw new SpeakingAsrException("ASR_BAD_RESPONSE", "ASR service returned empty result");
         }
-        if (asr.getFeatures() != null
-                && asr.getFeatures().getDurationSec() > 0
-                && asr.getFeatures().getDurationSec() < minDurationSeconds) {
+        if (asr.features() != null
+                && asr.features().durationSec() > 0
+                && asr.features().durationSec() < minDurationSeconds) {
             throw new BadRequestException("AUDIO_TOO_SHORT",
                     "Audio recording must be at least " + (int) Math.ceil(minDurationSeconds) + " seconds long");
         }
-        if (asr.getTranscript() == null || asr.getTranscript().isBlank()) {
+        if (asr.transcript() == null || asr.transcript().isBlank()) {
             throw new BadRequestException("AUDIO_TOO_SHORT", "No speech was detected in the audio recording");
         }
     }
@@ -354,7 +353,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         Map<String, Object> answersMap = buildAnswersMap(pending.audioFilename(), asr);
         Integer effectiveTimeSpent = pending.timeSpent() != null
                 ? pending.timeSpent()
-                : (asr.getFeatures() != null ? (int) Math.round(asr.getFeatures().getDurationSec()) : null);
+                : (asr.features() != null ? (int) Math.round(asr.features().durationSec()) : null);
 
         submission.setAnswers(answersMap);
         submission.setScore(result.getOverallBand());
@@ -372,7 +371,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                     questionAnswerRepository.saveAndFlush(QuestionAnswer.builder()
                             .submission(submission)
                             .question(question)
-                            .answerText(asr.getTranscript())
+                            .answerText(asr.transcript())
                             .mediaUrl(pending.audioFilename())
                             .aiPoints(result.getOverallBand())
                             .aiFeedback(result.getSummary())
@@ -392,8 +391,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                 .timeSpent(effectiveTimeSpent)
                 .submittedAt(submission.getSubmittedAt())
                 .part(result.getPart())
-                .transcript(asr.getTranscript())
-                .asrModel(asr.getAsrModel())
+                .transcript(asr.transcript())
+                .asrModel(asr.asrModel())
                 .features(asr.toFeaturesMap())
                 .pronunciation(asr.toPronunciationMap())
                 .summary(result.getSummary())
@@ -409,9 +408,9 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         Map<String, Object> answers = new LinkedHashMap<>();
         answers.put("audioFilename", audioFilename);
         if (asr != null) {
-            answers.put("transcript", asr.getTranscript());
-            answers.put("asrModel", asr.getAsrModel());
-            answers.put("language", asr.getLanguage());
+            answers.put("transcript", asr.transcript());
+            answers.put("asrModel", asr.asrModel());
+            answers.put("language", asr.language());
             answers.put("features", asr.toFeaturesMap());
             answers.put("pronunciation", asr.toPronunciationMap());
         }
@@ -443,11 +442,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         if (ex instanceof SpeakingGradingException sge) {
             return sge.getCode();
         }
-        if (ex instanceof AsrTimeoutException) {
-            return "ASR_TIMEOUT";
-        }
-        if (ex instanceof AsrUnavailableException) {
-            return "ASR_UNAVAILABLE";
+        if (ex instanceof SpeakingAsrException sae) {
+            return sae.getCode();
         }
         if (ex instanceof LlmTimeoutException) {
             return "LLM_TIMEOUT";

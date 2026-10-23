@@ -76,10 +76,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "The AI could not produce a valid grading result. Please try again", null);
     }
 
-    /** Speaking LLM grading returned unparseable or schema-invalid JSON, even after retry. */
+    /** The speech recognition service (Whisper) timed out, was unreachable or answered badly. */
+    @ExceptionHandler(SpeakingAsrException.class)
+    public ResponseEntity<ErrorResponse> handleSpeakingAsr(SpeakingAsrException ex) {
+        // Only the code is logged: nothing from the audio or the transcript
+        log.warn("Speaking ASR failed: {}", ex.getCode());
+        HttpStatus status = "ASR_UNAVAILABLE".equals(ex.getCode()) ? HttpStatus.SERVICE_UNAVAILABLE : HttpStatus.BAD_GATEWAY;
+        return build(status, ex.getCode(), "The speech recognition service failed. Please try again", null);
+    }
+
+    /** LLM returned unparseable or schema-invalid Speaking feedback, even after retry. */
     @ExceptionHandler(SpeakingGradingException.class)
     public ResponseEntity<ErrorResponse> handleSpeakingGrading(SpeakingGradingException ex) {
-        log.warn("Speaking grading failed: {} — {}", ex.getCode(), ex.getMessage());
+        log.warn("Speaking grading failed: {}", ex.getCode());
         return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
                 "The AI could not produce a valid grading result. Please try again", null);
     }
@@ -98,22 +107,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("LLM unavailable: {}", ex.getMessage());
         return build(HttpStatus.SERVICE_UNAVAILABLE, "LLM_UNAVAILABLE",
                 "The AI service is temporarily unavailable. Please try again later", null);
-    }
-
-    /** ASR (Whisper) service exceeded configured timeout. */
-    @ExceptionHandler(AsrTimeoutException.class)
-    public ResponseEntity<ErrorResponse> handleAsrTimeout(AsrTimeoutException ex) {
-        log.warn("ASR timeout: {}", ex.getMessage());
-        return build(HttpStatus.BAD_GATEWAY, "ASR_TIMEOUT",
-                "The speech recognition service took too long to respond. Please try again", null);
-    }
-
-    /** ASR (Whisper) service is unreachable or returned 5xx. */
-    @ExceptionHandler(AsrUnavailableException.class)
-    public ResponseEntity<ErrorResponse> handleAsrUnavailable(AsrUnavailableException ex) {
-        log.warn("ASR unavailable: {}", ex.getMessage());
-        return build(HttpStatus.SERVICE_UNAVAILABLE, "ASR_UNAVAILABLE",
-                "The speech recognition service is temporarily unavailable. Please try again later", null);
     }
 
     @Override
