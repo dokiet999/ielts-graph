@@ -20,3 +20,6 @@ desktop.ini
 
 # Generated listening audio (shared via Drive, see data/manifest.csv)
 data/audio/
+
+# Speaking audio samples are shared via Drive (see data/speaking_v1/manifest.csv), never committed
+data/speaking_v1/audio/
