@@ -19,3 +19,10 @@ app:
     temperature: 0.3
     max-tokens: 8192
     timeout-seconds: 60
+  speaking:
+    min-transcript-words: 10
+    asr:
+      url: ${SPEAKING_ASR_URL:http://127.0.0.1:8000/transcribe}
+      timeout-seconds: ${SPEAKING_ASR_TIMEOUT:120}
+      file-field: ${SPEAKING_ASR_FILE_FIELD:audio}
+      fake: ${SPEAKING_ASR_FAKE:false}
