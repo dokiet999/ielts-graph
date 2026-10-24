@@ -1,1 +1,338 @@
-[]
+[
+  {
+    "id": "sp_01_p1",
+    "part": "QT_S_PART1",
+    "question": "Do you work or do you study? | On what subject? | Why did you choose that subject? | What do you hope to do with that degree after you finish? | Why? | What do you like to do in your free time? | Do you prefer to spend your free time indoors or outdoors? | What did you like to do in your free time when you were a child? | What are you going to do with your free time this weekend? | Do you like to travel? | Where's the popular tourist destination in your country? | Is traveling abroad very popular in your country? | Where would you like to travel to in the future?",
+    "question_count": 13,
+    "reference_file": "audio/refs/sp_01_p1.txt",
+    "reference_sha256": "0c152b0001bd315e4f34bb0a0bfc3b8f7f4573d1a34b2564b040a31c510db3d1",
+    "word_count": 405,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 8,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 8
+    }
+  },
+  {
+    "id": "sp_01_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe the type of clothes you like to wear. You should say: - what clothes you like - when you wear them - where you buy them - and explain how you feel about them",
+    "question_count": 1,
+    "reference_file": "audio/refs/sp_01_p2.txt",
+    "reference_sha256": "486275098f319e67893e5aac3745164d217d0223590b1622ea120b9bc678b830",
+    "word_count": 292,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 8,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 8
+    }
+  },
+  {
+    "id": "sp_01_p3",
+    "part": "QT_S_PART3",
+    "question": "Are designer clothes popular in your country these days? | Why do you think people buy designer clothes? | Do you think you can judge someone based on the kind of clothes they are wearing at work? | Should people be forced to wear certain clothes in work? | How have work clothes changed in the last couple of decades?",
+    "question_count": 5,
+    "reference_file": "audio/refs/sp_01_p3.txt",
+    "reference_sha256": "9b4d5934ec7915a4f03d097b3c02f9a67a456dcb68abd8d0538afab12ae53c8d",
+    "word_count": 415,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 8,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 8
+    }
+  },
+  {
+    "id": "sp_02_p1",
+    "part": "QT_S_PART1",
+    "question": "Could you tell me your full name, please? | Are you working or are you a student? | What do you enjoy doing in your free time? | How often do you send text messages? | Is sending messages popular in your country? | Did you send more text messages when you were younger? | Do you usually reply to messages as soon as you receive them? | Are you good at memorizing things? | Have you ever forgotten something very important? | What do you need to remember in your daily life? | How do you remember important things?",
+    "question_count": 11,
+    "reference_file": "audio/refs/sp_02_p1.txt",
+    "reference_sha256": "7b45f749bb9137b4e3cf827499e5a295cdf5dc4c973ec816e1e83373576d06a7",
+    "word_count": 439,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_02_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe a difficult thing you did and succeeded? You should say: - What it was - How you overcame the difficulties - whether or not you got help - And explain how you felt after you succeeded | Do you enjoy challenges in your life?",
+    "question_count": 2,
+    "reference_file": "audio/refs/sp_02_p2.txt",
+    "reference_sha256": "fe21765c2eed8c1deb932dc89a4c798024e998c16ffaf64a44aed1fd85eaf651",
+    "word_count": 238,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_02_p3",
+    "part": "QT_S_PART3",
+    "question": "Should people set goals for themselves? | Why do some people not set any goals for themselves? | Why do you think people are facing these difficulties these days? | How would you define success? | Do you think can successful people sometimes feel lonely? | What kinds of success can students achieve at school? | Do you think parents should reward their children if they achieve high grades at school? | Are there any negative sides to this, to children always receiving rewards?",
+    "question_count": 8,
+    "reference_file": "audio/refs/sp_02_p3.txt",
+    "reference_sha256": "49d1286d3b98d33bbd39853dd927b6b66eae57ed44fb64c0b248c79caffc5bc4",
+    "word_count": 441,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_03_p1",
+    "part": "QT_S_PART1",
+    "question": "What is your favorite type of food? | How often do you eat at restaurants? | Do you prefer home cooked meals or eating out? | How do you usually communicate with your friends? | Why is that? | How would you say communication has changed compared to the past? | What is your favorite hobby and how often do you do it? | Have your hobbies changed since childhood? | Why do you think they've changed? | Do you prefer hobbies that require more physical activity or more mental engagement? | Why do you think more physical than mental?",
+    "question_count": 11,
+    "reference_file": "audio/refs/sp_03_p1.txt",
+    "reference_sha256": "8235c597261025656e8de17bb3eef93913a0bc786685fa2add240936c4558122",
+    "word_count": 489,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_03_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe a time when you helped a stranger. You should say: - Who the person was - What the situation was - How you helped them And explain how you felt after helping them.",
+    "question_count": 1,
+    "reference_file": "audio/refs/sp_03_p2.txt",
+    "reference_sha256": "bbeefe72224b6d17a8c1a9fac92fdbbe17c91d9a6bfa2d1a3c8622afd2aca50d",
+    "word_count": 274,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_03_p3",
+    "part": "QT_S_PART3",
+    "question": "Why do people help strangers? | Do you think people today are less willing to help others compared to the past? | Should children be taught to help others? | Do you think large organizations or individuals have a bigger responsibility to help society? | In your opinion does helping others always make a difference?",
+    "question_count": 5,
+    "reference_file": "audio/refs/sp_03_p3.txt",
+    "reference_sha256": "3a30e1f54b62b12f5c2bcf027d7b4375716b3ca03f4385c11a4e70ec2489b877",
+    "word_count": 281,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_04_p1",
+    "part": "QT_S_PART1",
+    "question": "How often do you listen to music? | Is music an important subject in schools in your country? | Do you ever go to live concerts? | Do you prefer to read magazines or newspapers? | Do you think you can learn as much from a magazine as a book? | Do you think that you will continue to read paper-based magazines in the future? | Do you like being outdoors? | Which outdoor sports do you enjoy doing? | Which outdoor activities are most popular in your country?",
+    "question_count": 9,
+    "reference_file": "audio/refs/sp_04_p1.txt",
+    "reference_sha256": "a60a1a38c06b97c233dcecf5e1e62419fbffcdae895052cb08df47510194529d",
+    "word_count": 478,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_04_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe your favorite actor or actress. You should say: - Who the actor or actress is - what kind of actor or actress they are - what movies/programs they have starred in - and explain why they are your favorite actor or actress",
+    "question_count": 1,
+    "reference_file": "audio/refs/sp_04_p2.txt",
+    "reference_sha256": "5f39d934f3a349bc46ad9d62efc46d7d9254b5c2a9ff47435d54e6812bc2194f",
+    "word_count": 291,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_04_p3",
+    "part": "QT_S_PART3",
+    "question": "What are the most popular types of movies in your country? | Do you think that going to the cinema will be as popular in the future? | How strong a tradition is it today in your country to go to the theatre? | Do you think that theatre should be run as a business or as a public service? | In some countries governments pay theatres to put on shows for the public. Do you think this is a good use of public money?",
+    "question_count": 5,
+    "reference_file": "audio/refs/sp_04_p3.txt",
+    "reference_sha256": "b4da8080d71257626ef493955452b91f21285c5944351bb34ac087cf33907ad6",
+    "word_count": 330,
+    "reference_band": 9,
+    "reference_criteria": {
+      "CRIT_S_FC": 9,
+      "CRIT_S_LR": 9,
+      "CRIT_S_GRA": 9,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_05_p1",
+    "part": "QT_S_PART1",
+    "question": "What do you think about climate change nowadays? | What's the weather like where you live? | Do you like hot or cold weather? | Do you prefer dry or wet weather? | Are you in the habit of checking the weather forecast? | Would you like to visit other countries that have different climates from where you live? | Does your name have any special meaning? | How would you choose names for your next generation? | Is there a difference now between how Koreans name their children versus in the past?",
+    "question_count": 9,
+    "reference_file": "audio/refs/sp_05_p1.txt",
+    "reference_sha256": "173a99dcc462c2e9f2140d7ef4fd0cce3db23abe5dc80aa106d8bba714cd583c",
+    "word_count": 646,
+    "reference_band": 6,
+    "reference_criteria": {
+      "CRIT_S_FC": 6,
+      "CRIT_S_LR": 6,
+      "CRIT_S_GRA": 6,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_05_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe a person you regularly follow on social media. You should say: - Who he or she is - How you knew him or her - What he or she posts on social media And explain why you follow him or her on social media. | Could you tell me a bit more about her types of videos and the advice that she gives?",
+    "question_count": 2,
+    "reference_file": "audio/refs/sp_05_p2.txt",
+    "reference_sha256": "c42f4972f6f7b64d83135da0d5c5ff122eab2f76e4029e2bd47ef4229a430158",
+    "word_count": 284,
+    "reference_band": 6,
+    "reference_criteria": {
+      "CRIT_S_FC": 6,
+      "CRIT_S_LR": 6,
+      "CRIT_S_GRA": 6,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_05_p3",
+    "part": "QT_S_PART3",
+    "question": "Do you think it's easy to make friends on social media? | Do you think people will read paper newspaper and books in the future? | Are non social media like television and newspapers still useful? | Do older people spend a lot of time on social media? | Do older people and younger people use the same kinds of social media or do they use different types? | What can people do on social media?",
+    "question_count": 6,
+    "reference_file": "audio/refs/sp_05_p3.txt",
+    "reference_sha256": "380f3b39a06750a3738e3425423b5f9ccb54aa5d27bc89b0a6abfdb6438d0f43",
+    "word_count": 456,
+    "reference_band": 6,
+    "reference_criteria": {
+      "CRIT_S_FC": 6,
+      "CRIT_S_LR": 6,
+      "CRIT_S_GRA": 6,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_06_p1",
+    "part": "QT_S_PART1",
+    "question": "Do you have a big or a small family? | How much time do you spend with your family? | How has your family influenced you? | Do you usually use a pen or a pencil? | Do you think using pencils or pen gives an impressive writing layout? | How would you feel if someone gave you a pen as a gift? | When you were a child did you enjoy learning history? | Have you ever been to a museum to learn about history? | When was the last time you read a book about history?",
+    "question_count": 9,
+    "reference_file": "audio/refs/sp_06_p1.txt",
+    "reference_sha256": "ff799189b7987f250c9e1aeb92075db3c45cb28edd516af85ffc476f79f0b4ae",
+    "word_count": 257,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_06_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe an occasion where you promised someone. | do you want to have more information?",
+    "question_count": 2,
+    "reference_file": "audio/refs/sp_06_p2.txt",
+    "reference_sha256": "74e1b71c9649d17b4092548bc60bcf1d3e26adce5d170e4b6e83ed35246628c3",
+    "word_count": 176,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_06_p3",
+    "part": "QT_S_PART3",
+    "question": "Do you think people are less committed to goals now than in the past? | What is the importance of commitments at work? | Do young people show commitment towards work if they are not paid well? | How can we teach young children to be committed to their goals and never give up?",
+    "question_count": 4,
+    "reference_file": "audio/refs/sp_06_p3.txt",
+    "reference_sha256": "398a8f52e3617b487d125b3f0e6d5d034498efb89581dfeeacaa6d0e3d696d76",
+    "word_count": 285,
+    "reference_band": 7,
+    "reference_criteria": {
+      "CRIT_S_FC": 7,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 7,
+      "CRIT_S_P": 7
+    }
+  },
+  {
+    "id": "sp_07_p1",
+    "part": "QT_S_PART1",
+    "question": "What is your favorite food? | Do you like to eat out or stay in and cook? | What was your favorite food when you were a child? | Are there any foods you would like to try in the future? | What's your favorite holiday destination? | What is your dream holiday destination maybe in the future? | Where would you recommend going on holiday in your home country? | Do you prefer a city holiday or a holiday in nature? | What do you normally drink with breakfast? | Do you think you drink enough water each day? | If people visit your home for dinner what do you normally offer them to drink? | Do you ever use maps on your phone? | When you visit a new city do you prefer to use a map or find your own way around? | Do you find it easy to follow a map when driving?",
+    "question_count": 14,
+    "reference_file": "audio/refs/sp_07_p1.txt",
+    "reference_sha256": "b6734baaed2d555a68a7b14350aa786ae88be1ff12a5e8dacf41091b3fb8f0b1",
+    "word_count": 792,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_07_p2",
+    "part": "QT_S_PART2",
+    "question": "Describe a city you would like to visit. You should say: - What city it is - How you intend to get there - When you plan on visiting and explain why you want to visit that city.",
+    "question_count": 1,
+    "reference_file": "audio/refs/sp_07_p2.txt",
+    "reference_sha256": "3cba7047dfc96d993428aa9fee6e892f159a0399febc470c44ec454f6d452c5d",
+    "word_count": 335,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 9
+    }
+  },
+  {
+    "id": "sp_07_p3",
+    "part": "QT_S_PART3",
+    "question": "Why do some people prefer to visit a city on holiday? | Is it more expensive to go on holiday in a city? | Is it better to visit a city alone or with other people? | Why are the biggest cities in the world getting bigger? | What are the downsides of living in a mega city? | How will large cities in the future be different to how they are today? | Is it better to grow up in a city or the countryside? | What advantages do children brought up in the countryside have over children brought up in a city?",
+    "question_count": 8,
+    "reference_file": "audio/refs/sp_07_p3.txt",
+    "reference_sha256": "bac1d96ea814f7debb96ff15f9c3617934581418f8e98702d1a7a6afb4a91a03",
+    "word_count": 824,
+    "reference_band": 8,
+    "reference_criteria": {
+      "CRIT_S_FC": 8,
+      "CRIT_S_LR": 7,
+      "CRIT_S_GRA": 8,
+      "CRIT_S_P": 9
+    }
+  }
+]
