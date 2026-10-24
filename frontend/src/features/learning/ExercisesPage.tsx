@@ -73,6 +73,7 @@ export function ExercisesPage() {
               <option value="READING">Reading</option>
               <option value="LISTENING">Listening</option>
               <option value="WRITING">Writing</option>
+              <option value="SPEAKING">Speaking</option>
             </Select>
             <Select value={type} onChange={(e) => setType(e.target.value)} aria-label="Phân loại">
               <option value="">Phân loại</option>

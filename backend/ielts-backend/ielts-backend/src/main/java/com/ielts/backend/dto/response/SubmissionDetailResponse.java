@@ -14,13 +14,17 @@ import java.util.Map;
 @ToString(callSuper = true)
 @SuperBuilder
 public class SubmissionDetailResponse extends SubmissionSummaryResponse {
-    /** Answers as sent by the learner: question id -> option id or typed text. */
+    /** Answers as sent by the learner: question id -> option id or typed text, or Writing/Speaking payload. */
     private Map<String, Object> answers;
     /** One entry per question, in question order. */
     private List<QuestionScoreResponse> results;
     private ExerciseReviewResponse exercise;
-    /** Writing only: the AI feedback as stored after grading (schema writing_feedback), so a result can be reopened. */
+    /** Writing & Speaking: the AI feedback as stored after grading, so a result can be reopened. */
     private Map<String, Object> aiStructuredFeedback;
-    /** Writing only: the AI summary text. */
+    /** Writing & Speaking: the AI summary text. */
     private String aiFeedback;
+    /** Writing & Speaking: the AI model that graded the submission. */
+    private String aiModel;
+    /** Writing & Speaking: the prompt version used for grading. */
+    private String aiPromptVersion;
 }

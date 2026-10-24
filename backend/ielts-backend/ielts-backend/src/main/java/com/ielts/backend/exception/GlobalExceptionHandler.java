@@ -1,9 +1,6 @@
 package com.ielts.backend.exception;
 
 import com.ielts.backend.dto.response.ErrorResponse;
-import com.ielts.backend.exception.LlmTimeoutException;
-import com.ielts.backend.exception.LlmUnavailableException;
-import com.ielts.backend.exception.WritingGradingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
@@ -78,6 +76,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "The AI could not produce a valid grading result. Please try again", null);
     }
 
+    /** The speech recognition service (Whisper) timed out, was unreachable or answered badly. */
+    @ExceptionHandler(SpeakingAsrException.class)
+    public ResponseEntity<ErrorResponse> handleSpeakingAsr(SpeakingAsrException ex) {
+        // Only the code is logged: nothing from the audio or the transcript
+        log.warn("Speaking ASR failed: {}", ex.getCode());
+        HttpStatus status = "ASR_UNAVAILABLE".equals(ex.getCode()) ? HttpStatus.SERVICE_UNAVAILABLE : HttpStatus.BAD_GATEWAY;
+        return build(status, ex.getCode(), "The speech recognition service failed. Please try again", null);
+    }
+
+    /** LLM returned unparseable or schema-invalid Speaking feedback, even after retry. */
+    @ExceptionHandler(SpeakingGradingException.class)
+    public ResponseEntity<ErrorResponse> handleSpeakingGrading(SpeakingGradingException ex) {
+        log.warn("Speaking grading failed: {}", ex.getCode());
+        return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
+                "The AI could not produce a valid grading result. Please try again", null);
+    }
+
     /** LLM API call exceeded configured timeout. */
     @ExceptionHandler(LlmTimeoutException.class)
     public ResponseEntity<ErrorResponse> handleLlmTimeout(LlmTimeoutException ex) {
@@ -92,6 +107,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("LLM unavailable: {}", ex.getMessage());
         return build(HttpStatus.SERVICE_UNAVAILABLE, "LLM_UNAVAILABLE",
                 "The AI service is temporarily unavailable. Please try again later", null);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        log.warn("Audio upload exceeded maximum size: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(error(
+                "AUDIO_TOO_LARGE", "Audio file exceeds the maximum allowed size", null));
     }
 
     @ExceptionHandler(Exception.class)

@@ -8,8 +8,13 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+  servlet:
+    multipart:
+      max-file-size: ${SPEAKING_MAX_FILE_SIZE:15MB}
+      max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:16MB}
+
 server:
-  port: 8080
+  port: 8081
 
 app:
   llm:
@@ -19,3 +24,14 @@ app:
     temperature: 0.3
     max-tokens: 8192
     timeout-seconds: 60
+  speaking:
+    audio-dir: ${SPEAKING_AUDIO_DIR:${java.io.tmpdir}/ielts-graph-speaking}
+    max-file-size-bytes: ${SPEAKING_MAX_FILE_SIZE_BYTES:15728640}
+    min-file-size-bytes: ${SPEAKING_MIN_FILE_SIZE_BYTES:100}
+    min-duration-seconds: ${SPEAKING_MIN_DURATION_SECONDS:2.0}
+    min-transcript-words: 10
+    asr:
+      url: ${SPEAKING_ASR_URL:http://127.0.0.1:8000/transcribe}
+      timeout-seconds: ${SPEAKING_ASR_TIMEOUT:120}
+      file-field: ${SPEAKING_ASR_FILE_FIELD:audio}
+      fake: ${SPEAKING_ASR_FAKE:false}

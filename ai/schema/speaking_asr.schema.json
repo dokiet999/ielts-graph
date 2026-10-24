@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ielts-graph.local/schemas/speaking_asr.schema.json",
+  "title": "Speaking ASR result",
+  "description": "Response of the AI service (Python) for ONE audio answer of IELTS Speaking: Whisper transcript, speech features and optional pronunciation scores. The service only needs the audio file as input; the Part and the question are used later by the grader. This is the input of the Speaking grader (see speaking_feedback.schema.json). Estimated values for learning support.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "asr_model", "language", "transcript", "features", "pronunciation"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "asr_model": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Model that produced the transcript, e.g. whisper-small."
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Detected or configured language code, e.g. en."
+    },
+    "transcript": {
+      "type": "string",
+      "description": "Text of the answer as recognised by the ASR. May be empty when no speech is detected; the backend rejects very short transcripts before calling the LLM."
+    },
+    "features": {
+      "$ref": "#/$defs/features"
+    },
+    "pronunciation": {
+      "description": "Pronunciation scores (Azure Pronunciation Assessment). null when it was not run or failed; the grader must still work without it.",
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/pronunciation" }
+      ]
+    }
+  },
+  "$defs": {
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration_sec", "word_count", "speech_rate_wpm", "pause_count", "total_pause_sec", "longest_pause_sec"],
+      "properties": {
+        "duration_sec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Length of the whole audio, in seconds."
+        },
+        "word_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of whitespace-separated words in the transcript."
+        },
+        "speech_rate_wpm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "word_count / duration_sec * 60 (words per minute over the whole audio, pauses included)."
+        },
+        "pause_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of pauses: silences of at least 0.5 s between two consecutive words."
+        },
+        "total_pause_sec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total length of all pauses, in seconds."
+        },
+        "longest_pause_sec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Length of the longest pause, in seconds (0 when there is none)."
+        }
+      }
+    },
+    "pronunciation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accuracy", "fluency", "completeness", "prosody"],
+      "properties": {
+        "accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How close the sounds are to a native speaker's (0-100)."
+        },
+        "fluency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How natural the rhythm and the silences between words are (0-100)."
+        },
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Share of the expected words that were actually spoken (0-100)."
+        },
+        "prosody": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Stress, intonation and rhythm (0-100); null when the service does not provide it."
+        }
+      }
+    }
+  }
+}

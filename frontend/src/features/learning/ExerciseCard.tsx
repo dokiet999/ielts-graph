@@ -17,6 +17,7 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
   const session = useSessionStore((s) => s.sessions[exercise.id])
   const status = exerciseStatus(exercise, session)
   const answered = answeredCount(session)
+  const isAiBand = exercise.skillType === 'WRITING' || exercise.skillType === 'SPEAKING'
 
   return (
     <Link
@@ -38,7 +39,7 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         {exercise.bestScore !== null && (
           <Badge tone="success">
-            {exercise.skillType === 'WRITING'
+            {isAiBand
               ? `Band tốt nhất ${formatBand(exercise.bestScore)}`
               : `Best score ${exercise.bestScore}/${exercise.maxScore}`}
           </Badge>
@@ -47,12 +48,18 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
           <Badge tone="info">
             {exercise.skillType === 'WRITING'
               ? 'Đang viết dở'
-              : `Đang làm ${answered}/${exercise.questionCount}`}
+              : exercise.skillType === 'SPEAKING'
+                ? 'Đang luyện nói'
+                : `Đang làm ${answered}/${exercise.questionCount}`}
           </Badge>
         )}
         {exercise.bestScore === null && status === 'todo' && (
           <Badge>
-            {exercise.skillType === 'WRITING' ? 'Bài luận' : `${exercise.questionCount} câu hỏi`}
+            {exercise.skillType === 'WRITING'
+              ? 'Bài luận'
+              : exercise.skillType === 'SPEAKING'
+                ? 'Bài nói'
+                : `${exercise.questionCount} câu hỏi`}
           </Badge>
         )}
         {exercise.timeLimit && (

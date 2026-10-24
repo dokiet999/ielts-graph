@@ -5,6 +5,10 @@ import type {
   BeLessonDetail,
   BeLessonSummary,
   BeMyCourse,
+  BeSpeakingFeatures,
+  BeSpeakingFeedback,
+  BeSpeakingPronunciation,
+  BeSpeakingResult,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeWritingFeedback,
@@ -23,6 +27,13 @@ import type {
   LessonSummary,
   QuestionType,
   SkillType,
+  SpeakingCriterion,
+  SpeakingCriterionId,
+  SpeakingFeatures,
+  SpeakingFeedback,
+  SpeakingPartId,
+  SpeakingPronunciation,
+  SpeakingSubmitResult,
   Submission,
   SubmissionDetail,
   SubmissionStatus,
@@ -211,6 +222,13 @@ export const WRITING_CRITERIA: readonly WritingCriterionId[] = [
   'CRIT_W_GRA',
 ]
 
+export const SPEAKING_CRITERIA: readonly SpeakingCriterionId[] = [
+  'CRIT_S_FC',
+  'CRIT_S_LR',
+  'CRIT_S_GRA',
+  'CRIT_S_P',
+]
+
 /**
  * Raw feedback → UI model. The overall band is the backend's (derived from the criterion bands
  * and rounded to 0.5); the UI never recomputes it. Criteria the LLM left out are skipped, and a
@@ -259,10 +277,92 @@ export function toWritingResult(r: BeWritingResult): WritingSubmitResult {
   }
 }
 
+export function toSpeakingFeatures(
+  raw: BeSpeakingFeatures | null | undefined,
+): SpeakingFeatures | null {
+  if (!raw || typeof raw !== 'object') return null
+  return {
+    durationSec: num(raw.duration_sec ?? 0),
+    wordCount: num(raw.word_count ?? 0),
+    speechRateWpm: num(raw.speech_rate_wpm ?? 0),
+    pauseCount: num(raw.pause_count ?? 0),
+    totalPauseSec: num(raw.total_pause_sec ?? 0),
+    longestPauseSec: num(raw.longest_pause_sec ?? 0),
+  }
+}
+
+export function toSpeakingPronunciation(
+  raw: BeSpeakingPronunciation | null | undefined,
+): SpeakingPronunciation | null {
+  if (!raw || typeof raw !== 'object') return null
+  return {
+    accuracy: num(raw.accuracy ?? 0),
+    fluency: num(raw.fluency ?? 0),
+    completeness: num(raw.completeness ?? 0),
+    prosody: numOrNull(raw.prosody),
+  }
+}
+
+function toSpeakingPart(value: string | null | undefined): SpeakingPartId {
+  if (value === 'QT_S_PART1' || value === 'QT_S_PART2' || value === 'QT_S_PART3') {
+    return value
+  }
+  return 'QT_S_PART2'
+}
+
+export function toSpeakingFeedback(
+  raw: BeSpeakingFeedback | null | undefined,
+  base: {
+    part: string | null
+    overallBand: number | string
+    outOfCalibrationRange: boolean | null
+    summary: string | null
+    improvements: string[] | null
+    transcript: string | null
+    features: BeSpeakingFeatures | null
+    pronunciation: BeSpeakingPronunciation | null
+  },
+): SpeakingFeedback {
+  const criteria: SpeakingCriterion[] = []
+  for (const id of SPEAKING_CRITERIA) {
+    const c = raw?.criteria?.[id]
+    if (!c) continue
+    criteria.push({
+      id,
+      band: num(c.band),
+      comment: c.comment ?? c.feedback ?? '',
+      evidence: (c.evidence ?? []).map((e) => ({
+        quote: e.quote,
+        errorType: e.error_type,
+        suggestion: e.suggestion ?? e.comment ?? '',
+      })),
+    })
+  }
+  return {
+    part: toSpeakingPart(raw?.part ?? base.part),
+    overallBand: num(base.overallBand),
+    outOfCalibrationRange: base.outOfCalibrationRange ?? raw?.out_of_calibration_range ?? false,
+    criteria,
+    summary: raw?.summary ?? base.summary ?? '',
+    improvements: raw?.improvements ?? base.improvements ?? [],
+    transcript: base.transcript ?? '',
+    features: toSpeakingFeatures(base.features),
+    pronunciation: toSpeakingPronunciation(base.pronunciation),
+  }
+}
+
+export function toSpeakingResult(r: BeSpeakingResult): SpeakingSubmitResult {
+  return {
+    submissionId: r.submissionId,
+    attemptNumber: r.attemptNumber,
+    feedback: toSpeakingFeedback(r.rawFeedback, r),
+  }
+}
+
 export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
   const exercise = toExercise(s.exercise)
   if (s.skillType === 'WRITING') {
-    const stored = s.aiStructuredFeedback
+    const stored = s.aiStructuredFeedback as BeWritingFeedback | null | undefined
     return {
       ...toSubmission(s),
       answers: {},
@@ -281,6 +381,35 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
         : null,
     }
   }
+  if (s.skillType === 'SPEAKING') {
+    const stored = s.aiStructuredFeedback as BeSpeakingFeedback | null | undefined
+    const transcript =
+      typeof s.answers?.transcript === 'string' ? s.answers.transcript : ''
+    const features = (s.answers?.features as BeSpeakingFeatures | null | undefined) ?? null
+    const pronunciation =
+      (s.answers?.pronunciation as BeSpeakingPronunciation | null | undefined) ?? null
+    const part = typeof s.answers?.part === 'string' ? s.answers.part : null
+    return {
+      ...toSubmission(s),
+      answers: {},
+      results: [],
+      exercise,
+      transcript,
+      speakingFeedback:
+        stored || transcript || features || pronunciation
+          ? toSpeakingFeedback(stored, {
+              part,
+              overallBand: s.score,
+              outOfCalibrationRange: null,
+              summary: s.aiFeedback ?? null,
+              improvements: null,
+              transcript,
+              features,
+              pronunciation,
+            })
+          : null,
+    }
+  }
   const types = new Map(
     exercise.questionGroups.flatMap((g) => g.questions.map((q) => [q.id, q.questionType] as const)),
   )
@@ -288,8 +417,11 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
   // of option ids (so "choose TWO" can be added later) and as text for FILL_BLANK.
   const answers: Answers = {}
   for (const [questionId, value] of Object.entries(s.answers ?? {})) {
+    const strOrArr = Array.isArray(value)
+      ? value.map(String)
+      : String(value ?? '')
     answers[questionId] =
-      Array.isArray(value) || types.get(questionId) === 'FILL_BLANK' ? value : [value]
+      Array.isArray(strOrArr) || types.get(questionId) === 'FILL_BLANK' ? strOrArr : [strOrArr]
   }
   return {
     ...toSubmission(s),

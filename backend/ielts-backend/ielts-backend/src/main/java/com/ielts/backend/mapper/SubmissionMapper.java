@@ -93,6 +93,8 @@ public class SubmissionMapper {
                 .exercise(exercise)
                 .aiStructuredFeedback(submission.getAiStructuredFeedback())
                 .aiFeedback(submission.getAiFeedback())
+                .aiModel(submission.getAiModel())
+                .aiPromptVersion(submission.getAiPromptVersion())
                 .build();
     }
 

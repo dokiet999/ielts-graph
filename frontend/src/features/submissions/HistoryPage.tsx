@@ -39,6 +39,7 @@ export function HistoryPage() {
           <option value="READING">Reading</option>
           <option value="LISTENING">Listening</option>
           <option value="WRITING">Writing</option>
+          <option value="SPEAKING">Speaking</option>
         </Select>
       </div>
 
@@ -74,6 +75,7 @@ export function HistoryPage() {
             <tbody className="divide-y">
               {list.map((s) => {
                 const pct = percent(s.correctCount, s.questionCount)
+                const isAiBand = s.skillType === 'WRITING' || s.skillType === 'SPEAKING'
                 return (
                   <tr
                     key={s.id}
@@ -95,7 +97,7 @@ export function HistoryPage() {
                     </td>
                     <td className="px-5 py-3">#{s.attemptNumber}</td>
                     <td className="px-5 py-3">
-                      {s.skillType === 'WRITING' ? (
+                      {isAiBand ? (
                         <Badge tone={s.status === 'GRADED' ? bandTone(s.score) : 'neutral'}>
                           {s.status === 'GRADED' ? `Band ${formatBand(s.score)}` : 'Chưa có điểm'}
                         </Badge>
