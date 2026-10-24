@@ -21,5 +21,12 @@ desktop.ini
 # Generated listening audio (shared via Drive, see data/manifest.csv)
 data/audio/
 
+<<<<<<< HEAD
 # Speaking audio samples are shared via Drive (see data/speaking_v1/manifest.csv), never committed
+=======
+# ASR service (venv, local models, test audio, scratch output)
+ai/asr_service/.venv/
+ai/asr_service/__pycache__/
+ai/asr_service/tmp/
+>>>>>>> origin/27-w4-ai-service-whisper-speech-features-and-wer-evaluation
 data/speaking_v1/audio/
