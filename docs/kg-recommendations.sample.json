@@ -1,0 +1,47 @@
+{
+  "skill": "SKILL_W",
+  "bandRequested": 5,
+  "bandApplied": 5,
+  "recommendations": [
+    {
+      "resourceId": "RES_W_ARTICLE_01",
+      "nameVi": "Bài tập mạo từ cơ bản",
+      "nameEn": "Basic articles exercise",
+      "type": "exercise",
+      "sqlRef": "exercises:60000000-0000-0000-0000-000000000001",
+      "bandMatch": "exact",
+      "path": {
+        "errorType": { "id": "ERR_ARTICLE", "nameVi": "Lỗi mạo từ", "nameEn": "Article error" },
+        "subSkill": { "id": "SUB_ARTICLE", "nameVi": "Mạo từ", "nameEn": "Articles" },
+        "criterion": { "id": "CRIT_W_GRA", "nameVi": "Phạm vi và độ chính xác ngữ pháp", "nameEn": "Grammatical Range & Accuracy" }
+      }
+    },
+    {
+      "resourceId": "RES_W1_OVERVIEW_01",
+      "nameVi": "Luyện viết câu overview cho biểu đồ đường",
+      "nameEn": "Writing an overview for a line graph",
+      "type": "exercise",
+      "sqlRef": "exercises:60000000-0000-0000-0000-000000000012",
+      "bandMatch": "nearest",
+      "path": {
+        "errorType": { "id": "ERR_NO_OVERVIEW", "nameVi": "Thiếu câu tổng quan", "nameEn": "Missing overview" },
+        "subSkill": { "id": "SUB_OVERVIEW", "nameVi": "Viết tổng quan (overview)", "nameEn": "Writing an overview" },
+        "criterion": { "id": "CRIT_W_TA", "nameVi": "Hoàn thành yêu cầu bài", "nameEn": "Task Achievement" }
+      }
+    },
+    {
+      "resourceId": "RES_W_LINKING_01",
+      "nameVi": "Bài tập sử dụng từ nối trong bài luận",
+      "nameEn": "Using linkers in an essay exercise",
+      "type": "exercise",
+      "sqlRef": "exercises:60000000-0000-0000-0000-000000000011",
+      "bandMatch": "exact",
+      "path": {
+        "errorType": { "id": "ERR_LINKER_OVERUSE", "nameVi": "Lạm dụng từ nối", "nameEn": "Linker overuse" },
+        "subSkill": { "id": "SUB_LINKING", "nameVi": "Sử dụng từ nối", "nameEn": "Using linking words" },
+        "criterion": { "id": "CRIT_W_CC", "nameVi": "Mạch lạc và liên kết", "nameEn": "Coherence & Cohesion" }
+      }
+    }
+  ],
+  "unmatchedErrors": ["ERR_LONG_PAUSE"]
+}
