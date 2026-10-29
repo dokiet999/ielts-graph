@@ -53,7 +53,7 @@ test('writing practice: write → submit → band per criterion → history', as
   await expect(page.getByRole('note')).toContainText('không phải điểm thi chính thức')
   await expect(page.locator('mark').first()).toBeVisible()
 
-  // The result survives a reload (the mock backend, like the real one, has no feedback in the detail).
+  // The result survives a reload (the detail carries the structured feedback, like the backend).
   await page.reload()
   await expect(page.getByRole('article')).toHaveCount(4)
 

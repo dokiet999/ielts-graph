@@ -1,5 +1,6 @@
 import reading01 from '@data/exercises/reading/reading-01.json'
 import listening01 from '@data/exercises/listening/listening-01.json'
+import drills from './drills.json'
 import type {
   DifficultyLevel,
   EnrollmentStatus,
@@ -229,6 +230,15 @@ export const exercises: Exercise[] = [
     readingQuiz,
     place('ex-st-quiz-reading-01', 'c-starter', 's-st1', 'l-st1-1', 'Quiz - Farming in the Sky'),
   ),
+
+  // The 21 practice drills the KG recommends (Resource.sql_ref), with the ids and content of
+  // migration V13. Like on the backend they belong to no course, so only /run/<id> opens them.
+  ...drills.map(({ id, ...raw }) => ({
+    ...buildExercise(r(raw), place(id, '', '', '')),
+    courseId: null,
+    sectionId: null,
+    lessonId: null,
+  })),
 ]
 
 /** Submissions created when the mock DB is first initialised: [exerciseId, correct answers, minutes ago]. */
