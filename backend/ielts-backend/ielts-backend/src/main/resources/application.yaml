@@ -35,3 +35,8 @@ app:
       timeout-seconds: ${SPEAKING_ASR_TIMEOUT:120}
       file-field: ${SPEAKING_ASR_FILE_FIELD:audio}
       fake: ${SPEAKING_ASR_FAKE:false}
+  kg:
+    neo4j:
+      uri: ${KG_NEO4J_URI:bolt://localhost:7687}
+      username: ${KG_NEO4J_USERNAME:neo4j}
+      password: ${KG_NEO4J_PASSWORD:}
