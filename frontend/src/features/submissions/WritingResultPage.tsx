@@ -24,6 +24,7 @@ import {
   evidenceHighlights,
 } from '@/lib/writing'
 import { useWritingResultsStore } from '@/stores/writingResults'
+import { RecommendedPractice } from './RecommendedPractice'
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -190,6 +191,12 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
           </ul>
         </>
       )}
+
+      <RecommendedPractice
+        skill="SKILL_W"
+        criteria={feedback && feedback.criteria.length > 0 ? feedback.criteria : null}
+        overallBand={overall}
+      />
 
       {essay && (
         <>

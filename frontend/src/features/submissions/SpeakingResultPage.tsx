@@ -33,6 +33,7 @@ import type {
 import { EXERCISE_TYPE_LABEL, formatDateTime, formatDuration, SKILL_LABEL } from '@/lib/utils'
 import { countWords } from '@/lib/writing'
 import { useSpeakingResultsStore } from '@/stores/speakingResults'
+import { RecommendedPractice } from './RecommendedPractice'
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -294,6 +295,12 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
           </ul>
         </>
       )}
+
+      <RecommendedPractice
+        skill="SKILL_S"
+        criteria={feedback && feedback.criteria.length > 0 ? feedback.criteria : null}
+        overallBand={overall}
+      />
 
       {transcript && (
         <>

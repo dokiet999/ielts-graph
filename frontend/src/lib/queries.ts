@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from './api'
 import type {
+  KgRecommendationsRequest,
   SpeakingSubmissionRequest,
   SubmissionRequest,
   WritingSubmissionRequest,
@@ -17,6 +18,8 @@ export const keys = {
   exercise: (id: string) => ['exercises', id] as const,
   submission: (id: string) => ['submissions', id] as const,
   mySubmissions: ['submissions', 'me'] as const,
+  kgRecommendations: (r: KgRecommendationsRequest | null) =>
+    ['kg', 'recommendations', r?.skill, r?.errors.join(','), r?.band] as const,
 }
 
 export const useDashboard = () => useQuery({ queryKey: keys.dashboard, queryFn: api.dashboard })
@@ -59,6 +62,16 @@ export const useSubmission = (id: string | undefined) =>
 
 export const useMySubmissions = () =>
   useQuery({ queryKey: keys.mySubmissions, queryFn: api.mySubmissions })
+
+/** Disabled without errors. Not retried: a KG that is down answers 503 again right away. */
+export const useKgRecommendations = (request: KgRecommendationsRequest | null) =>
+  useQuery({
+    queryKey: keys.kgRecommendations(request),
+    queryFn: () => api.kgRecommendations(request!),
+    enabled: !!request && request.errors.length > 0,
+    retry: false,
+    staleTime: 5 * 60_000,
+  })
 
 function useInvalidateAfterSubmit() {
   const qc = useQueryClient()

@@ -307,6 +307,44 @@ export interface SpeakingSubmitResult {
   feedback: SpeakingFeedback
 }
 
+/** Skills the KG recommendations endpoint accepts (ontology v0 Skill ids). */
+export type KgSkill = 'SKILL_W' | 'SKILL_S'
+
+export interface KgNodeRef {
+  id: string
+  nameVi: string | null
+  nameEn: string | null
+}
+
+/** One practice Resource, same shape as GET /api/kg/recommendations (docs/kg-api-contract.md). */
+export interface KgRecommendation {
+  resourceId: string
+  nameVi: string | null
+  nameEn: string | null
+  type: string | null
+  /** `exercises:<uuid>` or `lessons:<uuid>`. */
+  sqlRef: string | null
+  bandMatch: 'exact' | 'nearest' | 'any'
+  /** Why it was recommended: ErrorType → SubSkill → Criterion. */
+  path: { errorType: KgNodeRef; subSkill: KgNodeRef; criterion: KgNodeRef }
+}
+
+export interface KgRecommendations {
+  skill: KgSkill
+  bandRequested: number | null
+  bandApplied: number | null
+  /** Grouped by error, in the order of the requested errors. */
+  recommendations: KgRecommendation[]
+  /** Requested errors with no Resource, or not valid for the skill. */
+  unmatchedErrors: string[]
+}
+
+export interface KgRecommendationsRequest {
+  skill: KgSkill
+  errors: string[]
+  band?: number
+}
+
 export interface CheckAnswerResponse {
   correct: boolean
   correctOptionIds: string[]
