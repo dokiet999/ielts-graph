@@ -5,8 +5,21 @@ import { AI_DISCLAIMER, bandTone, evidenceHighlights } from './writing'
 export { AI_DISCLAIMER, bandTone }
 
 export const SPEAKING_MIN_DURATION_SEC = 5
+/** Same as app.speaking.max-file-size-bytes of the backend. */
 export const SPEAKING_MAX_FILE_BYTES = 30 * 1024 * 1024
+/** Same as ASR_MAX_DURATION_SEC of ai/asr_service: longer audio is rejected before transcription. */
+export const SPEAKING_MAX_DURATION_SEC = 300
 export const SPEAKING_ALLOWED_EXTENSIONS = ['webm', 'ogg', 'mp3', 'wav', 'm4a'] as const
+
+const MAX_MB = SPEAKING_MAX_FILE_BYTES / (1024 * 1024)
+const MAX_MINUTES = SPEAKING_MAX_DURATION_SEC / 60
+
+/** Shown next to the upload buttons. */
+export const SPEAKING_LIMITS_HINT = `Hỗ trợ định dạng .webm, .ogg, .mp3, .wav, .m4a (tối đa ${MAX_MB} MB, ${MAX_MINUTES} phút).`
+export const AUDIO_TOO_LARGE_MESSAGE = `File âm thanh vượt quá dung lượng tối đa ${MAX_MB} MB.`
+export const AUDIO_TOO_LONG_MESSAGE = `Bản ghi âm dài hơn ${MAX_MINUTES} phút. Vui lòng cắt ngắn hoặc ghi âm lại.`
+export const UNSUPPORTED_AUDIO_MESSAGE =
+  'Định dạng file âm thanh không được hỗ trợ. Vui lòng chọn file .webm, .ogg, .mp3, .wav hoặc .m4a.'
 
 export const SPEAKING_CRITERIA: readonly SpeakingCriterionId[] = [
   'CRIT_S_FC',
@@ -96,10 +109,11 @@ export function isSupportedAudioFilename(filename: string): boolean {
 }
 
 const SUBMIT_ERROR: Record<string, string> = {
-  UNSUPPORTED_AUDIO:
-    'Định dạng file âm thanh không được hỗ trợ. Vui lòng chọn file .webm, .ogg, .mp3, .wav hoặc .m4a.',
+  UNSUPPORTED_AUDIO: UNSUPPORTED_AUDIO_MESSAGE,
   AUDIO_TOO_SHORT: `Bản ghi âm quá ngắn (cần ít nhất ${SPEAKING_MIN_DURATION_SEC} giây) hoặc không nhận diện được giọng nói.`,
-  AUDIO_TOO_LARGE: 'File âm thanh vượt quá dung lượng tối đa 30 MB.',
+  AUDIO_TOO_LARGE: AUDIO_TOO_LARGE_MESSAGE,
+  // Not sent by the backend yet (it maps the ASR 413 to ASR_BAD_RESPONSE, see W5_issue.md #1).
+  AUDIO_TOO_LONG: AUDIO_TOO_LONG_MESSAGE,
   ASR_UNAVAILABLE:
     'Dịch vụ nhận diện giọng nói tạm thời không khả dụng. Bản ghi của bạn vẫn được giữ lại, hãy thử nộp lại sau ít phút.',
   ASR_TIMEOUT:
@@ -136,4 +150,28 @@ export function speakingEvidenceHighlights(
   evidence: SpeakingEvidence[],
 ): Highlight[] {
   return evidenceHighlights(transcript, evidence)
+}
+
+/**
+ * Duration of an audio file read by the browser, or undefined when it cannot tell (unknown codec,
+ * a WebM without duration, no media support): the backend still checks it.
+ */
+export function readAudioDuration(blob: Blob, timeoutMs = 5000): Promise<number | undefined> {
+  return new Promise((resolve) => {
+    if (typeof Audio === 'undefined') return resolve(undefined)
+    const url = URL.createObjectURL(blob)
+    const audio = new Audio()
+    const done = (value: number | undefined) => {
+      window.clearTimeout(timer)
+      audio.removeAttribute('src')
+      URL.revokeObjectURL(url)
+      resolve(value)
+    }
+    const timer = window.setTimeout(() => done(undefined), timeoutMs)
+    audio.preload = 'metadata'
+    audio.onloadedmetadata = () =>
+      done(Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : undefined)
+    audio.onerror = () => done(undefined)
+    audio.src = url
+  })
 }

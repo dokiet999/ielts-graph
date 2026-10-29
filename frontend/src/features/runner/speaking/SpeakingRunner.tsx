@@ -20,10 +20,16 @@ import { Tooltip } from '@/components/ui/menu'
 import { speakingSubmitError } from '@/lib/api'
 import { useSubmitSpeaking } from '@/lib/queries'
 import {
+  AUDIO_TOO_LARGE_MESSAGE,
+  AUDIO_TOO_LONG_MESSAGE,
   isSupportedAudioFilename,
+  readAudioDuration,
+  SPEAKING_LIMITS_HINT,
+  SPEAKING_MAX_DURATION_SEC,
   SPEAKING_MAX_FILE_BYTES,
   SPEAKING_MIN_DURATION_SEC,
   speakingPartInfo,
+  UNSUPPORTED_AUDIO_MESSAGE,
 } from '@/lib/speaking'
 import type { Exercise } from '@/lib/types'
 import { cn, formatClock } from '@/lib/utils'
@@ -41,6 +47,9 @@ function speakingPart(exercise: Exercise): string {
   const part = (exercise.content as { part?: unknown } | null)?.part
   return typeof part === 'string' && part.startsWith('QT_S_PART') ? part : 'QT_S_PART2'
 }
+
+/** Recording stops a little before the ASR limit, so the encoded file is never over it. */
+const RECORD_LIMIT_SEC = SPEAKING_MAX_DURATION_SEC - 2
 
 function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`
@@ -95,6 +104,8 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
   const chunksRef = useRef<BlobPart[]>([])
   const recordStartRef = useRef<number>(0)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  /** The file whose duration is being read; a newer choice makes an older result stale. */
+  const checkingFileRef = useRef<File | null>(null)
 
   const partId = speakingPart(exercise)
   const partInfo = speakingPartInfo(partId)
@@ -107,7 +118,10 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
   useEffect(() => {
     if (!isRecording) return
     const id = window.setInterval(() => {
-      setRecordSeconds(Math.max(1, Math.round((Date.now() - recordStartRef.current) / 1000)))
+      const seconds = Math.max(1, Math.round((Date.now() - recordStartRef.current) / 1000))
+      setRecordSeconds(seconds)
+      const recorder = mediaRecorderRef.current
+      if (seconds >= RECORD_LIMIT_SEC && recorder?.state === 'recording') recorder.stop()
     }, 500)
     return () => window.clearInterval(id)
   }, [isRecording])
@@ -129,6 +143,7 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
 
   const clearAudio = () => {
     if (audioUrl) URL.revokeObjectURL(audioUrl)
+    checkingFileRef.current = null
     setAudioBlob(null)
     setAudioUrl(null)
     setAudioDurationSec(undefined)
@@ -201,13 +216,11 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
     submit.reset()
 
     if (!isSupportedAudioFilename(file.name)) {
-      setLocalError(
-        'Định dạng file âm thanh không được hỗ trợ. Vui lòng chọn file .webm, .ogg, .mp3, .wav hoặc .m4a.',
-      )
+      setLocalError(UNSUPPORTED_AUDIO_MESSAGE)
       return
     }
     if (file.size > SPEAKING_MAX_FILE_BYTES) {
-      setLocalError('File âm thanh vượt quá dung lượng tối đa 30 MB.')
+      setLocalError(AUDIO_TOO_LARGE_MESSAGE)
       return
     }
     if (file.size === 0) {
@@ -215,6 +228,17 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
       return
     }
     replaceAudio(file, file.name, undefined)
+    // The duration is only known once the browser has read the file header.
+    checkingFileRef.current = file
+    void readAudioDuration(file).then((sec) => {
+      if (checkingFileRef.current !== file || sec === undefined) return
+      if (sec > SPEAKING_MAX_DURATION_SEC) {
+        clearAudio()
+        setLocalError(AUDIO_TOO_LONG_MESSAGE)
+        return
+      }
+      setAudioDurationSec(Math.round(sec))
+    })
   }
 
   const finish = () => {
@@ -294,7 +318,7 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
           <div className="mt-6 space-y-2 rounded-xl bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
             <p>
               <strong>Thời lượng khuyến nghị:</strong> {partInfo.durationHint} (tối thiểu{' '}
-              {SPEAKING_MIN_DURATION_SEC} giây).
+              {SPEAKING_MIN_DURATION_SEC} giây, tối đa {SPEAKING_MAX_DURATION_SEC / 60} phút).
             </p>
             <p>
               AI chuyển giọng nói thành văn bản và chấm theo 4 tiêu chí IELTS Speaking: Fluency
@@ -329,6 +353,11 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
                 <div className="mt-4 space-y-3">
                   <p className="text-sm font-medium text-danger">Đang ghi âm...</p>
                   <p className="text-3xl font-bold tabular-nums">{formatClock(recordSeconds)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Tự dừng khi đạt {formatClock(RECORD_LIMIT_SEC)}
+                    {recordSeconds >= RECORD_LIMIT_SEC - 30 &&
+                      ` · còn ${Math.max(0, RECORD_LIMIT_SEC - recordSeconds)} giây`}
+                  </p>
                   <Button variant="outline" onClick={stopRecording}>
                     <Square className="size-4 fill-current" /> Dừng ghi âm
                   </Button>
@@ -336,9 +365,7 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
               ) : (
                 <div className="mt-4 space-y-3">
                   <p className="font-semibold">Ghi âm trực tiếp hoặc tải file âm thanh lên</p>
-                  <p className="text-sm text-muted-foreground">
-                    Hỗ trợ định dạng .webm, .ogg, .mp3, .wav, .m4a (tối đa 30 MB).
-                  </p>
+                  <p className="text-sm text-muted-foreground">{SPEAKING_LIMITS_HINT}</p>
                   <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                     <Button onClick={startRecording} type="button">
                       <Mic className="size-4" /> Bắt đầu ghi âm

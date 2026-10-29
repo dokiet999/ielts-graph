@@ -112,6 +112,45 @@ describe('SpeakingRunner', () => {
     expect(submitButton()).toBeDisabled()
   })
 
+  it('shows the upload limits', () => {
+    renderRunner()
+    expect(screen.getByText(/tối đa 30 MB, 5 phút/)).toBeInTheDocument()
+  })
+
+  it('rejects a file over the size limit before calling the backend', () => {
+    renderRunner()
+    const big = new File(['x'], 'answer.mp3', { type: 'audio/mpeg' })
+    Object.defineProperty(big, 'size', { value: 31 * 1024 * 1024 })
+    fireEvent.change(fileInput(), { target: { files: [big] } })
+    expect(screen.getByRole('alert')).toHaveTextContent('vượt quá dung lượng tối đa 30 MB')
+    expect(submitButton()).toBeDisabled()
+  })
+
+  it('drops a file the browser reads as longer than 5 minutes', async () => {
+    // jsdom cannot decode audio: pretend the browser read a 301 s file header.
+    class LongAudio {
+      preload = ''
+      duration = 301
+      onloadedmetadata: (() => void) | null = null
+      onerror: (() => void) | null = null
+      removeAttribute() {}
+      set src(_url: string) {
+        queueMicrotask(() => this.onloadedmetadata?.())
+      }
+    }
+    vi.stubGlobal('Audio', LongAudio)
+    try {
+      renderRunner()
+      const file = new File(['RIFF'], 'long.wav', { type: 'audio/wav' })
+      fireEvent.change(fileInput(), { target: { files: [file] } })
+      expect(await screen.findByRole('alert')).toHaveTextContent('dài hơn 5 phút')
+      expect(screen.queryByText('long.wav')).not.toBeInTheDocument()
+      expect(submitButton()).toBeDisabled()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('accepts a valid audio file upload, submits, caches feedback, and navigates to result page', async () => {
     vi.mocked(api.submitSpeaking).mockResolvedValue(graded)
     renderRunner()
