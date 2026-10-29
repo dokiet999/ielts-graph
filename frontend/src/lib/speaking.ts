@@ -5,7 +5,7 @@ import { AI_DISCLAIMER, bandTone, evidenceHighlights } from './writing'
 export { AI_DISCLAIMER, bandTone }
 
 export const SPEAKING_MIN_DURATION_SEC = 5
-export const SPEAKING_MAX_FILE_BYTES = 25 * 1024 * 1024
+export const SPEAKING_MAX_FILE_BYTES = 30 * 1024 * 1024
 export const SPEAKING_ALLOWED_EXTENSIONS = ['webm', 'ogg', 'mp3', 'wav', 'm4a'] as const
 
 export const SPEAKING_CRITERIA: readonly SpeakingCriterionId[] = [
@@ -99,7 +99,7 @@ const SUBMIT_ERROR: Record<string, string> = {
   UNSUPPORTED_AUDIO:
     'Định dạng file âm thanh không được hỗ trợ. Vui lòng chọn file .webm, .ogg, .mp3, .wav hoặc .m4a.',
   AUDIO_TOO_SHORT: `Bản ghi âm quá ngắn (cần ít nhất ${SPEAKING_MIN_DURATION_SEC} giây) hoặc không nhận diện được giọng nói.`,
-  AUDIO_TOO_LARGE: 'File âm thanh vượt quá dung lượng tối đa 25 MB.',
+  AUDIO_TOO_LARGE: 'File âm thanh vượt quá dung lượng tối đa 30 MB.',
   ASR_UNAVAILABLE:
     'Dịch vụ nhận diện giọng nói tạm thời không khả dụng. Bản ghi của bạn vẫn được giữ lại, hãy thử nộp lại sau ít phút.',
   ASR_TIMEOUT:

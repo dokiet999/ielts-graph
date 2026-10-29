@@ -207,7 +207,7 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
       return
     }
     if (file.size > SPEAKING_MAX_FILE_BYTES) {
-      setLocalError('File âm thanh vượt quá dung lượng tối đa 25 MB.')
+      setLocalError('File âm thanh vượt quá dung lượng tối đa 30 MB.')
       return
     }
     if (file.size === 0) {
@@ -337,7 +337,7 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
                 <div className="mt-4 space-y-3">
                   <p className="font-semibold">Ghi âm trực tiếp hoặc tải file âm thanh lên</p>
                   <p className="text-sm text-muted-foreground">
-                    Hỗ trợ định dạng .webm, .ogg, .mp3, .wav, .m4a (tối đa 25 MB).
+                    Hỗ trợ định dạng .webm, .ogg, .mp3, .wav, .m4a (tối đa 30 MB).
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                     <Button onClick={startRecording} type="button">

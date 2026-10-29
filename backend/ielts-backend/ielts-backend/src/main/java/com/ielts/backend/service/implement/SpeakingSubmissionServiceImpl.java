@@ -106,8 +106,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     @Value("${app.speaking.audio-dir:${java.io.tmpdir}/ielts-graph-speaking}")
     private String audioStorageDir;
 
-    @Value("${app.speaking.max-file-size-bytes:15728640}")
-    private long maxFileSizeBytes = 15L * 1024 * 1024;
+    @Value("${app.speaking.max-file-size-bytes:31457280}")
+    private long maxFileSizeBytes = 30L * 1024 * 1024;
 
     @Value("${app.speaking.min-file-size-bytes:100}")
     private long minFileSizeBytes = 100L;

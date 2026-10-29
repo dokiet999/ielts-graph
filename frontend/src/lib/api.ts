@@ -178,7 +178,7 @@ export const api = {
     if (body.durationSec !== undefined) form.append('timeSpent', String(Math.round(body.durationSec)))
     return data(
       http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
-        timeout: 120_000,
+        timeout: 180_000,
       }),
     ).then(toSpeakingResult)
   },
