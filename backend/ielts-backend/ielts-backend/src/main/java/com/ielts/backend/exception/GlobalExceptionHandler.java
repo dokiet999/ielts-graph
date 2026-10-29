@@ -101,6 +101,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "The AI service took too long to respond. Please try again", null);
     }
 
+    /** Neo4j Knowledge Graph unreachable or query failed. */
+    @ExceptionHandler(KgUnavailableException.class)
+    public ResponseEntity<ErrorResponse> handleKgUnavailable(KgUnavailableException ex) {
+        Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+        log.warn("Knowledge graph unavailable: {}", cause.getClass().getSimpleName());
+        return build(HttpStatus.SERVICE_UNAVAILABLE, "KG_UNAVAILABLE",
+                "The knowledge graph is temporarily unavailable. Please try again later", null);
+    }
+
     /** LLM API returned 401/403 or a server-side 5xx. */
     @ExceptionHandler(LlmUnavailableException.class)
     public ResponseEntity<ErrorResponse> handleLlmUnavailable(LlmUnavailableException ex) {
