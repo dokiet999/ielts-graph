@@ -1,0 +1,128 @@
+label,id,name_vi,name_en,skill,applies_to,task,errant_code,value,resource_type,sql_ref,version
+Skill,SKILL_L,Nghe,Listening,,,,,,,,v0
+Skill,SKILL_R,Đọc,Reading,,,,,,,,v0
+Skill,SKILL_W,Viết,Writing,,,,,,,,v0
+Skill,SKILL_S,Nói,Speaking,,,,,,,,v0
+Criterion,CRIT_W_TA,Hoàn thành yêu cầu bài,Task Achievement,SKILL_W,Task 1,,,,,,v0
+Criterion,CRIT_W_TR,Đáp ứng đề bài,Task Response,SKILL_W,Task 2,,,,,,v0
+Criterion,CRIT_W_CC,Mạch lạc và liên kết,Coherence & Cohesion,SKILL_W,"Task 1, Task 2",,,,,,v0
+Criterion,CRIT_W_LR,Nguồn từ vựng,Lexical Resource,SKILL_W,"Task 1, Task 2",,,,,,v0
+Criterion,CRIT_W_GRA,Phạm vi và độ chính xác ngữ pháp,Grammatical Range & Accuracy,SKILL_W,"Task 1, Task 2",,,,,,v0
+Criterion,CRIT_S_FC,Độ trôi chảy và mạch lạc,Fluency & Coherence,SKILL_S,Part 1-3,,,,,,v0
+Criterion,CRIT_S_LR,Nguồn từ vựng,Lexical Resource,SKILL_S,Part 1-3,,,,,,v0
+Criterion,CRIT_S_GRA,Phạm vi và độ chính xác ngữ pháp,Grammatical Range & Accuracy,SKILL_S,Part 1-3,,,,,,v0
+Criterion,CRIT_S_P,Phát âm,Pronunciation,SKILL_S,Part 1-3,,,,,,v0
+SubSkill,SUB_OVERVIEW,Viết tổng quan (overview),Writing an overview,,,,,,,,v0
+SubSkill,SUB_KEY_FEATURES,Nêu đặc điểm chính,Stating key features,,,,,,,,v0
+SubSkill,SUB_DATA_COMPARISON,So sánh số liệu,Comparing data,,,,,,,,v0
+SubSkill,SUB_TASK_ADDRESS,Trả lời đủ các phần của đề,Addressing all parts of the task,,,,,,,,v0
+SubSkill,SUB_POSITION,Nêu quan điểm,Stating a position,,,,,,,,v0
+SubSkill,SUB_IDEA_DEV,"Phát triển ý, dẫn chứng",Developing ideas and support,,,,,,,,v0
+SubSkill,SUB_LINKING,Sử dụng từ nối,Using linking words,,,,,,,,v0
+SubSkill,SUB_PARAGRAPHING,Chia đoạn,Paragraphing,,,,,,,,v0
+SubSkill,SUB_REFERENCING,"Tham chiếu, thay thế",Referencing and substitution,,,,,,,,v0
+SubSkill,SUB_WORD_CHOICE,Chọn từ,Word choice,,,,,,,,v0
+SubSkill,SUB_COLLOCATION,Kết hợp từ (collocation),Collocation,,,,,,,,v0
+SubSkill,SUB_PARAPHRASE,Diễn đạt lại (paraphrase),Paraphrasing,,,,,,,,v0
+SubSkill,SUB_SPELLING_WORDFORM,Chính tả và cấu tạo từ,Spelling and word formation,,,,,,,,v0
+SubSkill,SUB_ARTICLE,Mạo từ,Articles,,,,,,,,v0
+SubSkill,SUB_VERB_TENSE,Thì động từ,Verb tense,,,,,,,,v0
+SubSkill,SUB_AGREEMENT,"Hòa hợp chủ - vị, số ít/số nhiều",Subject-verb agreement and noun number,,,,,,,,v0
+SubSkill,SUB_PREPOSITION,Giới từ,Prepositions,,,,,,,,v0
+SubSkill,SUB_COMPLEX_SENTENCE,Câu phức,Complex sentences,,,,,,,,v0
+SubSkill,SUB_PUNCTUATION,Dấu câu,Punctuation,,,,,,,,v0
+SubSkill,SUB_FLUENCY,Độ trôi chảy,Fluency,,,,,,,,v0
+SubSkill,SUB_DISCOURSE_MARKER,Từ nối khi nói,Spoken discourse markers,,,,,,,,v0
+SubSkill,SUB_ANSWER_EXTEND,Mở rộng câu trả lời,Extending answers,,,,,,,,v0
+SubSkill,SUB_SOUND,Phát âm âm,Individual sounds,,,,,,,,v0
+SubSkill,SUB_WORD_STRESS,Trọng âm từ,Word stress,,,,,,,,v0
+SubSkill,SUB_INTONATION,Ngữ điệu,Intonation,,,,,,,,v0
+ErrorType,ERR_NO_OVERVIEW,Thiếu câu tổng quan,Missing overview,,,,,,,,v0
+ErrorType,ERR_MISSING_KEY_FEATURE,Bỏ sót đặc điểm chính,Missing key feature,,,,,,,,v0
+ErrorType,ERR_DATA_INACCURATE,Số liệu sai hoặc so sánh sai,Inaccurate data or comparison,,,,,,,,v0
+ErrorType,ERR_OFF_TOPIC,Lạc đề,Off topic,,,,,,,,v0
+ErrorType,ERR_PARTIAL_ANSWER,Trả lời thiếu phần của đề,Partial answer,,,,,,,,v0
+ErrorType,ERR_UNDER_LENGTH,Không đủ số từ tối thiểu,Under minimum length,,,,,,,,v0
+ErrorType,ERR_UNCLEAR_POSITION,Quan điểm không rõ hoặc không nhất quán,Unclear or inconsistent position,,,,,,,,v0
+ErrorType,ERR_UNDERDEVELOPED,Ý chưa được phát triển,Underdeveloped idea,,,,,,,,v0
+ErrorType,ERR_LINKER_MISUSE,Dùng sai từ nối,Linker misuse,,,,,,,,v0
+ErrorType,ERR_LINKER_OVERUSE,Lạm dụng từ nối,Linker overuse,,,,,,,,v0
+ErrorType,ERR_NO_PARAGRAPH,Không chia đoạn hoặc chia đoạn không hợp lý,Missing or poor paragraphing,,,,,,,,v0
+ErrorType,ERR_UNCLEAR_REFERENCE,Tham chiếu không rõ,Unclear reference,,,,,,,,v0
+ErrorType,ERR_WORD_CHOICE,Chọn từ sai nghĩa hoặc sai ngữ cảnh,Wrong word choice,,,,,,,,v0
+ErrorType,ERR_COLLOCATION,Kết hợp từ không tự nhiên,Unnatural collocation,,,,,,,,v0
+ErrorType,ERR_REPETITION,Lặp từ,Word repetition,,,,,,,,v0
+ErrorType,ERR_SPELLING,Lỗi chính tả,Spelling error,,,,SPELL,,,,v0
+ErrorType,ERR_WORD_FORM,Sai dạng từ,Wrong word form,,,,MORPH,,,,v0
+ErrorType,ERR_ARTICLE,Lỗi mạo từ,Article error,,,,DET,,,,v0
+ErrorType,ERR_VERB_TENSE,Lỗi thì động từ,Verb tense error,,,,VERB:TENSE,,,,v0
+ErrorType,ERR_SVA,Lỗi hòa hợp chủ - vị,Subject-verb agreement error,,,,VERB:SVA,,,,v0
+ErrorType,ERR_NOUN_NUM,Lỗi số ít/số nhiều của danh từ,Noun number error,,,,NOUN:NUM,,,,v0
+ErrorType,ERR_PREP,Lỗi giới từ,Preposition error,,,,PREP,,,,v0
+ErrorType,ERR_SENT_STRUCTURE,Lỗi cấu trúc câu phức,Sentence structure error,,,,,,,,v0
+ErrorType,ERR_PUNCT,Lỗi dấu câu,Punctuation error,,,,PUNCT,,,,v0
+ErrorType,ERR_LONG_PAUSE,Ngập ngừng kéo dài,Long pause,,,,,,,,v0
+ErrorType,ERR_SELF_CORRECTION,"Tự sửa, lặp lại nhiều",Excessive self-correction,,,,,,,,v0
+ErrorType,ERR_SHORT_ANSWER,Câu trả lời quá ngắn,Answer too short,,,,,,,,v0
+ErrorType,ERR_MISPRONOUNCE,Phát âm sai âm,Mispronounced sound,,,,,,,,v0
+ErrorType,ERR_WORD_STRESS,Sai trọng âm từ,Wrong word stress,,,,,,,,v0
+ErrorType,ERR_MONOTONE,"Ngữ điệu đều, thiếu nhấn nhá",Monotone intonation,,,,,,,,v0
+QuestionType,QT_R_MCQ,Trắc nghiệm,Multiple choice,SKILL_R,,,,,,,v0
+QuestionType,QT_R_TFNG,Đúng / Sai / Không có thông tin,True / False / Not Given,SKILL_R,,,,,,,v0
+QuestionType,QT_R_YNNG,Có / Không / Không có thông tin,Yes / No / Not Given,SKILL_R,,,,,,,v0
+QuestionType,QT_R_MATCH_INFO,Nối thông tin,Matching information,SKILL_R,,,,,,,v0
+QuestionType,QT_R_MATCH_HEADINGS,Nối tiêu đề,Matching headings,SKILL_R,,,,,,,v0
+QuestionType,QT_R_MATCH_FEATURES,Nối đặc điểm,Matching features,SKILL_R,,,,,,,v0
+QuestionType,QT_R_MATCH_ENDINGS,Nối phần kết câu,Matching sentence endings,SKILL_R,,,,,,,v0
+QuestionType,QT_R_SENT_COMPLETION,Hoàn thành câu,Sentence completion,SKILL_R,,,,,,,v0
+QuestionType,QT_R_SUMMARY_COMPLETION,Hoàn thành tóm tắt / ghi chú / bảng / sơ đồ,Summary / note / table / flow-chart completion,SKILL_R,,,,,,,v0
+QuestionType,QT_R_DIAGRAM_LABEL,Hoàn thành nhãn sơ đồ,Diagram label completion,SKILL_R,,,,,,,v0
+QuestionType,QT_R_SHORT_ANSWER,Trả lời ngắn,Short-answer questions,SKILL_R,,,,,,,v0
+QuestionType,QT_L_MCQ,Trắc nghiệm,Multiple choice,SKILL_L,,,,,,,v0
+QuestionType,QT_L_MATCHING,Nối,Matching,SKILL_L,,,,,,,v0
+QuestionType,QT_L_MAP_LABEL,Điền nhãn bản đồ / sơ đồ,Plan / map / diagram labelling,SKILL_L,,,,,,,v0
+QuestionType,QT_L_FORM_COMPLETION,Hoàn thành biểu mẫu / ghi chú / bảng / sơ đồ / tóm tắt,Form / note / table / flow-chart / summary completion,SKILL_L,,,,,,,v0
+QuestionType,QT_L_SENT_COMPLETION,Hoàn thành câu,Sentence completion,SKILL_L,,,,,,,v0
+QuestionType,QT_L_SHORT_ANSWER,Trả lời ngắn,Short-answer questions,SKILL_L,,,,,,,v0
+QuestionType,QT_W1_LINE,Task 1 - Biểu đồ đường,Task 1 - Line graph,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_BAR,Task 1 - Biểu đồ cột,Task 1 - Bar chart,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_PIE,Task 1 - Biểu đồ tròn,Task 1 - Pie chart,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_TABLE,Task 1 - Bảng số liệu,Task 1 - Table,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_PROCESS,Task 1 - Quy trình,Task 1 - Process diagram,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_MAP,Task 1 - Bản đồ,Task 1 - Map,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W1_MIXED,Task 1 - Biểu đồ kết hợp,Task 1 - Mixed charts,SKILL_W,,Task 1,,,,,v0
+QuestionType,QT_W2_OPINION,Task 2 - Nêu quan điểm (đồng ý/không đồng ý),Task 2 - Opinion (agree/disagree),SKILL_W,,Task 2,,,,,v0
+QuestionType,QT_W2_DISCUSSION,Task 2 - Thảo luận (hai quan điểm),Task 2 - Discussion (both views),SKILL_W,,Task 2,,,,,v0
+QuestionType,QT_W2_PROBLEM_SOLUTION,Task 2 - Vấn đề / giải pháp,Task 2 - Problem / solution,SKILL_W,,Task 2,,,,,v0
+QuestionType,QT_W2_ADV_DISADV,Task 2 - Ưu điểm / nhược điểm,Task 2 - Advantages / disadvantages,SKILL_W,,Task 2,,,,,v0
+QuestionType,QT_W2_TWO_PART,Task 2 - Câu hỏi hai phần,Task 2 - Two-part question,SKILL_W,,Task 2,,,,,v0
+QuestionType,QT_S_PART1,Speaking Part 1 - Giới thiệu và phỏng vấn,Speaking Part 1 - Introduction & interview,SKILL_S,,Part 1,,,,,v0
+QuestionType,QT_S_PART2,Speaking Part 2 - Nói dài (cue card),Speaking Part 2 - Long turn (cue card),SKILL_S,,Part 2,,,,,v0
+QuestionType,QT_S_PART3,Speaking Part 3 - Thảo luận,Speaking Part 3 - Discussion,SKILL_S,,Part 3,,,,,v0
+BandLevel,BAND_4,Band 4,Band 4,,,,,4,,,v0
+BandLevel,BAND_5,Band 5,Band 5,,,,,5,,,v0
+BandLevel,BAND_6,Band 6,Band 6,,,,,6,,,v0
+BandLevel,BAND_7,Band 7,Band 7,,,,,7,,,v0
+BandLevel,BAND_8,Band 8,Band 8,,,,,8,,,v0
+Resource,RES_W_ARTICLE_01,Bài tập mạo từ cơ bản,Basic articles exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000001,v0
+Resource,RES_G_VERB_TENSE_01,Bài tập thì động từ,Verb tense exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000002,v0
+Resource,RES_G_AGREEMENT_01,Bài tập hòa hợp chủ - vị và số ít/số nhiều,Subject-verb agreement and noun number exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000003,v0
+Resource,RES_G_PREP_01,Bài tập giới từ,Prepositions exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000004,v0
+Resource,RES_G_COMPLEX_01,Bài tập câu phức,Complex sentences exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000005,v0
+Resource,RES_G_PUNCT_01,Bài tập dấu câu,Punctuation exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000006,v0
+Resource,RES_L_WORD_CHOICE_01,Bài tập chọn từ,Word choice exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000007,v0
+Resource,RES_L_COLLOCATION_01,Bài tập kết hợp từ (collocation),Collocation exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000008,v0
+Resource,RES_L_PARAPHRASE_01,Bài tập diễn đạt lại (paraphrase),Paraphrasing exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000009,v0
+Resource,RES_L_SPELLING_01,Bài tập chính tả và dạng từ,Spelling and word form exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000010,v0
+Resource,RES_W_LINKING_01,Bài tập sử dụng từ nối trong bài luận,Using linkers in an essay exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000011,v0
+Resource,RES_W1_OVERVIEW_01,Luyện viết câu overview cho biểu đồ đường,Writing an overview for a line graph,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000012,v0
+Resource,RES_W1_KEY_FEATURES_01,Luyện nêu đặc điểm chính của biểu đồ,Identifying key features exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000013,v0
+Resource,RES_W1_DATA_01,Luyện so sánh số liệu chính xác,Accurate data comparison exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000014,v0
+Resource,RES_W2_POSITION_01,Luyện nêu quan điểm dạng Opinion,Stating a position in an Opinion essay,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000015,v0
+Resource,RES_W2_TASK_ADDRESS_01,Luyện trả lời đủ các phần của đề,Addressing all parts of the task exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000016,v0
+Resource,RES_W2_IDEA_DEV_01,Luyện phát triển ý và dẫn chứng,Developing ideas and support exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000017,v0
+Resource,RES_W_PARAGRAPH_01,Bài tập chia đoạn,Paragraphing exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000018,v0
+Resource,RES_W_REFERENCE_01,Bài tập tham chiếu và thay thế,Referencing and substitution exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000019,v0
+Resource,RES_S_PART2_01,Luyện kéo dài câu trả lời Part 2,Extending answers in Part 2,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000020,v0
+Resource,RES_S_DISCOURSE_01,Luyện từ nối khi nói,Spoken discourse markers exercise,,,,,,exercise,exercises:60000000-0000-0000-0000-000000000021,v0
+Resource,RES_R_TFNG_01,Luyện dạng True/False/Not Given,True/False/Not Given practice,,,,,,exercise,exercises:d9f52c7a-9133-51eb-ad99-e9fef11162b4,v0
