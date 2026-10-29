@@ -36,10 +36,15 @@ See [kg-recommendations.sample.json](kg-recommendations.sample.json).
 
 ## Rules
 
-- A Resource matches an error if it `FIXES` the error, or `PRACTICES` a SubSkill that the error `AFFECTS`.
+- A Resource is only eligible for `skill` if it `PRACTICES` a SubSkill that belongs to a Criterion of that skill
+  (so a Speaking drill is never recommended for a Writing error, even if it also `FIXES` the same ErrorType).
+- An eligible Resource matches an error if it `FIXES` the error, or `PRACTICES` a SubSkill that the error `AFFECTS`.
 - If a Resource matches one error through both, it is returned once, with the `FIXES` path.
+- `path.subSkill` is a SubSkill the error `AFFECTS` that has a Criterion of `skill` (prefer one the Resource `PRACTICES`,
+  then the smallest `id`); `path.criterion` is that Criterion.
 - The same Resource may appear under two different errors.
-- Order per error: `FIXES` before `PRACTICES`, then `exact` before `nearest`, then `resourceId` ascending (deterministic).
+- Order per error: `FIXES` before `PRACTICES`, then `exact` before `nearest`, then (inside `nearest`) smaller band
+  distance first, ties to the lower band, then `resourceId` ascending (deterministic).
 - An empty result is `200` with `recommendations: []`.
 
 ## Errors
