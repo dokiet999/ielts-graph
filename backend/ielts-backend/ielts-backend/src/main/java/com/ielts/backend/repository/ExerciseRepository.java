@@ -20,6 +20,8 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
 
     Page<Exercise> findBySkillType(SkillType skillType, Pageable pageable);
 
+    Page<Exercise> findByExerciseType(ExerciseType exerciseType, Pageable pageable);
+
     Page<Exercise> findBySkillTypeAndExerciseType(SkillType skillType, ExerciseType exerciseType, Pageable pageable);
 
     Optional<Exercise> findByIdAndSkillType(UUID id, SkillType skillType);

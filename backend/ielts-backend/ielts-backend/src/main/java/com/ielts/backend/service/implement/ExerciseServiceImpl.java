@@ -42,6 +42,8 @@ public class ExerciseServiceImpl implements ExerciseService {
             page = exerciseRepository.findBySkillTypeAndExerciseType(skill, type, pageable);
         } else if (skill != null) {
             page = exerciseRepository.findBySkillType(skill, pageable);
+        } else if (type != null) {
+            page = exerciseRepository.findByExerciseType(type, pageable);
         } else {
             page = exerciseRepository.findAll(pageable);
         }
