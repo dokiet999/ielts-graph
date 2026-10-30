@@ -64,7 +64,7 @@ public class SpeakingAsrClient {
     private static RestClient defaultRestClient(SpeakingAsrConfig config) {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(Duration.ofSeconds(10));
-        int timeoutSec = config.getTimeoutSeconds() != null ? config.getTimeoutSeconds() : 120;
+        int timeoutSec = config.getTimeoutSeconds() != null ? config.getTimeoutSeconds() : 180;
         factory.setReadTimeout(Duration.ofSeconds(timeoutSec));
         return RestClient.builder().requestFactory(factory).build();
     }

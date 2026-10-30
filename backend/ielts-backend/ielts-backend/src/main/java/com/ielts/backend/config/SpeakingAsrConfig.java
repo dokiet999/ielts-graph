@@ -20,7 +20,7 @@ public class SpeakingAsrConfig {
      */
     private String url = "http://127.0.0.1:8000/transcribe";
     /** Read timeout. Whisper on a CPU can be slow, so this is generous. */
-    private Integer timeoutSeconds = 120;
+    private Integer timeoutSeconds = 180;
     /** Name of the multipart field that carries the audio file; ai/asr_service/app.py expects "audio". */
     private String fileField = "audio";
     /** When true no request is sent: the client returns ai/schema/speaking_asr.sample.json. */

@@ -10,8 +10,8 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: ${SPEAKING_MAX_FILE_SIZE:15MB}
-      max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:16MB}
+      max-file-size: ${SPEAKING_MAX_FILE_SIZE:30MB}
+      max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:32MB}
 
 server:
   port: 8081
@@ -26,12 +26,17 @@ app:
     timeout-seconds: 60
   speaking:
     audio-dir: ${SPEAKING_AUDIO_DIR:${java.io.tmpdir}/ielts-graph-speaking}
-    max-file-size-bytes: ${SPEAKING_MAX_FILE_SIZE_BYTES:15728640}
+    max-file-size-bytes: ${SPEAKING_MAX_FILE_SIZE_BYTES:31457280}
     min-file-size-bytes: ${SPEAKING_MIN_FILE_SIZE_BYTES:100}
     min-duration-seconds: ${SPEAKING_MIN_DURATION_SECONDS:2.0}
     min-transcript-words: 10
     asr:
       url: ${SPEAKING_ASR_URL:http://127.0.0.1:8000/transcribe}
-      timeout-seconds: ${SPEAKING_ASR_TIMEOUT:120}
+      timeout-seconds: ${SPEAKING_ASR_TIMEOUT:180}
       file-field: ${SPEAKING_ASR_FILE_FIELD:audio}
       fake: ${SPEAKING_ASR_FAKE:false}
+  kg:
+    neo4j:
+      uri: ${KG_NEO4J_URI:bolt://localhost:7687}
+      username: ${KG_NEO4J_USERNAME:neo4j}
+      password: ${KG_NEO4J_PASSWORD:}

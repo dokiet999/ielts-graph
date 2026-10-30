@@ -1,17 +1,25 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ExternalLink, FileText } from 'lucide-react'
 import { useCourseContext } from '@/layouts/courseContext'
 import { Button } from '@/components/ui/button'
+import { Pagination } from '@/components/ui/pagination'
 import { EmptyState, ErrorState, PageLoader, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
 import { useLesson, useLessonExercises } from '@/lib/queries'
 import { ExerciseCard } from './ExerciseCard'
+import { EXERCISES_PAGE_SIZE } from './ExercisesPage'
 
 export function LessonPage() {
   const { lessonId } = useParams()
   const { course, section } = useCourseContext()
   const { data: lesson, isLoading, error, refetch } = useLesson(lessonId)
   const exercises = useLessonExercises(lessonId)
+  const [page, setPage] = useState(1)
+
+  useEffect(() => {
+    setPage(1)
+  }, [lessonId])
 
   if (isLoading) return <PageLoader />
   if (error || !lesson)
@@ -21,6 +29,14 @@ export function LessonPage() {
   const index = ordered.findIndex((l) => l.id === lesson.id)
   const prev = ordered[index - 1]
   const next = ordered[index + 1]
+
+  const allExercises = exercises.data ?? []
+  const totalPages = Math.max(1, Math.ceil(allExercises.length / EXERCISES_PAGE_SIZE))
+  const safePage = Math.min(page, totalPages)
+  const pagedExercises = allExercises.slice(
+    (safePage - 1) * EXERCISES_PAGE_SIZE,
+    safePage * EXERCISES_PAGE_SIZE,
+  )
 
   return (
     <div>
@@ -67,12 +83,21 @@ export function LessonPage() {
           <Skeleton className="h-40" />
           <Skeleton className="h-40" />
         </div>
-      ) : exercises.data?.length ? (
-        <div className="grid gap-4 md:grid-cols-2">
-          {exercises.data.map((e) => (
-            <ExerciseCard key={e.id} exercise={e} />
-          ))}
-        </div>
+      ) : allExercises.length ? (
+        <>
+          <div className="grid gap-4 md:grid-cols-2">
+            {pagedExercises.map((e) => (
+              <ExerciseCard key={e.id} exercise={e} />
+            ))}
+          </div>
+          <Pagination
+            page={safePage}
+            totalPages={totalPages}
+            totalItems={allExercises.length}
+            pageSize={EXERCISES_PAGE_SIZE}
+            onPageChange={setPage}
+          />
+        </>
       ) : (
         <EmptyState title="Bài học này chưa có bài luyện." />
       )}

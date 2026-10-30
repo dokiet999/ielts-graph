@@ -1,0 +1,198 @@
+type,from_id,to_id,source,status,version
+HAS_CRITERION,SKILL_W,CRIT_W_TA,IELTS Writing Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_W,CRIT_W_TR,IELTS Writing Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_W,CRIT_W_CC,IELTS Writing Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_W,CRIT_W_LR,IELTS Writing Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_W,CRIT_W_GRA,IELTS Writing Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_S,CRIT_S_FC,IELTS Speaking Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_S,CRIT_S_LR,IELTS Speaking Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_S,CRIT_S_GRA,IELTS Speaking Band Descriptors,draft,v0
+HAS_CRITERION,SKILL_S,CRIT_S_P,IELTS Speaking Band Descriptors,draft,v0
+HAS_SUBSKILL,CRIT_W_TA,SUB_OVERVIEW,IELTS Writing Band Descriptors - TA,draft,v0
+HAS_SUBSKILL,CRIT_W_TA,SUB_KEY_FEATURES,IELTS Writing Band Descriptors - TA,draft,v0
+HAS_SUBSKILL,CRIT_W_TA,SUB_DATA_COMPARISON,IELTS Writing Band Descriptors - TA,draft,v0
+HAS_SUBSKILL,CRIT_W_TR,SUB_TASK_ADDRESS,IELTS Writing Band Descriptors - TR,draft,v0
+HAS_SUBSKILL,CRIT_W_TR,SUB_POSITION,IELTS Writing Band Descriptors - TR,draft,v0
+HAS_SUBSKILL,CRIT_W_TR,SUB_IDEA_DEV,IELTS Writing Band Descriptors - TR,draft,v0
+HAS_SUBSKILL,CRIT_W_CC,SUB_LINKING,IELTS Writing Band Descriptors - CC,draft,v0
+HAS_SUBSKILL,CRIT_W_CC,SUB_PARAGRAPHING,IELTS Writing Band Descriptors - CC,draft,v0
+HAS_SUBSKILL,CRIT_W_CC,SUB_REFERENCING,IELTS Writing Band Descriptors - CC,draft,v0
+HAS_SUBSKILL,CRIT_W_LR,SUB_WORD_CHOICE,IELTS Writing Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_S_LR,SUB_WORD_CHOICE,IELTS Speaking Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_W_LR,SUB_COLLOCATION,IELTS Writing Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_S_LR,SUB_COLLOCATION,IELTS Speaking Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_W_LR,SUB_PARAPHRASE,IELTS Writing Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_S_LR,SUB_PARAPHRASE,IELTS Speaking Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_W_LR,SUB_SPELLING_WORDFORM,IELTS Writing Band Descriptors - LR,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_ARTICLE,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_GRA,SUB_ARTICLE,IELTS Speaking Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_VERB_TENSE,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_GRA,SUB_VERB_TENSE,IELTS Speaking Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_AGREEMENT,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_GRA,SUB_AGREEMENT,IELTS Speaking Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_PREPOSITION,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_GRA,SUB_PREPOSITION,IELTS Speaking Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_COMPLEX_SENTENCE,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_GRA,SUB_COMPLEX_SENTENCE,IELTS Speaking Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_W_GRA,SUB_PUNCTUATION,IELTS Writing Band Descriptors - GRA,draft,v0
+HAS_SUBSKILL,CRIT_S_FC,SUB_FLUENCY,IELTS Speaking Band Descriptors - FC,draft,v0
+HAS_SUBSKILL,CRIT_S_FC,SUB_DISCOURSE_MARKER,IELTS Speaking Band Descriptors - FC,draft,v0
+HAS_SUBSKILL,CRIT_S_FC,SUB_ANSWER_EXTEND,IELTS Speaking Band Descriptors - FC,draft,v0
+HAS_SUBSKILL,CRIT_S_P,SUB_SOUND,IELTS Speaking Band Descriptors - P,draft,v0
+HAS_SUBSKILL,CRIT_S_P,SUB_WORD_STRESS,IELTS Speaking Band Descriptors - P,draft,v0
+HAS_SUBSKILL,CRIT_S_P,SUB_INTONATION,IELTS Speaking Band Descriptors - P,draft,v0
+AFFECTS,ERR_NO_OVERVIEW,SUB_OVERVIEW,IELTS Writing Band Descriptors - TA,draft,v0
+AFFECTS,ERR_MISSING_KEY_FEATURE,SUB_KEY_FEATURES,IELTS Writing Band Descriptors - TA,draft,v0
+AFFECTS,ERR_DATA_INACCURATE,SUB_DATA_COMPARISON,IELTS Writing Band Descriptors - TA,draft,v0
+AFFECTS,ERR_OFF_TOPIC,SUB_TASK_ADDRESS,IELTS Writing Band Descriptors - TR,draft,v0
+AFFECTS,ERR_PARTIAL_ANSWER,SUB_TASK_ADDRESS,IELTS Writing Band Descriptors - TR,draft,v0
+AFFECTS,ERR_UNDER_LENGTH,SUB_TASK_ADDRESS,IELTS Writing Band Descriptors - TR,draft,v0
+AFFECTS,ERR_UNCLEAR_POSITION,SUB_POSITION,IELTS Writing Band Descriptors - TR,draft,v0
+AFFECTS,ERR_UNDERDEVELOPED,SUB_IDEA_DEV,IELTS Writing Band Descriptors - TR,draft,v0
+AFFECTS,ERR_LINKER_MISUSE,SUB_LINKING,IELTS Writing Band Descriptors - CC,draft,v0
+AFFECTS,ERR_LINKER_OVERUSE,SUB_LINKING,IELTS Writing Band Descriptors - CC,draft,v0
+AFFECTS,ERR_LINKER_OVERUSE,SUB_DISCOURSE_MARKER,IELTS Speaking Band Descriptors - FC,draft,v0
+AFFECTS,ERR_NO_PARAGRAPH,SUB_PARAGRAPHING,IELTS Writing Band Descriptors - CC,draft,v0
+AFFECTS,ERR_UNCLEAR_REFERENCE,SUB_REFERENCING,IELTS Writing Band Descriptors - CC,draft,v0
+AFFECTS,ERR_WORD_CHOICE,SUB_WORD_CHOICE,IELTS Writing Band Descriptors - LR; IELTS Speaking Band Descriptors - LR,draft,v0
+AFFECTS,ERR_COLLOCATION,SUB_COLLOCATION,IELTS Writing Band Descriptors - LR; IELTS Speaking Band Descriptors - LR,draft,v0
+AFFECTS,ERR_REPETITION,SUB_PARAPHRASE,IELTS Writing Band Descriptors - LR; IELTS Speaking Band Descriptors - LR,draft,v0
+AFFECTS,ERR_SPELLING,SUB_SPELLING_WORDFORM,"IELTS Writing Band Descriptors - LR; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_WORD_FORM,SUB_SPELLING_WORDFORM,"IELTS Writing Band Descriptors - LR; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_ARTICLE,SUB_ARTICLE,"IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_VERB_TENSE,SUB_VERB_TENSE,"IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_SVA,SUB_AGREEMENT,"IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_NOUN_NUM,SUB_AGREEMENT,"IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_PREP,SUB_PREPOSITION,"IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_SENT_STRUCTURE,SUB_COMPLEX_SENTENCE,IELTS Writing Band Descriptors - GRA; IELTS Speaking Band Descriptors - GRA,draft,v0
+AFFECTS,ERR_PUNCT,SUB_PUNCTUATION,"IELTS Writing Band Descriptors - GRA; ERRANT (Bryant et al., 2017)",draft,v0
+AFFECTS,ERR_LONG_PAUSE,SUB_FLUENCY,IELTS Speaking Band Descriptors - FC,draft,v0
+AFFECTS,ERR_SELF_CORRECTION,SUB_FLUENCY,IELTS Speaking Band Descriptors - FC,draft,v0
+AFFECTS,ERR_SHORT_ANSWER,SUB_ANSWER_EXTEND,IELTS Speaking Band Descriptors - FC,draft,v0
+AFFECTS,ERR_MISPRONOUNCE,SUB_SOUND,IELTS Speaking Band Descriptors - P,draft,v0
+AFFECTS,ERR_WORD_STRESS,SUB_WORD_STRESS,IELTS Speaking Band Descriptors - P,draft,v0
+AFFECTS,ERR_MONOTONE,SUB_INTONATION,IELTS Speaking Band Descriptors - P,draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_MCQ,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_TFNG,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_YNNG,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_MATCH_INFO,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_MATCH_HEADINGS,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_MATCH_FEATURES,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_MATCH_ENDINGS,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_SENT_COMPLETION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_SUMMARY_COMPLETION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_DIAGRAM_LABEL,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_R,QT_R_SHORT_ANSWER,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_MCQ,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_MATCHING,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_MAP_LABEL,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_FORM_COMPLETION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_SENT_COMPLETION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_L,QT_L_SHORT_ANSWER,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_LINE,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_BAR,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_PIE,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_TABLE,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_PROCESS,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_MAP,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W1_MIXED,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W2_OPINION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W2_DISCUSSION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W2_PROBLEM_SOLUTION,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W2_ADV_DISADV,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_W,QT_W2_TWO_PART,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_S,QT_S_PART1,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_S,QT_S_PART2,Team design (IELTS Academic format),draft,v0
+HAS_QUESTION_TYPE,SKILL_S,QT_S_PART3,Team design (IELTS Academic format),draft,v0
+PREREQUISITE_OF,SUB_VERB_TENSE,SUB_COMPLEX_SENTENCE,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_AGREEMENT,SUB_COMPLEX_SENTENCE,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_PUNCTUATION,SUB_COMPLEX_SENTENCE,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_WORD_CHOICE,SUB_COLLOCATION,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_WORD_CHOICE,SUB_PARAPHRASE,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_POSITION,SUB_IDEA_DEV,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_KEY_FEATURES,SUB_OVERVIEW,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_KEY_FEATURES,SUB_DATA_COMPARISON,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_DISCOURSE_MARKER,SUB_ANSWER_EXTEND,Team proposal (pedagogical logic),draft,v0
+PREREQUISITE_OF,SUB_SOUND,SUB_WORD_STRESS,Team proposal (pedagogical logic),draft,v0
+NEXT_LEVEL,BAND_4,BAND_5,Team design,draft,v0
+NEXT_LEVEL,BAND_5,BAND_6,Team design,draft,v0
+NEXT_LEVEL,BAND_6,BAND_7,Team design,draft,v0
+NEXT_LEVEL,BAND_7,BAND_8,Team design,draft,v0
+PRACTICES,RES_W_ARTICLE_01,SUB_ARTICLE,Team design (practice drills),draft,v0
+PRACTICES,RES_G_VERB_TENSE_01,SUB_VERB_TENSE,Team design (practice drills),draft,v0
+PRACTICES,RES_G_AGREEMENT_01,SUB_AGREEMENT,Team design (practice drills),draft,v0
+PRACTICES,RES_G_PREP_01,SUB_PREPOSITION,Team design (practice drills),draft,v0
+PRACTICES,RES_G_COMPLEX_01,SUB_COMPLEX_SENTENCE,Team design (practice drills),draft,v0
+PRACTICES,RES_G_PUNCT_01,SUB_PUNCTUATION,Team design (practice drills),draft,v0
+PRACTICES,RES_L_WORD_CHOICE_01,SUB_WORD_CHOICE,Team design (practice drills),draft,v0
+PRACTICES,RES_L_COLLOCATION_01,SUB_COLLOCATION,Team design (practice drills),draft,v0
+PRACTICES,RES_L_PARAPHRASE_01,SUB_PARAPHRASE,Team design (practice drills),draft,v0
+PRACTICES,RES_L_SPELLING_01,SUB_SPELLING_WORDFORM,Team design (practice drills),draft,v0
+PRACTICES,RES_W_LINKING_01,SUB_LINKING,Team design (practice drills),draft,v0
+PRACTICES,RES_W1_OVERVIEW_01,SUB_OVERVIEW,Team design (practice drills),draft,v0
+PRACTICES,RES_W1_KEY_FEATURES_01,SUB_KEY_FEATURES,Team design (practice drills),draft,v0
+PRACTICES,RES_W1_DATA_01,SUB_DATA_COMPARISON,Team design (practice drills),draft,v0
+PRACTICES,RES_W2_POSITION_01,SUB_POSITION,Team design (practice drills),draft,v0
+PRACTICES,RES_W2_TASK_ADDRESS_01,SUB_TASK_ADDRESS,Team design (practice drills),draft,v0
+PRACTICES,RES_W2_IDEA_DEV_01,SUB_IDEA_DEV,Team design (practice drills),draft,v0
+PRACTICES,RES_W_PARAGRAPH_01,SUB_PARAGRAPHING,Team design (practice drills),draft,v0
+PRACTICES,RES_W_REFERENCE_01,SUB_REFERENCING,Team design (practice drills),draft,v0
+PRACTICES,RES_S_PART2_01,SUB_ANSWER_EXTEND,Team design (practice drills),draft,v0
+PRACTICES,RES_S_DISCOURSE_01,SUB_DISCOURSE_MARKER,Team design (practice drills),draft,v0
+FIXES,RES_W_ARTICLE_01,ERR_ARTICLE,Team design (practice drills),draft,v0
+FIXES,RES_G_VERB_TENSE_01,ERR_VERB_TENSE,Team design (practice drills),draft,v0
+FIXES,RES_G_AGREEMENT_01,ERR_SVA,Team design (practice drills),draft,v0
+FIXES,RES_G_AGREEMENT_01,ERR_NOUN_NUM,Team design (practice drills),draft,v0
+FIXES,RES_G_PREP_01,ERR_PREP,Team design (practice drills),draft,v0
+FIXES,RES_G_COMPLEX_01,ERR_SENT_STRUCTURE,Team design (practice drills),draft,v0
+FIXES,RES_G_PUNCT_01,ERR_PUNCT,Team design (practice drills),draft,v0
+FIXES,RES_L_WORD_CHOICE_01,ERR_WORD_CHOICE,Team design (practice drills),draft,v0
+FIXES,RES_L_COLLOCATION_01,ERR_COLLOCATION,Team design (practice drills),draft,v0
+FIXES,RES_L_PARAPHRASE_01,ERR_REPETITION,Team design (practice drills),draft,v0
+FIXES,RES_L_SPELLING_01,ERR_SPELLING,Team design (practice drills),draft,v0
+FIXES,RES_L_SPELLING_01,ERR_WORD_FORM,Team design (practice drills),draft,v0
+FIXES,RES_W_LINKING_01,ERR_LINKER_MISUSE,Team design (practice drills),draft,v0
+FIXES,RES_W_LINKING_01,ERR_LINKER_OVERUSE,Team design (practice drills),draft,v0
+FIXES,RES_W1_OVERVIEW_01,ERR_NO_OVERVIEW,Team design (practice drills),draft,v0
+FIXES,RES_W1_KEY_FEATURES_01,ERR_MISSING_KEY_FEATURE,Team design (practice drills),draft,v0
+FIXES,RES_W1_DATA_01,ERR_DATA_INACCURATE,Team design (practice drills),draft,v0
+FIXES,RES_W2_POSITION_01,ERR_UNCLEAR_POSITION,Team design (practice drills),draft,v0
+FIXES,RES_W2_TASK_ADDRESS_01,ERR_OFF_TOPIC,Team design (practice drills),draft,v0
+FIXES,RES_W2_TASK_ADDRESS_01,ERR_PARTIAL_ANSWER,Team design (practice drills),draft,v0
+FIXES,RES_W2_TASK_ADDRESS_01,ERR_UNDER_LENGTH,Team design (practice drills),draft,v0
+FIXES,RES_W2_IDEA_DEV_01,ERR_UNDERDEVELOPED,Team design (practice drills),draft,v0
+FIXES,RES_W_PARAGRAPH_01,ERR_NO_PARAGRAPH,Team design (practice drills),draft,v0
+FIXES,RES_W_REFERENCE_01,ERR_UNCLEAR_REFERENCE,Team design (practice drills),draft,v0
+FIXES,RES_S_PART2_01,ERR_SHORT_ANSWER,Team design (practice drills),draft,v0
+FIXES,RES_S_DISCOURSE_01,ERR_LINKER_OVERUSE,Team design (practice drills),draft,v0
+TARGETS,RES_W1_OVERVIEW_01,QT_W1_LINE,Team design (practice drills),draft,v0
+TARGETS,RES_W1_KEY_FEATURES_01,QT_W1_BAR,Team design (practice drills),draft,v0
+TARGETS,RES_W1_DATA_01,QT_W1_TABLE,Team design (practice drills),draft,v0
+TARGETS,RES_W2_POSITION_01,QT_W2_OPINION,Team design (practice drills),draft,v0
+TARGETS,RES_W2_TASK_ADDRESS_01,QT_W2_TWO_PART,Team design (practice drills),draft,v0
+TARGETS,RES_S_PART2_01,QT_S_PART2,Team design (practice drills),draft,v0
+TARGETS,RES_R_TFNG_01,QT_R_TFNG,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W_ARTICLE_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_G_VERB_TENSE_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_G_AGREEMENT_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_G_PREP_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_G_COMPLEX_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_G_PUNCT_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_L_WORD_CHOICE_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_L_COLLOCATION_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_L_PARAPHRASE_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_L_SPELLING_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W_LINKING_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W_LINKING_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W1_OVERVIEW_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W1_KEY_FEATURES_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W1_DATA_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W2_POSITION_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W2_POSITION_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W2_TASK_ADDRESS_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W2_IDEA_DEV_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W_PARAGRAPH_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_W_REFERENCE_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_S_PART2_01,BAND_5,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_S_DISCOURSE_01,BAND_6,Team design (practice drills),draft,v0
+SUITABLE_FOR,RES_R_TFNG_01,BAND_6,Team design (practice drills),draft,v0

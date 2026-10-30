@@ -13,7 +13,12 @@ import type {
   BeSubmitResult,
   BeWritingResult,
 } from '@/lib/backend-types'
-import { isSupportedAudioFilename, SPEAKING_MIN_DURATION_SEC } from '@/lib/speaking'
+import {
+  isSupportedAudioFilename,
+  SPEAKING_MAX_DURATION_SEC,
+  SPEAKING_MAX_FILE_BYTES,
+  SPEAKING_MIN_DURATION_SEC,
+} from '@/lib/speaking'
 import type { AnswerValue, CheckAnswerResponse, Exercise, User } from '@/lib/types'
 import {
   allQuestions,
@@ -24,6 +29,7 @@ import {
   type StoredUser,
 } from './db'
 import { courses, exercises, type CourseRecord } from './fixtures/courses'
+import { KgRequestError, recommend } from './kg'
 import {
   fakeSpeakingFeedback,
   SAMPLE_SPEAKING_FEATURES,
@@ -39,6 +45,8 @@ import { countWords, WRITING_MIN_SUBMIT_WORDS } from '@/lib/writing'
 
 const API = import.meta.env.VITE_API_URL ?? '/api'
 const LATENCY = 250
+/** Set this localStorage key to "1" to make the Knowledge Graph answer 503, as when Neo4j is down. */
+export const MOCK_KG_DOWN_KEY = 'mock:kg-unavailable'
 
 /** Backend error format: { code, message, details, timestamp }. */
 const fail = (status: number, code: string, message: string, details?: unknown) =>
@@ -241,6 +249,8 @@ function toBeSubmissionDetail(s: StoredSubmission): BeSubmissionDetail {
     answers: s.answers,
     results: s.results,
     exercise: toBeExercise(ex, true),
+    aiStructuredFeedback: (s.aiStructuredFeedback ??
+      null) as BeSubmissionDetail['aiStructuredFeedback'],
   }
 }
 
@@ -492,6 +502,7 @@ export const handlers = [
       attemptNumber: previous + 1,
       answers: { essayText: essay },
       results: [],
+      aiStructuredFeedback: feedback as unknown as Record<string, unknown>,
       score: band,
       maxScore: WRITING_MAX_BAND,
       correctCount: 0,
@@ -542,9 +553,17 @@ export const handlers = [
     if (!isSupportedAudioFilename(filename)) {
       return fail(400, 'UNSUPPORTED_AUDIO', 'Unsupported audio format')
     }
+    if (audio.size > SPEAKING_MAX_FILE_BYTES) {
+      return fail(413, 'AUDIO_TOO_LARGE', 'Audio file is too large')
+    }
     const durationSec = durationParam ? Number(durationParam) : 38
     if (durationSec > 0 && durationSec < SPEAKING_MIN_DURATION_SEC) {
       return fail(400, 'AUDIO_TOO_SHORT', 'Audio recording is too short')
+    }
+    // The ASR service rejects longer audio. The real backend still reports it as ASR_BAD_RESPONSE
+    // (W5_issue.md #1); the mock already sends the code the UI expects once that is fixed.
+    if (durationSec > SPEAKING_MAX_DURATION_SEC) {
+      return fail(413, 'AUDIO_TOO_LONG', 'Audio is too long')
     }
     const previous = userSubmissions(user.id).filter((s) => s.exerciseId === ex.id).length
     if (previous >= ex.maxAttempts) {
@@ -568,6 +587,7 @@ export const handlers = [
         part,
       },
       results: [],
+      aiStructuredFeedback: feedback as unknown as Record<string, unknown>,
       score: band,
       maxScore: WRITING_MAX_BAND,
       correctCount: 0,
@@ -600,6 +620,25 @@ export const handlers = [
       rawFeedback: feedback,
     }
     return HttpResponse.json(result)
+  }),
+
+  // Knowledge Graph: same contract as GET /api/kg/recommendations (docs/kg-api-contract.md).
+  http.get(`${API}/kg/recommendations`, async ({ request }) => {
+    await delay(LATENCY)
+    if (!currentUser(request)) return unauthorized()
+    if (localStorage.getItem(MOCK_KG_DOWN_KEY) === '1') {
+      return fail(
+        503,
+        'KG_UNAVAILABLE',
+        'The knowledge graph is temporarily unavailable. Please try again later',
+      )
+    }
+    try {
+      return HttpResponse.json(recommend(new URL(request.url).searchParams))
+    } catch (e) {
+      if (e instanceof KgRequestError) return fail(400, e.code, e.message, e.details)
+      throw e
+    }
   }),
 
   http.get(`${API}/submissions/me`, async ({ request }) => {

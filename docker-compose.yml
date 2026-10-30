@@ -1,0 +1,27 @@
+# Knowledge Graph database (W5). Postgres stays outside this file, see backend/README.md.
+# Usage: kg/README.md
+services:
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: ielts-graph-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # Neo4j Browser
+      - "7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in .env (see .env.example)}
+      NEO4J_server_directories_import: /kg/data   # LOAD CSV reads file:///nodes.csv from here
+    volumes:
+      - ielts_graph_neo4j_data:/data
+      - ./kg/data:/kg/data:ro                # seed CSV files
+      - ./kg/load:/kg/load:ro                # Cypher load scripts
+      - ./kg/validation:/kg/validation:ro    # Cypher validation queries
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$${NEO4J_AUTH#neo4j/}\" 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+
+volumes:
+  ielts_graph_neo4j_data:

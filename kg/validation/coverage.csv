@@ -1,0 +1,8 @@
+metric,covered,total,percent
+"ErrorType with a FIXES Resource",25,30,83.3
+"SubSkill with a PRACTICES Resource",21,25,84.0
+"SubSkill reachable from an ErrorType",25,25,100.0
+"QuestionType with a TARGETS Resource",7,32,21.9
+"Criterion with a practiced SubSkill",8,9,88.9
+"BandLevel with a SUITABLE_FOR Resource",2,5,40.0
+"Relationships verified",0,197,0.0

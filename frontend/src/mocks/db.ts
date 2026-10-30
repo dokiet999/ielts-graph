@@ -26,6 +26,8 @@ export interface StoredSubmission {
   questionCount: number
   timeSpent: number
   submittedAt: string
+  /** Writing/Speaking: the grader's feedback, kept like user_submissions.ai_structured_feedback. */
+  aiStructuredFeedback?: Record<string, unknown> | null
 }
 
 interface DbState {

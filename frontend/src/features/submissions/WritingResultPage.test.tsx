@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 import type { SubmissionDetail, WritingFeedback } from '@/lib/types'
 import { exercises } from '@/mocks/fixtures/courses'
@@ -50,11 +51,19 @@ const sub: SubmissionDetail = {
   writingFeedback: feedback,
 }
 
+// The recommendations panel has its own tests (RecommendedPractice.test.tsx).
+vi.mock('@/lib/api', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/lib/api')>()),
+  api: { kgRecommendations: vi.fn(() => new Promise(() => {})), sectionExercises: vi.fn(() => Promise.resolve([])) },
+}))
+
 const renderPage = (value: SubmissionDetail) =>
   render(
-    <MemoryRouter>
-      <WritingResultPage sub={value} />
-    </MemoryRouter>,
+    <QueryClientProvider client={new QueryClient()}>
+      <MemoryRouter>
+        <WritingResultPage sub={value} />
+      </MemoryRouter>
+    </QueryClientProvider>,
   )
 
 beforeEach(() => useWritingResultsStore.setState({ results: {} }))

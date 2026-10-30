@@ -16,6 +16,9 @@ Spring Boot (Java 21+), PostgreSQL, Flyway. Source: `ielts-backend/ielts-backend
 | `DB_URL` | no | `jdbc:postgresql://localhost:5433/ielts_graph` |
 | `DB_USERNAME` | yes | – |
 | `DB_PASSWORD` | yes | – |
+| `KG_NEO4J_URI` | no | `bolt://localhost:7687` |
+| `KG_NEO4J_USERNAME` | no | `neo4j` |
+| `KG_NEO4J_PASSWORD` | no | `""` (same as `NEO4J_PASSWORD` in `.env`) |
 
 Without `DB_USERNAME` / `DB_PASSWORD` the app stops at startup.
 

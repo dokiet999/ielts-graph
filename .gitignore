@@ -13,6 +13,9 @@ desktop.ini
 # Logs
 *.log
 
+# Local secrets (copy .env.example)
+.env
+
 # Misc
 *.orig
 *.bak

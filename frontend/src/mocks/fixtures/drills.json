@@ -1,0 +1,3449 @@
+[
+  {
+    "id": "60000000-0000-0000-0000-000000000001",
+    "title": "Grammar Drill - Articles (a / an / the)",
+    "instruction": "Choose the correct article or write the missing article (a, an or the).",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-3",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-3",
+        "questions": [
+          {
+            "questionText": "In many countries, ______ education is free for children.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Danh từ không đếm được nói chung thì không dùng mạo từ.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. the",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. a",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. no article",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "I visited ______ University of Melbourne last year.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Tên riêng dạng \"University of + địa danh\" dùng \"the\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. a",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. the",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. no article",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "She has ______ very good chance of passing the exam.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"a chance\" là danh từ đếm được số ít, chưa xác định.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. a",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. the",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. no article",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 4-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "4-6",
+        "questions": [
+          {
+            "questionText": "She is ______ engineer who works for a software company.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"engineer\" bắt đầu bằng âm nguyên âm nên dùng \"an\".",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "an",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "The graph shows ______ increase in the number of tourists.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"increase\" bắt đầu bằng nguyên âm nên dùng \"an\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "an",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "Technology has changed ______ way we communicate.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"the way we communicate\" chỉ một cách cụ thể nên dùng \"the\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "the",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000002",
+    "title": "Grammar Drill - Verb Tenses",
+    "instruction": "Choose the correct verb form or write the missing verb form.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "The number of visitors ______ sharply between 2010 and 2020.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mốc thời gian quá khứ xác định (2010-2020) dùng quá khứ đơn.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. rises",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. rose",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. has risen",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "I ______ in Hanoi since 2015.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"since 2015\" đi với hiện tại hoàn thành.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. live",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. lived",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. have lived",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "If the government ______ more taxes, people would have less money.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Câu điều kiện loại 2: If + quá khứ đơn, would + động từ.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. will raise",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. raised",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. raises",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Last year, I ______ IELTS for the first time.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"Last year\" là mốc quá khứ xác định nên dùng quá khứ đơn.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. took",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. have taken",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. am taking",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "By the time the lecture started, most students ______ (arrive) already.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Hành động xảy ra trước một mốc quá khứ dùng quá khứ hoàn thành.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "had arrived",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "Scientists predict that sea levels ______ (rise) further over the next 30 years.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Dự đoán về tương lai dùng \"will\" hoặc \"be going to\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "will rise",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "are going to rise",
+                "isCorrect": true,
+                "ordering": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000003",
+    "title": "Grammar Drill - Subject-Verb Agreement and Noun Number",
+    "instruction": "Choose the correct word or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "The number of students ______ increased.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"The number of\" đi với động từ số ít.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. have",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. has",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. are",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Each of the candidates ______ a separate room.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"Each of\" đi với động từ số ít.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. have",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. has",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. are having",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Neither the teacher nor the students ______ happy with the result.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Với \"neither...nor\", động từ hòa hợp với chủ ngữ gần nhất (students).",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. is",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. was",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. were",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Information about universities ______ available online.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"Information\" là danh từ không đếm được nên dùng động từ số ít.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. are",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. is",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. were",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "Many ______ (child) in rural areas do not have access to computers.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Số nhiều bất quy tắc của \"child\" là \"children\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "children",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "There ______ (be) several reasons for this trend.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"several reasons\" là số nhiều nên dùng \"are\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "are",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000004",
+    "title": "Grammar Drill - Prepositions",
+    "instruction": "Choose the correct preposition or write the missing preposition.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Many students are interested ______ studying abroad.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"interested in\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. in",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. at",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. on",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The graph shows a rise ______ unemployment.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"a rise in + danh từ\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. of",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. in",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. at",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The population increased ______ 5 million to 8 million.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"from ... to ...\" diễn tả mức đầu và mức cuối.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. from",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. by",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. at",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "I depend ______ my parents for financial support.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"depend on\".",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. on",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. of",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. from",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "She is good ______ solving problems.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"good at + V-ing\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "at",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "Smoking is harmful ______ health.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"harmful to\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "to",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000005",
+    "title": "Grammar Drill - Complex Sentences",
+    "instruction": "Choose the correct sentence or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Which sentence is correct?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Không dùng \"but\" hay \"however\" cùng với \"although\" trong một câu.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Although it was raining, but we went out.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Although it was raining, we went out.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Although it was raining, however we went out.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The city, ______ has a population of two million, is the capital.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mệnh đề quan hệ không xác định (có dấu phẩy) dùng \"which\", không dùng \"that\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. that",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. which",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. what",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which sentence has no run-on error?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Hai mệnh đề cần được nối bằng liên từ như \"because\", không chỉ bằng dấu phẩy.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Many people prefer cities, they offer better jobs.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Many people prefer cities because they offer better jobs.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Many people prefer cities they offer better jobs.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which is a complete sentence?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Hai lựa chọn còn lại chỉ là mệnh đề phụ, thiếu mệnh đề chính.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Because the road was closed.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. The road was closed because of an accident.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Which caused a long delay.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "______ he studied hard, he failed the exam.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Hai vế đối lập nên dùng \"although\" / \"though\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "although",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "though",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "even though",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The man ______ car was stolen called the police.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"whose\" chỉ sở hữu: người đàn ông có chiếc xe bị mất.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "whose",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000006",
+    "title": "Grammar Drill - Punctuation",
+    "instruction": "Choose the sentence or the punctuation mark that is correct.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-6",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-6",
+        "questions": [
+          {
+            "questionText": "Which sentence is punctuated correctly?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Sau trạng từ liên kết đầu câu như \"However\" cần có dấu phẩy.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. However I disagree with this view.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. However, I disagree with this view.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. However; I disagree with this view.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which sentence is correct?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Không đặt dấu chấm phẩy trước \"because\", và không nối hai mệnh đề chỉ bằng dấu phẩy.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. It is a good idea; because it saves money.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. It is a good idea, it saves money.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. It is a good idea because it saves money.",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The ______ toys are on the floor.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Sở hữu của danh từ số nhiều bất quy tắc: children's.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. childrens",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. children's",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. childrens'",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "There are three main causes of stress ___ work, family and money.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Dấu hai chấm dùng để mở đầu một danh sách.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. a comma (,)",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. a colon (:)",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. a semicolon (;)",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which list is punctuated correctly?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Các mục trong danh sách cách nhau bằng dấu phẩy, mục cuối nối bằng \"and\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. I like reading writing, and, speaking.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. I like reading, writing and speaking.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. I like, reading writing and speaking.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which sentence is correct?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mệnh đề quan hệ không xác định được đặt giữa hai dấu phẩy.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "A. The city, which is very old, attracts many tourists.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. The city which, is very old attracts many tourists.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. The city which is very old, attracts many tourists.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000007",
+    "title": "Vocabulary Drill - Word Choice",
+    "instruction": "Choose the best word or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Pollution has a serious ______ on public health.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"effect\" là danh từ: \"have an effect on\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. affect",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. effect",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. effective",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The company's profits ______ from $2 million to $5 million.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"rise\" là nội động từ (không có tân ngữ): rose.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. raised",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. rose",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. arose",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Many people ______ that online learning is more effective.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"think that\" diễn đạt quan điểm.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. think",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. tell",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. speak",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "I would like to ______ my English before the exam.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"improve my English\" là cách dùng tự nhiên.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. raise",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. improve",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. rise",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The exam was very ______; most students could not finish it.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"difficult\" mô tả độ khó của bài thi.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. difficult",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. heavy",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. strong",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "We need to find a ______ to this problem. (an answer to a problem)",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"a solution to a problem\" là cụm đúng.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "solution",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000008",
+    "title": "Vocabulary Drill - Collocations",
+    "instruction": "Choose the correct word or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Governments must ______ action to reduce pollution.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"take action\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. make",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. do",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. take",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "It is important to ______ a balance between work and life.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"strike a balance\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. strike",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. make",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. do",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Parents have a ______ influence on their children.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"a strong influence\".",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. strong",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. hard",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. heavy",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Students ______ good progress after the course.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"make progress\".",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. did",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. made",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. took",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "Students must ______ attention in class.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"pay attention\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "pay",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "The new policy will ______ jobs for thousands of people.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"create jobs\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "create",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000009",
+    "title": "Vocabulary Drill - Paraphrasing and Avoiding Repetition",
+    "instruction": "Choose the best paraphrase or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Best paraphrase of: \"The number of cars increased dramatically.\"",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"increased dramatically\" tương đương \"rose sharply\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. The number of cars rose sharply.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. The number of cars was dropped.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. The cars were numbered.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Best paraphrase of: \"Many people think that university education is too expensive.\"",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Giữ nguyên nghĩa nhưng đổi từ và cấu trúc, không chép lại câu gốc.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. A lot of people believe that going to university costs too much.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. University is many people.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Many people think that university education is too expensive.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which version avoids repetition?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Dùng đại từ \"It\" và nối ý để tránh lặp \"technology\".",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Technology is useful. Technology helps people. Technology saves time.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Technology is useful. It helps people and saves time.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Technology is useful, technology helps, technology saves.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which is the most formal way to say \"a lot of\" before a plural noun?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"a large number of\" phù hợp văn viết học thuật.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. loads of",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. heaps of",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. a large number of",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "Education is important. It is ______ for a country's development. (a stronger word)",
+            "questionType": "FILL_BLANK",
+            "explanation": "Dùng từ đồng nghĩa để tránh lặp \"important\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "essential",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "crucial",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "vital",
+                "isCorrect": true,
+                "ordering": 3
+              },
+              {
+                "optionText": "fundamental",
+                "isCorrect": true,
+                "ordering": 4
+              }
+            ]
+          },
+          {
+            "questionText": "Many people live in cities. Another way to say this: Many people are city ______.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"city dwellers\" = người sống ở thành phố.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "dwellers",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000010",
+    "title": "Vocabulary Drill - Spelling and Word Forms",
+    "instruction": "Choose the correct spelling or write the correct form of the word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Choose the correct spelling.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "environment (có \"n\" trước \"m\").",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. enviroment",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. environment",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. enviornment",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Choose the correct spelling.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "government (gov-ern-ment).",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. goverment",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. government",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. governmant",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Air pollution is a serious ______ to health. (threaten)",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Sau tính từ \"serious\" và mạo từ \"a\" cần danh từ: threat.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. threat",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. threaten",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. threatening",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Choose the correct spelling.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "successful (hai chữ \"c\", một chữ \"l\" ở cuối).",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. successfull",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. successful",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. sucessful",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "She is very ______ (interest) in art.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Tính từ chỉ cảm xúc của người: interested.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "interested",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "The ______ (decide) to move abroad was difficult.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Cần danh từ: decision.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "decision",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000011",
+    "title": "Writing Drill - Linking Words",
+    "instruction": "Choose the best linking word or phrase.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Cars are convenient. ______, they cause pollution.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Hai ý đối lập nên dùng \"However\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Because",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. However",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. So",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "He studied hard, ______ he passed the exam.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Quan hệ nguyên nhân - kết quả nên dùng \"so\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. but",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. so",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. although",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which version uses linkers naturally?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Dùng một từ nối vừa đủ, đúng chức năng; không xếp chồng nhiều từ nối cùng nghĩa.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Moreover, furthermore, in addition, besides, cars are expensive.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Cars are expensive. In addition, they cause pollution.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. In conclusion cars are expensive, firstly.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Online learning is flexible. ______, it can be isolating.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Chuyển sang mặt trái của vấn đề nên dùng \"On the other hand\".",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Therefore",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. On the other hand",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. For instance",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Many students work part-time ______ they need money.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Sau chỗ trống là một mệnh đề (they need money) nên dùng \"because\".",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. because",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. because of",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. despite",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "______ the high cost, many people still buy cars. (two words are accepted)",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"Despite\" / \"In spite of\" + cụm danh từ diễn tả sự nhượng bộ.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "despite",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "in spite of",
+                "isCorrect": true,
+                "ordering": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000012",
+    "title": "Writing Task 1 Drill - Overview",
+    "instruction": "Read the line graph description, then answer the questions.",
+    "audioUrl": null,
+    "content": {
+      "passageTitle": "Line graph: students on two types of course (thousands)",
+      "paragraphs": [
+        {
+          "text": "The line graph shows the number of students (in thousands) on online courses and on classroom courses at a college between 2000 and 2020. Online courses: 2000 - 2; 2010 - 8; 2020 - 20. Classroom courses: 2000 - 15; 2010 - 14; 2020 - 9."
+        }
+      ]
+    },
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which sentence is an overview (main trends, no detailed numbers)?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Overview nêu xu hướng chính, không liệt kê số liệu chi tiết.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. In 2000, 2 thousand students took online courses.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Overall, online courses grew steadily while classroom courses declined slightly.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Online courses rose from 2 to 20 thousand.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Where should the overview go in a Task 1 answer?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Overview đặt ngay sau phần mở đầu hoặc trước phần chi tiết.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Only at the very end.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. After the introduction, before the detailed paragraphs.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. It is not needed.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which overview is the best?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Nêu được xu hướng chính và so sánh hai nhóm.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. The graph shows courses.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Online courses became far more popular, whereas classroom courses lost some students.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Online was 20 in 2020 and classroom was 9.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "An overview should NOT include:",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Số liệu chi tiết thuộc về các đoạn thân bài.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. the main trends",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. a general comparison",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. a detailed list of every number",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which word signals an overview?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"Overall\" mở đầu câu tổng quan.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. For example",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Overall",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Because",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "______, online enrolment increased significantly while classroom enrolment fell. (a signal word for an overview)",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"Overall\" là từ báo hiệu overview.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "overall",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "in general",
+                "isCorrect": true,
+                "ordering": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000013",
+    "title": "Writing Task 1 Drill - Key Features",
+    "instruction": "Read the bar chart description, then answer the questions.",
+    "audioUrl": null,
+    "content": {
+      "passageTitle": "Bar chart: households with internet access (%)",
+      "paragraphs": [
+        {
+          "text": "The bar chart shows the percentage of households with internet access in four regions in 2005 and 2015. Region A: 20% in 2005, 60% in 2015. Region B: 35%, 70%. Region C: 10%, 30%. Region D: 50%, 85%."
+        }
+      ]
+    },
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which sentence states a key feature?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Đặc điểm chính là xu hướng chung và các mức cao nhất / thấp nhất.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Every region increased, and Region D was the highest in both years.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. The chart has bars.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Region A starts with the letter A.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which region had the highest access in 2015?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Region D đạt 85%.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Region A",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Region B",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Region D",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which region had the biggest increase (percentage points)?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Region A tăng 40 điểm phần trăm (20% lên 60%).",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Region A",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Region C",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Region D",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which detail is NOT a key feature?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Màu sắc không phải thông tin dữ liệu.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. the overall rise in all regions",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. the region with the lowest figures",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. the colour of the bars",
+                "isCorrect": true,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which is the best key-feature sentence?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Nêu được so sánh cao nhất / thấp nhất.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. Region D had the highest access in both years, while Region C had the lowest.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Region D is D.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. There are four regions.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "Region C had the ______ percentage in both years.",
+            "questionType": "FILL_BLANK",
+            "explanation": "Region C thấp nhất cả hai năm (10% và 30%).",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "lowest",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000014",
+    "title": "Writing Task 1 Drill - Comparing Data Accurately",
+    "instruction": "Read the table description, then answer the questions.",
+    "audioUrl": null,
+    "content": {
+      "passageTitle": "Table: monthly spending of young people (US$)",
+      "paragraphs": [
+        {
+          "text": "The table shows average monthly spending (US dollars) by young people on three items. Food: 200 in 2000, 250 in 2020. Transport: 80 in 2000, 120 in 2020. Entertainment: 60 in 2000, 150 in 2020."
+        }
+      ]
+    },
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-4",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-4",
+        "questions": [
+          {
+            "questionText": "Which sentence is accurate?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Giải trí tăng từ 60 lên 150, hơn gấp đôi.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Entertainment spending more than doubled.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Food spending fell.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Transport spending was the highest in 2020.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "In 2020, which item had the highest spending?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Food là 250 đô la, cao nhất.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Food",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Transport",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Entertainment",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which sentence uses a comparison correctly?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "So sánh hơn của tính từ ngắn: \"higher\" (không dùng \"more higher\").",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Food spending was much more higher than transport.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Food spending was much higher than transport spending.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Food spending was more high than transport.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "In 2000, transport spending was ______ than entertainment spending.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Transport 80 cao hơn entertainment 60.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. lower",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. higher",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. equal",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Questions 5-6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "5-6",
+        "questions": [
+          {
+            "questionText": "Spending on entertainment rose from $60 to $150, an increase of $______.",
+            "questionType": "FILL_BLANK",
+            "explanation": "150 - 60 = 90.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "90",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          },
+          {
+            "questionText": "Transport spending ______ by 50% (from $80 to $120).",
+            "questionType": "FILL_BLANK",
+            "explanation": "80 lên 120 là tăng 50%.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "rose",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "increased",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "grew",
+                "isCorrect": true,
+                "ordering": 3
+              },
+              {
+                "optionText": "went up",
+                "isCorrect": true,
+                "ordering": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000015",
+    "title": "Writing Task 2 Drill - Stating Your Position",
+    "instruction": "Topic: Some people think university education should be free. To what extent do you agree?",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which sentence gives a clear position?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Phải nêu rõ bạn đồng ý hay không.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. There are many opinions about free education.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. I completely agree that university education should be free.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Some people agree and some disagree.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which phrase shows partial agreement?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"To some extent\" thể hiện đồng ý một phần.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. I strongly disagree.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. I agree to some extent, but...",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. I do not know.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Your introduction says \"I strongly agree\". Which conclusion is consistent?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Kết bài phải nhất quán với quan điểm đã nêu.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. In conclusion, I believe free education is unnecessary.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. In conclusion, I reaffirm that free education benefits society.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. In conclusion, both sides are equal.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Where should you state your position in an Opinion essay?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Nêu quan điểm ở mở bài và nhắc lại ở kết bài.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Only in the conclusion",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. In the introduction and the conclusion",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Never",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which phrase does NOT state your own opinion?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"It is widely believed\" nói về quan điểm của người khác.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. I firmly believe that...",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. It is widely believed that...",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. From my perspective...",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "In my opinion, university education ______ be free.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"should\" diễn đạt quan điểm.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "should",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000016",
+    "title": "Writing Task 2 Drill - Answering All Parts of the Question",
+    "instruction": "Topic: Why do some people choose to live abroad? Is this a positive or negative development?",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which plan answers both parts of the question?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Đề có hai câu hỏi nên cần trả lời cả hai.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Only reasons for living abroad.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Reasons in one body paragraph; evaluation (positive or negative) in another.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Only a personal story.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "A student writes about the history of travel. This answer is:",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Không bàn về việc sống ở nước ngoài nên bị lạc đề.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. on topic",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. off topic",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. a perfect answer",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "What is the minimum word count for IELTS Writing Task 2?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Task 2 yêu cầu ít nhất 250 từ.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. 150",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. 250",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. 350",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which essay only partly answers the question?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Thiếu phần đánh giá nên chỉ trả lời một phần.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. It gives reasons but never says whether this is positive or negative.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. It gives reasons and evaluates the development.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. It explains reasons and gives a clear view.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which first sentence is on topic?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Chỉ câu đầu liên quan đến chủ đề của đề.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. Many people move abroad for better job opportunities.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. My favourite food is pasta.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. The internet was invented in 1983.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "Writing about a different subject from the question is called going off-______.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"off-topic\" = lạc đề.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "topic",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000017",
+    "title": "Writing Task 2 Drill - Developing Ideas",
+    "instruction": "Choose the best answer or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which sentence develops the idea \"Public transport reduces pollution\"?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Giải thích và có ví dụ cụ thể.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Public transport is good.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. For example, one bus can replace around 40 cars, which cuts exhaust emissions significantly.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. I like buses.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "What is the best way to extend a main idea?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mở rộng ý bằng giải thích và ví dụ.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Repeat it.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Explain why and give an example.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Change the topic.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which example best supports \"Online learning is flexible\"?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Ví dụ liên quan trực tiếp đến tính linh hoạt.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Students can watch lectures at any time, so they can work part-time.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Many people use computers.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Learning is hard.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which paragraph is underdeveloped?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Đoạn đầu chỉ nêu ý, không giải thích hay dẫn chứng.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Exercise is good. Everyone should exercise.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Exercise improves heart health; for example, 30 minutes of walking daily lowers the risk of heart disease.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Exercise keeps people fit because it strengthens muscles, which also helps them avoid injuries.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which phrase introduces a result?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"As a result\" dẫn vào kết quả.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. As a result",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. For instance",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. In contrast",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "To give an example, you can write \"For ______\" or \"For instance\".",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"For example\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "example",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000018",
+    "title": "Writing Drill - Paragraphing",
+    "instruction": "Choose the best answer or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "A typical Task 2 essay has about how many paragraphs?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mở bài, 2 đoạn thân bài (có thể 3) và kết bài.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. 1",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. 4 to 5",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. 10",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Each body paragraph should contain:",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mỗi đoạn thân bài triển khai một ý chính.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. one main idea",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. all your ideas",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. only examples",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Where does the conclusion go?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Kết bài nằm cuối bài.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. At the beginning",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. At the end",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. In the middle",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "When should you start a new paragraph?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Sang ý chính mới thì xuống đoạn.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. For a new main idea",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. For every new sentence",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. For every new word",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "A 300-word essay written as a single block makes the essay:",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Không chia đoạn khiến bài khó theo dõi.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. hard to follow",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. easier to read",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. better organised",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "Each body paragraph usually starts with a topic ______.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"topic sentence\" nêu ý chính của đoạn.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "sentence",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000019",
+    "title": "Writing Drill - Referencing",
+    "instruction": "Choose the best answer or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Many people use smartphones. ______ devices help them communicate.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"devices\" là số nhiều nên dùng \"These\".",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. This",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. These",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. It",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The government built a new bridge. ______ reduced traffic in the city centre.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"bridge\" là số ít nên dùng \"It\".",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. It",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. They",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. These",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which sentence has an unclear reference?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Không rõ \"he\", \"him\", \"his\" chỉ ai.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. Tom met Ben, and he gave him his book.",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Tom met Ben and gave Ben a book.",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Tom met Ben and gave him a book he had bought.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "What is the best way to avoid repeating \"the problem\"?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Dùng từ thay thế hoặc đại từ.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Repeat it every time.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Use \"this issue\" or \"it\".",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Delete it.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Cities are growing fast. ______ puts pressure on housing.",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"This trend\" thay cho ý của cả câu trước.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. This trend",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Cities trend",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Fast",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "Young people spend hours online. ______ habit can harm their sleep.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"This habit\" tóm lại ý đã nêu.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "this",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000020",
+    "title": "Speaking Drill - Extending Your Answer (Part 2)",
+    "instruction": "Choose the best answer or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "How long is the long turn in Speaking Part 2?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Part 2 yêu cầu nói liên tục 1-2 phút.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. About 30 seconds",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. 1 to 2 minutes",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. 5 minutes",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Question: \"Do you like cooking?\" Which answer is extended?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Có lý do và chi tiết thêm.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Yes.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Yes, I do. I usually cook dinner on weekends because it helps me relax, and I like trying new recipes.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. No.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "What can you add to extend an answer?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Thêm lý do và ví dụ.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. A reason and an example",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. A long silence",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. The same sentence again",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "The cue card prompts help you to:",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Các gợi ý giúp bạn sắp xếp bài nói.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. structure your talk",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. skip the topic",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. stop speaking",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which is the best opening for \"Describe a place you like\"?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Mở đầu rõ ràng, có chi tiết.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. I don't know.",
+                "isCorrect": false,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. I'd like to talk about my hometown, Da Nang, which is a coastal city in central Vietnam.",
+                "isCorrect": true,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Place.",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "Use \"because\" to give a ______.",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"because\" đưa ra lý do.",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "reason",
+                "isCorrect": true,
+                "ordering": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "60000000-0000-0000-0000-000000000021",
+    "title": "Speaking Drill - Discourse Markers",
+    "instruction": "Choose the best answer or write the missing word.",
+    "audioUrl": null,
+    "content": null,
+    "exerciseType": "PRACTICE",
+    "skillType": "READING",
+    "timeLimit": 600,
+    "maxAttempts": 99,
+    "questionGroups": [
+      {
+        "groupTitle": "Questions 1-5",
+        "groupInstruction": "Choose the correct letter, A, B or C.",
+        "imageUrl": null,
+        "questionType": "MULTIPLE_CHOICE",
+        "questionRange": "1-5",
+        "questions": [
+          {
+            "questionText": "Which phrase helps you gain time naturally while speaking?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Cụm từ lấp chỗ tự nhiên giúp bài nói trôi chảy.",
+            "points": 1,
+            "ordering": 1,
+            "options": [
+              {
+                "optionText": "A. Well, let me think...",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Um um um um",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. (long silence)",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which marker adds an extra point?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"Besides\" thêm ý.",
+            "points": 1,
+            "ordering": 2,
+            "options": [
+              {
+                "optionText": "A. Besides",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. However",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Although",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which marker shows contrast?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"On the other hand\" đối lập ý.",
+            "points": 1,
+            "ordering": 3,
+            "options": [
+              {
+                "optionText": "A. On the other hand",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Moreover",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. For example",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which is overuse of discourse markers?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "Lặp một từ đệm quá nhiều làm bài nói kém tự nhiên.",
+            "points": 1,
+            "ordering": 4,
+            "options": [
+              {
+                "optionText": "A. Saying \"you know\" after almost every phrase",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. Using \"for example\" once",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Using \"however\" to contrast",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          },
+          {
+            "questionText": "Which phrase signals a conclusion?",
+            "questionType": "MULTIPLE_CHOICE",
+            "explanation": "\"To sum up\" báo hiệu phần kết.",
+            "points": 1,
+            "ordering": 5,
+            "options": [
+              {
+                "optionText": "A. To sum up",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "B. By the way",
+                "isCorrect": false,
+                "ordering": 2
+              },
+              {
+                "optionText": "C. Anyway, so",
+                "isCorrect": false,
+                "ordering": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "Question 6",
+        "groupInstruction": "Complete the sentence. Write the missing word(s).",
+        "imageUrl": null,
+        "questionType": "FILL_BLANK",
+        "questionRange": "6-6",
+        "questions": [
+          {
+            "questionText": "To give an example, say \"For ______\".",
+            "questionType": "FILL_BLANK",
+            "explanation": "\"For instance\" hoặc \"For example\".",
+            "points": 1,
+            "ordering": 6,
+            "options": [
+              {
+                "optionText": "instance",
+                "isCorrect": true,
+                "ordering": 1
+              },
+              {
+                "optionText": "example",
+                "isCorrect": true,
+                "ordering": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

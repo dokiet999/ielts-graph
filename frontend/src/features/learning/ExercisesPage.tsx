@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search, SearchX } from 'lucide-react'
 import { CoursePageHeader } from '@/layouts/CourseLayout'
 import { useCourseContext } from '@/layouts/courseContext'
 import { Input } from '@/components/ui/input'
+import { Pagination } from '@/components/ui/pagination'
 import { Select } from '@/components/ui/select'
 import { EmptyState, ErrorState, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
@@ -11,6 +12,8 @@ import { ExerciseCard } from './ExerciseCard'
 import { ProgressBanner } from './ProgressBanner'
 import { useExerciseStats, type ExerciseStatus } from './exerciseStatus'
 
+export const EXERCISES_PAGE_SIZE = 6
+
 export function ExercisesPage() {
   const { section } = useCourseContext()
   const { data, isLoading, error, refetch } = useSectionExercises(section.id)
@@ -18,7 +21,12 @@ export function ExercisesPage() {
   const [status, setStatus] = useState<'' | ExerciseStatus>('')
   const [skill, setSkill] = useState('')
   const [type, setType] = useState('')
+  const [page, setPage] = useState(1)
   const { statuses, done, inProgress } = useExerciseStats(data)
+
+  useEffect(() => {
+    setPage(1)
+  }, [section.id, query, status, skill, type])
 
   const filtered = (data ?? []).filter((e, i) => {
     if (query && !e.title.toLowerCase().includes(query.trim().toLowerCase())) return false
@@ -27,6 +35,13 @@ export function ExercisesPage() {
     if (type && e.exerciseType !== type) return false
     return true
   })
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / EXERCISES_PAGE_SIZE))
+  const safePage = Math.min(page, totalPages)
+  const pagedExercises = filtered.slice(
+    (safePage - 1) * EXERCISES_PAGE_SIZE,
+    safePage * EXERCISES_PAGE_SIZE,
+  )
 
   return (
     <div>
@@ -89,11 +104,20 @@ export function ExercisesPage() {
               description="Thử đổi từ khóa hoặc bộ lọc."
             />
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {filtered.map((e) => (
-                <ExerciseCard key={e.id} exercise={e} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-4 md:grid-cols-2">
+                {pagedExercises.map((e) => (
+                  <ExerciseCard key={e.id} exercise={e} />
+                ))}
+              </div>
+              <Pagination
+                page={safePage}
+                totalPages={totalPages}
+                totalItems={filtered.length}
+                pageSize={EXERCISES_PAGE_SIZE}
+                onPageChange={setPage}
+              />
+            </>
           )}
         </>
       )}

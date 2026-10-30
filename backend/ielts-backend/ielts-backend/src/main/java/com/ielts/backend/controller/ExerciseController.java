@@ -41,7 +41,9 @@ public class ExerciseController {
         PageRequest pageable = PageRequest.of(
                 Math.max(page, 0),
                 Math.clamp(size, 1, MAX_PAGE_SIZE),
-                Sort.by(Sort.Direction.ASC, "ordering").and(Sort.by(Sort.Direction.DESC, "createdAt")));
+                Sort.by(Sort.Direction.ASC, "ordering")
+                        .and(Sort.by(Sort.Direction.DESC, "createdAt"))
+                        .and(Sort.by(Sort.Direction.ASC, "id")));
         return exerciseService.getExercises(skill, type, pageable);
     }
 

@@ -24,6 +24,8 @@ import {
   evidenceHighlights,
 } from '@/lib/writing'
 import { useWritingResultsStore } from '@/stores/writingResults'
+import { ExercisePager } from './ExercisePager'
+import { RecommendedPractice } from './RecommendedPractice'
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -191,6 +193,12 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
         </>
       )}
 
+      <RecommendedPractice
+        skill="SKILL_W"
+        criteria={feedback && feedback.criteria.length > 0 ? feedback.criteria : null}
+        overallBand={overall}
+      />
+
       {essay && (
         <>
           <h2 className="mb-4 mt-10 flex items-center gap-2 text-xl font-semibold">
@@ -214,6 +222,8 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
           </Link>
         </Button>
       </div>
+
+      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
     </div>
   )
 }

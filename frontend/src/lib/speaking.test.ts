@@ -46,6 +46,10 @@ describe('audio validation & submit error helpers', () => {
     expect(speakingSubmitMessage('AUDIO_TOO_SHORT', 400)).toMatch(/quá ngắn/)
     expect(speakingSubmitMessage('ASR_UNAVAILABLE', 503)).toMatch(/nhận diện giọng nói/)
     expect(speakingSubmitMessage('MAX_ATTEMPTS_REACHED', 409)).toMatch(/hết số lần/)
+    expect(speakingSubmitMessage('AUDIO_TOO_LARGE', 413)).toBe(
+      'File âm thanh vượt quá dung lượng tối đa 30 MB.',
+    )
+    expect(speakingSubmitMessage('AUDIO_TOO_LONG', 413)).toMatch(/dài hơn 5 phút/)
   })
 
   it('marks ASR and LLM errors as retryable and rule errors as non-retryable', () => {
@@ -54,6 +58,7 @@ describe('audio validation & submit error helpers', () => {
     expect(isRetryableSpeakingError('LLM_UNAVAILABLE', 503)).toBe(true)
     expect(isRetryableSpeakingError('MAX_ATTEMPTS_REACHED', 409)).toBe(false)
     expect(isRetryableSpeakingError('UNSUPPORTED_AUDIO', 400)).toBe(false)
+    expect(isRetryableSpeakingError('AUDIO_TOO_LONG', 413)).toBe(false)
   })
 
   it('highlights evidence quotes inside transcript', () => {

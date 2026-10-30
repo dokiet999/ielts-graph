@@ -30,6 +30,8 @@ import type {
   AnswerValue,
   AuthResponse,
   CheckAnswerResponse,
+  KgRecommendations,
+  KgRecommendationsRequest,
   SpeakingSubmissionRequest,
   SubmissionRequest,
   User,
@@ -178,11 +180,19 @@ export const api = {
     if (body.durationSec !== undefined) form.append('timeSpent', String(Math.round(body.durationSec)))
     return data(
       http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
-        timeout: 120_000,
+        timeout: 180_000,
       }),
     ).then(toSpeakingResult)
   },
   submission: (id: string) =>
     data(http.get<BeSubmissionDetail>(`/submissions/${id}/detail`)).then(toSubmissionDetail),
   mySubmissions,
+
+  /** Practice Resources for the grader's errors, from the Knowledge Graph (docs/kg-api-contract.md). */
+  kgRecommendations: ({ skill, errors, band }: KgRecommendationsRequest) =>
+    data(
+      http.get<KgRecommendations>('/kg/recommendations', {
+        params: { skill, errors: errors.join(','), band },
+      }),
+    ),
 }

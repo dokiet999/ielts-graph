@@ -23,6 +23,7 @@ import {
   SKILL_LABEL,
 } from '@/lib/utils'
 import { describeAnswer, describeCorrect } from '../runner/questions/helpers'
+import { ExercisePager } from './ExercisePager'
 import { SpeakingResultPage } from './SpeakingResultPage'
 import { WritingResultPage } from './WritingResultPage'
 
@@ -155,6 +156,8 @@ export function ResultPage() {
           </tbody>
         </table>
       </div>
+
+      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
     </div>
   )
 }
