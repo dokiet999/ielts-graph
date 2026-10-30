@@ -76,7 +76,7 @@ const sub: SubmissionDetail = {
 // The recommendations panel has its own tests (RecommendedPractice.test.tsx).
 vi.mock('@/lib/api', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/lib/api')>()),
-  api: { kgRecommendations: vi.fn(() => new Promise(() => {})) },
+  api: { kgRecommendations: vi.fn(() => new Promise(() => {})), sectionExercises: vi.fn(() => Promise.resolve([])) },
 }))
 
 const renderPage = (value: SubmissionDetail) =>

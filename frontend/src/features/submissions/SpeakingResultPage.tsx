@@ -33,6 +33,7 @@ import type {
 import { EXERCISE_TYPE_LABEL, formatDateTime, formatDuration, SKILL_LABEL } from '@/lib/utils'
 import { countWords } from '@/lib/writing'
 import { useSpeakingResultsStore } from '@/stores/speakingResults'
+import { ExercisePager } from './ExercisePager'
 import { RecommendedPractice } from './RecommendedPractice'
 
 function BandBadge({ band }: { band: number }) {
@@ -325,6 +326,8 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
           </Link>
         </Button>
       </div>
+
+      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
     </div>
   )
 }

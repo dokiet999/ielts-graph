@@ -24,6 +24,7 @@ import {
   evidenceHighlights,
 } from '@/lib/writing'
 import { useWritingResultsStore } from '@/stores/writingResults'
+import { ExercisePager } from './ExercisePager'
 import { RecommendedPractice } from './RecommendedPractice'
 
 function BandBadge({ band }: { band: number }) {
@@ -221,6 +222,8 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
           </Link>
         </Button>
       </div>
+
+      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
     </div>
   )
 }
