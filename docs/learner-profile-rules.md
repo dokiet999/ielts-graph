@@ -21,7 +21,7 @@ An event updates the state of **one** SubSkill. One attempt produces several eve
 | `event_type` | When | `outcome` (y) | Weight (w) |
 |---|---|---|---|
 | `ERROR` | The AI reports an ErrorType that `AFFECTS` the SubSkill in a graded Writing or Speaking attempt | 0 | 1.0 |
-| `CLEAN` | The SubSkill belongs to a Criterion of the graded skill, and the attempt has no error on it | 1 | 0.3 |
+| `CLEAN` | The SubSkill belongs to a Criterion graded in the attempt (a key of `criteria` in the AI feedback), and the attempt has no error on it | 1 | 0.3 |
 | `DRILL` | The learner finishes a practice drill that `PRACTICES` the SubSkill | score / total (0 to 1) | 1.0 |
 
 Rules:
