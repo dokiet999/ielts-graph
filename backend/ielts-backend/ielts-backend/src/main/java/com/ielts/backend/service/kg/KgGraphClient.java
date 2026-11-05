@@ -43,6 +43,26 @@ public class KgGraphClient {
                    [(r)-[:SUITABLE_FOR]->(b:BandLevel) | b.value] AS bands
             """;
 
+    private static final String QUERY_AFFECTED_SUBSKILLS = """
+            MATCH (e:ErrorType)-[:AFFECTS]->(s:SubSkill)<-[:HAS_SUBSKILL]-(:Criterion {skill: $skill})
+            WHERE e.id IN $errors
+            RETURN DISTINCT s.id AS id
+            ORDER BY id
+            """;
+
+    private static final String QUERY_SUBSKILLS_BY_CRITERIA = """
+            MATCH (c:Criterion)-[:HAS_SUBSKILL]->(s:SubSkill)
+            WHERE c.id IN $criteria
+            RETURN DISTINCT s.id AS id
+            ORDER BY id
+            """;
+
+    private static final String QUERY_PRACTICED_SUBSKILLS = """
+            MATCH (r:Resource {sql_ref: $ref})-[:PRACTICES]->(s:SubSkill)
+            RETURN DISTINCT s.id AS id
+            ORDER BY id
+            """;
+
     private final Driver driver;
 
     public record ErrorClassification(
@@ -124,5 +144,58 @@ public class KgGraphClient {
             throw new KgUnavailableException("Knowledge graph query failed", e);
         }
     }
-}
 
+    /**
+     * Query 1 (W6): SubSkills affected by the given ErrorTypes, restricted to the skill being graded.
+     */
+    public List<String> findAffectedSubSkills(String skill, List<String> errors) {
+        if (skill == null || skill.isBlank() || errors == null || errors.isEmpty()) {
+            return List.of();
+        }
+        TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
+        try (Session session = driver.session()) {
+            return session.executeRead(tx -> tx.run(
+                    QUERY_AFFECTED_SUBSKILLS,
+                    Values.parameters("skill", skill, "errors", errors)
+            ).list(record -> record.get("id").asString()), txConfig);
+        } catch (Exception e) {
+            throw new KgUnavailableException("Knowledge graph query failed", e);
+        }
+    }
+
+    /**
+     * Query 2 (W6): SubSkills belonging to the given graded Criteria.
+     */
+    public List<String> findSubSkillsByCriteria(List<String> criteria) {
+        if (criteria == null || criteria.isEmpty()) {
+            return List.of();
+        }
+        TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
+        try (Session session = driver.session()) {
+            return session.executeRead(tx -> tx.run(
+                    QUERY_SUBSKILLS_BY_CRITERIA,
+                    Values.parameters("criteria", criteria)
+            ).list(record -> record.get("id").asString()), txConfig);
+        } catch (Exception e) {
+            throw new KgUnavailableException("Knowledge graph query failed", e);
+        }
+    }
+
+    /**
+     * Query 3 (W6): SubSkills practiced by the Resource matching {@code sql_ref} (e.g. {@code exercises:<uuid>}).
+     */
+    public List<String> findPracticedSubSkills(String sqlRef) {
+        if (sqlRef == null || sqlRef.isBlank()) {
+            return List.of();
+        }
+        TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
+        try (Session session = driver.session()) {
+            return session.executeRead(tx -> tx.run(
+                    QUERY_PRACTICED_SUBSKILLS,
+                    Values.parameters("ref", sqlRef)
+            ).list(record -> record.get("id").asString()), txConfig);
+        } catch (Exception e) {
+            throw new KgUnavailableException("Knowledge graph query failed", e);
+        }
+    }
+}
