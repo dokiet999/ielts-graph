@@ -65,13 +65,15 @@ Event      { String userId; Instant time; String subskillId; EventType type; dou
 SkillState update(SkillState state, Event event)                         // pure, no database access
 ```
 
-`outcome` is already in [0, 1]. The weight comes from `event_type` (table above), so the same code reads the real log and the synthetic log.
+`outcome` is already in [0, 1]. The weight comes from `event_type` (table above), so the same code reads real events and synthetic events.
 
-## 6. Event log format (`interaction_log` and the synthetic CSV)
+## 6. Event format
+
+Real events are built from the graded rows of `user_submissions` (errors from `ai_structured_feedback`, drill score from `score / max_score`); there is no separate event table. The synthetic learners use the same fields as a CSV.
 
 Columns: `user_id, time, subskill_id, event_type, outcome, source_id`
 - `time`: ISO-8601 UTC.
-- `source_id`: id of the attempt or drill that produced the event (groups the events of one attempt).
+- `source_id`: id of the submission (real) or of the attempt or drill (synthetic) that produced the event.
 
 ## 7. Synthetic learners (how the test data is made)
 
