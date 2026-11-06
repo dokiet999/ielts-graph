@@ -2,7 +2,9 @@ package com.ielts.backend.repository;
 
 import com.ielts.backend.entity.UserSubmission;
 import com.ielts.backend.enums.SubmissionStatus;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,6 +21,18 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     Optional<UserSubmission> findTopByUserIdAndExerciseIdOrderByAttemptNumberDesc(UUID userId, UUID exerciseId);
 
     Optional<UserSubmission> findByIdAndUserId(UUID id, UUID userId);
+
+    @Query("""
+            select s from UserSubmission s
+            join fetch s.exercise e
+            join fetch s.user u
+            where s.id = :id
+            """)
+    Optional<UserSubmission> findByIdWithExerciseAndUser(@Param("id") UUID id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select s from UserSubmission s where s.id = :id")
+    Optional<UserSubmission> findByIdForUpdate(@Param("id") UUID id);
 
     /** All submissions of a user with their exercise, lesson and section, newest first. */
     @Query("""

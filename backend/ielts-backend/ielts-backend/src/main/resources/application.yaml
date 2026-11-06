@@ -40,3 +40,10 @@ app:
       uri: ${KG_NEO4J_URI:bolt://localhost:7687}
       username: ${KG_NEO4J_USERNAME:neo4j}
       password: ${KG_NEO4J_PASSWORD:}
+  profile:
+    initial-mastery: ${PROFILE_INITIAL_MASTERY:0.5}
+    eta-min: ${PROFILE_ETA_MIN:0.10}
+    offset: ${PROFILE_OFFSET:3.0}
+    weight-error: ${PROFILE_WEIGHT_ERROR:1.0}
+    weight-clean: ${PROFILE_WEIGHT_CLEAN:0.3}
+    weight-drill: ${PROFILE_WEIGHT_DRILL:1.0}

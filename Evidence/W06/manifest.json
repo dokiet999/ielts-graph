@@ -1,0 +1,86 @@
+{
+  "issue": "#36 W6: Evaluate skill state on synthetic logs",
+  "generated_at": "2026-11-06T11:53:40Z",
+  "git_commit": "dbb8a52ad2fe1074d16446c87962ddf0fafe618f",
+  "git_dirty": false,
+  "parameters": {
+    "initial-mastery": 0.5,
+    "eta-min": 0.1,
+    "offset": 3.0,
+    "weight-error": 1.0,
+    "weight-clean": 0.3,
+    "weight-drill": 1.0
+  },
+  "sensitivity_grid": {
+    "etaMin": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "weightClean": [
+      0.0,
+      0.15,
+      0.3,
+      0.6
+    ],
+    "offset": [
+      1,
+      3,
+      5,
+      10
+    ]
+  },
+  "week_cutoff": "week k = events with time < 2026-09-07T00:00:00Z + 7k days",
+  "data": [
+    {
+      "path": "data/learner_sim/interaction_logs.csv",
+      "sha256": "30211b8ef8ce0061e2cc065e615bbcf09dadba34a195009e1436a8543e34f146"
+    },
+    {
+      "path": "data/learner_sim/true_mastery.csv",
+      "sha256": "355b309a18e6746b4549f53a52cc0af393f631035a41e77da0c283e07c4f3914"
+    }
+  ],
+  "files": [
+    {
+      "path": "Evidence/W06/figures/correlation_by_week.png",
+      "sha256": "165dca9436bde0a6ec06c71813bf3c92bde47a4e3e0df8a24df5675c1f3ea795"
+    },
+    {
+      "path": "Evidence/W06/figures/mae_by_week.png",
+      "sha256": "5a6e3dc53ce529eaf85d5bcb173ed9a4e2c9f95a33826f98e761f73b51eef84d"
+    },
+    {
+      "path": "Evidence/W06/figures/sensitivity.png",
+      "sha256": "a02b87b142e2142258bc86c8307f1577d61d67147725366383f6707d2a35b8b8"
+    },
+    {
+      "path": "Evidence/W06/make_figures.py",
+      "sha256": "0dbfb67205352796b51ec72cbf171c0dc5aff9235dff7591c7b50bbbb5538fa7"
+    },
+    {
+      "path": "Evidence/W06/make_manifest.py",
+      "sha256": "621d70be89e4a865fc00e3926e724e97ce1ad0f5a4898238454f55b68c16dd2b"
+    },
+    {
+      "path": "Evidence/W06/metrics.csv",
+      "sha256": "6e0e8606480108ac366db63a3a4397f0feb8ceb7f12255657872026f230966c9"
+    },
+    {
+      "path": "Evidence/W06/README.md",
+      "sha256": "57554288d211d047e0c23c695efc052f7557cf609879c0b1b5af59d1e55b3c6f"
+    },
+    {
+      "path": "Evidence/W06/run.sh",
+      "sha256": "9773d4549c766e04afa7f37165943c2e50b5f95afe1d08702a9452adc7418e1e"
+    },
+    {
+      "path": "Evidence/W06/sensitivity.csv",
+      "sha256": "7dc8e4cfade8afe015d0cffa28d7529eed8b151fc651c88712b04ea170418523"
+    },
+    {
+      "path": "Evidence/W06/test-results.txt",
+      "sha256": "86b0cd76bcf39f18959d02aa9c03c8ed1cc0c6ead6404799298d2ff115ade324"
+    }
+  ]
+}

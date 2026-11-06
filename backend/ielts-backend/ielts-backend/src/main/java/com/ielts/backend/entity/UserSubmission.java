@@ -97,6 +97,10 @@ public class UserSubmission {
     @Column(name = "graded_at")
     private LocalDateTime gradedAt;
 
+    /** Timestamp when this submission's events were applied to learner_skill_state (null if not applied yet). */
+    @Column(name = "profile_applied_at")
+    private LocalDateTime profileAppliedAt;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", nullable = false, columnDefinition = "submission_status")
