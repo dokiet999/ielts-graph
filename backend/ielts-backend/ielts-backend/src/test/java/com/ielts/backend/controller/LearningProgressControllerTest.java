@@ -222,6 +222,20 @@ class LearningProgressControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    // ---------- GET /api/sections/{id}/mock-tests ----------
+
+    @Test
+    void sectionMockTests_enrolledStudent_listsMockTestExercisesOnly() throws Exception {
+        mockMvc.perform(get("/api/sections/{id}/mock-tests", GETTING_STARTED_SECTION)
+                        .with(httpBasic("student_enrolled", PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value("40000000-0000-0000-0000-000000005001"))
+                .andExpect(jsonPath("$[0].exerciseType").value("MOCK_TEST"))
+                .andExpect(jsonPath("$[0].skillType").value("READING"))
+                .andExpect(jsonPath("$[0].questionCount").value(13));
+    }
+
     // ---------- GET /api/exercises/{id} ----------
 
     @Test

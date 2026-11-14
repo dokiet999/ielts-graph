@@ -80,7 +80,7 @@ class ExerciseSubmissionControllerTest {
         // FR-8.01: automatic grading must match manual grading on the sample data, for both skills
         List<String> exercises = jdbcTemplate.queryForList("""
                 SELECT e.id::text FROM exercises e
-                WHERE e.skill_type = ?::skill_type AND e.exercise_type <> 'MOCK_TEST'
+                WHERE e.skill_type = ?::skill_type AND e.exercise_type NOT IN ('MOCK_TEST', 'FINAL_TEST')
                   AND EXISTS (SELECT 1 FROM questions q WHERE q.exercise_id = e.id)
                 """, String.class, skill.name());
         assertThat(exercises).contains(skill == SkillType.READING ? READING : LISTENING);
@@ -222,10 +222,12 @@ class ExerciseSubmissionControllerTest {
     }
 
     @Test
-    void submit_mockTest_returns404() throws Exception {
+    void submit_mockTest_returnsBandScore() throws Exception {
         jdbcTemplate.update("UPDATE exercises SET exercise_type = 'MOCK_TEST'::exercise_type WHERE id = ?::uuid", READING);
 
-        submit(READING, "student_new", Map.of()).andExpect(status().isNotFound());
+        submit(READING, "student_new", correctAnswers(READING))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.bandScore").value(9.0));
     }
 
     @Test
