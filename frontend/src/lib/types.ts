@@ -277,9 +277,14 @@ export interface SpeakingFeatures {
 export interface SpeakingPronunciation {
   accuracy: number
   fluency: number
-  completeness: number
+  /** null in unscripted mode (no reference text), which is the normal case for IELTS answers. */
+  completeness: number | null
   prosody: number | null
+  /** gemini: AI estimate from listening to the audio; azure: acoustic measurement; null for older submissions. */
+  source: PronunciationSource | null
 }
+
+export type PronunciationSource = 'gemini' | 'azure'
 
 export interface SpeakingFeedback {
   part: SpeakingPartId

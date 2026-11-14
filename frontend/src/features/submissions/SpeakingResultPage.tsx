@@ -24,6 +24,7 @@ import {
   speakingPartInfo,
 } from '@/lib/speaking'
 import type {
+  PronunciationSource,
   SpeakingCriterion,
   SpeakingFeatures,
   SpeakingFeedback,
@@ -35,6 +36,13 @@ import { countWords } from '@/lib/writing'
 import { useSpeakingResultsStore } from '@/stores/speakingResults'
 import { ExercisePager } from './ExercisePager'
 import { RecommendedPractice } from './RecommendedPractice'
+
+/** Where the pronunciation scores come from: an AI estimate must not look like a measurement. */
+const PRONUNCIATION_SOURCE_NOTE: Record<PronunciationSource, string> = {
+  gemini:
+    'Điểm do AI (Gemini) nghe bản ghi âm và ước lượng, không phải phép đo âm học. Chỉ dùng để tham khảo.',
+  azure: 'Điểm đo bằng Azure Pronunciation Assessment.',
+}
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -133,6 +141,11 @@ function SpeechMetricsSection({
           <h2 className="flex items-center gap-2 font-semibold">
             <Volume2 className="size-4 text-info" /> Đánh giá phát âm (Pronunciation)
           </h2>
+          {pronunciation.source && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              {PRONUNCIATION_SOURCE_NOTE[pronunciation.source]}
+            </p>
+          )}
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div className="rounded-xl bg-muted/60 p-3">
               <p className="text-xs text-muted-foreground">Độ chính xác (Accuracy)</p>
@@ -146,12 +159,14 @@ function SpeechMetricsSection({
                 {pronunciation.fluency.toFixed(1)} / 100
               </p>
             </div>
-            <div className="rounded-xl bg-muted/60 p-3">
-              <p className="text-xs text-muted-foreground">Độ đầy đủ (Completeness)</p>
-              <p className="mt-1 text-lg font-bold tabular-nums">
-                {pronunciation.completeness.toFixed(1)} / 100
-              </p>
-            </div>
+            {pronunciation.completeness !== null && (
+              <div className="rounded-xl bg-muted/60 p-3">
+                <p className="text-xs text-muted-foreground">Độ đầy đủ (Completeness)</p>
+                <p className="mt-1 text-lg font-bold tabular-nums">
+                  {pronunciation.completeness.toFixed(1)} / 100
+                </p>
+              </div>
+            )}
             {pronunciation.prosody !== null && (
               <div className="rounded-xl bg-muted/60 p-3">
                 <p className="text-xs text-muted-foreground">Ngữ điệu (Prosody)</p>

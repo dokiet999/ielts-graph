@@ -78,6 +78,51 @@ class SpeakingFeedbackSchemaTest {
     }
 
     @Test
+    void asrWithNullCompleteness_passesValidation() throws Exception {
+        ObjectNode sampleNode = (ObjectNode) loadAsrSample();
+        ObjectNode pron = (ObjectNode) sampleNode.get("pronunciation");
+        pron.putNull("completeness");
+        Set<ValidationMessage> errors = asrSchema.validate(sampleNode);
+        assertThat(errors).isEmpty();
+    }
+
+    @Test
+    void asrWithCompletenessOutOfRange_failsValidation() throws Exception {
+        ObjectNode sampleNode = (ObjectNode) loadAsrSample();
+        ObjectNode pron = (ObjectNode) sampleNode.get("pronunciation");
+        pron.put("completeness", 120.0);
+        Set<ValidationMessage> errors = asrSchema.validate(sampleNode);
+        assertThat(errors).isNotEmpty();
+    }
+
+    @Test
+    void asrWithMissingCompletenessKey_failsValidation() throws Exception {
+        ObjectNode sampleNode = (ObjectNode) loadAsrSample();
+        ObjectNode pron = (ObjectNode) sampleNode.get("pronunciation");
+        pron.remove("completeness");
+        Set<ValidationMessage> errors = asrSchema.validate(sampleNode);
+        assertThat(errors).isNotEmpty();
+    }
+
+    @Test
+    void asrWithAzureSource_passesValidation() throws Exception {
+        ObjectNode sampleNode = (ObjectNode) loadAsrSample();
+        ((ObjectNode) sampleNode.get("pronunciation")).put("source", "azure");
+        assertThat(asrSchema.validate(sampleNode)).isEmpty();
+    }
+
+    @Test
+    void asrWithUnknownOrMissingSource_failsValidation() throws Exception {
+        ObjectNode unknown = (ObjectNode) loadAsrSample();
+        ((ObjectNode) unknown.get("pronunciation")).put("source", "whisper");
+        assertThat(asrSchema.validate(unknown)).isNotEmpty();
+
+        ObjectNode missing = (ObjectNode) loadAsrSample();
+        ((ObjectNode) missing.get("pronunciation")).remove("source");
+        assertThat(asrSchema.validate(missing)).isNotEmpty();
+    }
+
+    @Test
     void missingOverallBand_failsValidation() throws Exception {
         ObjectNode sampleNode = (ObjectNode) loadFeedbackSample();
         sampleNode.remove("overall_band");
