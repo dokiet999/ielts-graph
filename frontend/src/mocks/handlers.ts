@@ -5,6 +5,8 @@ import type {
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
+  BeFinalTestSession,
+  BeFinalTestStatus,
   BeLessonDetail,
   BeMyCourse,
   BeSpeakingResult,
@@ -166,9 +168,92 @@ function toBeCourse(c: CourseRecord): BeCourse {
 }
 
 const countDone = (exs: Exercise[], done: Set<string>) => exs.filter((e) => done.has(e.id)).length
+const isPracticeExercise = (e: Exercise) =>
+  e.exerciseType !== 'MOCK_TEST' && e.exerciseType !== 'FINAL_TEST'
+
+interface MockFinalTestGrant {
+  sectionId: string
+  userId: string
+  unlocked: boolean
+  deadlineDays: number
+  grantedAt: string
+  expiresAt: string
+}
+
+interface MockFinalTestSession {
+  id: string
+  exerciseId: string
+  userId: string
+  startedAt: string
+  expiresAt: string
+  timeLimitSeconds: number
+}
+
+const defaultGrantExpiry = () => new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString()
+const finalTestGrants = new Map<string, MockFinalTestGrant>([
+  [
+    's-f1',
+    {
+      sectionId: 's-f1',
+      userId: 'u-1',
+      unlocked: true,
+      deadlineDays: 7,
+      grantedAt: new Date().toISOString(),
+      expiresAt: defaultGrantExpiry(),
+    },
+  ],
+  [
+    's-i1',
+    {
+      sectionId: 's-i1',
+      userId: 'u-1',
+      unlocked: true,
+      deadlineDays: 7,
+      grantedAt: new Date().toISOString(),
+      expiresAt: defaultGrantExpiry(),
+    },
+  ],
+])
+const finalTestSessions = new Map<string, MockFinalTestSession>()
+
+function buildBeFinalTestStatus(sectionId: string, userId: string): BeFinalTestStatus | null {
+  const course = findCourseOf(sectionId)
+  if (!course) return null
+  const finalEx = exercises.find(
+    (e) => e.sectionId === sectionId && e.exerciseType === 'FINAL_TEST',
+  )
+  const grant = finalTestGrants.get(sectionId)
+  const nowMs = Date.now()
+  const grantExpired = grant ? new Date(grant.expiresAt).getTime() <= nowMs : false
+  const unlocked = Boolean(grant && grant.unlocked && !grantExpired)
+  const rawSession = finalEx ? finalTestSessions.get(`${userId}:${finalEx.id}`) : undefined
+  let activeSession: BeFinalTestSession | null = null
+  if (rawSession) {
+    const remaining = Math.max(
+      0,
+      Math.floor((new Date(rawSession.expiresAt).getTime() - nowMs) / 1000),
+    )
+    activeSession = {
+      sessionId: rawSession.id,
+      exerciseId: rawSession.exerciseId,
+      startedAt: rawSession.startedAt,
+      expiresAt: rawSession.expiresAt,
+      remainingSeconds: remaining,
+    }
+  }
+  return {
+    exercise: finalEx ? toBeExerciseSummary(finalEx, userId) : null,
+    unlocked,
+    grantExpired,
+    deadlineDays: grant?.deadlineDays ?? null,
+    unlockedAt: grant?.grantedAt ?? null,
+    grantExpiresAt: grant?.expiresAt ?? null,
+    activeSession,
+  }
+}
 
 function toBeMyCourse(c: CourseRecord, userId: string): BeMyCourse {
-  const exs = exercises.filter((e) => e.courseId === c.id)
+  const exs = exercises.filter((e) => e.courseId === c.id && isPracticeExercise(e))
   return {
     id: c.id,
     title: c.title,
@@ -190,7 +275,7 @@ function toBeMyCourse(c: CourseRecord, userId: string): BeMyCourse {
 
 function toBeCourseDetail(c: CourseRecord, userId: string): BeCourseDetail {
   const done = doneIds(userId)
-  const exs = exercises.filter((e) => e.courseId === c.id)
+  const exs = exercises.filter((e) => e.courseId === c.id && isPracticeExercise(e))
   return {
     course: toBeCourse(c),
     totalLessons: c.sections.reduce((n, s) => n + s.lessons.length, 0),
@@ -198,7 +283,9 @@ function toBeCourseDetail(c: CourseRecord, userId: string): BeCourseDetail {
     completedExerciseCount: countDone(exs, done),
     enrollment: { enrolledAt: c.enrolledAt, completedAt: c.completedAt },
     sections: c.sections.map((s, i) => {
-      const sectionExercises = exercises.filter((e) => e.sectionId === s.id)
+      const sectionExercises = exercises.filter(
+        (e) => e.sectionId === s.id && isPracticeExercise(e),
+      )
       return {
         id: s.id,
         title: s.title,
@@ -214,7 +301,8 @@ function toBeCourseDetail(c: CourseRecord, userId: string): BeCourseDetail {
           videoDuration: l.videoDuration ?? null,
           ordering: l.ordering,
           isPreview: false,
-          exerciseCount: exercises.filter((e) => e.lessonId === l.id).length,
+          exerciseCount: exercises.filter((e) => e.lessonId === l.id && isPracticeExercise(e))
+            .length,
         })),
       }
     }),
@@ -357,7 +445,7 @@ export const handlers = [
       sectionId: section.id,
       sectionTitle: section.title,
       exercises: exercises
-        .filter((e) => e.lessonId === lesson.id)
+        .filter((e) => e.lessonId === lesson.id && isPracticeExercise(e))
         .map((e) => toBeExerciseSummary(e, user.id)),
     }
     return HttpResponse.json(body)
@@ -371,9 +459,102 @@ export const handlers = [
     if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
     return HttpResponse.json(
       exercises
-        .filter((e) => e.sectionId === sectionId)
+        .filter((e) => e.sectionId === sectionId && isPracticeExercise(e))
         .map((e) => toBeExerciseSummary(e, user.id)),
     )
+  }),
+
+  http.get(`${API}/sections/:id/mock-tests`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const sectionId = params.id as string
+    const course = findCourseOf(sectionId)
+    if (!course) return fail(404, 'NOT_FOUND', 'Section not found')
+    const direct = exercises.filter(
+      (e) => e.sectionId === sectionId && e.exerciseType === 'MOCK_TEST',
+    )
+    const list =
+      direct.length > 0
+        ? direct
+        : exercises.filter((e) => e.courseId === course.id && e.exerciseType === 'MOCK_TEST')
+    return HttpResponse.json(list.map((e) => toBeExerciseSummary(e, user.id)))
+  }),
+
+  http.get(`${API}/sections/:id/final-test`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const status = buildBeFinalTestStatus(params.id as string, user.id)
+    return status ? HttpResponse.json(status) : fail(404, 'NOT_FOUND', 'Section not found')
+  }),
+
+  http.post(`${API}/sections/:id/final-test/unlock`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const sectionId = params.id as string
+    if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
+    const body = (await request.json().catch(() => ({}))) as { deadlineDays?: number }
+    const days = body.deadlineDays && body.deadlineDays > 0 ? body.deadlineDays : 7
+    const now = new Date()
+    finalTestGrants.set(sectionId, {
+      sectionId,
+      userId: user.id,
+      unlocked: true,
+      deadlineDays: days,
+      grantedAt: now.toISOString(),
+      expiresAt: new Date(now.getTime() + days * 24 * 3600 * 1000).toISOString(),
+    })
+    return HttpResponse.json(buildBeFinalTestStatus(sectionId, user.id))
+  }),
+
+  http.post(`${API}/sections/:id/final-test/lock`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const sectionId = params.id as string
+    if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
+    const existing = finalTestGrants.get(sectionId)
+    if (existing) {
+      existing.unlocked = false
+    }
+    return HttpResponse.json(buildBeFinalTestStatus(sectionId, user.id))
+  }),
+
+  http.post(`${API}/sections/:id/final-test/start`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const sectionId = params.id as string
+    const status = buildBeFinalTestStatus(sectionId, user.id)
+    if (!status) return fail(404, 'NOT_FOUND', 'Section not found')
+    if (!status.unlocked || !status.exercise) {
+      return fail(409, 'FINAL_TEST_LOCKED', 'Bài kiểm tra cuối khóa chưa được mở khóa hoặc đã hết hạn.')
+    }
+    if (status.activeSession && status.activeSession.remainingSeconds > 0) {
+      return HttpResponse.json(status.activeSession)
+    }
+    const timeLimit = status.exercise.timeLimit && status.exercise.timeLimit > 0 ? status.exercise.timeLimit : 1200
+    const startedAt = new Date()
+    const expiresAt = new Date(startedAt.getTime() + timeLimit * 1000)
+    const session: MockFinalTestSession = {
+      id: `fts-${crypto.randomUUID()}`,
+      exerciseId: status.exercise.id,
+      userId: user.id,
+      startedAt: startedAt.toISOString(),
+      expiresAt: expiresAt.toISOString(),
+      timeLimitSeconds: timeLimit,
+    }
+    finalTestSessions.set(`${user.id}:${status.exercise.id}`, session)
+    const dto: BeFinalTestSession = {
+      sessionId: session.id,
+      exerciseId: session.exerciseId,
+      startedAt: session.startedAt,
+      expiresAt: session.expiresAt,
+      remainingSeconds: timeLimit,
+    }
+    return HttpResponse.json(dto)
   }),
 
   // ---------------------------------------------------------------- exercises & submissions
@@ -452,6 +633,7 @@ export const handlers = [
       submittedAt: new Date().toISOString(),
     }
     db.submissions.push(stored)
+    finalTestSessions.delete(`${user.id}:${ex.id}`)
     persist()
     const result: BeSubmitResult = { result: { submissionId: stored.id } }
     return HttpResponse.json(result)
@@ -511,6 +693,7 @@ export const handlers = [
       submittedAt: new Date().toISOString(),
     }
     db.submissions.push(stored)
+    finalTestSessions.delete(`${user.id}:${ex.id}`)
     persist()
     const result: BeWritingResult = {
       submissionId: stored.id,
@@ -596,6 +779,7 @@ export const handlers = [
       submittedAt: new Date().toISOString(),
     }
     db.submissions.push(stored)
+    finalTestSessions.delete(`${user.id}:${ex.id}`)
     persist()
     const result: BeSpeakingResult = {
       submissionId: stored.id,

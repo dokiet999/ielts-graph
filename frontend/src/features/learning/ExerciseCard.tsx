@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { CheckCircle2, Circle, CornerDownRight, Loader, Timer } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Circle, CornerDownRight, Loader, Timer } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { formatBand } from '@/lib/band'
+import { isTestWithBand } from '@/lib/adapters'
+import { estimateBand, formatBand } from '@/lib/band'
 import type { ExerciseSummary } from '@/lib/types'
 import { EXERCISE_TYPE_LABEL, SKILL_LABEL } from '@/lib/utils'
 import { answeredCount, useSessionStore } from '@/stores/session'
@@ -18,6 +19,12 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
   const status = exerciseStatus(exercise, session)
   const answered = answeredCount(session)
   const isAiBand = exercise.skillType === 'WRITING' || exercise.skillType === 'SPEAKING'
+  const mockBand =
+    isTestWithBand(exercise.exerciseType) && exercise.bestScore !== null
+      ? isAiBand
+        ? exercise.bestScore
+        : estimateBand(exercise.skillType, exercise.bestScore, exercise.questionCount)
+      : null
 
   return (
     <Link
@@ -41,17 +48,24 @@ export function ExerciseCard({ exercise }: { exercise: ExerciseSummary }) {
           <Badge tone="success">
             {isAiBand
               ? `Band tốt nhất ${formatBand(exercise.bestScore)}`
-              : `Best score ${exercise.bestScore}/${exercise.maxScore}`}
+              : mockBand !== null
+                ? `Band tốt nhất ${formatBand(mockBand)} (${exercise.bestScore}/${exercise.maxScore})`
+                : `Best score ${exercise.bestScore}/${exercise.maxScore}`}
           </Badge>
         )}
         {status === 'in-progress' && (
-          <Badge tone="info">
-            {exercise.skillType === 'WRITING'
-              ? 'Đang viết dở'
-              : exercise.skillType === 'SPEAKING'
-                ? 'Đang luyện nói'
-                : `Đang làm ${answered}/${exercise.questionCount}`}
-          </Badge>
+          <>
+            <Badge tone="info">
+              {exercise.skillType === 'WRITING'
+                ? 'Đang viết dở'
+                : exercise.skillType === 'SPEAKING'
+                  ? 'Đang luyện nói'
+                  : `Đang làm ${answered}/${exercise.questionCount}`}
+            </Badge>
+            <Badge tone="primary" className="font-semibold">
+              Vào làm tiếp <ArrowRight className="size-3.5" />
+            </Badge>
+          </>
         )}
         {exercise.bestScore === null && status === 'todo' && (
           <Badge>
