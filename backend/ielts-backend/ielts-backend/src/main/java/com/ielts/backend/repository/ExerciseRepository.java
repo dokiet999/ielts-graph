@@ -18,6 +18,10 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
 
     List<Exercise> findByLessonIdOrderByOrderingAsc(UUID lessonId);
 
+    List<Exercise> findByLessonIdAndExerciseTypeNotOrderByOrderingAsc(UUID lessonId, ExerciseType excludedType);
+
+    List<Exercise> findByLessonIdAndExerciseTypeNotInOrderByOrderingAsc(UUID lessonId, Collection<ExerciseType> excludedTypes);
+
     Page<Exercise> findBySkillType(SkillType skillType, Pageable pageable);
 
     Page<Exercise> findByExerciseType(ExerciseType exerciseType, Pageable pageable);
@@ -26,27 +30,47 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
 
     Optional<Exercise> findByIdAndSkillType(UUID id, SkillType skillType);
 
-    /** Exercises of every lesson in a section, except mock tests, ordered by lesson then exercise. */
+    /** Exercises of every lesson in a section, except mock/final tests, ordered by lesson then exercise. */
     default List<Exercise> findBySectionIdOrdered(UUID sectionId) {
-        return findBySectionIdExcludingType(sectionId, ExerciseType.MOCK_TEST);
+        return findBySectionIdExcludingTypes(sectionId, ExerciseType.TEST_TYPES);
     }
 
     @Query("""
             select e from Exercise e
             join fetch e.lesson l
             join fetch l.section s
-            where s.id = :sectionId and e.exerciseType <> :excludedType
+            where s.id = :sectionId and e.exerciseType not in :excludedTypes
             order by l.ordering asc, e.ordering asc
             """)
-    List<Exercise> findBySectionIdExcludingType(@Param("sectionId") UUID sectionId,
-                                                @Param("excludedType") ExerciseType excludedType);
+    List<Exercise> findBySectionIdExcludingTypes(@Param("sectionId") UUID sectionId,
+                                                 @Param("excludedTypes") Collection<ExerciseType> excludedTypes);
+
+    @Query("""
+            select e from Exercise e
+            join fetch e.lesson l
+            join fetch l.section s
+            where s.id = :sectionId and e.exerciseType = :exerciseType
+            order by l.ordering asc, e.ordering asc
+            """)
+    List<Exercise> findBySectionIdAndType(@Param("sectionId") UUID sectionId,
+                                          @Param("exerciseType") ExerciseType exerciseType);
+
+    @Query("""
+            select e from Exercise e
+            join fetch e.lesson l
+            join fetch l.section s
+            where s.course.id = :courseId and e.exerciseType = :exerciseType
+            order by s.ordering asc, l.ordering asc, e.ordering asc
+            """)
+    List<Exercise> findByCourseIdAndType(@Param("courseId") UUID courseId,
+                                         @Param("exerciseType") ExerciseType exerciseType);
 
     /**
      * Exercises that count towards course progress: inside a lesson of one of the courses,
-     * with at least one question, and not a mock test.
+     * with at least one question, and not a mock or final test.
      */
     default List<CountableExercise> findCountableByCourseIds(Collection<UUID> courseIds) {
-        return findCountableByCourseIdsExcludingType(courseIds, ExerciseType.MOCK_TEST);
+        return findCountableByCourseIdsExcludingTypes(courseIds, ExerciseType.TEST_TYPES);
     }
 
     @Query("""
@@ -55,11 +79,11 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
             join e.lesson l
             join l.section s
             where s.course.id in :courseIds
-              and e.exerciseType <> :excludedType
+              and e.exerciseType not in :excludedTypes
               and exists (select q.id from Question q where q.exercise = e)
             """)
-    List<CountableExercise> findCountableByCourseIdsExcludingType(@Param("courseIds") Collection<UUID> courseIds,
-                                                                  @Param("excludedType") ExerciseType excludedType);
+    List<CountableExercise> findCountableByCourseIdsExcludingTypes(@Param("courseIds") Collection<UUID> courseIds,
+                                                                   @Param("excludedTypes") Collection<ExerciseType> excludedTypes);
 
     interface CountableExercise {
         UUID getExerciseId();
