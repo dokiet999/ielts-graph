@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import {
   ArrowLeft,
+  Award,
   CheckCircle2,
   Clock,
   Eye,
@@ -13,6 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ErrorState, PageLoader } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
+import { estimateBand, formatBand } from '@/lib/band'
 import { useSubmission } from '@/lib/queries'
 import {
   cn,
@@ -62,8 +64,18 @@ export function ResultPage() {
   const ex = sub.exercise
   const pct = percent(sub.correctCount, sub.questionCount)
   const results = Object.fromEntries(sub.results.map((r) => [r.questionId, r]))
+  const listTab =
+    ex.exerciseType === 'FINAL_TEST'
+      ? 'final-test'
+      : ex.exerciseType === 'MOCK_TEST'
+        ? 'mock-tests'
+        : 'exercises'
   const backTo =
-    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/exercises` : '/history'
+    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/${listTab}` : '/history'
+  const isTest = sub.exerciseType === 'MOCK_TEST' || sub.exerciseType === 'FINAL_TEST'
+  const band = isTest
+    ? (sub.bandScore ?? estimateBand(sub.skillType, sub.correctCount, sub.questionCount))
+    : null
   const message =
     pct >= 80
       ? 'Xuất sắc! Bạn làm rất tốt.'
@@ -96,6 +108,14 @@ export function ResultPage() {
         <div className="p-6">
           <p className="mb-4 font-medium">{message}</p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {band !== null && (
+              <Metric
+                icon={Award}
+                label="Band điểm"
+                value={formatBand(band)}
+                hint="Quy đổi chuẩn IELTS"
+              />
+            )}
             <Metric
               icon={Target}
               label="Số câu đúng"
@@ -157,7 +177,11 @@ export function ResultPage() {
         </table>
       </div>
 
-      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
+      <ExercisePager
+        sectionId={ex.sectionId}
+        exerciseId={sub.exerciseId}
+        exerciseType={sub.exerciseType}
+      />
     </div>
   )
 }

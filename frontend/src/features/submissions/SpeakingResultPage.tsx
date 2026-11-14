@@ -203,8 +203,14 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
   const overall = feedback?.overallBand ?? sub.score
   const partInfo = speakingPartInfo(feedback?.part)
   const wordCount = feedback?.features?.wordCount ?? countWords(transcript)
+  const listTab =
+    ex.exerciseType === 'FINAL_TEST'
+      ? 'final-test'
+      : ex.exerciseType === 'MOCK_TEST'
+        ? 'mock-tests'
+        : 'exercises'
   const backTo =
-    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/exercises` : '/history'
+    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/${listTab}` : '/history'
 
   return (
     <div>
@@ -327,7 +333,11 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
         </Button>
       </div>
 
-      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
+      <ExercisePager
+        sectionId={ex.sectionId}
+        exerciseId={sub.exerciseId}
+        exerciseType={sub.exerciseType}
+      />
     </div>
   )
 }

@@ -31,6 +31,7 @@ import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.ObjectiveSubmissionService;
+import com.ielts.backend.service.grading.BandConverter;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator.Evaluation;
 import lombok.RequiredArgsConstructor;
@@ -74,13 +75,12 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
     private final UserRepository userRepository;
     private final CourseAccessService courseAccessService;
     private final ObjectiveAnswerEvaluator evaluator;
+    private final BandConverter bandConverter;
 
     @Override
     @Transactional
     public ObjectiveSubmissionResultResponse submit(UUID exerciseId, String username, ObjectiveSubmissionRequest request) {
-        // Mock tests are only submitted through a timed mock test session (FR-4.02)
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
         if (!OBJECTIVE_SKILLS.contains(exercise.getSkillType())) {
             throw new BadRequestException("INVALID_EXERCISE", "This exercise is not graded automatically");
@@ -219,8 +219,10 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
                 .score(score)
                 .maxScore(maxScore)
                 .percentage(percent(score, maxScore))
-                // Practice is not converted to a band (SRS 2.2.2.1); mock tests have their own module
-                .bandScore(null)
+                // Practice is not converted to a band (SRS 2.2.2.1); mock & final tests compute IELTS band score
+                .bandScore(exercise.getExerciseType().isTestWithBand()
+                        ? bandConverter.convert(exercise.getSkillType(), correctCount, questions.size())
+                        : null)
                 .correctCount(correctCount)
                 .totalQuestions(questions.size())
                 .passed(exercise.getPassingScore() == null || score.compareTo(exercise.getPassingScore()) >= 0)

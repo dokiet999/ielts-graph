@@ -289,7 +289,6 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
     private PendingGrading startGrading(UUID exerciseId, String username, MultipartFile audio, Integer timeSpent) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
 
         if (exercise.getSkillType() != SkillType.SPEAKING) {

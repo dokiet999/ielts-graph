@@ -2,6 +2,7 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.response.*;
 import com.ielts.backend.entity.*;
+import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.exception.ForbiddenException;
 import com.ielts.backend.exception.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import com.ielts.backend.repository.QuestionAnswerRepository.SubmissionAnswerCou
 import com.ielts.backend.repository.*;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.SubmissionService;
+import com.ielts.backend.service.grading.BandConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final QuestionGroupRepository questionGroupRepository;
     private final SubmissionMapper submissionMapper;
     private final ExerciseMapper exerciseMapper;
+    private final BandConverter bandConverter;
 
     @Override
     @Transactional(readOnly = true)
@@ -152,8 +155,10 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .score(submission.getScore())
                 .maxScore(submission.getMaxScore())
                 .percentage(percentage)
-                // Practice is not converted to a band (SRS 2.2.2.1); mock tests have their own module
-                .bandScore(null)
+                // Practice is not converted to a band (SRS 2.2.2.1); mock & final tests compute IELTS band score
+                .bandScore(exercise.getExerciseType().isTestWithBand()
+                        ? bandConverter.convert(exercise.getSkillType(), correctCount, totalQuestions)
+                        : null)
                 .correctCount(correctCount)
                 .totalQuestions(totalQuestions)
                 .passed(passed)

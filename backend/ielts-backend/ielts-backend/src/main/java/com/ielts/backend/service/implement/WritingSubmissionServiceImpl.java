@@ -119,7 +119,6 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
 
     private PendingGrading startGrading(UUID exerciseId, String username, WritingSubmissionRequest request) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
 
         if (exercise.getSkillType() != SkillType.WRITING) {
