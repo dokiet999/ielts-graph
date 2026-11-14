@@ -518,6 +518,27 @@ describe('toSpeakingResult & toSubmissionDetail for Speaking', () => {
     expect(feedback.pronunciation?.prosody).toBeNull()
   })
 
+  it('keeps a missing completeness as null instead of turning it into 0', () => {
+    const { feedback } = toSpeakingResult({
+      ...speakingResult,
+      pronunciation: { accuracy: 78.5, fluency: 72.0, completeness: null, prosody: 68.0 },
+    })
+    expect(feedback.pronunciation?.completeness).toBeNull()
+    expect(feedback.pronunciation?.prosody).toBe(68)
+  })
+
+  it('keeps a known pronunciation source and drops unknown or missing ones', () => {
+    const sourceOf = (source: string | null | undefined) =>
+      toSpeakingResult({
+        ...speakingResult,
+        pronunciation: { accuracy: 78.5, fluency: 72.0, completeness: null, prosody: 68.0, source },
+      }).feedback.pronunciation?.source
+    expect(sourceOf('gemini')).toBe('gemini')
+    expect(sourceOf('azure')).toBe('azure')
+    expect(sourceOf('whisper')).toBeNull()
+    expect(sourceOf(undefined)).toBeNull()
+  })
+
   it('reconstructs speakingFeedback from stored answers and aiStructuredFeedback', () => {
     const exercise: BeExercise = {
       id: 'ex-spk-1',

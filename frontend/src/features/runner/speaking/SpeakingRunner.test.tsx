@@ -40,6 +40,7 @@ const feedback: SpeakingFeedback = {
     fluency: 72.0,
     completeness: 96.0,
     prosody: 68.0,
+    source: 'gemini',
   },
 }
 

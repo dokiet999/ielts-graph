@@ -246,8 +246,9 @@ export interface BeSpeakingFeatures {
 export interface BeSpeakingPronunciation {
   accuracy?: Num
   fluency?: Num
-  completeness?: Num
+  completeness?: Num | null
   prosody?: Num | null
+  source?: string | null
 }
 
 /** ai/schema/speaking_feedback.schema.json: the JSON the LLM returns, after server-side clean-up. */

@@ -144,8 +144,11 @@ class SpeakingAsrClientTest {
         assertThat(result.toFeaturesMap()).containsOnlyKeys("duration_sec", "word_count", "speech_rate_wpm",
                 "pause_count", "total_pause_sec", "longest_pause_sec");
         assertThat(result.toFeaturesMap()).containsEntry("word_count", 79).containsEntry("speech_rate_wpm", 123.4);
-        assertThat(result.toPronunciationMap()).containsOnlyKeys("accuracy", "fluency", "completeness", "prosody");
-        assertThat(result.toPronunciationMap()).containsEntry("accuracy", 78.5).containsEntry("prosody", 68.0);
+        assertThat(result.toPronunciationMap())
+                .containsOnlyKeys("accuracy", "fluency", "completeness", "prosody", "source");
+        assertThat(result.toPronunciationMap()).containsEntry("accuracy", 78.5).containsEntry("prosody", 68.0)
+                .containsEntry("source", "gemini");
+        assertThat(result.pronunciation().measured()).isFalse();
     }
 
     @Test

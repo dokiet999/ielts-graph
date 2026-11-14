@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class SpeakingGrader {
 
-    public static final String PROMPT_VERSION = "speaking-v1.1";
+    public static final String PROMPT_VERSION = "speaking-v1.2";
     private static final int MAX_RETRIES = 1;
     private static final int MAX_IMPROVEMENTS = 5;
     private static final String INDIRECT_PRONUNCIATION_NOTE =
@@ -128,9 +128,11 @@ public class SpeakingGrader {
         SpeakingAsrResult.Pronunciation p = asr.pronunciation();
         String pronunciation = p == null
                 ? "not available"
-                : String.format(Locale.ROOT, "accuracy=%.1f, fluency=%.1f, completeness=%.1f, prosody=%s",
-                        p.accuracy(), p.fluency(), p.completeness(),
-                        p.prosody() == null ? "n/a" : String.format(Locale.ROOT, "%.1f", p.prosody()));
+                : String.format(Locale.ROOT, "accuracy=%.1f, fluency=%.1f, completeness=%s, prosody=%s (%s)",
+                        p.accuracy(), p.fluency(), scoreOrNa(p.completeness()), scoreOrNa(p.prosody()),
+                        p.measured()
+                                ? "source: measured by an acoustic model"
+                                : "source: AI estimate from listening to the audio, not an acoustic measurement");
         // A spoken "</transcript>" must not be able to close the tag the system prompt tells the LLM to trust
         String transcript = CLOSING_TAG_PATTERN.matcher(asr.transcript() == null ? "" : asr.transcript())
                 .replaceAll("< /transcript>");
@@ -162,6 +164,11 @@ public class SpeakingGrader {
                 f.durationSec(), f.wordCount(), f.speechRateWpm(),
                 f.pauseCount(), f.totalPauseSec(), f.longestPauseSec(),
                 pronunciation);
+    }
+
+    /** A pronunciation score for the prompt, or "n/a" when the service did not provide it. */
+    private static String scoreOrNa(Double score) {
+        return score == null ? "n/a" : String.format(Locale.ROOT, "%.1f", score);
     }
 
     SpeakingGradingResult parseValidateAndPostProcess(String rawResponse, String part, SpeakingAsrResult asr, int latencyMs) {
@@ -200,13 +207,19 @@ public class SpeakingGrader {
             filterEvidence(critKey, crit, normalizedTranscript);
         }
 
-        // 5. Without pronunciation scores the LLM has nothing to base pronunciation evidence on, and the learner
-        //    must be told the band is indirect, whether or not the LLM remembered to say so
-        if (asr.pronunciation() == null) {
-            ObjectNode pron = (ObjectNode) criteriaObject.path("CRIT_S_P");
+        // 5. Pronunciation evidence quotes a word of the transcript as the place of a sound problem. The grader
+        //    cannot hear the audio, so such a quote is only defensible when an acoustic model measured the
+        //    scores: with no scores, or with an AI estimate (whose phoneme claims studies found stereotyped),
+        //    the evidence is dropped and only the band and comment remain
+        SpeakingAsrResult.Pronunciation pronunciationScores = asr.pronunciation();
+        ObjectNode pron = (ObjectNode) criteriaObject.path("CRIT_S_P");
+        if (pronunciationScores == null || !pronunciationScores.measured()) {
             if (pron.path("evidence") instanceof ArrayNode evidence) {
                 evidence.removeAll();
             }
+        }
+        // Without scores the learner must be told the band is indirect, whether or not the LLM said so
+        if (pronunciationScores == null) {
             String comment = pron.path("comment").asText("");
             if (!comment.contains(INDIRECT_MARKER)) {
                 pron.put("comment", INDIRECT_PRONUNCIATION_NOTE + comment);

@@ -1,0 +1,94 @@
+{
+  "issue": "#38 W7: Recommendation baseline, graph method and offline evaluation",
+  "generated_at": "2026-11-14T10:50:08Z",
+  "git_commit": "d1d8b4fa797bca9c8ae4b39b6e5d238a3a1de972",
+  "git_dirty": true,
+  "settings": {
+    "design": "docs/offline-evaluation-design.md",
+    "methods": {
+      "B1_latest_attempt": "errors of the latest graded attempt (W5 rule)",
+      "B2_error_count": "ERROR events so far",
+      "G_graph_method": "0.5 (1 - mastery) + 0.3 recent error rate + 0.2 min(gap, 2) / 2",
+      "G_mastery_only": "1 - mastery",
+      "G_no_gap": "0.625 (1 - mastery) + 0.375 recent error rate"
+    },
+    "scenarios": {
+      "main": "attempt_bands.csv (noise 0.5), profile rules of application.yaml (drills count, CLEAN 0.3)",
+      "band_noise_1": "attempt_bands_noise1.csv (noise 1.0), same profile rules",
+      "rules_w8": "attempt_bands.csv, drills do not count, CLEAN 0.5"
+    },
+    "top": 3,
+    "recent_observations": 3,
+    "bootstrap_resamples": 2000,
+    "seed": 20261108,
+    "week_cutoff": "week k = events and bands with time < 2026-09-07T00:00:00Z + 7k days"
+  },
+  "data": [
+    {
+      "path": "data/learner_sim/interaction_logs.csv",
+      "sha256": "2731a582060d58eae810c39a04a2196f60b9f4aad6edc11b55be8b32b9c45f8b"
+    },
+    {
+      "path": "data/learner_sim/true_mastery.csv",
+      "sha256": "e0d076c6fe6264b2d130d69a8b5622d0f4ca50232bb5ad99c87ecf8f5487c80d"
+    },
+    {
+      "path": "data/learner_sim/attempt_bands.csv",
+      "sha256": "7b2c27db4e92041119cfcf188f08e856e2725ffb22b52d3e83f9fd40c8c0627e"
+    },
+    {
+      "path": "data/learner_sim/attempt_bands_noise1.csv",
+      "sha256": "f854fda85ad94b0b5c78a53907eea2aee28aac6c2dcac8f29d5a715aa3abc5ee"
+    },
+    {
+      "path": "data/learner_sim/targets.csv",
+      "sha256": "c5c0e55228cc7f3669aa59fad0080b41150fc72b4276a01029f3a117458e6f61"
+    },
+    {
+      "path": "kg/data/relationships.csv",
+      "sha256": "61e1141a4d44291c780e7c945ac46a302f8ef4351cd95cdabaed6e198c6ae4e4"
+    }
+  ],
+  "files": [
+    {
+      "path": "Evidence/W07/comparison.csv",
+      "sha256": "b6f51ba94bd39266194584d40b6a6b960e0ca1e0b2a9bfb20059487e02c402cc"
+    },
+    {
+      "path": "Evidence/W07/figures/precision_by_week.png",
+      "sha256": "0f64cef768abd7c5ed804ebda8f964515454ecb8f38debf4601fc4b8f8aab109"
+    },
+    {
+      "path": "Evidence/W07/figures/spearman_by_week.png",
+      "sha256": "fadcb83bc0bf4d61d25bb62da2a06df4ba36f2c9dad6dffc3190fb8a3c50996a"
+    },
+    {
+      "path": "Evidence/W07/figures/week8_by_scenario.png",
+      "sha256": "6ff27eac083ea95fdffda80a47378031f26ea32b0d707a06182a721bf5dd20ec"
+    },
+    {
+      "path": "Evidence/W07/make_figures.py",
+      "sha256": "e090a4d0c7b6791853eaf27e431e4bc1f0ea491ad237bf5432575b774a9b3b23"
+    },
+    {
+      "path": "Evidence/W07/make_manifest.py",
+      "sha256": "6dae5045ca162cd77b1369fd355cf702efc1d3d1029ebc6622ee1fc37909bd58"
+    },
+    {
+      "path": "Evidence/W07/metrics.csv",
+      "sha256": "1036ac3a6f03a5d2ff27cd37d2c8d66f8ded866a5cf5146e09702a76420d6724"
+    },
+    {
+      "path": "Evidence/W07/README.md",
+      "sha256": "1168e67303c98aed57dfbf531ef8bef228df3d8612291b4d6efe8263f4b24cb0"
+    },
+    {
+      "path": "Evidence/W07/run.sh",
+      "sha256": "9fc3d91654da7a89654bcfac5a1147e1c358a0b6682986cc627350c2b7897493"
+    },
+    {
+      "path": "Evidence/W07/test-results.txt",
+      "sha256": "b7b49765f0c8becaf1258c5964c4b60fc732cfc6357290fed428751a3c3e0428"
+    }
+  ]
+}
