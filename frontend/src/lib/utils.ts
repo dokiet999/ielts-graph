@@ -64,6 +64,7 @@ export const EXERCISE_TYPE_LABEL: Record<ExerciseType, string> = {
   LESSON: 'Bài tập nhanh',
   PRACTICE: 'Luyện tập',
   MOCK_TEST: 'Thi thử',
+  FINAL_TEST: 'Final test',
 }
 
 export const LEVEL_LABEL: Record<DifficultyLevel, string> = {

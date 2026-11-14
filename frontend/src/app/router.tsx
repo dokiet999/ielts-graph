@@ -11,6 +11,8 @@ import { OverviewPage } from '@/features/learning/OverviewPage'
 import { SyllabusPage } from '@/features/learning/SyllabusPage'
 import { LessonPage } from '@/features/learning/LessonPage'
 import { ExercisesPage } from '@/features/learning/ExercisesPage'
+import { MockTestsPage } from '@/features/learning/MockTestsPage'
+import { FinalTestPage } from '@/features/learning/FinalTestPage'
 import { CourseInfoPage } from '@/features/learning/CourseInfoPage'
 import { RunnerPage } from '@/features/runner/RunnerPage'
 import { ResultPage } from '@/features/submissions/ResultPage'
@@ -58,6 +60,8 @@ export const router = createBrowserRouter([
               { path: 'syllabus', element: <SyllabusPage /> },
               { path: 'lessons/:lessonId', element: <LessonPage /> },
               { path: 'exercises', element: <ExercisesPage /> },
+              { path: 'mock-tests', element: <MockTestsPage /> },
+              { path: 'final-test', element: <FinalTestPage /> },
               { path: 'info', element: <CourseInfoPage /> },
             ],
           },

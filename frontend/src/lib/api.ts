@@ -8,6 +8,8 @@ import {
   toDashboardStats,
   toExercise,
   toExerciseSummaries,
+  toFinalTestSession,
+  toFinalTestStatus,
   toLesson,
   toSpeakingResult,
   toSubmission,
@@ -18,6 +20,8 @@ import type {
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
+  BeFinalTestSession,
+  BeFinalTestStatus,
   BeLessonDetail,
   BeMyCourse,
   BeSpeakingResult,
@@ -146,6 +150,26 @@ export const api = {
   sectionExercises: (sectionId: string) =>
     data(http.get<BeExerciseSummary[]>(`/sections/${sectionId}/exercises`)).then(
       toExerciseSummaries,
+    ),
+  sectionMockTests: (sectionId: string) =>
+    data(http.get<BeExerciseSummary[]>(`/sections/${sectionId}/mock-tests`)).then(
+      toExerciseSummaries,
+    ),
+  sectionFinalTest: (sectionId: string) =>
+    data(http.get<BeFinalTestStatus>(`/sections/${sectionId}/final-test`)).then(
+      toFinalTestStatus,
+    ),
+  unlockSectionFinalTest: (sectionId: string, deadlineDays: number) =>
+    data(
+      http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/unlock`, { deadlineDays }),
+    ).then(toFinalTestStatus),
+  lockSectionFinalTest: (sectionId: string) =>
+    data(http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/lock`)).then(
+      toFinalTestStatus,
+    ),
+  startSectionFinalTest: (sectionId: string) =>
+    data(http.post<BeFinalTestSession>(`/sections/${sectionId}/final-test/start`)).then(
+      toFinalTestSession,
     ),
   lessonExercises: (lessonId: string) =>
     lessonDetail(lessonId).then((r) => toExerciseSummaries(r.exercises)),

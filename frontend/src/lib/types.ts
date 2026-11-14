@@ -3,7 +3,7 @@
 
 export type Role = 'STUDENT' | 'TEACHER' | 'ADMIN'
 export type SkillType = 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING'
-export type ExerciseType = 'LESSON' | 'MOCK_TEST' | 'PRACTICE'
+export type ExerciseType = 'LESSON' | 'MOCK_TEST' | 'PRACTICE' | 'FINAL_TEST'
 export type DifficultyLevel =
   'BEGINNER' | 'ELEMENTARY' | 'INTERMEDIATE' | 'UPPER_INTERMEDIATE' | 'ADVANCED'
 export type QuestionType =
@@ -186,6 +186,7 @@ export interface Submission {
   maxScore: number
   correctCount: number
   questionCount: number
+  bandScore?: number | null
   timeSpent: number
   submittedAt: string
 }
@@ -350,6 +351,24 @@ export interface CheckAnswerResponse {
   correctOptionIds: string[]
   acceptedAnswers: string[]
   explanation: string | null
+}
+
+export interface FinalTestSession {
+  sessionId: string
+  exerciseId: string
+  startedAt: string
+  expiresAt: string
+  remainingSeconds: number
+}
+
+export interface FinalTestStatus {
+  exercise: ExerciseSummary | null
+  unlocked: boolean
+  grantExpired: boolean
+  deadlineDays: number | null
+  unlockedAt: string | null
+  grantExpiresAt: string | null
+  activeSession: FinalTestSession | null
 }
 
 export interface DashboardStats {

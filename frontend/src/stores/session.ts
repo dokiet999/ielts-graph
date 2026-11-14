@@ -10,6 +10,13 @@ export interface ExerciseSession {
   highlights: Highlight[]
   /** Seconds spent while the runner was open (the timer pauses when the learner leaves). */
   elapsed: number
+  /** True once the learner clicks "Bắt đầu" and has not submitted yet. */
+  inProgress?: boolean
+  /**
+   * Epoch ms when a wall-clock timed test (FINAL_TEST) started. When set, the timer keeps
+   * ticking in real time even if the learner exits the runner.
+   */
+  startedAt?: number
   /** QuizRunner only: index of the current question and questions already checked. */
   quizIndex: number
   checked: Record<string, CheckAnswerResponse>
@@ -39,6 +46,8 @@ const emptySession = (meta?: SessionMeta): ExerciseSession => ({
 interface SessionState {
   sessions: Record<string, ExerciseSession>
   ensure: (exerciseId: string, meta: SessionMeta) => void
+  markInProgress: (exerciseId: string) => void
+  markStartedWallClock: (exerciseId: string, startedAtMs: number) => void
   setAnswer: (exerciseId: string, questionId: string, value: AnswerValue) => void
   toggleFlag: (exerciseId: string, questionId: string) => void
   setHighlights: (exerciseId: string, highlights: Highlight[]) => void
@@ -75,7 +84,17 @@ export const useSessionStore = create<SessionState>()(
             }
           }),
         setAnswer: (exerciseId, questionId, value) =>
-          patch(exerciseId, (s) => ({ answers: { ...s.answers, [questionId]: value } })),
+          patch(exerciseId, (s) => ({
+            inProgress: true,
+            answers: { ...s.answers, [questionId]: value },
+          })),
+        markInProgress: (exerciseId) => patch(exerciseId, () => ({ inProgress: true })),
+        markStartedWallClock: (exerciseId, startedAtMs) =>
+          patch(exerciseId, (s) => ({
+            inProgress: true,
+            startedAt: s.startedAt ?? startedAtMs,
+            elapsed: Math.max(0, Math.floor((Date.now() - (s.startedAt ?? startedAtMs)) / 1000)),
+          })),
         toggleFlag: (exerciseId, questionId) =>
           patch(exerciseId, (s) => ({
             flags: s.flags.includes(questionId)
@@ -108,4 +127,10 @@ export function isAnswered(value: AnswerValue | undefined) {
 export function answeredCount(session: ExerciseSession | undefined) {
   if (!session) return 0
   return Object.values(session.answers).filter(isAnswered).length
+}
+
+/** True when the learner has started the test or answered at least one question without submitting. */
+export function isInProgress(session: ExerciseSession | undefined) {
+  if (!session) return false
+  return Boolean(session.inProgress) || answeredCount(session) > 0
 }

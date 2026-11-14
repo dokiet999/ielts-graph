@@ -1,7 +1,10 @@
+import { estimateBand } from './band'
 import type {
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
+  BeFinalTestSession,
+  BeFinalTestStatus,
   BeLessonDetail,
   BeLessonSummary,
   BeMyCourse,
@@ -23,6 +26,8 @@ import type {
   Exercise,
   ExerciseSummary,
   ExerciseType,
+  FinalTestSession,
+  FinalTestStatus,
   Lesson,
   LessonSummary,
   QuestionType,
@@ -144,6 +149,31 @@ export function toExerciseSummary(e: BeExerciseSummary): ExerciseSummary {
 export const toExerciseSummaries = (list: BeExerciseSummary[]) =>
   list.filter(hasQuestions).map(toExerciseSummary)
 
+export const isTestWithBand = (type: ExerciseType) =>
+  type === 'MOCK_TEST' || type === 'FINAL_TEST'
+
+export function toFinalTestSession(s: BeFinalTestSession): FinalTestSession {
+  return {
+    sessionId: s.sessionId,
+    exerciseId: s.exerciseId,
+    startedAt: s.startedAt,
+    expiresAt: s.expiresAt,
+    remainingSeconds: Math.max(0, Number(s.remainingSeconds ?? 0)),
+  }
+}
+
+export function toFinalTestStatus(r: BeFinalTestStatus): FinalTestStatus {
+  return {
+    exercise: r.exercise && hasQuestions(r.exercise) ? toExerciseSummary(r.exercise) : null,
+    unlocked: Boolean(r.unlocked),
+    grantExpired: Boolean(r.grantExpired),
+    deadlineDays: r.deadlineDays ?? null,
+    unlockedAt: r.unlockedAt ?? null,
+    grantExpiresAt: r.grantExpiresAt ?? null,
+    activeSession: r.activeSession ? toFinalTestSession(r.activeSession) : null,
+  }
+}
+
 export function toLesson(r: BeLessonDetail): Lesson {
   const l = r.lesson
   return {
@@ -196,20 +226,32 @@ export function toExercise(e: BeExercise): Exercise {
 }
 
 export function toSubmission(s: BeSubmissionSummary): Submission {
+  const skillType = s.skillType as SkillType
+  const exerciseType = s.exerciseType as ExerciseType
+  const score = num(s.score)
+  const bandScore =
+    numOrNull(s.bandScore) ??
+    (isTestWithBand(exerciseType)
+      ? skillType === 'WRITING' || skillType === 'SPEAKING'
+        ? score
+        : estimateBand(skillType, s.correctCount, s.questionCount)
+      : null)
+
   return {
     id: s.id,
     exerciseId: s.exerciseId,
     exerciseTitle: s.exerciseTitle,
-    skillType: s.skillType as SkillType,
-    exerciseType: s.exerciseType as ExerciseType,
+    skillType,
+    exerciseType,
     courseId: s.courseId,
     sectionId: s.sectionId ?? null,
     attemptNumber: s.attemptNumber,
     status: s.status as SubmissionStatus,
-    score: num(s.score),
+    score,
     maxScore: num(s.maxScore),
     correctCount: s.correctCount,
     questionCount: s.questionCount,
+    bandScore,
     timeSpent: s.timeSpent ?? 0,
     submittedAt: s.submittedAt,
   }
@@ -372,12 +414,12 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
       // Without the structured feedback only the band is known: the page then asks the cache.
       writingFeedback: stored
         ? toWritingFeedback(stored, {
-            taskType: null,
-            overallBand: s.score,
-            outOfCalibrationRange: null,
-            summary: s.aiFeedback ?? null,
-            improvements: null,
-          })
+          taskType: null,
+          overallBand: s.score,
+          outOfCalibrationRange: null,
+          summary: s.aiFeedback ?? null,
+          improvements: null,
+        })
         : null,
     }
   }
@@ -398,15 +440,15 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
       speakingFeedback:
         stored || transcript || features || pronunciation
           ? toSpeakingFeedback(stored, {
-              part,
-              overallBand: s.score,
-              outOfCalibrationRange: null,
-              summary: s.aiFeedback ?? null,
-              improvements: null,
-              transcript,
-              features,
-              pronunciation,
-            })
+            part,
+            overallBand: s.score,
+            outOfCalibrationRange: null,
+            summary: s.aiFeedback ?? null,
+            improvements: null,
+            transcript,
+            features,
+            pronunciation,
+          })
           : null,
     }
   }
@@ -450,13 +492,20 @@ export function toDashboardStats(
   courses: CourseSummary[],
   submissions: Submission[],
 ): DashboardStats {
+  const bestMockBand = (skill: SkillType) => {
+    const bands = submissions
+      .filter((s) => s.skillType === skill && isTestWithBand(s.exerciseType))
+      .map((s) => s.bandScore ?? estimateBand(skill, s.correctCount, s.questionCount))
+      .filter((b): b is number => b !== null)
+    return bands.length > 0 ? Math.max(...bands) : null
+  }
   return {
     courseCount: courses.length,
     completedCourseCount: courses.filter((c) => c.enrollmentStatus === 'COMPLETED').length,
     submissionCount: submissions.length,
     exercisesDone: new Set(submissions.map((s) => s.exerciseId)).size,
     // Practice is not converted to a band (SRS 2.2.2.1); bands belong to mock tests.
-    readingBand: null,
-    listeningBand: null,
+    readingBand: bestMockBand('READING'),
+    listeningBand: bestMockBand('LISTENING'),
   }
 }
