@@ -101,6 +101,11 @@ export function HistoryPage() {
                         <Badge tone={s.status === 'GRADED' ? bandTone(s.score) : 'neutral'}>
                           {s.status === 'GRADED' ? `Band ${formatBand(s.score)}` : 'Chưa có điểm'}
                         </Badge>
+                      ) : (s.exerciseType === 'MOCK_TEST' || s.exerciseType === 'FINAL_TEST') &&
+                        s.bandScore != null ? (
+                        <Badge tone={bandTone(s.bandScore)}>
+                          Band {formatBand(s.bandScore)} · {s.correctCount}/{s.questionCount}
+                        </Badge>
                       ) : (
                         <Badge tone={pct >= 80 ? 'success' : pct >= 50 ? 'warning' : 'danger'}>
                           {s.correctCount}/{s.questionCount} · {pct}%

@@ -22,7 +22,7 @@ import { useDashboard, useMyCourses, useMySubmissions } from '@/lib/queries'
 import { formatDateTime, percent, SKILL_LABEL } from '@/lib/utils'
 import { DEMO_MODE } from '@/lib/demo'
 import { useAuthStore } from '@/stores/auth'
-import { answeredCount, useSessionStore } from '@/stores/session'
+import { answeredCount, isInProgress, useSessionStore } from '@/stores/session'
 
 function Stat({ icon: Icon, children }: { icon: typeof BookOpen; children: React.ReactNode }) {
   return (
@@ -87,7 +87,7 @@ function ProgressOverview() {
 function ContinueWorking() {
   const sessions = useSessionStore((s) => s.sessions)
   const drafts = Object.entries(sessions)
-    .filter(([, s]) => s.title && answeredCount(s) > 0)
+    .filter(([, s]) => s.title && isInProgress(s))
     .sort(([, a], [, b]) => b.updatedAt - a.updatedAt)
     .slice(0, 3)
   if (!drafts.length) return null
