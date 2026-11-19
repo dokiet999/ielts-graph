@@ -13,6 +13,7 @@ public class UserRequest {
 
     @NotBlank
     @Email
+    @Size(max = 255)
     private String email;
 
     @Size(min = 8, max = 100)
@@ -22,12 +23,14 @@ public class UserRequest {
     @Size(max = 255)
     private String fullName;
 
+    @Size(max = 512)
     private String avatarUrl;
 
     private Role role;
 
     private String bio;
 
+    @Size(max = 20)
     private String phone;
 
     private LocalDate dateOfBirth;

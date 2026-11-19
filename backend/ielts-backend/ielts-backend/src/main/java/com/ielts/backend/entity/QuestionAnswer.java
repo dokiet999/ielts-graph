@@ -1,6 +1,9 @@
 package com.ielts.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Array;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,10 +29,12 @@ public class QuestionAnswer {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "submission_id", nullable = false)
     private UserSubmission submission;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
@@ -42,22 +47,27 @@ public class QuestionAnswer {
     @Column(name = "selected_options", columnDefinition = "uuid[]")
     private UUID[] selectedOptions;
 
+    @Size(max = 512)
     @Column(name = "media_url", length = 512)
     private String mediaUrl;
 
     @Column(name = "is_correct")
     private Boolean isCorrect;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "points_earned", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal pointsEarned = BigDecimal.ZERO;
 
+    @DecimalMin("0.00")
     @Column(name = "ai_points", precision = 5, scale = 2)
     private BigDecimal aiPoints;
 
     @Column(name = "ai_feedback", columnDefinition = "TEXT")
     private String aiFeedback;
 
+    @DecimalMin("0.00")
     @Column(name = "teacher_points", precision = 5, scale = 2)
     private BigDecimal teacherPoints;
 

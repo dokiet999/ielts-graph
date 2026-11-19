@@ -3,6 +3,11 @@ package com.ielts.backend.entity;
 import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -32,14 +37,18 @@ public class UserSubmission {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
+    @NotNull
+    @Min(1)
     @Column(name = "attempt_number", nullable = false)
     @Builder.Default
     private Integer attemptNumber = 1;
@@ -48,14 +57,19 @@ public class UserSubmission {
     @Column(name = "answers", columnDefinition = "jsonb")
     private Map<String, Object> answers;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "score", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal score = BigDecimal.ZERO;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "max_score", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal maxScore = BigDecimal.ZERO;
 
+    @DecimalMin("0.00")
     @Column(name = "ai_score", precision = 5, scale = 2)
     private BigDecimal aiScore;
 
@@ -68,17 +82,21 @@ public class UserSubmission {
     private Map<String, Object> aiStructuredFeedback;
 
     /** LLM model identifier used for grading, e.g. "gemini-2.5-flash". */
+    @Size(max = 100)
     @Column(name = "ai_model", length = 100)
     private String aiModel;
 
     /** Prompt version tag used for grading, e.g. "writing-v1.0". */
+    @Size(max = 50)
     @Column(name = "ai_prompt_version", length = 50)
     private String aiPromptVersion;
 
     /** Round-trip latency in milliseconds from calling the LLM to receiving the parsed response. */
+    @PositiveOrZero
     @Column(name = "ai_latency_ms")
     private Integer aiLatencyMs;
 
+    @DecimalMin("0.00")
     @Column(name = "teacher_score", precision = 5, scale = 2)
     private BigDecimal teacherScore;
 
@@ -101,6 +119,7 @@ public class UserSubmission {
     @Column(name = "profile_applied_at")
     private LocalDateTime profileAppliedAt;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", nullable = false, columnDefinition = "submission_status")
@@ -108,9 +127,11 @@ public class UserSubmission {
     private SubmissionStatus status = SubmissionStatus.PENDING;
 
     /** Seconds the learner spent on the attempt, as reported by the client. */
+    @PositiveOrZero
     @Column(name = "time_spent")
     private Integer timeSpent;
 
+    @NotNull
     @Column(name = "submitted_at", nullable = false)
     @Builder.Default
     private LocalDateTime submittedAt = LocalDateTime.now();

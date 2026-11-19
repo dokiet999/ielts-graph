@@ -1,6 +1,10 @@
 package com.ielts.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,16 +26,21 @@ public class Section {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    @NotBlank
+    @Size(max = 512)
     @Column(name = "title", nullable = false, length = 512)
     private String title;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;

@@ -1,6 +1,10 @@
 package com.ielts.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,22 +26,30 @@ public class Category {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotBlank
+    @Size(max = 255)
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
+    @NotBlank
+    @Size(max = 255)
     @Column(name = "slug", nullable = false, unique = true, length = 255)
     private String slug;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @Size(max = 512)
     @Column(name = "icon_url", length = 512)
     private String iconUrl;
 
+    @NotNull
     @Column(name = "is_active", nullable = false)
     @Builder.Default
     private Boolean isActive = true;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;

@@ -2,6 +2,9 @@ package com.ielts.backend.entity;
 
 import com.ielts.backend.enums.QuestionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -25,10 +28,12 @@ public class QuestionGroup {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
+    @Size(max = 512)
     @Column(name = "group_title", length = 512)
     private String groupTitle;
 
@@ -38,6 +43,7 @@ public class QuestionGroup {
     @Column(name = "passage_reference", columnDefinition = "TEXT")
     private String passageReference;
 
+    @Size(max = 512)
     @Column(name = "image_url", length = 512)
     private String imageUrl;
 
@@ -46,13 +52,18 @@ public class QuestionGroup {
     @Column(name = "question_type", columnDefinition = "question_type")
     private QuestionType questionType;
 
+    @Size(max = 50)
     @Column(name = "question_range", length = 50)
     private String questionRange;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "correct_answer_count", nullable = false)
     @Builder.Default
     private Integer correctAnswerCount = 0;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;

@@ -1,6 +1,10 @@
 package com.ielts.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,17 +27,22 @@ public class QuestionOption {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
+    @NotBlank
     @Column(name = "option_text", nullable = false, columnDefinition = "TEXT")
     private String optionText;
 
+    @NotNull
     @Column(name = "is_correct", nullable = false)
     @Builder.Default
     private Boolean isCorrect = false;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "point", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal point = BigDecimal.ZERO;
@@ -41,6 +50,8 @@ public class QuestionOption {
     @Column(name = "explanation", columnDefinition = "TEXT")
     private String explanation;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;

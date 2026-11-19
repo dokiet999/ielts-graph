@@ -1,9 +1,9 @@
 package com.ielts.backend.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,5 +20,6 @@ public class QuestionAnswerRequest {
 
     private List<UUID> selectedOptions;
 
+    @Size(max = 512)
     private String mediaUrl;
 }

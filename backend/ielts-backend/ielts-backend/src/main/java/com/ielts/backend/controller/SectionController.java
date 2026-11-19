@@ -8,6 +8,7 @@ import com.ielts.backend.dto.response.FinalTestStatusResponse;
 import com.ielts.backend.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +55,7 @@ public class SectionController {
     @PostMapping("/{id}/final-test/unlock")
     @Operation(summary = "Unlock the section's final test for a number of days (Admin / Demo)")
     public BaseResponse<FinalTestStatusResponse> unlockSectionFinalTest(@PathVariable UUID id,
-                                                          @RequestBody(required = false) UnlockFinalTestRequest request,
+                                                          @RequestBody(required = false) @Valid UnlockFinalTestRequest request,
                                                           @AuthenticationPrincipal UserDetails principal) {
         return BaseResponse.ofSuccess(lessonService.unlockSectionFinalTest(id, request, principal.getUsername()));
     }

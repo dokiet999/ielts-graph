@@ -1,6 +1,7 @@
 package com.ielts.backend.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -17,9 +18,11 @@ public class CategoryRequest {
 
     private String description;
 
+    @Size(max = 512)
     private String iconUrl;
 
     private Boolean isActive = true;
 
+    @PositiveOrZero
     private Integer ordering = 0;
 }

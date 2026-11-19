@@ -3,6 +3,13 @@ package com.ielts.backend.entity;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -32,12 +39,15 @@ public class Exercise {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
+    @NotBlank
+    @Size(max = 512)
     @Column(name = "title", nullable = false, length = 512)
     private String title;
 
     @Column(name = "instruction", columnDefinition = "TEXT")
     private String instruction;
 
+    @Size(max = 512)
     @Column(name = "audio_url", length = 512)
     private String audioUrl;
 
@@ -45,28 +55,37 @@ public class Exercise {
     @Column(name = "content", columnDefinition = "jsonb")
     private Map<String, Object> content;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "exercise_type", nullable = false, columnDefinition = "exercise_type")
     @Builder.Default
     private ExerciseType exerciseType = ExerciseType.LESSON;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "skill_type", nullable = false, columnDefinition = "skill_type")
     private SkillType skillType;
 
+    @Positive
     @Column(name = "time_limit")
     private Integer timeLimit;
 
+    @NotNull
+    @Min(1)
     @Column(name = "max_attempts", nullable = false)
     @Builder.Default
     private Integer maxAttempts = 1;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "passing_score", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal passingScore = BigDecimal.ZERO;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;

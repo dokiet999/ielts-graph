@@ -4,6 +4,7 @@ import com.ielts.backend.enums.DifficultyLevel;
 import com.ielts.backend.enums.SkillType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -22,12 +23,14 @@ public class CourseRequest {
 
     private String description;
 
+    @Size(max = 512)
     private String thumbnail;
 
     private SkillType skillFocus;
 
     private DifficultyLevel difficultyLevel;
 
+    @Positive
     private Integer estimatedDuration;
 
     private Boolean isFeatured = false;

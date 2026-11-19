@@ -2,6 +2,11 @@ package com.ielts.backend.entity;
 
 import com.ielts.backend.enums.QuestionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -26,6 +31,7 @@ public class Question {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
@@ -34,17 +40,21 @@ public class Question {
     @JoinColumn(name = "question_group_id")
     private QuestionGroup questionGroup;
 
+    @NotBlank
     @Column(name = "question_text", nullable = false, columnDefinition = "TEXT")
     private String questionText;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "question_type", nullable = false, columnDefinition = "question_type")
     private QuestionType questionType;
 
+    @Size(max = 512)
     @Column(name = "image_url", length = 512)
     private String imageUrl;
 
+    @Size(max = 512)
     @Column(name = "audio_url", length = 512)
     private String audioUrl;
 
@@ -54,10 +64,14 @@ public class Question {
     @Column(name = "explanation", columnDefinition = "TEXT")
     private String explanation;
 
+    @NotNull
+    @DecimalMin("0.00")
     @Column(name = "points", nullable = false, precision = 5, scale = 2)
     @Builder.Default
     private BigDecimal points = BigDecimal.ONE;
 
+    @NotNull
+    @PositiveOrZero
     @Column(name = "ordering", nullable = false)
     @Builder.Default
     private Integer ordering = 0;
