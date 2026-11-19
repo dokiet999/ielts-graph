@@ -1,7 +1,7 @@
 package com.ielts.backend.service.profile;
 
 import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.User;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.entity.UserSubmission;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
@@ -37,12 +37,12 @@ class ProfileEventBuilderTest {
     private KgGraphClient kgGraphClient;
 
     private ProfileEventBuilder builder;
-    private User user;
+    private Users users;
 
     @BeforeEach
     void setUp() {
         builder = new ProfileEventBuilder(kgGraphClient);
-        user = User.builder().id(USER_ID).email("student@test.local").fullName("Student").build();
+        users = Users.builder().id(USER_ID).email("student@test.local").fullName("Student").build();
     }
 
     @Test
@@ -68,7 +68,7 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.GRADED)
                 .gradedAt(LocalDateTime.of(2026, 10, 20, 14, 30))
@@ -104,7 +104,7 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(drill)
                 .status(SubmissionStatus.GRADED)
                 .score(BigDecimal.valueOf(5))
@@ -136,7 +136,7 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(readingEx)
                 .status(SubmissionStatus.GRADED)
                 .score(BigDecimal.valueOf(8))
@@ -157,7 +157,7 @@ class ProfileEventBuilderTest {
 
         UserSubmission failed = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.FAILED)
                 .build();

@@ -1,13 +1,10 @@
 package com.ielts.backend.service.profile;
 
 import com.ielts.backend.config.LearnerProfileConfig;
-import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.LearnerSkillState;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.KgUnavailableException;
+import com.ielts.backend.exception.customException.KgUnavailableException;
 import com.ielts.backend.repository.LearnerSkillStateRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.service.LearnerProfileService;
@@ -21,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.SimpleTransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
@@ -83,11 +79,11 @@ class LearnerProfileServiceTest {
             return null;
         }).when(transactionTemplate).executeWithoutResult(any());
 
-        User user = User.builder().id(USER_ID).email("u@test.local").fullName("User").build();
+        Users users = Users.builder().id(USER_ID).email("u@test.local").fullName("User").build();
         Exercise exercise = Exercise.builder().id(EXERCISE_ID).skillType(SkillType.READING).build();
         submission = UserSubmission.builder()
                 .id(SUBMISSION_ID)
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.GRADED)
                 .score(BigDecimal.valueOf(5))

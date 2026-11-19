@@ -77,19 +77,19 @@ class LearningProgressControllerTest {
     void myCourses_demoStudent_seesReadingListeningAndWriting() throws Exception {
         mockMvc.perform(get("/api/courses/my").with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].id").value(containsInAnyOrder(READING_COURSE, LISTENING_COURSE, WRITING_COURSE, SPEAKING_COURSE)))
+                .andExpect(jsonPath("$.data[*].id").value(containsInAnyOrder(READING_COURSE, LISTENING_COURSE, WRITING_COURSE, SPEAKING_COURSE)))
                 // Writing course (V11): the V8 sample and the 16 dev prompts of V10; Speaking course (V12): 3 parts
-                .andExpect(jsonPath("$[*].exerciseCount").value(containsInAnyOrder(1, 1, 17, 3)))
-                .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].sectionCount").value(contains(2)))
-                .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].teacherName").value(contains("Demo Teacher")))
-                .andExpect(jsonPath("$[?(@.id == '" + READING_COURSE + "')].difficultyLevel").value(contains("INTERMEDIATE")));
+                .andExpect(jsonPath("$.data[*].exerciseCount").value(containsInAnyOrder(1, 1, 17, 3)))
+                .andExpect(jsonPath("$.data[?(@.id == '" + READING_COURSE + "')].sectionCount").value(contains(2)))
+                .andExpect(jsonPath("$.data[?(@.id == '" + READING_COURSE + "')].teacherName").value(contains("Demo Teacher")))
+                .andExpect(jsonPath("$.data[?(@.id == '" + READING_COURSE + "')].difficultyLevel").value(contains("INTERMEDIATE")));
     }
 
     @Test
     void myCourses_notEnrolled_returnsEmptyList() throws Exception {
         mockMvc.perform(get("/api/courses/my").with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(jsonPath("$.data", hasSize(0)));
     }
 
     @Test
@@ -97,17 +97,17 @@ class LearningProgressControllerTest {
         enroll(READING_COURSE);
 
         mockMvc.perform(get("/api/courses/my").with(httpBasic("student_new", PASSWORD)))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id").value(READING_COURSE))
-                .andExpect(jsonPath("$[0].enrolledAt").value(notNullValue()))
-                .andExpect(jsonPath("$[0].completedAt").value(nullValue()))
-                .andExpect(jsonPath("$[0].exerciseCount").value(1))
-                .andExpect(jsonPath("$[0].completedExerciseCount").value(0));
+                .andExpect(jsonPath("$.data", hasSize(1)))
+                .andExpect(jsonPath("$.data[0].id").value(READING_COURSE))
+                .andExpect(jsonPath("$.data[0].enrolledAt").value(notNullValue()))
+                .andExpect(jsonPath("$.data[0].completedAt").value(nullValue()))
+                .andExpect(jsonPath("$.data[0].exerciseCount").value(1))
+                .andExpect(jsonPath("$.data[0].completedExerciseCount").value(0));
 
         submit(READING);
 
         mockMvc.perform(get("/api/courses/my").with(httpBasic("student_new", PASSWORD)))
-                .andExpect(jsonPath("$[0].completedExerciseCount").value(1));
+                .andExpect(jsonPath("$.data[0].completedExerciseCount").value(1));
     }
 
     // ---------- GET /api/courses/{id} ----------
@@ -116,14 +116,14 @@ class LearningProgressControllerTest {
     void courseDetail_anonymous_hasCountsButNoProgress() throws Exception {
         mockMvc.perform(get("/api/courses/{id}", READING_COURSE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.exerciseCount").value(1))
-                .andExpect(jsonPath("$.completedExerciseCount").value(nullValue()))
-                .andExpect(jsonPath("$.enrollment").value(nullValue()))
-                .andExpect(jsonPath("$.sections[*].exerciseCount").value(contains(1, 0)))
-                .andExpect(jsonPath("$.sections[0].completedExerciseCount").value(nullValue()))
+                .andExpect(jsonPath("$.data.exerciseCount").value(1))
+                .andExpect(jsonPath("$.data.completedExerciseCount").value(nullValue()))
+                .andExpect(jsonPath("$.data.enrollment").value(nullValue()))
+                .andExpect(jsonPath("$.data.sections[*].exerciseCount").value(contains(1, 0)))
+                .andExpect(jsonPath("$.data.sections[0].completedExerciseCount").value(nullValue()))
                 // "TFNG practice 1/2" have no questions, so they do not count
-                .andExpect(jsonPath("$.sections[0].lessons[*].exerciseCount").value(contains(0, 1)))
-                .andExpect(jsonPath("$.sections[1].lessons[*].exerciseCount").value(contains(0, 0)));
+                .andExpect(jsonPath("$.data.sections[0].lessons[*].exerciseCount").value(contains(0, 1)))
+                .andExpect(jsonPath("$.data.sections[1].lessons[*].exerciseCount").value(contains(0, 0)));
     }
 
     @Test
@@ -133,17 +133,17 @@ class LearningProgressControllerTest {
 
         mockMvc.perform(get("/api/courses/{id}", READING_COURSE).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.enrollment.enrolledAt").value(notNullValue()))
-                .andExpect(jsonPath("$.completedExerciseCount").value(1))
-                .andExpect(jsonPath("$.sections[*].completedExerciseCount").value(contains(1, 0)));
+                .andExpect(jsonPath("$.data.enrollment.enrolledAt").value(notNullValue()))
+                .andExpect(jsonPath("$.data.completedExerciseCount").value(1))
+                .andExpect(jsonPath("$.data.sections[*].completedExerciseCount").value(contains(1, 0)));
     }
 
     @Test
     void courseDetail_loggedInButNotEnrolled_hasNoEnrollment() throws Exception {
         mockMvc.perform(get("/api/courses/{id}", READING_COURSE).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.enrollment").value(nullValue()))
-                .andExpect(jsonPath("$.completedExerciseCount").value(0));
+                .andExpect(jsonPath("$.data.enrollment").value(nullValue()))
+                .andExpect(jsonPath("$.data.completedExerciseCount").value(0));
     }
 
     // ---------- GET /api/lessons/{id} ----------
@@ -155,28 +155,28 @@ class LearningProgressControllerTest {
 
         mockMvc.perform(get("/api/lessons/{id}", SKIMMING_LESSON).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.exercises", hasSize(1)))
-                .andExpect(jsonPath("$.exercises[0].id").value(READING))
-                .andExpect(jsonPath("$.exercises[0].lessonId").value(SKIMMING_LESSON))
-                .andExpect(jsonPath("$.exercises[0].lessonTitle").value("Skimming and scanning"))
-                .andExpect(jsonPath("$.exercises[0].sectionId").value(GETTING_STARTED_SECTION))
-                .andExpect(jsonPath("$.exercises[0].courseId").value(READING_COURSE))
-                .andExpect(jsonPath("$.exercises[0].questionCount").value(13))
-                .andExpect(jsonPath("$.exercises[0].maxScore").value(13.0))
-                .andExpect(jsonPath("$.exercises[0].attemptCount").value(1))
-                .andExpect(jsonPath("$.exercises[0].bestScore").value(result.at("/score").asDouble()))
-                .andExpect(jsonPath("$.exercises[0].lastSubmissionId").value(result.at("/submissionId").asString()));
+                .andExpect(jsonPath("$.data.exercises", hasSize(1)))
+                .andExpect(jsonPath("$.data.exercises[0].id").value(READING))
+                .andExpect(jsonPath("$.data.exercises[0].lessonId").value(SKIMMING_LESSON))
+                .andExpect(jsonPath("$.data.exercises[0].lessonTitle").value("Skimming and scanning"))
+                .andExpect(jsonPath("$.data.exercises[0].sectionId").value(GETTING_STARTED_SECTION))
+                .andExpect(jsonPath("$.data.exercises[0].courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.data.exercises[0].questionCount").value(13))
+                .andExpect(jsonPath("$.data.exercises[0].maxScore").value(13.0))
+                .andExpect(jsonPath("$.data.exercises[0].attemptCount").value(1))
+                .andExpect(jsonPath("$.data.exercises[0].bestScore").value(result.at("/score").asDouble()))
+                .andExpect(jsonPath("$.data.exercises[0].lastSubmissionId").value(result.at("/submissionId").asString()));
     }
 
     @Test
     void lessonDetail_previewLessonAnonymous_listsExercisesWithoutAttempts() throws Exception {
         mockMvc.perform(get("/api/lessons/{id}", LISTENING_PREVIEW_LESSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.exercises[*].id").value(contains(LISTENING, "40000000-0000-0000-0000-000000002111")))
-                .andExpect(jsonPath("$.exercises[*].questionCount").value(contains(10, 0)))
-                .andExpect(jsonPath("$.exercises[0].attemptCount").value(0))
-                .andExpect(jsonPath("$.exercises[0].bestScore").value(nullValue()))
-                .andExpect(jsonPath("$.exercises[0].lastSubmissionId").value(nullValue()));
+                .andExpect(jsonPath("$.data.exercises[*].id").value(contains(LISTENING, "40000000-0000-0000-0000-000000002111")))
+                .andExpect(jsonPath("$.data.exercises[*].questionCount").value(contains(10, 0)))
+                .andExpect(jsonPath("$.data.exercises[0].attemptCount").value(0))
+                .andExpect(jsonPath("$.data.exercises[0].bestScore").value(nullValue()))
+                .andExpect(jsonPath("$.data.exercises[0].lastSubmissionId").value(nullValue()));
     }
 
     // ---------- GET /api/sections/{id}/exercises ----------
@@ -198,10 +198,10 @@ class LearningProgressControllerTest {
         mockMvc.perform(get("/api/sections/{id}/exercises", GETTING_STARTED_SECTION)
                         .with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title").value("Reading Passage 1 - Farming in the Sky"))
-                .andExpect(jsonPath("$[0].questionCount").value(13))
-                .andExpect(jsonPath("$[0].timeLimit").value(1200));
+                .andExpect(jsonPath("$.data", hasSize(1)))
+                .andExpect(jsonPath("$.data[0].title").value("Reading Passage 1 - Farming in the Sky"))
+                .andExpect(jsonPath("$.data[0].questionCount").value(13))
+                .andExpect(jsonPath("$.data[0].timeLimit").value(1200));
     }
 
     @Test
@@ -229,11 +229,11 @@ class LearningProgressControllerTest {
         mockMvc.perform(get("/api/sections/{id}/mock-tests", GETTING_STARTED_SECTION)
                         .with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id").value("40000000-0000-0000-0000-000000005001"))
-                .andExpect(jsonPath("$[0].exerciseType").value("MOCK_TEST"))
-                .andExpect(jsonPath("$[0].skillType").value("READING"))
-                .andExpect(jsonPath("$[0].questionCount").value(13));
+                .andExpect(jsonPath("$.data", hasSize(1)))
+                .andExpect(jsonPath("$.data[0].id").value("40000000-0000-0000-0000-000000005001"))
+                .andExpect(jsonPath("$.data[0].exerciseType").value("MOCK_TEST"))
+                .andExpect(jsonPath("$.data[0].skillType").value("READING"))
+                .andExpect(jsonPath("$.data[0].questionCount").value(13));
     }
 
     // ---------- GET /api/exercises/{id} ----------
@@ -242,9 +242,9 @@ class LearningProgressControllerTest {
     void exerciseDetail_hasCourseAndSection() throws Exception {
         mockMvc.perform(get("/api/exercises/{id}", READING))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonId").value(SKIMMING_LESSON))
-                .andExpect(jsonPath("$.sectionId").value(GETTING_STARTED_SECTION))
-                .andExpect(jsonPath("$.courseId").value(READING_COURSE));
+                .andExpect(jsonPath("$.data.lessonId").value(SKIMMING_LESSON))
+                .andExpect(jsonPath("$.data.sectionId").value(GETTING_STARTED_SECTION))
+                .andExpect(jsonPath("$.data.courseId").value(READING_COURSE));
     }
 
     // ---------- Helpers ----------
@@ -262,6 +262,6 @@ class LearningProgressControllerTest {
                         .content("{\"answers\":{}}"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        return objectMapper.readTree(body).at("/result");
+        return objectMapper.readTree(body).at("/data/result");
     }
 }

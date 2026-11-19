@@ -1,4 +1,6 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
+
+import com.ielts.backend.exception.GlobalExceptionHandler;
 
 /** Mapped to HTTP 401 by {@link GlobalExceptionHandler}. */
 public class UnauthorizedException extends RuntimeException {

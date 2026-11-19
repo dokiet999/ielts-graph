@@ -1,6 +1,6 @@
 package com.ielts.backend.service.kg;
 
-import com.ielts.backend.exception.KgUnavailableException;
+import com.ielts.backend.exception.customException.KgUnavailableException;
 import lombok.RequiredArgsConstructor;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;

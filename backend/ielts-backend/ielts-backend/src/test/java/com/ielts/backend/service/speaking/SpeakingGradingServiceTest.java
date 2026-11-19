@@ -1,7 +1,7 @@
 package com.ielts.backend.service.speaking;
 
-import com.ielts.backend.exception.BadRequestException;
-import com.ielts.backend.exception.SpeakingAsrException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import org.junit.jupiter.api.BeforeEach;

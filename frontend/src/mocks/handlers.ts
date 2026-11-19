@@ -50,6 +50,9 @@ const LATENCY = 250
 /** Set this localStorage key to "1" to make the Knowledge Graph answer 503, as when Neo4j is down. */
 export const MOCK_KG_DOWN_KEY = 'mock:kg-unavailable'
 
+/** Backend BaseResponse envelope: { meta: { code }, data }. */
+const ok = <T>(data: T, code = 200) => HttpResponse.json({ meta: { code }, data })
+
 /** Backend error format: { code, message, details, timestamp }. */
 const fail = (status: number, code: string, message: string, details?: unknown) =>
   HttpResponse.json(
@@ -355,7 +358,7 @@ export const handlers = [
     if (!user || user.password !== password) {
       return fail(401, 'UNAUTHORIZED', 'Email hoặc mật khẩu không đúng.')
     }
-    return HttpResponse.json({ accessToken: tokenFor(user.id), user: publicUser(user) })
+    return ok({ accessToken: tokenFor(user.id), user: publicUser(user) })
   }),
 
   http.post(`${API}/auth/register`, async ({ request }) => {
@@ -377,12 +380,12 @@ export const handlers = [
     }
     db.users.push(user)
     persist()
-    return HttpResponse.json({ accessToken: tokenFor(user.id), user: publicUser(user) })
+    return ok({ accessToken: tokenFor(user.id), user: publicUser(user) })
   }),
 
   http.get(`${API}/users/me`, ({ request }) => {
     const user = currentUser(request)
-    return user ? HttpResponse.json(publicUser(user)) : unauthorized()
+    return user ? ok(publicUser(user)) : unauthorized()
   }),
 
   http.put(`${API}/users/me`, async ({ request }) => {
@@ -397,7 +400,7 @@ export const handlers = [
       avatarUrl: body.avatarUrl || null,
     })
     persist()
-    return HttpResponse.json(publicUser(user))
+    return ok(publicUser(user))
   }),
 
   // ---------------------------------------------------------------- courses & lessons
@@ -405,7 +408,7 @@ export const handlers = [
     await delay(LATENCY)
     const user = currentUser(request)
     if (!user) return unauthorized()
-    return HttpResponse.json(courses.map((c) => toBeMyCourse(c, user.id)))
+    return ok(courses.map((c) => toBeMyCourse(c, user.id)))
   }),
 
   http.get(`${API}/courses/:id`, async ({ request, params }) => {
@@ -414,7 +417,7 @@ export const handlers = [
     if (!user) return unauthorized()
     const course = courses.find((c) => c.id === params.id)
     return course
-      ? HttpResponse.json(toBeCourseDetail(course, user.id))
+      ? ok(toBeCourseDetail(course, user.id))
       : fail(404, 'NOT_FOUND', 'Course not found')
   }),
 
@@ -448,7 +451,7 @@ export const handlers = [
         .filter((e) => e.lessonId === lesson.id && isPracticeExercise(e))
         .map((e) => toBeExerciseSummary(e, user.id)),
     }
-    return HttpResponse.json(body)
+    return ok(body)
   }),
 
   http.get(`${API}/sections/:id/exercises`, async ({ request, params }) => {
@@ -457,7 +460,7 @@ export const handlers = [
     if (!user) return unauthorized()
     const sectionId = params.id as string
     if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
-    return HttpResponse.json(
+    return ok(
       exercises
         .filter((e) => e.sectionId === sectionId && isPracticeExercise(e))
         .map((e) => toBeExerciseSummary(e, user.id)),
@@ -478,7 +481,7 @@ export const handlers = [
       direct.length > 0
         ? direct
         : exercises.filter((e) => e.courseId === course.id && e.exerciseType === 'MOCK_TEST')
-    return HttpResponse.json(list.map((e) => toBeExerciseSummary(e, user.id)))
+    return ok(list.map((e) => toBeExerciseSummary(e, user.id)))
   }),
 
   http.get(`${API}/sections/:id/final-test`, async ({ request, params }) => {
@@ -486,7 +489,7 @@ export const handlers = [
     const user = currentUser(request)
     if (!user) return unauthorized()
     const status = buildBeFinalTestStatus(params.id as string, user.id)
-    return status ? HttpResponse.json(status) : fail(404, 'NOT_FOUND', 'Section not found')
+    return status ? ok(status) : fail(404, 'NOT_FOUND', 'Section not found')
   }),
 
   http.post(`${API}/sections/:id/final-test/unlock`, async ({ request, params }) => {
@@ -506,7 +509,7 @@ export const handlers = [
       grantedAt: now.toISOString(),
       expiresAt: new Date(now.getTime() + days * 24 * 3600 * 1000).toISOString(),
     })
-    return HttpResponse.json(buildBeFinalTestStatus(sectionId, user.id))
+    return ok(buildBeFinalTestStatus(sectionId, user.id))
   }),
 
   http.post(`${API}/sections/:id/final-test/lock`, async ({ request, params }) => {
@@ -519,7 +522,7 @@ export const handlers = [
     if (existing) {
       existing.unlocked = false
     }
-    return HttpResponse.json(buildBeFinalTestStatus(sectionId, user.id))
+    return ok(buildBeFinalTestStatus(sectionId, user.id))
   }),
 
   http.post(`${API}/sections/:id/final-test/start`, async ({ request, params }) => {
@@ -533,7 +536,7 @@ export const handlers = [
       return fail(409, 'FINAL_TEST_LOCKED', 'Bài kiểm tra cuối khóa chưa được mở khóa hoặc đã hết hạn.')
     }
     if (status.activeSession && status.activeSession.remainingSeconds > 0) {
-      return HttpResponse.json(status.activeSession)
+      return ok(status.activeSession)
     }
     const timeLimit = status.exercise.timeLimit && status.exercise.timeLimit > 0 ? status.exercise.timeLimit : 1200
     const startedAt = new Date()
@@ -554,7 +557,7 @@ export const handlers = [
       expiresAt: session.expiresAt,
       remainingSeconds: timeLimit,
     }
-    return HttpResponse.json(dto)
+    return ok(dto)
   }),
 
   // ---------------------------------------------------------------- exercises & submissions
@@ -562,7 +565,7 @@ export const handlers = [
     await delay(LATENCY)
     if (!currentUser(request)) return unauthorized()
     const ex = exercises.find((e) => e.id === params.id)
-    return ex ? HttpResponse.json(toBeExercise(ex)) : fail(404, 'NOT_FOUND', 'Exercise not found')
+    return ex ? ok(toBeExercise(ex)) : fail(404, 'NOT_FOUND', 'Exercise not found')
   }),
 
   // Not on the backend yet (quiz mode). Kept so the quiz keeps working in mock mode.
@@ -584,7 +587,7 @@ export const handlers = [
       acceptedAnswers: correctOptions.map((o) => o.optionText),
       explanation: question.explanation ?? null,
     }
-    return HttpResponse.json(body)
+    return ok(body)
   }),
 
   http.post(`${API}/exercises/:id/submit`, async ({ request, params }) => {
@@ -636,7 +639,7 @@ export const handlers = [
     finalTestSessions.delete(`${user.id}:${ex.id}`)
     persist()
     const result: BeSubmitResult = { result: { submissionId: stored.id } }
-    return HttpResponse.json(result)
+    return ok(result)
   }),
 
   // Writing: same contract as POST /exercises/{id}/submit/writing of the backend. Put `[503]` in the
@@ -713,7 +716,7 @@ export const handlers = [
       aiLatencyMs: 1500,
       rawFeedback: feedback,
     }
-    return HttpResponse.json(result)
+    return ok(result)
   }),
 
   // Speaking: same contract as POST /exercises/{id}/submit/speaking of the backend.
@@ -803,7 +806,7 @@ export const handlers = [
       aiLatencyMs: 1200,
       rawFeedback: feedback,
     }
-    return HttpResponse.json(result)
+    return ok(result)
   }),
 
   // Knowledge Graph: same contract as GET /api/kg/recommendations (docs/kg-api-contract.md).
@@ -818,7 +821,7 @@ export const handlers = [
       )
     }
     try {
-      return HttpResponse.json(recommend(new URL(request.url).searchParams))
+      return ok(recommend(new URL(request.url).searchParams))
     } catch (e) {
       if (e instanceof KgRequestError) return fail(400, e.code, e.message, e.details)
       throw e
@@ -829,7 +832,7 @@ export const handlers = [
     await delay(LATENCY)
     const user = currentUser(request)
     if (!user) return unauthorized()
-    return HttpResponse.json(
+    return ok(
       userSubmissions(user.id)
         .sort((a, b) => b.submittedAt.localeCompare(a.submittedAt))
         .map(toBeSubmission),
@@ -843,6 +846,6 @@ export const handlers = [
     const s = db.submissions.find((x) => x.id === params.id)
     if (!s) return fail(404, 'NOT_FOUND', 'Submission not found')
     if (s.userId !== user.id) return fail(403, 'FORBIDDEN', 'Access denied to this submission')
-    return HttpResponse.json(toBeSubmissionDetail(s))
+    return ok(toBeSubmissionDetail(s))
   }),
 ]

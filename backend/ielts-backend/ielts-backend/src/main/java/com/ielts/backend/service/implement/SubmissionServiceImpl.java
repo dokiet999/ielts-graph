@@ -2,11 +2,10 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.response.*;
 import com.ielts.backend.entity.*;
-import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.Role;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.mapper.ExerciseMapper;
 import com.ielts.backend.mapper.SubmissionMapper;
 import com.ielts.backend.repository.QuestionAnswerRepository.SubmissionAnswerCount;
@@ -42,13 +41,13 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional(readOnly = true)
     public List<SubmissionResponse> getSubmissionHistory(UUID exerciseId, String username) {
-        User user = findUser(username);
+        Users users = findUser(username);
         if (!exerciseRepository.existsById(exerciseId)) {
             throw new ResourceNotFoundException("Exercise", exerciseId);
         }
 
         List<UserSubmission> submissions = userSubmissionRepository
-                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
 
         return submissions.stream()
                 .map(sub -> {
@@ -61,11 +60,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional(readOnly = true)
     public SubmissionResponse getSubmissionDetail(UUID submissionId, String username) {
-        User user = findUser(username);
+        Users users = findUser(username);
         UserSubmission submission = userSubmissionRepository.findById(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
-        ensureSubmissionAccess(submission, user);
+        ensureSubmissionAccess(submission, users);
 
         List<QuestionAnswer> answers = questionAnswerRepository.findBySubmissionIdOrderByCreatedAtAsc(submissionId);
         return submissionMapper.toResponse(submission, answers);
@@ -74,11 +73,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional(readOnly = true)
     public SubmissionReviewResponse getSubmissionReview(UUID submissionId, String username) {
-        User user = findUser(username);
+        Users users = findUser(username);
         UserSubmission submission = userSubmissionRepository.findById(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
-        ensureSubmissionAccess(submission, user);
+        ensureSubmissionAccess(submission, users);
 
         Exercise exercise = submission.getExercise();
         List<QuestionAnswer> qaList = questionAnswerRepository.findBySubmissionIdOrderByCreatedAtAsc(submissionId);
@@ -179,8 +178,8 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional(readOnly = true)
     public List<SubmissionSummaryResponse> getMySubmissions(String username) {
-        User user = findUser(username);
-        List<UserSubmission> submissions = userSubmissionRepository.findByUserIdWithExercise(user.getId());
+        Users users = findUser(username);
+        List<UserSubmission> submissions = userSubmissionRepository.findByUserIdWithExercise(users.getId());
         if (submissions.isEmpty()) {
             return List.of();
         }
@@ -203,11 +202,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional(readOnly = true)
     public SubmissionDetailResponse getSubmissionResult(UUID submissionId, String username) {
-        User user = findUser(username);
+        Users users = findUser(username);
         UserSubmission submission = userSubmissionRepository.findById(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
-        ensureSubmissionAccess(submission, user);
+        ensureSubmissionAccess(submission, users);
 
         Exercise exercise = submission.getExercise();
         List<QuestionGroup> groups = questionGroupRepository.findByExerciseIdOrderByOrderingAsc(exercise.getId());
@@ -238,7 +237,7 @@ public class SubmissionServiceImpl implements SubmissionService {
                 exerciseMapper.toReviewResponse(exercise, groups, questionsByGroup, optionsByQuestion));
     }
 
-    private User findUser(String username) {
+    private Users findUser(String username) {
         return userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
     }
@@ -247,18 +246,18 @@ public class SubmissionServiceImpl implements SubmissionService {
      * The learner who submitted, an admin, or the teacher who owns the course of the exercise
      * (permission matrix note 3). Standalone practice exercises have no owning teacher.
      */
-    private void ensureSubmissionAccess(UserSubmission submission, User user) {
-        boolean isOwner = submission.getUser().getId().equals(user.getId());
-        boolean isAdmin = user.getRole() == Role.ADMIN;
-        if (!isOwner && !isAdmin && !isCourseTeacher(submission.getExercise(), user)) {
+    private void ensureSubmissionAccess(UserSubmission submission, Users users) {
+        boolean isOwner = submission.getUser().getId().equals(users.getId());
+        boolean isAdmin = users.getRole() == Role.ADMIN;
+        if (!isOwner && !isAdmin && !isCourseTeacher(submission.getExercise(), users)) {
             throw new ForbiddenException("Access denied to this submission");
         }
     }
 
-    private boolean isCourseTeacher(Exercise exercise, User user) {
-        if (user.getRole() != Role.TEACHER || exercise.getLesson() == null) {
+    private boolean isCourseTeacher(Exercise exercise, Users users) {
+        if (users.getRole() != Role.TEACHER || exercise.getLesson() == null) {
             return false;
         }
-        return exercise.getLesson().getSection().getCourse().getTeacher().getId().equals(user.getId());
+        return exercise.getLesson().getSection().getCourse().getTeacher().getId().equals(users.getId());
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.ielts.backend.exception.WritingGradingException;
+import com.ielts.backend.exception.customException.WritingGradingException;
 import com.ielts.backend.service.llm.LlmClient;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;

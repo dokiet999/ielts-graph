@@ -1,5 +1,6 @@
 package com.ielts.backend.controller;
 
+import com.ielts.backend.common.BaseResponse;
 import com.ielts.backend.dto.request.UnlockFinalTestRequest;
 import com.ielts.backend.dto.response.ExerciseSummaryResponse;
 import com.ielts.backend.dto.response.FinalTestSessionDto;
@@ -31,45 +32,45 @@ public class SectionController {
 
     @GetMapping("/{id}/exercises")
     @Operation(summary = "Exercises of every lesson in a section with the current user's attempts. Requires enrollment (FR-2.01)")
-    public List<ExerciseSummaryResponse> getSectionExercises(@PathVariable UUID id,
-                                                             @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.getSectionExercises(id, principal.getUsername());
+    public BaseResponse<List<ExerciseSummaryResponse>> getSectionExercises(@PathVariable UUID id,
+                                                                          @AuthenticationPrincipal UserDetails principal) {
+        return BaseResponse.ofSuccess(lessonService.getSectionExercises(id, principal.getUsername()));
     }
 
     @GetMapping("/{id}/mock-tests")
     @Operation(summary = "Mock test exercises of a section/skill with the current user's attempts. Requires enrollment")
-    public List<ExerciseSummaryResponse> getSectionMockTests(@PathVariable UUID id,
+    public BaseResponse<List<ExerciseSummaryResponse>> getSectionMockTests(@PathVariable UUID id,
                                                              @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.getSectionMockTests(id, principal.getUsername());
+        return BaseResponse.ofSuccess(lessonService.getSectionMockTests(id, principal.getUsername()));
     }
 
     @GetMapping("/{id}/final-test")
     @Operation(summary = "Final test of a section/skill, admin unlock status, deadline, and real-time session")
-    public FinalTestStatusResponse getSectionFinalTest(@PathVariable UUID id,
+    public BaseResponse<FinalTestStatusResponse> getSectionFinalTest(@PathVariable UUID id,
                                                        @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.getSectionFinalTest(id, principal.getUsername());
+        return BaseResponse.ofSuccess(lessonService.getSectionFinalTest(id, principal.getUsername()));
     }
 
     @PostMapping("/{id}/final-test/unlock")
     @Operation(summary = "Unlock the section's final test for a number of days (Admin / Demo)")
-    public FinalTestStatusResponse unlockSectionFinalTest(@PathVariable UUID id,
+    public BaseResponse<FinalTestStatusResponse> unlockSectionFinalTest(@PathVariable UUID id,
                                                           @RequestBody(required = false) UnlockFinalTestRequest request,
                                                           @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.unlockSectionFinalTest(id, request, principal.getUsername());
+        return BaseResponse.ofSuccess(lessonService.unlockSectionFinalTest(id, request, principal.getUsername()));
     }
 
     @PostMapping("/{id}/final-test/lock")
     @Operation(summary = "Lock the section's final test (Admin / Demo)")
-    public FinalTestStatusResponse lockSectionFinalTest(@PathVariable UUID id,
+    public BaseResponse<FinalTestStatusResponse> lockSectionFinalTest(@PathVariable UUID id,
                                                         @RequestParam(required = false) String username,
                                                         @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.lockSectionFinalTest(id, username, principal.getUsername());
+        return BaseResponse.ofSuccess(lessonService.lockSectionFinalTest(id, username, principal.getUsername()));
     }
 
     @PostMapping("/{id}/final-test/start")
     @Operation(summary = "Start or resume a wall-clock timed session for the section's final test")
-    public FinalTestSessionDto startSectionFinalTest(@PathVariable UUID id,
+    public BaseResponse<FinalTestSessionDto> startSectionFinalTest(@PathVariable UUID id,
                                                      @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.startSectionFinalTest(id, principal.getUsername());
+        return BaseResponse.ofSuccess(lessonService.startSectionFinalTest(id, principal.getUsername()));
     }
 }

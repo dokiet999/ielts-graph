@@ -5,17 +5,10 @@ import com.ielts.backend.dto.response.ExerciseSummaryResponse;
 import com.ielts.backend.dto.response.FinalTestSessionDto;
 import com.ielts.backend.dto.response.FinalTestStatusResponse;
 import com.ielts.backend.dto.response.LessonDetailResponse;
-import com.ielts.backend.entity.Course;
-import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.FinalTestGrant;
-import com.ielts.backend.entity.FinalTestSession;
-import com.ielts.backend.entity.Lesson;
-import com.ielts.backend.entity.Section;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.ExerciseType;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.mapper.LessonMapper;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.FinalTestGrantRepository;
@@ -108,8 +101,8 @@ public class LessonServiceImpl implements LessonService {
         Exercise finalTest = findFinalTestOfSection(section);
         ExerciseSummaryResponse summary = finalTest == null ? null : summarize(List.of(finalTest), username).get(0);
 
-        User user = findUserOrNull(username);
-        if (user == null || finalTest == null) {
+        Users users = findUserOrNull(username);
+        if (users == null || finalTest == null) {
             return FinalTestStatusResponse.builder()
                     .exercise(summary)
                     .unlocked(false)
@@ -118,12 +111,12 @@ public class LessonServiceImpl implements LessonService {
         }
 
         LocalDateTime now = LocalDateTime.now();
-        Optional<FinalTestGrant> grantOpt = finalTestGrantRepository.findByUserIdAndSectionId(user.getId(), section.getId());
+        Optional<FinalTestGrant> grantOpt = finalTestGrantRepository.findByUserIdAndSectionId(users.getId(), section.getId());
         boolean hasGrant = grantOpt.isPresent();
         boolean grantExpired = hasGrant && !grantOpt.get().getExpiresAt().isAfter(now);
         boolean unlocked = hasGrant && !grantExpired;
 
-        FinalTestSessionDto activeSession = resolveActiveSession(user.getId(), finalTest, now);
+        FinalTestSessionDto activeSession = resolveActiveSession(users.getId(), finalTest, now);
 
         return FinalTestStatusResponse.builder()
                 .exercise(summary)
@@ -144,19 +137,19 @@ public class LessonServiceImpl implements LessonService {
         String targetUsername = (request != null && request.getUsername() != null && !request.getUsername().isBlank())
                 ? request.getUsername()
                 : actorUsername;
-        User targetUser = findUserOrNull(targetUsername);
-        if (targetUser == null) {
+        Users targetUsers = findUserOrNull(targetUsername);
+        if (targetUsers == null) {
             throw new ResourceNotFoundException("User", targetUsername);
         }
-        User actor = findUserOrNull(actorUsername);
+        Users actor = findUserOrNull(actorUsername);
         int days = (request != null && request.getDeadlineDays() != null && request.getDeadlineDays() > 0)
                 ? request.getDeadlineDays()
                 : 7;
 
         LocalDateTime now = LocalDateTime.now();
-        FinalTestGrant grant = finalTestGrantRepository.findByUserIdAndSectionId(targetUser.getId(), section.getId())
+        FinalTestGrant grant = finalTestGrantRepository.findByUserIdAndSectionId(targetUsers.getId(), section.getId())
                 .orElseGet(() -> FinalTestGrant.builder()
-                        .userId(targetUser.getId())
+                        .userId(targetUsers.getId())
                         .sectionId(section.getId())
                         .build());
         grant.setUnlockedBy(actor != null ? actor.getId() : null);
@@ -174,9 +167,9 @@ public class LessonServiceImpl implements LessonService {
         Section section = sectionRepository.findByIdWithCourse(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", sectionId));
         String effectiveUsername = (targetUsername != null && !targetUsername.isBlank()) ? targetUsername : actorUsername;
-        User targetUser = findUserOrNull(effectiveUsername);
-        if (targetUser != null) {
-            finalTestGrantRepository.deleteByUserIdAndSectionId(targetUser.getId(), section.getId());
+        Users targetUsers = findUserOrNull(effectiveUsername);
+        if (targetUsers != null) {
+            finalTestGrantRepository.deleteByUserIdAndSectionId(targetUsers.getId(), section.getId());
         }
         return getSectionFinalTest(sectionId, effectiveUsername);
     }
@@ -192,26 +185,26 @@ public class LessonServiceImpl implements LessonService {
         if (finalTest == null) {
             throw new ResourceNotFoundException("FinalTest", sectionId);
         }
-        User user = findUserOrNull(username);
-        if (user == null) {
+        Users users = findUserOrNull(username);
+        if (users == null) {
             throw new ForbiddenException("Authentication required");
         }
 
         LocalDateTime now = LocalDateTime.now();
-        FinalTestGrant grant = finalTestGrantRepository.findByUserIdAndSectionId(user.getId(), section.getId())
+        FinalTestGrant grant = finalTestGrantRepository.findByUserIdAndSectionId(users.getId(), section.getId())
                 .orElseThrow(() -> new ForbiddenException("Bài Final test chưa được Admin mở khóa."));
         if (!grant.getExpiresAt().isAfter(now)) {
             throw new ForbiddenException("Thời hạn mở bài Final test đã hết hạn.");
         }
 
-        FinalTestSessionDto existing = resolveActiveSession(user.getId(), finalTest, now);
+        FinalTestSessionDto existing = resolveActiveSession(users.getId(), finalTest, now);
         if (existing != null) {
             return existing;
         }
 
         int durationSec = finalTest.getTimeLimit() != null && finalTest.getTimeLimit() > 0 ? finalTest.getTimeLimit() : 1200;
         FinalTestSession created = finalTestSessionRepository.saveAndFlush(FinalTestSession.builder()
-                .userId(user.getId())
+                .userId(users.getId())
                 .exerciseId(finalTest.getId())
                 .sectionId(section.getId())
                 .startedAt(now)
@@ -263,14 +256,14 @@ public class LessonServiceImpl implements LessonService {
                 .build();
     }
 
-    private User findUserOrNull(String username) {
+    private Users findUserOrNull(String username) {
         return username == null ? null
                 : userRepository.findByUsername(DbUserDetailsService.normalize(username)).orElse(null);
     }
 
     /** Adds question counts and the user's attempts with two grouped queries for the whole list. */
     private List<ExerciseSummaryResponse> summarize(List<Exercise> exercises, String username) {
-        UUID userId = Optional.ofNullable(findUserOrNull(username)).map(User::getId).orElse(null);
+        UUID userId = Optional.ofNullable(findUserOrNull(username)).map(Users::getId).orElse(null);
         Map<UUID, ExerciseStats> stats = progressReader.exerciseStats(
                 exercises.stream().map(Exercise::getId).toList(), userId);
         return exercises.stream()

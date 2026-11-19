@@ -6,22 +6,16 @@ import com.ielts.backend.dto.response.QuestionResultResponse;
 import com.ielts.backend.dto.response.QuestionTypeStatResponse;
 import com.ielts.backend.dto.response.ObjectiveSubmissionResultResponse;
 import com.ielts.backend.dto.response.SubmissionResultResponse;
-import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.Question;
-import com.ielts.backend.entity.QuestionAnswer;
-import com.ielts.backend.entity.QuestionOption;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.entity.UserSubmission;
-import com.ielts.backend.enums.ExerciseType;
+import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.QuestionType;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.BadRequestException;
-import com.ielts.backend.exception.ConflictException;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.ConflictException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.QuestionAnswerRepository;
 import com.ielts.backend.repository.QuestionOptionRepository;
@@ -86,10 +80,10 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
             throw new BadRequestException("INVALID_EXERCISE", "This exercise is not graded automatically");
         }
 
-        User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+        Users users = userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
         // Permission matrix 2.4: only learners practise (UC09, UC12)
-        if (user.getRole() != Role.STUDENT) {
+        if (users.getRole() != Role.STUDENT) {
             throw new ForbiddenException("Only students can submit exercises");
         }
         courseAccessService.checkExerciseAccess(exercise, username);
@@ -103,7 +97,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         }
 
         List<UserSubmission> previous = userSubmissionRepository
-                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
                 && previous.size() >= exercise.getMaxAttempts()) {
             throw new ConflictException("MAX_ATTEMPTS_REACHED",
@@ -116,7 +110,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         Map<String, Object> answers = request.getAnswers();
         validateAnswers(questions, optionsByQuestion, answers);
 
-        return gradeAndSave(user, exercise, questions, optionsByQuestion, answers, request.getTimeSpent(),
+        return gradeAndSave(users, exercise, questions, optionsByQuestion, answers, request.getTimeSpent(),
                 previous.isEmpty() ? 1 : previous.get(0).getAttemptNumber() + 1);
     }
 
@@ -138,10 +132,10 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         }
     }
 
-    private ObjectiveSubmissionResultResponse gradeAndSave(User user, Exercise exercise, List<Question> questions,
-                                                         Map<UUID, List<QuestionOption>> optionsByQuestion,
-                                                         Map<String, Object> answers, Integer timeSpent,
-                                                         int attemptNumber) {
+    private ObjectiveSubmissionResultResponse gradeAndSave(Users users, Exercise exercise, List<Question> questions,
+                                                           Map<UUID, List<QuestionOption>> optionsByQuestion,
+                                                           Map<String, Object> answers, Integer timeSpent,
+                                                           int attemptNumber) {
         BigDecimal score = BigDecimal.ZERO;
         BigDecimal maxScore = BigDecimal.ZERO;
         int correctCount = 0;
@@ -198,7 +192,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         }
 
         UserSubmission submission = saveSubmission(UserSubmission.builder()
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .attemptNumber(attemptNumber)
                 .answers(answers)

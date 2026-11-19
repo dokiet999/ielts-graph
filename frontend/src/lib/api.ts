@@ -17,6 +17,7 @@ import {
   toWritingResult,
 } from './adapters'
 import type {
+  BeBaseResponse,
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
@@ -107,7 +108,17 @@ export function speakingSubmitError(error: unknown): { message: string; retryabl
   return { message: errorMessage(error), retryable: false }
 }
 
-const data = <T>(p: Promise<{ data: T }>) => p.then((r) => r.data)
+const unwrap = <T>(body: T | BeBaseResponse<T>): T =>
+  body !== null &&
+  typeof body === 'object' &&
+  'meta' in body &&
+  'data' in body &&
+  (body as BeBaseResponse<T>).meta !== null &&
+  typeof (body as BeBaseResponse<T>).meta === 'object'
+    ? (body as BeBaseResponse<T>).data
+    : (body as T)
+
+const data = <T>(p: Promise<{ data: T | BeBaseResponse<T> }>) => p.then((r) => unwrap(r.data))
 
 /**
  * Concurrent calls for the same lesson share one request (a lesson page asks for the lesson

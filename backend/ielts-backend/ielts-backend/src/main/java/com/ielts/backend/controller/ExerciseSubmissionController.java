@@ -1,5 +1,6 @@
 package com.ielts.backend.controller;
 
+import com.ielts.backend.common.BaseResponse;
 import com.ielts.backend.dto.request.ObjectiveSubmissionRequest;
 import com.ielts.backend.dto.request.WritingSubmissionRequest;
 import com.ielts.backend.dto.response.ObjectiveSubmissionResultResponse;
@@ -48,33 +49,33 @@ public class ExerciseSubmissionController {
 
     @PostMapping("/{id}/submit")
     @Operation(summary = "Submit a Reading or Listening exercise (students only). Returns score, statistics by question type and incorrect questions")
-    public ObjectiveSubmissionResultResponse submit(@PathVariable UUID id,
-                                                     @AuthenticationPrincipal UserDetails principal,
-                                                     @Valid @RequestBody ObjectiveSubmissionRequest request) {
-        return objectiveSubmissionService.submit(id, principal.getUsername(), request);
+    public BaseResponse<ObjectiveSubmissionResultResponse> submit(@PathVariable UUID id,
+                                                                 @AuthenticationPrincipal UserDetails principal,
+                                                                 @Valid @RequestBody ObjectiveSubmissionRequest request) {
+        return BaseResponse.ofSuccess(objectiveSubmissionService.submit(id, principal.getUsername(), request));
     }
 
     @PostMapping("/{id}/submit/writing")
     @Operation(summary = "Submit a Writing essay (students only). Evaluates via AI and returns detailed band score and feedback")
-    public WritingSubmissionResultResponse submitWriting(@PathVariable UUID id,
+    public BaseResponse<WritingSubmissionResultResponse> submitWriting(@PathVariable UUID id,
                                                          @AuthenticationPrincipal UserDetails principal,
                                                          @Valid @RequestBody WritingSubmissionRequest request) {
-        return writingSubmissionService.submit(id, principal.getUsername(), request);
+        return BaseResponse.ofSuccess(writingSubmissionService.submit(id, principal.getUsername(), request));
     }
 
     @PostMapping(value = "/{id}/submit/speaking", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Submit a Speaking audio recording (students only). Transcribes via ASR, evaluates via AI and returns detailed band score and feedback")
-    public SpeakingSubmissionResultResponse submitSpeaking(@PathVariable UUID id,
+    public BaseResponse<SpeakingSubmissionResultResponse> submitSpeaking(@PathVariable UUID id,
                                                            @AuthenticationPrincipal UserDetails principal,
                                                            @RequestParam(value = "audio", required = false) MultipartFile audio,
                                                            @RequestParam(value = "timeSpent", required = false) Integer timeSpent) {
-        return speakingSubmissionService.submit(id, principal.getUsername(), audio, timeSpent);
+        return BaseResponse.ofSuccess(speakingSubmissionService.submit(id, principal.getUsername(), audio, timeSpent));
     }
 
     @GetMapping("/{id}/submissions")
     @Operation(summary = "Current user's attempts for an exercise")
-    public List<SubmissionResponse> history(@PathVariable UUID id,
+    public BaseResponse<List<SubmissionResponse>> history(@PathVariable UUID id,
                                             @AuthenticationPrincipal UserDetails principal) {
-        return submissionService.getSubmissionHistory(id, principal.getUsername());
+        return BaseResponse.ofSuccess(submissionService.getSubmissionHistory(id, principal.getUsername()));
     }
 }

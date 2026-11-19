@@ -9,7 +9,6 @@ import com.ielts.backend.dto.response.SubmissionSummaryResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.QuestionAnswer;
 import com.ielts.backend.entity.UserSubmission;
-import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.service.grading.BandConverter;
 import lombok.RequiredArgsConstructor;

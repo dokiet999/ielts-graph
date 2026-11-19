@@ -34,7 +34,7 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     @Query("select s from UserSubmission s where s.id = :id")
     Optional<UserSubmission> findByIdForUpdate(@Param("id") UUID id);
 
-    /** All submissions of a user with their exercise, lesson and section, newest first. */
+    /** All submissions of a users with their exercise, lesson and section, newest first. */
     @Query("""
             select s from UserSubmission s
             join fetch s.exercise e
@@ -45,7 +45,7 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
             """)
     List<UserSubmission> findByUserIdWithExercise(@Param("userId") UUID userId);
 
-    /** Among the given exercises, those the user has at least one submission with the given status for. */
+    /** Among the given exercises, those the users has at least one submission with the given status for. */
     @Query("""
             select distinct s.exercise.id from UserSubmission s
             where s.user.id = :userId and s.status = :status and s.exercise.id in :exerciseIds

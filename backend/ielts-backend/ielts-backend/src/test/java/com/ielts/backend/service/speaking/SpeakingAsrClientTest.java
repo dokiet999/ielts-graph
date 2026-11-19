@@ -2,7 +2,7 @@ package com.ielts.backend.service.speaking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ielts.backend.config.SpeakingAsrConfig;
-import com.ielts.backend.exception.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

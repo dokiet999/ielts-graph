@@ -1,6 +1,6 @@
 package com.ielts.backend.security;
 
-import com.ielts.backend.entity.User;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.enums.UserStatus;
 import com.ielts.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +28,16 @@ public class DbUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(normalize(username))
+        Users users = userRepository.findByUsername(normalize(username))
                 .filter(u -> u.getPasswordHash() != null)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPasswordHash())
-                .roles(user.getRole().name())
-                .disabled(user.getStatus() == UserStatus.PENDING)
-                .accountLocked(user.getStatus() == UserStatus.LOCKED)
+                .withUsername(users.getUsername())
+                .password(users.getPasswordHash())
+                .roles(users.getRole().name())
+                .disabled(users.getStatus() == UserStatus.PENDING)
+                .accountLocked(users.getStatus() == UserStatus.LOCKED)
                 .build();
     }
 }

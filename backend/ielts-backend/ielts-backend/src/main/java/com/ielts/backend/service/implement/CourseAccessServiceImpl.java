@@ -4,10 +4,10 @@ import com.ielts.backend.entity.Course;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Lesson;
 import com.ielts.backend.entity.Section;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.entity.Users;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.EnrollmentRepository;
 import com.ielts.backend.repository.UserRepository;
 import com.ielts.backend.security.DbUserDetailsService;
@@ -62,11 +62,11 @@ public class CourseAccessServiceImpl implements CourseAccessService {
         if (username == null) {
             throw new UnauthorizedException("Login required to open this content");
         }
-        User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+        Users users = userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
 
-        boolean isOwner = course.getTeacher().getId().equals(user.getId());
-        boolean enrolled = enrollmentRepository.existsByUserIdAndCourseIdAndIsActiveTrue(user.getId(), course.getId());
+        boolean isOwner = course.getTeacher().getId().equals(users.getId());
+        boolean enrolled = enrollmentRepository.existsByUserIdAndCourseIdAndIsActiveTrue(users.getId(), course.getId());
         if (!isOwner && !enrolled) {
             throw new ForbiddenException("Enroll in the course to open this content");
         }

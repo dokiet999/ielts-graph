@@ -6,6 +6,18 @@
 type Num = number | string
 type Id = string
 
+export interface BeMetadata {
+  code: number
+  page?: number
+  size?: number
+  total?: number
+}
+
+export interface BeBaseResponse<T> {
+  meta: BeMetadata
+  data: T
+}
+
 export interface BeCourse {
   id: Id
   teacherId: Id

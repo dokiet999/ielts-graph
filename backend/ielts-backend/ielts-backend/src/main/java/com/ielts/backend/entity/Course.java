@@ -30,7 +30,7 @@ public class Course {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacher_id", nullable = false)
-    private User teacher;
+    private Users teacher;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

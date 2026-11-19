@@ -1,4 +1,4 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
 
 import lombok.Getter;
 

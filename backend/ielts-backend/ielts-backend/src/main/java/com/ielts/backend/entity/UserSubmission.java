@@ -34,7 +34,7 @@ public class UserSubmission {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
@@ -92,7 +92,7 @@ public class UserSubmission {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "graded_by")
-    private User gradedBy;
+    private Users gradedBy;
 
     @Column(name = "graded_at")
     private LocalDateTime gradedAt;

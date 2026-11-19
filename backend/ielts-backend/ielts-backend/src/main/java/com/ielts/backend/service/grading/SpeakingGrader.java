@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.ielts.backend.exception.SpeakingGradingException;
+import com.ielts.backend.exception.customException.SpeakingGradingException;
 import com.ielts.backend.service.llm.LlmClient;
 import com.ielts.backend.service.speaking.SpeakingAsrResult;
 import com.networknt.schema.JsonSchema;

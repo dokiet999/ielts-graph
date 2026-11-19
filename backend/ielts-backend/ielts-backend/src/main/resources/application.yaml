@@ -13,6 +13,9 @@ spring:
       max-file-size: ${SPEAKING_MAX_FILE_SIZE:30MB}
       max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:32MB}
 
+  jpa:
+    show-sql: true
+
 server:
   port: 8081
 

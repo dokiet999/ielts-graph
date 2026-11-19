@@ -1,6 +1,6 @@
 package com.ielts.backend.controller;
 
-import com.ielts.backend.exception.KgUnavailableException;
+import com.ielts.backend.exception.customException.KgUnavailableException;
 import com.ielts.backend.service.kg.KgGraphClient;
 import com.ielts.backend.service.kg.KgGraphClient.CandidateResourceRow;
 import com.ielts.backend.service.kg.KgGraphClient.ErrorClassification;
@@ -85,21 +85,21 @@ class KgRecommendationControllerTest {
                         .param("errors", "ERR_ARTICLE,ERR_NO_OVERVIEW,ERR_LINKER_OVERUSE,ERR_LONG_PAUSE")
                         .param("band", "5"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.skill").value("SKILL_W"))
-                .andExpect(jsonPath("$.bandRequested").value(5))
-                .andExpect(jsonPath("$.bandApplied").value(5))
-                .andExpect(jsonPath("$.recommendations", hasSize(3)))
-                .andExpect(jsonPath("$.recommendations[0].resourceId").value("RES_W_ARTICLE_01"))
-                .andExpect(jsonPath("$.recommendations[0].bandMatch").value("exact"))
-                .andExpect(jsonPath("$.recommendations[0].sqlRef").value("exercises:60000000-0000-0000-0000-000000000001"))
-                .andExpect(jsonPath("$.recommendations[0].path.errorType.id").value("ERR_ARTICLE"))
-                .andExpect(jsonPath("$.recommendations[0].path.subSkill.id").value("SUB_ARTICLE"))
-                .andExpect(jsonPath("$.recommendations[0].path.criterion.id").value("CRIT_W_GRA"))
-                .andExpect(jsonPath("$.recommendations[1].resourceId").value("RES_W1_OVERVIEW_01"))
-                .andExpect(jsonPath("$.recommendations[1].bandMatch").value("nearest"))
-                .andExpect(jsonPath("$.recommendations[2].resourceId").value("RES_W_LINKING_01"))
-                .andExpect(jsonPath("$.recommendations[2].bandMatch").value("exact"))
-                .andExpect(jsonPath("$.unmatchedErrors", contains("ERR_LONG_PAUSE")));
+                .andExpect(jsonPath("$.data.skill").value("SKILL_W"))
+                .andExpect(jsonPath("$.data.bandRequested").value(5))
+                .andExpect(jsonPath("$.data.bandApplied").value(5))
+                .andExpect(jsonPath("$.data.recommendations", hasSize(3)))
+                .andExpect(jsonPath("$.data.recommendations[0].resourceId").value("RES_W_ARTICLE_01"))
+                .andExpect(jsonPath("$.data.recommendations[0].bandMatch").value("exact"))
+                .andExpect(jsonPath("$.data.recommendations[0].sqlRef").value("exercises:60000000-0000-0000-0000-000000000001"))
+                .andExpect(jsonPath("$.data.recommendations[0].path.errorType.id").value("ERR_ARTICLE"))
+                .andExpect(jsonPath("$.data.recommendations[0].path.subSkill.id").value("SUB_ARTICLE"))
+                .andExpect(jsonPath("$.data.recommendations[0].path.criterion.id").value("CRIT_W_GRA"))
+                .andExpect(jsonPath("$.data.recommendations[1].resourceId").value("RES_W1_OVERVIEW_01"))
+                .andExpect(jsonPath("$.data.recommendations[1].bandMatch").value("nearest"))
+                .andExpect(jsonPath("$.data.recommendations[2].resourceId").value("RES_W_LINKING_01"))
+                .andExpect(jsonPath("$.data.recommendations[2].bandMatch").value("exact"))
+                .andExpect(jsonPath("$.data.unmatchedErrors", contains("ERR_LONG_PAUSE")));
     }
 
     @Test

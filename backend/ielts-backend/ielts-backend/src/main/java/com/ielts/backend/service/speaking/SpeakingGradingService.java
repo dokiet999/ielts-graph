@@ -1,6 +1,8 @@
 package com.ielts.backend.service.speaking;
 
-import com.ielts.backend.exception.BadRequestException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingGradingException;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +33,9 @@ public class SpeakingGradingService {
      * @param originalFilename name of the uploaded file, sent to the recognition service
      * @param part             QT_S_PART1, QT_S_PART2 or QT_S_PART3, from the exercise
      * @param question         the question or cue card, from the exercise
-     * @throws com.ielts.backend.exception.SpeakingAsrException     ASR_TIMEOUT, ASR_UNAVAILABLE, ASR_BAD_RESPONSE
+     * @throws SpeakingAsrException     ASR_TIMEOUT, ASR_UNAVAILABLE, ASR_BAD_RESPONSE
      * @throws BadRequestException                                   TRANSCRIPT_TOO_SHORT
-     * @throws com.ielts.backend.exception.SpeakingGradingException  the LLM result stayed invalid after the retry
+     * @throws SpeakingGradingException  the LLM result stayed invalid after the retry
      */
     public SpeakingAssessment assess(Path audio, String originalFilename, String part, String question) {
         SpeakingAsrResult asr = asrClient.transcribe(audio, originalFilename);

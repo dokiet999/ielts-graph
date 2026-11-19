@@ -4,22 +4,21 @@ import com.ielts.backend.dto.response.SpeakingSubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionAnswer;
-import com.ielts.backend.entity.User;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.entity.UserSubmission;
-import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.BadRequestException;
-import com.ielts.backend.exception.ConflictException;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.LlmTimeoutException;
-import com.ielts.backend.exception.LlmUnavailableException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.SpeakingAsrException;
-import com.ielts.backend.exception.SpeakingGradingException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.ConflictException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.LlmTimeoutException;
+import com.ielts.backend.exception.customException.LlmUnavailableException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingGradingException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.QuestionAnswerRepository;
 import com.ielts.backend.repository.QuestionRepository;
@@ -295,17 +294,17 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
             throw new BadRequestException("INVALID_EXERCISE", "This exercise is not a Speaking exercise");
         }
 
-        User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+        Users users = userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
 
-        if (user.getRole() != Role.STUDENT) {
+        if (users.getRole() != Role.STUDENT) {
             throw new ForbiddenException("Only students can submit exercises");
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
 
         List<UserSubmission> previous = userSubmissionRepository
-                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
         long usedAttempts = previous.stream().filter(s -> s.getStatus() != SubmissionStatus.FAILED).count();
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
                 && usedAttempts >= exercise.getMaxAttempts()) {
@@ -322,7 +321,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         String questionPrompt = resolvePrompt(exercise, question);
 
         UserSubmission submission = saveSubmission(UserSubmission.builder()
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .attemptNumber(attemptNumber)
                 .answers(Map.of("audioFilename", audioFilename))

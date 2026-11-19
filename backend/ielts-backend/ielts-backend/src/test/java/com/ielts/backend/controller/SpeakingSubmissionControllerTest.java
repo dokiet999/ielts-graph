@@ -1,7 +1,7 @@
 package com.ielts.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ielts.backend.exception.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
 import com.ielts.backend.service.llm.LlmClient;
 import com.ielts.backend.service.speaking.SpeakingAsrClient;
 import com.ielts.backend.service.speaking.SpeakingAsrResult;
@@ -126,26 +126,26 @@ class SpeakingSubmissionControllerTest {
 
         submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 38)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.submissionId").isNotEmpty())
-                .andExpect(jsonPath("$.exerciseId").value(SPEAKING_EXERCISE_ID.toString()))
-                .andExpect(jsonPath("$.attemptNumber").value(1))
-                .andExpect(jsonPath("$.part").value("QT_S_PART2"))
-                .andExpect(jsonPath("$.overallBand").value(6.0))
-                .andExpect(jsonPath("$.outOfCalibrationRange").value(false))
-                .andExpect(jsonPath("$.status").value("GRADED"))
-                .andExpect(jsonPath("$.gradingMethod").value("AI"))
-                .andExpect(jsonPath("$.transcript").isNotEmpty())
-                .andExpect(jsonPath("$.features.word_count").value(79))
-                .andExpect(jsonPath("$.features.speech_rate_wpm").value(123.4))
-                .andExpect(jsonPath("$.pronunciation.accuracy").value(78.5))
-                .andExpect(jsonPath("$.summary").isNotEmpty())
-                .andExpect(jsonPath("$.improvements", hasSize(3)))
-                .andExpect(jsonPath("$.asrModel").value("whisper-small"))
-                .andExpect(jsonPath("$.aiModel").value("gemini-2.5-flash"))
-                .andExpect(jsonPath("$.rawFeedback.criteria.CRIT_S_FC.band").value(6))
-                .andExpect(jsonPath("$.rawFeedback.criteria.CRIT_S_P.band").value(6))
-                .andExpect(jsonPath("$.rawFeedback.overall_band").value(6.0))
-                .andExpect(jsonPath("$.rawFeedback.part").value("QT_S_PART2"));
+                .andExpect(jsonPath("$.data.submissionId").isNotEmpty())
+                .andExpect(jsonPath("$.data.exerciseId").value(SPEAKING_EXERCISE_ID.toString()))
+                .andExpect(jsonPath("$.data.attemptNumber").value(1))
+                .andExpect(jsonPath("$.data.part").value("QT_S_PART2"))
+                .andExpect(jsonPath("$.data.overallBand").value(6.0))
+                .andExpect(jsonPath("$.data.outOfCalibrationRange").value(false))
+                .andExpect(jsonPath("$.data.status").value("GRADED"))
+                .andExpect(jsonPath("$.data.gradingMethod").value("AI"))
+                .andExpect(jsonPath("$.data.transcript").isNotEmpty())
+                .andExpect(jsonPath("$.data.features.word_count").value(79))
+                .andExpect(jsonPath("$.data.features.speech_rate_wpm").value(123.4))
+                .andExpect(jsonPath("$.data.pronunciation.accuracy").value(78.5))
+                .andExpect(jsonPath("$.data.summary").isNotEmpty())
+                .andExpect(jsonPath("$.data.improvements", hasSize(3)))
+                .andExpect(jsonPath("$.data.asrModel").value("whisper-small"))
+                .andExpect(jsonPath("$.data.aiModel").value("gemini-2.5-flash"))
+                .andExpect(jsonPath("$.data.rawFeedback.criteria.CRIT_S_FC.band").value(6))
+                .andExpect(jsonPath("$.data.rawFeedback.criteria.CRIT_S_P.band").value(6))
+                .andExpect(jsonPath("$.data.rawFeedback.overall_band").value(6.0))
+                .andExpect(jsonPath("$.data.rawFeedback.part").value("QT_S_PART2"));
 
         Integer submissionCount = jdbcTemplate.queryForObject(
                 "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'GRADED'",
@@ -164,16 +164,16 @@ class SpeakingSubmissionControllerTest {
         String body = submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 38)
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        String submissionId = objectMapper.readTree(body).get("submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/submissionId").asText();
 
         mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.answers.transcript").isNotEmpty())
-                .andExpect(jsonPath("$.answers.features.word_count").value(79))
-                .andExpect(jsonPath("$.answers.pronunciation.accuracy").value(78.5))
-                .andExpect(jsonPath("$.aiStructuredFeedback.criteria.CRIT_S_FC.band").value(6))
-                .andExpect(jsonPath("$.aiStructuredFeedback.overall_band").value(6.0))
-                .andExpect(jsonPath("$.aiFeedback").isNotEmpty());
+                .andExpect(jsonPath("$.data.answers.transcript").isNotEmpty())
+                .andExpect(jsonPath("$.data.answers.features.word_count").value(79))
+                .andExpect(jsonPath("$.data.answers.pronunciation.accuracy").value(78.5))
+                .andExpect(jsonPath("$.data.aiStructuredFeedback.criteria.CRIT_S_FC.band").value(6))
+                .andExpect(jsonPath("$.data.aiStructuredFeedback.overall_band").value(6.0))
+                .andExpect(jsonPath("$.data.aiFeedback").isNotEmpty());
     }
 
     @Test
@@ -188,8 +188,8 @@ class SpeakingSubmissionControllerTest {
 
         submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 38)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pronunciation").value(nullValue()))
-                .andExpect(jsonPath("$.overallBand").value(6.0));
+                .andExpect(jsonPath("$.data.pronunciation").value(nullValue()))
+                .andExpect(jsonPath("$.data.overallBand").value(6.0));
     }
 
     @Test
@@ -322,6 +322,6 @@ class SpeakingSubmissionControllerTest {
 
         submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 60)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.attemptNumber").value(3));
+                .andExpect(jsonPath("$.data.attemptNumber").value(3));
     }
 }

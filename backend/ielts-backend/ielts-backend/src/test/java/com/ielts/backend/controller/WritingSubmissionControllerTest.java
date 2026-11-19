@@ -2,9 +2,8 @@ package com.ielts.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ielts.backend.dto.request.WritingSubmissionRequest;
-import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.LlmTimeoutException;
-import com.ielts.backend.exception.LlmUnavailableException;
+import com.ielts.backend.exception.customException.LlmTimeoutException;
+import com.ielts.backend.exception.customException.LlmUnavailableException;
 import com.ielts.backend.service.llm.LlmClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -115,20 +114,20 @@ class WritingSubmissionControllerTest {
 
         submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.submissionId").isNotEmpty())
-                .andExpect(jsonPath("$.exerciseId").value(WRITING_EXERCISE_ID.toString()))
-                .andExpect(jsonPath("$.attemptNumber").value(1))
-                .andExpect(jsonPath("$.overallBand").value(6.5))
-                .andExpect(jsonPath("$.outOfCalibrationRange").value(false))
-                .andExpect(jsonPath("$.status").value("GRADED"))
-                .andExpect(jsonPath("$.gradingMethod").value("AI"))
-                .andExpect(jsonPath("$.summary").isNotEmpty())
-                .andExpect(jsonPath("$.improvements", hasSize(4)))
-                .andExpect(jsonPath("$.aiModel").value("gemini-2.5-flash"))
+                .andExpect(jsonPath("$.data.submissionId").isNotEmpty())
+                .andExpect(jsonPath("$.data.exerciseId").value(WRITING_EXERCISE_ID.toString()))
+                .andExpect(jsonPath("$.data.attemptNumber").value(1))
+                .andExpect(jsonPath("$.data.overallBand").value(6.5))
+                .andExpect(jsonPath("$.data.outOfCalibrationRange").value(false))
+                .andExpect(jsonPath("$.data.status").value("GRADED"))
+                .andExpect(jsonPath("$.data.gradingMethod").value("AI"))
+                .andExpect(jsonPath("$.data.summary").isNotEmpty())
+                .andExpect(jsonPath("$.data.improvements", hasSize(4)))
+                .andExpect(jsonPath("$.data.aiModel").value("gemini-2.5-flash"))
                 // rawFeedback is the feedback JSON itself (schema shape), not a serialized JsonNode object
-                .andExpect(jsonPath("$.rawFeedback.criteria.CRIT_W_TR.band").value(6))
-                .andExpect(jsonPath("$.rawFeedback.overall_band").value(6.5))
-                .andExpect(jsonPath("$.rawFeedback.task").value("QT_W2_OPINION"));
+                .andExpect(jsonPath("$.data.rawFeedback.criteria.CRIT_W_TR.band").value(6))
+                .andExpect(jsonPath("$.data.rawFeedback.overall_band").value(6.5))
+                .andExpect(jsonPath("$.data.rawFeedback.task").value("QT_W2_OPINION"));
 
         // Verify saved to database
         Integer submissionCount = jdbcTemplate.queryForObject(
@@ -148,14 +147,14 @@ class WritingSubmissionControllerTest {
         String body = submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        String submissionId = objectMapper.readTree(body).get("submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/submissionId").asText();
 
         // Reopening a graded essay must still show the structured feedback
         mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.aiStructuredFeedback.criteria.CRIT_W_TR.band").value(6))
-                .andExpect(jsonPath("$.aiStructuredFeedback.overall_band").value(6.5))
-                .andExpect(jsonPath("$.aiFeedback").isNotEmpty());
+                .andExpect(jsonPath("$.data.aiStructuredFeedback.criteria.CRIT_W_TR.band").value(6))
+                .andExpect(jsonPath("$.data.aiStructuredFeedback.overall_band").value(6.5))
+                .andExpect(jsonPath("$.data.aiFeedback").isNotEmpty());
     }
 
     @Test
@@ -272,7 +271,7 @@ class WritingSubmissionControllerTest {
         doReturn(sampleJson).when(llmClient).chat(any(), any());   // when(...) would call the throwing stub
         submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.attemptNumber").value(3));
+                .andExpect(jsonPath("$.data.attemptNumber").value(3));
     }
 
     @Test
