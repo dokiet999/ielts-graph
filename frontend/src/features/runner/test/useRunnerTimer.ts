@@ -10,17 +10,38 @@ export function useRunnerTimer(
   timeLimit: number | null,
   { running, onExpire }: { running: boolean; onExpire?: () => void },
 ) {
-  const initial = useSessionStore.getState().sessions[exerciseId]?.elapsed ?? 0
-  const [elapsed, setElapsed] = useState(initial)
+  const session = useSessionStore((s) => s.sessions[exerciseId])
+  const startedAt = session?.startedAt
+  const computeInitial = () => {
+    const s = useSessionStore.getState().sessions[exerciseId]
+    if (s?.startedAt) {
+      return Math.max(0, Math.floor((Date.now() - s.startedAt) / 1000))
+    }
+    return s?.elapsed ?? 0
+  }
+  const [elapsed, setElapsed] = useState(computeInitial)
   const expired = useRef(false)
   const onExpireRef = useRef(onExpire)
   onExpireRef.current = onExpire
 
   useEffect(() => {
+    if (startedAt) {
+      setElapsed(Math.max(0, Math.floor((Date.now() - startedAt) / 1000)))
+    }
+  }, [startedAt])
+
+  useEffect(() => {
     if (!running) return
-    const id = window.setInterval(() => setElapsed((e) => e + 1), 1000)
+    const id = window.setInterval(() => {
+      const currentStartedAt = useSessionStore.getState().sessions[exerciseId]?.startedAt
+      if (currentStartedAt) {
+        setElapsed(Math.max(0, Math.floor((Date.now() - currentStartedAt) / 1000)))
+      } else {
+        setElapsed((e) => e + 1)
+      }
+    }, 1000)
     return () => window.clearInterval(id)
-  }, [running])
+  }, [exerciseId, running])
 
   useEffect(() => {
     if (running) useSessionStore.getState().setElapsed(exerciseId, elapsed)

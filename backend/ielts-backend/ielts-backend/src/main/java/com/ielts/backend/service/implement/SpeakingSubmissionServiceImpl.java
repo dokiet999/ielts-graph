@@ -4,22 +4,21 @@ import com.ielts.backend.dto.response.SpeakingSubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionAnswer;
-import com.ielts.backend.entity.User;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.entity.UserSubmission;
-import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.BadRequestException;
-import com.ielts.backend.exception.ConflictException;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.LlmTimeoutException;
-import com.ielts.backend.exception.LlmUnavailableException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.SpeakingAsrException;
-import com.ielts.backend.exception.SpeakingGradingException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.ConflictException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.LlmTimeoutException;
+import com.ielts.backend.exception.customException.LlmUnavailableException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingGradingException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.QuestionAnswerRepository;
 import com.ielts.backend.repository.QuestionRepository;
@@ -27,6 +26,7 @@ import com.ielts.backend.repository.UserRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
+import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.SpeakingSubmissionService;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
@@ -102,6 +102,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     private final SpeakingGrader speakingGrader;
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
+    private final LearnerProfileService learnerProfileService;
 
     @Value("${app.speaking.audio-dir:${java.io.tmpdir}/ielts-graph-speaking}")
     private String audioStorageDir;
@@ -165,7 +166,22 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
         SpeakingAsrResult finalAsr = asrResult;
         SpeakingGradingResult finalGraded = gradingResult;
-        return transactionTemplate.execute(status -> markGraded(pending, finalAsr, finalGraded, latencyMs));
+        SpeakingSubmissionResultResponse response =
+                transactionTemplate.execute(status -> markGraded(pending, finalAsr, finalGraded, latencyMs));
+        updateLearnerProfile(response.getSubmissionId());
+        return response;
+    }
+
+    /**
+     * The learner profile is secondary to the grade: if it cannot be updated now (for example the Knowledge Graph
+     * is down), the graded submission is still returned, and the profile applies it the next time it is read.
+     */
+    private void updateLearnerProfile(UUID submissionId) {
+        try {
+            learnerProfileService.applySubmission(submissionId);
+        } catch (Exception ex) {
+            log.warn("Learner profile not updated for submission {}: {}", submissionId, ex.getMessage());
+        }
     }
 
     private String validateAudioFile(MultipartFile audio, Integer timeSpent) {
@@ -289,24 +305,23 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
     private PendingGrading startGrading(UUID exerciseId, String username, MultipartFile audio, Integer timeSpent) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
 
         if (exercise.getSkillType() != SkillType.SPEAKING) {
             throw new BadRequestException("INVALID_EXERCISE", "This exercise is not a Speaking exercise");
         }
 
-        User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+        Users users = userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
 
-        if (user.getRole() != Role.STUDENT) {
+        if (users.getRole() != Role.STUDENT) {
             throw new ForbiddenException("Only students can submit exercises");
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
 
         List<UserSubmission> previous = userSubmissionRepository
-                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
         long usedAttempts = previous.stream().filter(s -> s.getStatus() != SubmissionStatus.FAILED).count();
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
                 && usedAttempts >= exercise.getMaxAttempts()) {
@@ -323,7 +338,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         String questionPrompt = resolvePrompt(exercise, question);
 
         UserSubmission submission = saveSubmission(UserSubmission.builder()
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .attemptNumber(attemptNumber)
                 .answers(Map.of("audioFilename", audioFilename))

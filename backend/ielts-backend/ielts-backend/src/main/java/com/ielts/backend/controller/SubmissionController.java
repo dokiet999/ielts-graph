@@ -1,5 +1,6 @@
 package com.ielts.backend.controller;
 
+import com.ielts.backend.common.BaseResponse;
 import com.ielts.backend.dto.response.SubmissionDetailResponse;
 import com.ielts.backend.dto.response.SubmissionResponse;
 import com.ielts.backend.dto.response.SubmissionReviewResponse;
@@ -28,31 +29,31 @@ public class SubmissionController {
 
     @GetMapping("/me")
     @Operation(summary = "All submissions of the current user, newest first")
-    public List<SubmissionSummaryResponse> getMySubmissions(@AuthenticationPrincipal UserDetails principal) {
-        return submissionService.getMySubmissions(principal.getUsername());
+    public BaseResponse<List<SubmissionSummaryResponse>> getMySubmissions(@AuthenticationPrincipal UserDetails principal) {
+        return BaseResponse.ofSuccess(submissionService.getMySubmissions(principal.getUsername()));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get submission details by ID")
-    public SubmissionResponse getSubmissionDetail(
+    public BaseResponse<SubmissionResponse> getSubmissionDetail(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserDetails principal) {
-        return submissionService.getSubmissionDetail(id, principal.getUsername());
+        return BaseResponse.ofSuccess(submissionService.getSubmissionDetail(id, principal.getUsername()));
     }
 
     @GetMapping("/{id}/review")
     @Operation(summary = "Review submission with audio, transcript, and detailed question explanations")
-    public SubmissionReviewResponse getSubmissionReview(
+    public BaseResponse<SubmissionReviewResponse> getSubmissionReview(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserDetails principal) {
-        return submissionService.getSubmissionReview(id, principal.getUsername());
+        return BaseResponse.ofSuccess(submissionService.getSubmissionReview(id, principal.getUsername()));
     }
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "Submission result with the learner's answers and the exercise including correct options and explanations")
-    public SubmissionDetailResponse getSubmissionResult(
+    public BaseResponse<SubmissionDetailResponse> getSubmissionResult(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserDetails principal) {
-        return submissionService.getSubmissionResult(id, principal.getUsername());
+        return BaseResponse.ofSuccess(submissionService.getSubmissionResult(id, principal.getUsername()));
     }
 }

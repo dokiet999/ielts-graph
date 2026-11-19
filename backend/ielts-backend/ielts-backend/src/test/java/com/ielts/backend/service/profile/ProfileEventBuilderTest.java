@@ -1,7 +1,7 @@
 package com.ielts.backend.service.profile;
 
 import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.User;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.entity.UserSubmission;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
@@ -21,10 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,12 +35,12 @@ class ProfileEventBuilderTest {
     private KgGraphClient kgGraphClient;
 
     private ProfileEventBuilder builder;
-    private User user;
+    private Users users;
 
     @BeforeEach
     void setUp() {
         builder = new ProfileEventBuilder(kgGraphClient);
-        user = User.builder().id(USER_ID).email("student@test.local").fullName("Student").build();
+        users = Users.builder().id(USER_ID).email("student@test.local").fullName("Student").build();
     }
 
     @Test
@@ -68,14 +66,13 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.GRADED)
                 .gradedAt(LocalDateTime.of(2026, 10, 20, 14, 30))
                 .aiStructuredFeedback(Map.of("criteria", criteria))
                 .build();
 
-        when(kgGraphClient.findPracticedSubSkills("exercises:" + EXERCISE_ID)).thenReturn(List.of());
         when(kgGraphClient.findAffectedSubSkills(eq("SKILL_W"), eq(List.of("ERR_ARTICLE"))))
                 .thenReturn(List.of("SUB_ARTICLE"));
         when(kgGraphClient.findSubSkillsByCriteria(List.of("CRIT_W_TR", "CRIT_W_CC", "CRIT_W_LR", "CRIT_W_GRA")))
@@ -95,7 +92,7 @@ class ProfileEventBuilderTest {
     }
 
     @Test
-    void buildEvents_practiceDrillInKg_createsDrillEventsWithScoreRatio() {
+    void buildEvents_practiceDrill_returnsNoEventsWithoutQueryingKg() {
         Exercise drill = Exercise.builder()
                 .id(EXERCISE_ID)
                 .skillType(SkillType.READING)
@@ -104,7 +101,7 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(drill)
                 .status(SubmissionStatus.GRADED)
                 .score(BigDecimal.valueOf(5))
@@ -112,18 +109,42 @@ class ProfileEventBuilderTest {
                 .submittedAt(LocalDateTime.of(2026, 10, 21, 9, 0))
                 .build();
 
-        when(kgGraphClient.findPracticedSubSkills("exercises:" + EXERCISE_ID))
-                .thenReturn(List.of("SUB_ARTICLE"));
+        // Drills are practice only: the profile is measured by AI-graded Writing and Speaking attempts
+        assertThat(builder.buildEvents(submission)).isEmpty();
+        verifyNoInteractions(kgGraphClient);
+    }
+
+    @Test
+    void buildEvents_speakingWithoutPronunciationScores_skipsPronunciationCriterion() {
+        Exercise exercise = Exercise.builder()
+                .id(EXERCISE_ID)
+                .skillType(SkillType.SPEAKING)
+                .exerciseType(ExerciseType.PRACTICE)
+                .build();
+
+        Map<String, Object> criteria = new LinkedHashMap<>();
+        criteria.put("CRIT_S_FC", Map.of("band", 6, "evidence", List.of()));
+        criteria.put("CRIT_S_P", Map.of("band", 6, "evidence", List.of()));
+        Map<String, Object> answers = new LinkedHashMap<>();
+        answers.put("transcript", "I like reading");
+        answers.put("pronunciation", null);
+
+        UserSubmission submission = UserSubmission.builder()
+                .id(UUID.randomUUID())
+                .user(users)
+                .exercise(exercise)
+                .status(SubmissionStatus.GRADED)
+                .answers(answers)
+                .gradedAt(LocalDateTime.of(2026, 10, 22, 9, 0))
+                .aiStructuredFeedback(Map.of("criteria", criteria))
+                .build();
+
+        when(kgGraphClient.findSubSkillsByCriteria(List.of("CRIT_S_FC"))).thenReturn(List.of("SUB_FLUENCY"));
 
         List<ProfileEvent> events = builder.buildEvents(submission);
 
-        assertThat(events).hasSize(1);
-        ProfileEvent event = events.get(0);
-        assertThat(event.userId()).isEqualTo(USER_ID.toString());
-        assertThat(event.subskillId()).isEqualTo("SUB_ARTICLE");
-        assertThat(event.type()).isEqualTo(EventType.DRILL);
-        assertThat(event.outcome()).isCloseTo(5.0 / 6.0, org.assertj.core.api.Assertions.within(1e-9));
-        verify(kgGraphClient, never()).findAffectedSubSkills( eq("SKILL_W"), anyList());
+        assertThat(events).extracting(ProfileEvent::subskillId).containsExactly("SUB_FLUENCY");
+        assertThat(events).extracting(ProfileEvent::type).containsExactly(EventType.CLEAN);
     }
 
     @Test
@@ -136,16 +157,15 @@ class ProfileEventBuilderTest {
 
         UserSubmission submission = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(readingEx)
                 .status(SubmissionStatus.GRADED)
                 .score(BigDecimal.valueOf(8))
                 .maxScore(BigDecimal.valueOf(10))
                 .build();
 
-        when(kgGraphClient.findPracticedSubSkills("exercises:" + EXERCISE_ID)).thenReturn(List.of());
-
         assertThat(builder.buildEvents(submission)).isEmpty();
+        verifyNoInteractions(kgGraphClient);
     }
 
     @Test
@@ -157,13 +177,13 @@ class ProfileEventBuilderTest {
 
         UserSubmission failed = UserSubmission.builder()
                 .id(UUID.randomUUID())
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.FAILED)
                 .build();
 
         assertThat(builder.buildEvents(failed)).isEmpty();
-        verify(kgGraphClient, never()).findPracticedSubSkills(org.mockito.ArgumentMatchers.anyString());
+        verifyNoInteractions(kgGraphClient);
     }
 }
 

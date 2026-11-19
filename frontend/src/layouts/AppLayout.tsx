@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { BookOpen, History, House, Menu, UserRound, X } from 'lucide-react'
+import { BookOpen, History, House, Menu, Sparkles, UserRound, X } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import { DEMO_MODE } from '@/lib/demo'
@@ -11,6 +11,7 @@ const NAV = [
   { to: '/', label: 'Trang chủ', icon: House, end: true },
   { to: '/courses', label: 'Khóa học', icon: BookOpen },
   { to: '/history', label: 'Lịch sử làm bài', icon: History },
+  { to: '/personalization', label: 'Cá nhân hóa', icon: Sparkles },
   { to: '/profile', label: 'Hồ sơ', icon: UserRound },
 ].filter((item) => !(DEMO_MODE && item.to === '/profile'))
 

@@ -1,5 +1,6 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
 
+import com.ielts.backend.exception.GlobalExceptionHandler;
 import lombok.Getter;
 
 /** Mapped to HTTP 409 by {@link GlobalExceptionHandler}. */

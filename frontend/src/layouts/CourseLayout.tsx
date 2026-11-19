@@ -1,5 +1,14 @@
 import { Link, NavLink, Outlet, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronDown, Info, LayoutDashboard, ListChecks, ListTree } from 'lucide-react'
+import {
+  ArrowLeft,
+  ChevronDown,
+  GraduationCap,
+  Info,
+  LayoutDashboard,
+  ListChecks,
+  ListTree,
+  Timer,
+} from 'lucide-react'
 import { LogoMark } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,7 +35,11 @@ const GROUPS = [
   },
   {
     title: 'Bài tập trong khóa',
-    items: [{ to: 'exercises', label: 'Bài luyện', icon: ListChecks }],
+    items: [
+      { to: 'exercises', label: 'Bài luyện', icon: ListChecks },
+      { to: 'mock-tests', label: 'Mock test', icon: Timer },
+      { to: 'final-test', label: 'Final test', hint: 'Kiểm tra cuối khóa', icon: GraduationCap },
+    ],
   },
   {
     title: 'Thông tin',

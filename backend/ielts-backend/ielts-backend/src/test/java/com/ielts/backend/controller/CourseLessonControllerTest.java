@@ -48,96 +48,97 @@ class CourseLessonControllerTest {
     void listCourses_returnsOnlyPublishedActiveCourses_newestFirst() throws Exception {
         mockMvc.perform(get("/api/courses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(4))
-                .andExpect(jsonPath("$.content[*].id").value(contains(SPEAKING_COURSE, WRITING_COURSE, LISTENING_COURSE, READING_COURSE)))
-                .andExpect(jsonPath("$.content[*].id").value(not(hasItem(INACTIVE_COURSE))))
-                .andExpect(jsonPath("$.content[*].id").value(not(hasItem(DRAFT_COURSE))))
-                .andExpect(jsonPath("$.content[0].teacherName").value("Demo Teacher"));
+                .andExpect(jsonPath("$.meta.total").value(4))
+                .andExpect(jsonPath("$.data[*].id").value(contains(SPEAKING_COURSE, WRITING_COURSE, LISTENING_COURSE, READING_COURSE)))
+                .andExpect(jsonPath("$.data[*].id").value(not(hasItem(INACTIVE_COURSE))))
+                .andExpect(jsonPath("$.data[*].id").value(not(hasItem(DRAFT_COURSE))))
+                .andExpect(jsonPath("$.data[0].teacherName").value("Demo Teacher"));
     }
 
     @Test
     void listCourses_enrollmentCountComesFromEnrollments() throws Exception {
         mockMvc.perform(get("/api/courses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[?(@.id == '" + READING_COURSE + "')].enrollmentCount").value(contains(1)))
+                .andExpect(jsonPath("$.data[?(@.id == '" + READING_COURSE + "')].enrollmentCount").value(contains(1)))
                 // V6 enrolls student_enrolled in the Listening course
-                .andExpect(jsonPath("$.content[?(@.id == '" + LISTENING_COURSE + "')].enrollmentCount").value(contains(1)));
+                .andExpect(jsonPath("$.data[?(@.id == '" + LISTENING_COURSE + "')].enrollmentCount").value(contains(1)));
     }
 
     @Test
     void listCourses_filtersBySkill() throws Exception {
         mockMvc.perform(get("/api/courses").param("skill", "READING"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(1))
-                .andExpect(jsonPath("$.content[0].id").value(READING_COURSE))
-                .andExpect(jsonPath("$.content[0].categoryName").value("Academic"));
+                .andExpect(jsonPath("$.meta.total").value(1))
+                .andExpect(jsonPath("$.data[0].id").value(READING_COURSE))
+                .andExpect(jsonPath("$.data[0].categoryName").value("Academic"));
     }
 
     @Test
     void listCourses_filtersByCategory() throws Exception {
         mockMvc.perform(get("/api/courses").param("categoryId", ACADEMIC_CATEGORY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(4));
+                .andExpect(jsonPath("$.meta.total").value(4));
     }
 
     @Test
     void listCourses_filtersByLevel() throws Exception {
         mockMvc.perform(get("/api/courses").param("level", "ELEMENTARY"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(1))
-                .andExpect(jsonPath("$.content[0].id").value(LISTENING_COURSE));
+                .andExpect(jsonPath("$.meta.total").value(1))
+                .andExpect(jsonPath("$.data[0].id").value(LISTENING_COURSE));
     }
 
     @Test
     void listCourses_searchesTitleCaseInsensitive() throws Exception {
         mockMvc.perform(get("/api/courses").param("q", "  reading "))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(1))
-                .andExpect(jsonPath("$.content[0].id").value(READING_COURSE));
+                .andExpect(jsonPath("$.meta.total").value(1))
+                .andExpect(jsonPath("$.data[0].id").value(READING_COURSE));
     }
 
     @Test
     void listCourses_treatsLikeWildcardsLiterally() throws Exception {
         mockMvc.perform(get("/api/courses").param("q", "%"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(0));
+                .andExpect(jsonPath("$.meta.total").value(0));
     }
 
     @Test
     void listCourses_combinesFilters() throws Exception {
         mockMvc.perform(get("/api/courses").param("skill", "READING").param("level", "ELEMENTARY"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(0));
+                .andExpect(jsonPath("$.meta.total").value(0));
     }
 
     @Test
     void listCourses_blankKeywordIsIgnored() throws Exception {
         mockMvc.perform(get("/api/courses").param("q", "   "))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").value(4));
+                .andExpect(jsonPath("$.meta.total").value(4));
     }
 
     @Test
     void listCourses_paginates() throws Exception {
         mockMvc.perform(get("/api/courses").param("page", "0").param("size", "1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.length()").value(1))
-                .andExpect(jsonPath("$.totalElements").value(4))
-                .andExpect(jsonPath("$.totalPages").value(4));
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.meta.total").value(4))
+                .andExpect(jsonPath("$.meta.page").value(0))
+                .andExpect(jsonPath("$.meta.size").value(1));
     }
 
     @Test
     void listCourses_invalidSkill_returns400() throws Exception {
         mockMvc.perform(get("/api/courses").param("skill", "COOKING"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("INVALID_PARAMETER"));
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
     }
 
     @Test
     void listCourses_invalidLevel_returns400() throws Exception {
         mockMvc.perform(get("/api/courses").param("level", "EXPERT"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("INVALID_PARAMETER"));
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
     }
 
     // ---------- Course detail ----------
@@ -146,12 +147,12 @@ class CourseLessonControllerTest {
     void courseDetail_returnsSectionsAndLessonsInOrder() throws Exception {
         mockMvc.perform(get("/api/courses/{id}", READING_COURSE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.course.title").value("IELTS Reading Foundations"))
-                .andExpect(jsonPath("$.totalLessons").value(4))
-                .andExpect(jsonPath("$.sections[*].title").value(contains("Getting started", "Question types")))
-                .andExpect(jsonPath("$.sections[0].lessons[*].title")
+                .andExpect(jsonPath("$.data.course.title").value("IELTS Reading Foundations"))
+                .andExpect(jsonPath("$.data.totalLessons").value(4))
+                .andExpect(jsonPath("$.data.sections[*].title").value(contains("Getting started", "Question types")))
+                .andExpect(jsonPath("$.data.sections[0].lessons[*].title")
                         .value(contains("Introduction to IELTS Reading", "Skimming and scanning")))
-                .andExpect(jsonPath("$.sections[1].lessons[*].title")
+                .andExpect(jsonPath("$.data.sections[1].lessons[*].title")
                         .value(contains("True / False / Not Given", "Matching headings")));
     }
 
@@ -187,8 +188,8 @@ class CourseLessonControllerTest {
     void courseLessons_returnsFlatListOrderedBySectionThenLesson() throws Exception {
         mockMvc.perform(get("/api/courses/{id}/lessons", READING_COURSE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4))
-                .andExpect(jsonPath("$[*].title").value(contains(
+                .andExpect(jsonPath("$.data.length()").value(4))
+                .andExpect(jsonPath("$.data[*].title").value(contains(
                         "Introduction to IELTS Reading",
                         "Skimming and scanning",
                         "True / False / Not Given",
@@ -213,8 +214,8 @@ class CourseLessonControllerTest {
     void lessonDetail_previewLesson_isPublic() throws Exception {
         mockMvc.perform(get("/api/lessons/{id}", PREVIEW_LESSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lesson.isPreview").value(true))
-                .andExpect(jsonPath("$.lesson.videoUrl").value("https://example.com/videos/reading-intro.mp4"));
+                .andExpect(jsonPath("$.data.lesson.isPreview").value(true))
+                .andExpect(jsonPath("$.data.lesson.videoUrl").value("https://example.com/videos/reading-intro.mp4"));
     }
 
     @Test
@@ -235,12 +236,12 @@ class CourseLessonControllerTest {
     void lessonDetail_enrolledStudent_returnsContentAndExercises() throws Exception {
         mockMvc.perform(get("/api/lessons/{id}", TFNG_LESSON).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lesson.title").value("True / False / Not Given"))
-                .andExpect(jsonPath("$.lesson.documentUrl").value("https://example.com/docs/tfng.pdf"))
-                .andExpect(jsonPath("$.courseId").value(READING_COURSE))
-                .andExpect(jsonPath("$.sectionTitle").value("Question types"))
-                .andExpect(jsonPath("$.exercises[*].title").value(contains("TFNG practice 1", "TFNG practice 2")))
-                .andExpect(jsonPath("$.exercises[0].skillType").value("READING"));
+                .andExpect(jsonPath("$.data.lesson.title").value("True / False / Not Given"))
+                .andExpect(jsonPath("$.data.lesson.documentUrl").value("https://example.com/docs/tfng.pdf"))
+                .andExpect(jsonPath("$.data.courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.data.sectionTitle").value("Question types"))
+                .andExpect(jsonPath("$.data.exercises[*].title").value(contains("TFNG practice 1", "TFNG practice 2")))
+                .andExpect(jsonPath("$.data.exercises[0].skillType").value("READING"));
     }
 
     @Test
@@ -313,23 +314,23 @@ class CourseLessonControllerTest {
     void enroll_thenLessonOpens() throws Exception {
         mockMvc.perform(post("/api/courses/{id}/enroll", READING_COURSE).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.courseId").value(READING_COURSE))
-                .andExpect(jsonPath("$.progressPercentage").value(0))
-                .andExpect(jsonPath("$.created").value(true));
+                .andExpect(jsonPath("$.data.courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.data.progressPercentage").value(0))
+                .andExpect(jsonPath("$.data.created").value(true));
 
         mockMvc.perform(get("/api/lessons/{id}", TFNG_LESSON).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/courses/{id}", READING_COURSE))
-                .andExpect(jsonPath("$.course.enrollmentCount").value(2));
+                .andExpect(jsonPath("$.data.course.enrollmentCount").value(2));
     }
 
     @Test
     void enroll_twice_isIdempotent() throws Exception {
         mockMvc.perform(post("/api/courses/{id}/enroll", READING_COURSE).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("50000000-0000-0000-0000-000000000001"))
-                .andExpect(jsonPath("$.created").value(false));
+                .andExpect(jsonPath("$.data.id").value("50000000-0000-0000-0000-000000000001"))
+                .andExpect(jsonPath("$.data.created").value(false));
     }
 
     @Test

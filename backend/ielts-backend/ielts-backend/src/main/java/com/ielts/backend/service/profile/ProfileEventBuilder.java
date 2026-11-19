@@ -8,7 +8,6 @@ import com.ielts.backend.service.kg.KgGraphClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,7 +28,7 @@ public class ProfileEventBuilder {
 
     public static final String SKILL_WRITING = "SKILL_W";
     public static final String SKILL_SPEAKING = "SKILL_S";
-    public static final String EXERCISE_REF_PREFIX = "exercises:";
+    public static final String PRONUNCIATION_CRITERION = "CRIT_S_P";
 
     private final KgGraphClient kgGraphClient;
 
@@ -46,53 +45,17 @@ public class ProfileEventBuilder {
             return List.of();
         }
 
+        // Only AI-graded Writing and Speaking attempts measure the learner. Practice drills (multiple choice,
+        // fill in the blank) are practice only and do not change the profile.
+        SkillType skillType = exercise.getSkillType();
+        if (skillType != SkillType.WRITING && skillType != SkillType.SPEAKING) {
+            return List.of();
+        }
         String userId = submission.getUser() != null && submission.getUser().getId() != null
                 ? submission.getUser().getId().toString()
                 : "";
-        Instant eventTime = resolveEventTime(submission);
-
-        // 1. Check if this exercise is a practice drill in the KG (Resource with sql_ref = 'exercises:<uuid>')
-        if (exercise.getId() != null) {
-            String sqlRef = EXERCISE_REF_PREFIX + exercise.getId();
-            List<String> practicedSubSkills = kgGraphClient.findPracticedSubSkills(sqlRef);
-            if (!practicedSubSkills.isEmpty()) {
-                return buildDrillEvents(submission, userId, eventTime, practicedSubSkills);
-            }
-        }
-
-        // 2. Writing or Speaking AI-graded attempt
-        SkillType skillType = exercise.getSkillType();
-        if (skillType == SkillType.WRITING || skillType == SkillType.SPEAKING) {
-            String kgSkill = skillType == SkillType.WRITING ? SKILL_WRITING : SKILL_SPEAKING;
-            return buildAiAttemptEvents(submission, userId, eventTime, kgSkill);
-        }
-
-        // 3. Regular Reading/Listening exercise not linked to a KG Resource
-        return List.of();
-    }
-
-    private List<ProfileEvent> buildDrillEvents(
-            UserSubmission submission,
-            String userId,
-            Instant eventTime,
-            List<String> practicedSubSkills
-    ) {
-        BigDecimal maxScore = submission.getMaxScore();
-        if (maxScore == null || maxScore.compareTo(BigDecimal.ZERO) <= 0) {
-            return List.of();
-        }
-        BigDecimal score = submission.getScore() != null ? submission.getScore() : BigDecimal.ZERO;
-        double rawOutcome = score.doubleValue() / maxScore.doubleValue();
-        double outcome = Math.max(0.0, Math.min(1.0, rawOutcome));
-
-        Set<String> uniqueSubSkills = new LinkedHashSet<>(practicedSubSkills);
-        List<ProfileEvent> events = new ArrayList<>(uniqueSubSkills.size());
-        for (String subSkillId : uniqueSubSkills) {
-            if (subSkillId != null && !subSkillId.isBlank()) {
-                events.add(new ProfileEvent(userId, eventTime, subSkillId, EventType.DRILL, outcome));
-            }
-        }
-        return events;
+        String kgSkill = skillType == SkillType.WRITING ? SKILL_WRITING : SKILL_SPEAKING;
+        return buildAiAttemptEvents(submission, userId, resolveEventTime(submission), kgSkill);
     }
 
     private List<ProfileEvent> buildAiAttemptEvents(
@@ -115,6 +78,11 @@ public class ProfileEventBuilder {
 
         for (Map.Entry<?, ?> entry : criteriaMap.entrySet()) {
             if (!(entry.getKey() instanceof String criterionId) || criterionId.isBlank()) {
+                continue;
+            }
+            // Without pronunciation scores the Pronunciation band is only an indirect estimate:
+            // it is neither evidence of a problem nor of mastery
+            if (PRONUNCIATION_CRITERION.equals(criterionId) && !hasPronunciationScores(submission)) {
                 continue;
             }
             gradedCriteria.add(criterionId);
@@ -163,6 +131,12 @@ public class ProfileEventBuilder {
             }
         }
         return events;
+    }
+
+    /** A Speaking submission stores the pronunciation scores in answers.pronunciation (null when not scored). */
+    private static boolean hasPronunciationScores(UserSubmission submission) {
+        Map<String, Object> answers = submission.getAnswers();
+        return answers != null && answers.get("pronunciation") instanceof Map<?, ?> scores && !scores.isEmpty();
     }
 
     public static Instant resolveEventTime(UserSubmission submission) {

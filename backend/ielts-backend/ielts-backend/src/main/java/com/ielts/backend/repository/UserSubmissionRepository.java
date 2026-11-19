@@ -1,6 +1,7 @@
 package com.ielts.backend.repository;
 
 import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,7 +35,7 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     @Query("select s from UserSubmission s where s.id = :id")
     Optional<UserSubmission> findByIdForUpdate(@Param("id") UUID id);
 
-    /** All submissions of a user with their exercise, lesson and section, newest first. */
+    /** All submissions of a users with their exercise, lesson and section, newest first. */
     @Query("""
             select s from UserSubmission s
             join fetch s.exercise e
@@ -45,7 +46,7 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
             """)
     List<UserSubmission> findByUserIdWithExercise(@Param("userId") UUID userId);
 
-    /** Among the given exercises, those the user has at least one submission with the given status for. */
+    /** Among the given exercises, those the users has at least one submission with the given status for. */
     @Query("""
             select distinct s.exercise.id from UserSubmission s
             where s.user.id = :userId and s.status = :status and s.exercise.id in :exerciseIds
@@ -62,6 +63,29 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
             """)
     List<SubmissionScore> findScoresByUserIdAndExerciseIds(@Param("userId") UUID userId,
                                                            @Param("exerciseIds") Collection<UUID> exerciseIds);
+
+    /** Graded submissions of the given skills whose events are not in the learner profile yet, oldest first. */
+    @Query("""
+            select s.id from UserSubmission s
+            where s.user.id = :userId and s.status = :status and s.profileAppliedAt is null
+              and s.exercise.skillType in :skills
+            order by s.submittedAt asc
+            """)
+    List<UUID> findIdsNotInProfile(@Param("userId") UUID userId,
+                                   @Param("status") SubmissionStatus status,
+                                   @Param("skills") Collection<SkillType> skills);
+
+    /** AI-graded submissions of the given skills with their exercise, oldest first (personalization tab). */
+    @Query("""
+            select s from UserSubmission s
+            join fetch s.exercise e
+            where s.user.id = :userId and s.status = :status and e.skillType in :skills
+              and s.aiStructuredFeedback is not null
+            order by s.submittedAt asc, s.attemptNumber asc
+            """)
+    List<UserSubmission> findGradedWithFeedback(@Param("userId") UUID userId,
+                                                @Param("status") SubmissionStatus status,
+                                                @Param("skills") Collection<SkillType> skills);
 
     interface SubmissionScore {
         UUID getId();

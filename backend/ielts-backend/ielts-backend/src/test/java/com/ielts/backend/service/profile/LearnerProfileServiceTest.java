@@ -1,13 +1,10 @@
 package com.ielts.backend.service.profile;
 
 import com.ielts.backend.config.LearnerProfileConfig;
-import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.LearnerSkillState;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.KgUnavailableException;
+import com.ielts.backend.exception.customException.KgUnavailableException;
 import com.ielts.backend.repository.LearnerSkillStateRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.service.LearnerProfileService;
@@ -21,13 +18,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.SimpleTransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -83,15 +80,18 @@ class LearnerProfileServiceTest {
             return null;
         }).when(transactionTemplate).executeWithoutResult(any());
 
-        User user = User.builder().id(USER_ID).email("u@test.local").fullName("User").build();
-        Exercise exercise = Exercise.builder().id(EXERCISE_ID).skillType(SkillType.READING).build();
+        Users users = Users.builder().id(USER_ID).email("u@test.local").fullName("User").build();
+        Exercise exercise = Exercise.builder().id(EXERCISE_ID).skillType(SkillType.WRITING).build();
         submission = UserSubmission.builder()
                 .id(SUBMISSION_ID)
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .status(SubmissionStatus.GRADED)
-                .score(BigDecimal.valueOf(5))
-                .maxScore(BigDecimal.valueOf(6))
+                .score(BigDecimal.valueOf(6))
+                .maxScore(BigDecimal.valueOf(9))
+                .aiStructuredFeedback(Map.of("criteria", Map.of("CRIT_W_GRA", Map.of(
+                        "band", 6,
+                        "evidence", List.of(Map.of("quote", "Student can learn", "error_type", "ERR_ARTICLE"))))))
                 .submittedAt(LocalDateTime.of(2026, 10, 25, 10, 0))
                 .build();
     }
@@ -102,12 +102,14 @@ class LearnerProfileServiceTest {
                 .thenReturn(Optional.of(submission));
         when(userSubmissionRepository.findByIdForUpdate(SUBMISSION_ID))
                 .thenReturn(Optional.of(submission));
-        when(kgGraphClient.findPracticedSubSkills("exercises:" + EXERCISE_ID))
+        when(kgGraphClient.findAffectedSubSkills("SKILL_W", List.of("ERR_ARTICLE")))
+                .thenReturn(List.of("SUB_ARTICLE"));
+        when(kgGraphClient.findSubSkillsByCriteria(List.of("CRIT_W_GRA")))
                 .thenReturn(List.of("SUB_ARTICLE"));
         when(learnerSkillStateRepository.findByUserIdAndSubskillIdInForUpdate(eq(USER_ID), any()))
                 .thenReturn(List.of());
 
-        // First call applies the DRILL event and sets profileAppliedAt
+        // First call applies the ERROR event and sets profileAppliedAt
         learnerProfileService.applySubmission(SUBMISSION_ID);
 
         assertThat(submission.getProfileAppliedAt()).isNotNull();
@@ -119,21 +121,21 @@ class LearnerProfileServiceTest {
         assertThat(savedStates).hasSize(1);
         LearnerSkillState state = savedStates.iterator().next();
         assertThat(state.getSubskillId()).isEqualTo("SUB_ARTICLE");
-        // Initial 0.5 + 1/3 * (5/6 - 0.5) = 0.6111
-        assertThat(state.getMastery()).isCloseTo(0.6111, within(0.0001));
+        // Initial 0.5 + 1/3 * (0 - 0.5) = 0.3333
+        assertThat(state.getMastery()).isCloseTo(0.3333, within(0.0001));
         assertThat(state.getEvidence()).isCloseTo(1.0, within(1e-9));
 
         // Second call sees profileAppliedAt != null and does nothing
         learnerProfileService.applySubmission(SUBMISSION_ID);
         verify(learnerSkillStateRepository, times(1)).saveAll(any());
-        verify(kgGraphClient, times(1)).findPracticedSubSkills(any());
+        verify(kgGraphClient, times(1)).findSubSkillsByCriteria(any());
     }
 
     @Test
     void applySubmission_whenKgThrowsUnavailable_doesNotMarkSubmissionApplied() {
         when(userSubmissionRepository.findByIdWithExerciseAndUser(SUBMISSION_ID))
                 .thenReturn(Optional.of(submission));
-        when(kgGraphClient.findPracticedSubSkills("exercises:" + EXERCISE_ID))
+        when(kgGraphClient.findAffectedSubSkills("SKILL_W", List.of("ERR_ARTICLE")))
                 .thenThrow(new KgUnavailableException("Neo4j down", new RuntimeException("conn refused")));
 
         assertThatThrownBy(() -> learnerProfileService.applySubmission(SUBMISSION_ID))
@@ -153,8 +155,24 @@ class LearnerProfileServiceTest {
         learnerProfileService.applySubmission(SUBMISSION_ID);
 
         assertThat(submission.getProfileAppliedAt()).isNull();
-        verify(kgGraphClient, never()).findPracticedSubSkills(any());
+        verify(kgGraphClient, never()).findSubSkillsByCriteria(any());
         verify(learnerSkillStateRepository, never()).saveAll(any());
+    }
+
+    @Test
+    void applySubmission_practiceDrill_marksAppliedWithoutChangingTheProfile() {
+        submission.setExercise(Exercise.builder().id(EXERCISE_ID).skillType(SkillType.READING).build());
+        submission.setAiStructuredFeedback(null);
+        when(userSubmissionRepository.findByIdWithExerciseAndUser(SUBMISSION_ID))
+                .thenReturn(Optional.of(submission));
+        when(userSubmissionRepository.findByIdForUpdate(SUBMISSION_ID))
+                .thenReturn(Optional.of(submission));
+
+        learnerProfileService.applySubmission(SUBMISSION_ID);
+
+        assertThat(submission.getProfileAppliedAt()).isNotNull();
+        verify(learnerSkillStateRepository, never()).saveAll(any());
+        verify(kgGraphClient, never()).findSubSkillsByCriteria(any());
     }
 }
 

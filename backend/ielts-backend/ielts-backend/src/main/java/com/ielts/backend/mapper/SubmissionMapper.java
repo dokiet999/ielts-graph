@@ -9,6 +9,9 @@ import com.ielts.backend.dto.response.SubmissionSummaryResponse;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.QuestionAnswer;
 import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.enums.SkillType;
+import com.ielts.backend.service.grading.BandConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -16,7 +19,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class SubmissionMapper {
+
+    private final BandConverter bandConverter;
 
     public SubmissionResponse toResponse(UserSubmission submission) {
         return toResponse(submission, Collections.emptyList());
@@ -98,9 +104,17 @@ public class SubmissionMapper {
                 .build();
     }
 
-    private static <B extends SubmissionSummaryResponse.SubmissionSummaryResponseBuilder<?, ?>> B withSummary(
+    private <B extends SubmissionSummaryResponse.SubmissionSummaryResponseBuilder<?, ?>> B withSummary(
             B builder, UserSubmission submission, int questionCount, int correctCount) {
         Exercise exercise = submission.getExercise();
+        Double bandScore = null;
+        if (exercise.getExerciseType().isTestWithBand()) {
+            if (exercise.getSkillType() == SkillType.READING || exercise.getSkillType() == SkillType.LISTENING) {
+                bandScore = bandConverter.convert(exercise.getSkillType(), correctCount, questionCount);
+            } else if (submission.getScore() != null) {
+                bandScore = submission.getScore().doubleValue();
+            }
+        }
         builder.id(submission.getId())
                 .exerciseId(exercise.getId())
                 .exerciseTitle(exercise.getTitle())
@@ -112,6 +126,7 @@ public class SubmissionMapper {
                 .status(submission.getStatus())
                 .score(submission.getScore())
                 .maxScore(submission.getMaxScore())
+                .bandScore(bandScore)
                 .correctCount(correctCount)
                 .questionCount(questionCount)
                 .timeSpent(submission.getTimeSpent())

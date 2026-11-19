@@ -8,6 +8,8 @@ import {
   toDashboardStats,
   toExercise,
   toExerciseSummaries,
+  toFinalTestSession,
+  toFinalTestStatus,
   toLesson,
   toSpeakingResult,
   toSubmission,
@@ -15,9 +17,12 @@ import {
   toWritingResult,
 } from './adapters'
 import type {
+  BeBaseResponse,
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
+  BeFinalTestSession,
+  BeFinalTestStatus,
   BeLessonDetail,
   BeMyCourse,
   BeSpeakingResult,
@@ -32,6 +37,8 @@ import type {
   CheckAnswerResponse,
   KgRecommendations,
   KgRecommendationsRequest,
+  Personalization,
+  ProfileSkill,
   SpeakingSubmissionRequest,
   SubmissionRequest,
   User,
@@ -103,7 +110,17 @@ export function speakingSubmitError(error: unknown): { message: string; retryabl
   return { message: errorMessage(error), retryable: false }
 }
 
-const data = <T>(p: Promise<{ data: T }>) => p.then((r) => r.data)
+const unwrap = <T>(body: T | BeBaseResponse<T>): T =>
+  body !== null &&
+  typeof body === 'object' &&
+  'meta' in body &&
+  'data' in body &&
+  (body as BeBaseResponse<T>).meta !== null &&
+  typeof (body as BeBaseResponse<T>).meta === 'object'
+    ? (body as BeBaseResponse<T>).data
+    : (body as T)
+
+const data = <T>(p: Promise<{ data: T | BeBaseResponse<T> }>) => p.then((r) => unwrap(r.data))
 
 /**
  * Concurrent calls for the same lesson share one request (a lesson page asks for the lesson
@@ -147,6 +164,26 @@ export const api = {
     data(http.get<BeExerciseSummary[]>(`/sections/${sectionId}/exercises`)).then(
       toExerciseSummaries,
     ),
+  sectionMockTests: (sectionId: string) =>
+    data(http.get<BeExerciseSummary[]>(`/sections/${sectionId}/mock-tests`)).then(
+      toExerciseSummaries,
+    ),
+  sectionFinalTest: (sectionId: string) =>
+    data(http.get<BeFinalTestStatus>(`/sections/${sectionId}/final-test`)).then(
+      toFinalTestStatus,
+    ),
+  unlockSectionFinalTest: (sectionId: string, deadlineDays: number) =>
+    data(
+      http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/unlock`, { deadlineDays }),
+    ).then(toFinalTestStatus),
+  lockSectionFinalTest: (sectionId: string) =>
+    data(http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/lock`)).then(
+      toFinalTestStatus,
+    ),
+  startSectionFinalTest: (sectionId: string) =>
+    data(http.post<BeFinalTestSession>(`/sections/${sectionId}/final-test/start`)).then(
+      toFinalTestSession,
+    ),
   lessonExercises: (lessonId: string) =>
     lessonDetail(lessonId).then((r) => toExerciseSummaries(r.exercises)),
 
@@ -177,7 +214,8 @@ export const api = {
       body.filename ?? (body.audio instanceof File ? body.audio.name : 'recording.webm')
     form.append('audio', body.audio, filename)
     if (body.part) form.append('part', body.part)
-    if (body.durationSec !== undefined) form.append('timeSpent', String(Math.round(body.durationSec)))
+    if (body.durationSec !== undefined)
+      form.append('timeSpent', String(Math.round(body.durationSec)))
     return data(
       http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
         timeout: 180_000,
@@ -195,4 +233,9 @@ export const api = {
         params: { skill, errors: errors.join(','), band },
       }),
     ),
+
+  /** Weaknesses of the learner across their graded Writing and Speaking attempts (learner profile + KG). */
+  personalization: () => data(http.get<Personalization>('/personalization')),
+  setTargetBand: (skill: ProfileSkill, targetBand: number) =>
+    data(http.put<Personalization>('/personalization/target-band', { skill, targetBand })),
 }

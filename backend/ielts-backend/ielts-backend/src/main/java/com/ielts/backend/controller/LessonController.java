@@ -1,5 +1,6 @@
 package com.ielts.backend.controller;
 
+import com.ielts.backend.common.BaseResponse;
 import com.ielts.backend.dto.response.LessonDetailResponse;
 import com.ielts.backend.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,8 +25,8 @@ public class LessonController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Lesson detail. Preview lessons are public; others require enrollment (FR-2.01)")
-    public LessonDetailResponse getLessonDetail(@PathVariable UUID id,
-                                                @AuthenticationPrincipal UserDetails principal) {
-        return lessonService.getLessonDetail(id, principal != null ? principal.getUsername() : null);
+    public BaseResponse<LessonDetailResponse> getLessonDetail(@PathVariable UUID id,
+                                                             @AuthenticationPrincipal UserDetails principal) {
+        return BaseResponse.ofSuccess(lessonService.getLessonDetail(id, principal != null ? principal.getUsername() : null));
     }
 }

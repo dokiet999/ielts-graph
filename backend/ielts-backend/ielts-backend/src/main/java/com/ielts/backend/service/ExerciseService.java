@@ -6,13 +6,14 @@ import com.ielts.backend.dto.response.ExerciseResponse;
 import com.ielts.backend.dto.response.PageResponse;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
 public interface ExerciseService {
 
-    PageResponse<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable);
+    Page<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable);
 
     ExerciseDetailPracticeResponse getExerciseForPractice(UUID id);
 

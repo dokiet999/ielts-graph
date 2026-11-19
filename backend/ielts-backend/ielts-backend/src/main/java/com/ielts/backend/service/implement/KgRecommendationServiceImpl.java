@@ -4,7 +4,7 @@ import com.ielts.backend.dto.response.KgRecommendationResponse;
 import com.ielts.backend.dto.response.KgRecommendationResponse.NodeRef;
 import com.ielts.backend.dto.response.KgRecommendationResponse.RecommendationItem;
 import com.ielts.backend.dto.response.KgRecommendationResponse.RecommendationPath;
-import com.ielts.backend.exception.BadRequestException;
+import com.ielts.backend.exception.customException.BadRequestException;
 import com.ielts.backend.service.KgRecommendationService;
 import com.ielts.backend.service.kg.KgGraphClient;
 import com.ielts.backend.service.kg.KgGraphClient.CandidateResourceRow;

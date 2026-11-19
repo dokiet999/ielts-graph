@@ -1,4 +1,6 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
+
+import com.ielts.backend.exception.GlobalExceptionHandler;
 
 /**
  * Thrown when the Neo4j Knowledge Graph cannot be reached or a Cypher query fails.

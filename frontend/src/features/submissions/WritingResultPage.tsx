@@ -103,8 +103,14 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
   const essay = sub.essayText ?? ''
   const ex = sub.exercise
   const overall = feedback?.overallBand ?? sub.score
+  const listTab =
+    ex.exerciseType === 'FINAL_TEST'
+      ? 'final-test'
+      : ex.exerciseType === 'MOCK_TEST'
+        ? 'mock-tests'
+        : 'exercises'
   const backTo =
-    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/exercises` : '/history'
+    ex.courseId && ex.sectionId ? `/learn/${ex.courseId}/${ex.sectionId}/${listTab}` : '/history'
 
   return (
     <div>
@@ -223,7 +229,11 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
         </Button>
       </div>
 
-      <ExercisePager sectionId={ex.sectionId} exerciseId={sub.exerciseId} />
+      <ExercisePager
+        sectionId={ex.sectionId}
+        exerciseId={sub.exerciseId}
+        exerciseType={sub.exerciseType}
+      />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ielts.backend.config.SpeakingAsrConfig;
-import com.ielts.backend.exception.SpeakingAsrException;
+import com.ielts.backend.exception.customException.SpeakingAsrException;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;

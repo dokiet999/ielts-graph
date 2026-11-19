@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import type { ExerciseSummary } from '@/lib/types'
-import { answeredCount, useSessionStore, type ExerciseSession } from '@/stores/session'
+import { isInProgress, useSessionStore, type ExerciseSession } from '@/stores/session'
 
 export type ExerciseStatus = 'done' | 'in-progress' | 'todo'
 
 /** "In progress" means an unsubmitted draft exists; it can coexist with earlier submissions. */
 export function exerciseStatus(ex: ExerciseSummary, session?: ExerciseSession): ExerciseStatus {
-  if (answeredCount(session) > 0) return 'in-progress'
+  if (isInProgress(session)) return 'in-progress'
   if (ex.attemptCount > 0) return 'done'
   return 'todo'
 }

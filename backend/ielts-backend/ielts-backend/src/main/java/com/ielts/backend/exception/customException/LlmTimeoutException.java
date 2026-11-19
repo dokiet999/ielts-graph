@@ -1,4 +1,6 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
+
+import com.ielts.backend.exception.GlobalExceptionHandler;
 
 /**
  * Thrown by {@link com.ielts.backend.service.llm.LlmClient} when the LLM API call
