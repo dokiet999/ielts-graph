@@ -5,6 +5,7 @@ import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Lesson;
 import com.ielts.backend.entity.Section;
 import com.ielts.backend.entity.Users;
+import com.ielts.backend.enums.ContentStatus;
 import com.ielts.backend.exception.customException.ForbiddenException;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.exception.customException.UnauthorizedException;
@@ -27,7 +28,7 @@ public class CourseAccessServiceImpl implements CourseAccessService {
     @Override
     public void checkLessonAccess(Lesson lesson, String username) {
         Course course = lesson.getSection().getCourse();
-        if (!isVisible(course)) {
+        if (!isVisible(course) || lesson.getStatus() != ContentStatus.APPROVED) {
             throw new ResourceNotFoundException("Lesson", lesson.getId());
         }
         if (Boolean.TRUE.equals(lesson.getIsPreview())) {

@@ -15,6 +15,8 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     Optional<Enrollment> findByUserIdAndCourseId(UUID userId, UUID courseId);
 
+    boolean existsByCourseId(UUID courseId);
+
     boolean existsByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
 
     /**
@@ -31,7 +33,17 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     long countByCourseIdAndIsActiveTrue(UUID courseId);
 
+    long countByUserIdAndIsActiveTrue(UUID userId);
+
     Optional<Enrollment> findByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
+
+    @Query("""
+            select e.user.id as userId, count(e) as total
+            from Enrollment e
+            where e.user.id in :userIds and e.isActive = true
+            group by e.user.id
+            """)
+    List<UserEnrollmentCount> countActiveByUserIds(@Param("userIds") Collection<UUID> userIds);
 
     /** Active enrollments of a users in visible (active and published) courses, newest first. */
     @Query("""
@@ -55,6 +67,12 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     interface CourseEnrollmentCount {
         UUID getCourseId();
+
+        long getTotal();
+    }
+
+    interface UserEnrollmentCount {
+        UUID getUserId();
 
         long getTotal();
     }

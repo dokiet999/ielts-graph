@@ -17,6 +17,9 @@ public interface SectionRepository extends JpaRepository<Section, UUID> {
     @Query("select s from Section s join fetch s.course c join fetch c.teacher where s.id = :id")
     Optional<Section> findByIdWithCourse(@Param("id") UUID id);
 
+    @Query("select coalesce(max(s.ordering), 0) from Section s where s.course.id = :courseId")
+    int findMaxOrderingByCourseId(@Param("courseId") UUID courseId);
+
     @Query("""
             select s.course.id as courseId, count(s) as total
             from Section s

@@ -3,12 +3,13 @@ package com.ielts.backend.service.implement;
 import com.ielts.backend.dto.request.ExerciseRequest;
 import com.ielts.backend.dto.response.ExerciseDetailPracticeResponse;
 import com.ielts.backend.dto.response.ExerciseResponse;
-import com.ielts.backend.dto.response.PageResponse;
+import com.ielts.backend.entity.Course;
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.entity.Lesson;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionGroup;
 import com.ielts.backend.entity.QuestionOption;
+import com.ielts.backend.enums.ContentStatus;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
@@ -18,10 +19,12 @@ import com.ielts.backend.service.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -37,25 +40,20 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     @Transactional(readOnly = true)
     public Page<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable) {
-        Page<Exercise> page;
-        if (skill != null && type != null) {
-            page = exerciseRepository.findBySkillTypeAndExerciseType(skill, type, pageable);
-        } else if (skill != null) {
-            page = exerciseRepository.findBySkillType(skill, pageable);
-        } else if (type != null) {
-            page = exerciseRepository.findByExerciseType(type, pageable);
-        } else {
-            page = exerciseRepository.findAll(pageable);
-        }
-
-        return page.map(exerciseMapper::toResponse);
+        List<Specification<Exercise>> specs = Stream.of(
+                        ExerciseSpecifications.visible(),
+                        ExerciseSpecifications.hasSkill(skill),
+                        ExerciseSpecifications.hasType(type))
+                .filter(Objects::nonNull)
+                .toList();
+        return exerciseRepository.findAll(Specification.allOf(specs), pageable)
+                .map(exerciseMapper::toResponse);
     }
 
     @Override
     @Transactional(readOnly = true)
     public ExerciseDetailPracticeResponse getExerciseForPractice(UUID id) {
-        Exercise exercise = exerciseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Exercise", id));
+        Exercise exercise = findPublicExerciseOrThrow(id);
 
         List<QuestionGroup> groups = questionGroupRepository.findByExerciseIdOrderByOrderingAsc(id);
         List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(id);
@@ -82,9 +80,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     @Transactional(readOnly = true)
     public ExerciseResponse getExercise(UUID id) {
-        Exercise exercise = exerciseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Exercise", id));
-        return exerciseMapper.toResponse(exercise);
+        return exerciseMapper.toResponse(findPublicExerciseOrThrow(id));
     }
 
     @Override
@@ -112,5 +108,25 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         Exercise saved = exerciseRepository.save(exercise);
         return exerciseMapper.toResponse(saved);
+    }
+
+    private Exercise findPublicExerciseOrThrow(UUID id) {
+        Exercise exercise = exerciseRepository.findByIdWithLessonAndCourse(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise", id));
+        if (!isPubliclyVisible(exercise)) {
+            throw new ResourceNotFoundException("Exercise", id);
+        }
+        return exercise;
+    }
+
+    private boolean isPubliclyVisible(Exercise exercise) {
+        Lesson lesson = exercise.getLesson();
+        if (lesson == null) {
+            return true;
+        }
+        Course course = lesson.getSection().getCourse();
+        return lesson.getStatus() == ContentStatus.APPROVED
+                && Boolean.TRUE.equals(course.getIsActive())
+                && course.getPublishedAt() != null;
     }
 }

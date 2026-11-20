@@ -86,8 +86,8 @@ public class CourseServiceImpl implements CourseService {
         ExerciseCounts counts = progressReader.countExercises(List.of(courseId), users != null ? users.getId() : null);
 
         List<Section> sections = sectionRepository.findByCourseIdOrderByOrderingAsc(courseId);
-        // One query for all lessons of the course, then group them by section in memory
-        List<LessonSummaryResponse> lessons = lessonRepository.findAllByCourseIdOrdered(courseId).stream()
+        // One query for all approved lessons of the course, then group them by section in memory
+        List<LessonSummaryResponse> lessons = lessonRepository.findApprovedByCourseIdOrdered(courseId).stream()
                 .map(l -> lessonMapper.toSummary(l, counts.total(l.getId())))
                 .toList();
         Map<UUID, List<LessonSummaryResponse>> lessonsBySection = lessons.stream()
@@ -122,7 +122,7 @@ public class CourseServiceImpl implements CourseService {
             throw new ResourceNotFoundException("Course", courseId);
         }
         ExerciseCounts counts = progressReader.countExercises(List.of(courseId), null);
-        return lessonRepository.findAllByCourseIdOrdered(courseId).stream()
+        return lessonRepository.findApprovedByCourseIdOrdered(courseId).stream()
                 .map(l -> lessonMapper.toSummary(l, counts.total(l.getId())))
                 .toList();
     }

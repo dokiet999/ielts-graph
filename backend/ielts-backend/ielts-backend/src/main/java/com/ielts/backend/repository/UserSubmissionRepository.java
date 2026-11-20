@@ -63,6 +63,33 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     List<SubmissionScore> findScoresByUserIdAndExerciseIds(@Param("userId") UUID userId,
                                                            @Param("exerciseIds") Collection<UUID> exerciseIds);
 
+    @Query("select count(s) > 0 from UserSubmission s where s.exercise.lesson.id = :lessonId")
+    boolean existsByLessonId(@Param("lessonId") UUID lessonId);
+
+    @Query("select count(s) > 0 from UserSubmission s where s.exercise.lesson.section.id = :sectionId")
+    boolean existsBySectionId(@Param("sectionId") UUID sectionId);
+
+    @Query("select count(s) > 0 from UserSubmission s where s.exercise.lesson.section.course.id = :courseId")
+    boolean existsByCourseId(@Param("courseId") UUID courseId);
+
+    boolean existsByExerciseId(UUID exerciseId);
+
+    long countByExerciseId(UUID exerciseId);
+
+    @Query("""
+            select s.exercise.id as exerciseId, count(s) as total
+            from UserSubmission s
+            where s.exercise.id in :exerciseIds
+            group by s.exercise.id
+            """)
+    List<ExerciseSubmissionCount> countByExerciseIds(@Param("exerciseIds") Collection<UUID> exerciseIds);
+
+    interface ExerciseSubmissionCount {
+        UUID getExerciseId();
+
+        long getTotal();
+    }
+
     interface SubmissionScore {
         UUID getId();
 

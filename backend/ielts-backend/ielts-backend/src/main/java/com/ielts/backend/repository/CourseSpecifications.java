@@ -1,10 +1,12 @@
 package com.ielts.backend.repository;
 
 import com.ielts.backend.entity.Course;
+import com.ielts.backend.enums.ContentStatus;
 import com.ielts.backend.enums.DifficultyLevel;
 import com.ielts.backend.enums.SkillType;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -32,6 +34,24 @@ public final class CourseSpecifications {
 
     public static Specification<Course> hasLevel(DifficultyLevel level) {
         return level == null ? null : (root, query, cb) -> cb.equal(root.get("difficultyLevel"), level);
+    }
+
+    public static Specification<Course> hasStatus(ContentStatus status) {
+        return status == null ? null : (root, query, cb) -> cb.equal(root.get("status"), status);
+    }
+
+    public static Specification<Course> hasIsActive(Boolean isActive) {
+        return isActive == null ? null : (root, query, cb) -> cb.equal(root.get("isActive"), isActive);
+    }
+
+    public static Specification<Course> matchesAdminKeyword(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return null;
+        }
+        String pattern = "%" + escapeLike(keyword.trim().toLowerCase(Locale.ROOT)) + "%";
+        return (root, query, cb) -> cb.or(
+                cb.like(cb.lower(root.get("title")), pattern, '\\'),
+                cb.like(cb.lower(root.get("teacher").get("fullName")), pattern, '\\'));
     }
 
     public static Specification<Course> titleContains(String keyword) {

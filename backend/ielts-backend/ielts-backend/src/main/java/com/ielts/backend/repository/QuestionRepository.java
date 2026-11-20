@@ -2,6 +2,7 @@ package com.ielts.backend.repository;
 
 import com.ielts.backend.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,6 +16,10 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     List<Question> findByExerciseIdOrderByOrderingAsc(UUID exerciseId);
 
     List<Question> findByQuestionGroupIdOrderByOrderingAsc(UUID questionGroupId);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from Question q where q.exercise.id = :exerciseId")
+    void deleteByExerciseId(@Param("exerciseId") UUID exerciseId);
 
     /** Number of questions and total points per exercise; exercises without questions are absent. */
     @Query("""

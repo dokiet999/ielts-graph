@@ -64,6 +64,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/teacher/**").hasRole("TEACHER")
                         // UC07: only learners can join a course
                         .requestMatchers(HttpMethod.POST, "/api/courses/*/enroll").hasRole("STUDENT")
                         // Exercise authoring: only teachers and admins can create exercises
@@ -76,6 +78,7 @@ public class SecurityConfig {
                                 "/api/exercises/*/submit/speaking").hasRole("STUDENT")
                         // Must come before the public /api/courses/** rule below
                         .requestMatchers(HttpMethod.GET, "/api/courses/my").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/categories").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
                         // Only the exercise list and detail are public; /{id}/submissions needs login
                         .requestMatchers(HttpMethod.GET, "/api/exercises", "/api/exercises/*").permitAll()
