@@ -16,6 +16,7 @@ public class CategoryResponse {
     private String iconUrl;
     private Boolean isActive;
     private Integer ordering;
+    private long courseCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
