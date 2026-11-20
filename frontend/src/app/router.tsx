@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AppLayout } from '@/layouts/AppLayout'
 import { CourseLayout } from '@/layouts/CourseLayout'
-import { RequireAuth, GuestOnly } from '@/features/auth/guards'
+import { AdminLayout, TeacherLayout } from '@/layouts/RoleShellLayout'
+import { RequireAuth, RequireRole, GuestOnly } from '@/features/auth/guards'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { RegisterPage } from '@/features/auth/RegisterPage'
 import { HomePage } from '@/features/home/HomePage'
@@ -19,6 +20,18 @@ import { ResultPage } from '@/features/submissions/ResultPage'
 import { ReviewPage } from '@/features/submissions/ReviewPage'
 import { HistoryPage } from '@/features/submissions/HistoryPage'
 import { ProfilePage } from '@/features/profile/ProfilePage'
+import { AdminDashboardPage } from '@/features/admin/AdminDashboardPage'
+import { AdminReviewsPage } from '@/features/admin/AdminReviewsPage'
+import { AdminCoursesPage } from '@/features/admin/AdminCoursesPage'
+import { AdminCoursePreviewPage } from '@/features/admin/AdminCoursePreviewPage'
+import { AdminCategoriesPage } from '@/features/admin/AdminCategoriesPage'
+import { AdminTeachersPage } from '@/features/admin/AdminTeachersPage'
+import { AdminStudentsPage } from '@/features/admin/AdminStudentsPage'
+import { TeacherDashboardPage } from '@/features/teacher/TeacherDashboardPage'
+import { TeacherCoursesPage } from '@/features/teacher/TeacherCoursesPage'
+import { TeacherCourseDetailPage } from '@/features/teacher/TeacherCourseDetailPage'
+import { TeacherLessonExercisesPage } from '@/features/teacher/TeacherLessonExercisesPage'
+import { TeacherExerciseEditorPage } from '@/features/teacher/TeacherExerciseEditorPage'
 import { NotFoundPage } from '@/features/NotFoundPage'
 import { RouteError } from '@/features/RouteError'
 import { DEMO_MODE } from '@/lib/demo'
@@ -38,36 +51,75 @@ export const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            element: <AppLayout />,
+            element: <RequireRole allow={['STUDENT']} />,
             children: [
-              { path: '/', element: <HomePage /> },
-              { path: '/courses', element: <CourseListPage /> },
-              { path: '/courses/:courseId', element: <CourseDetailPage /> },
-              { path: '/history', element: <HistoryPage /> },
               {
-                path: '/profile',
-                element: DEMO_MODE ? <Navigate to="/" replace /> : <ProfilePage />,
+                element: <AppLayout />,
+                children: [
+                  { path: '/', element: <HomePage /> },
+                  { path: '/courses', element: <CourseListPage /> },
+                  { path: '/courses/:courseId', element: <CourseDetailPage /> },
+                  { path: '/history', element: <HistoryPage /> },
+                  {
+                    path: '/profile',
+                    element: DEMO_MODE ? <Navigate to="/" replace /> : <ProfilePage />,
+                  },
+                  { path: '/submissions/:submissionId', element: <ResultPage /> },
+                ],
               },
-              { path: '/submissions/:submissionId', element: <ResultPage /> },
+              {
+                path: '/learn/:courseId/:sectionId',
+                element: <CourseLayout />,
+                children: [
+                  { index: true, element: <Navigate to="overview" replace /> },
+                  { path: 'overview', element: <OverviewPage /> },
+                  { path: 'syllabus', element: <SyllabusPage /> },
+                  { path: 'lessons/:lessonId', element: <LessonPage /> },
+                  { path: 'exercises', element: <ExercisesPage /> },
+                  { path: 'mock-tests', element: <MockTestsPage /> },
+                  { path: 'final-test', element: <FinalTestPage /> },
+                  { path: 'info', element: <CourseInfoPage /> },
+                ],
+              },
+              // Full-screen pages without navigation chrome.
+              { path: '/run/:exerciseId', element: <RunnerPage /> },
+              { path: '/submissions/:submissionId/review', element: <ReviewPage /> },
             ],
           },
           {
-            path: '/learn/:courseId/:sectionId',
-            element: <CourseLayout />,
+            path: '/admin',
+            element: <RequireRole allow={['ADMIN']} />,
             children: [
-              { index: true, element: <Navigate to="overview" replace /> },
-              { path: 'overview', element: <OverviewPage /> },
-              { path: 'syllabus', element: <SyllabusPage /> },
-              { path: 'lessons/:lessonId', element: <LessonPage /> },
-              { path: 'exercises', element: <ExercisesPage /> },
-              { path: 'mock-tests', element: <MockTestsPage /> },
-              { path: 'final-test', element: <FinalTestPage /> },
-              { path: 'info', element: <CourseInfoPage /> },
+              {
+                element: <AdminLayout />,
+                children: [
+                  { index: true, element: <AdminDashboardPage /> },
+                  { path: 'reviews', element: <AdminReviewsPage /> },
+                  { path: 'courses', element: <AdminCoursesPage /> },
+                  { path: 'courses/:courseId', element: <AdminCoursePreviewPage /> },
+                  { path: 'categories', element: <AdminCategoriesPage /> },
+                  { path: 'teachers', element: <AdminTeachersPage /> },
+                  { path: 'students', element: <AdminStudentsPage /> },
+                ],
+              },
             ],
           },
-          // Full-screen pages without navigation chrome.
-          { path: '/run/:exerciseId', element: <RunnerPage /> },
-          { path: '/submissions/:submissionId/review', element: <ReviewPage /> },
+          {
+            path: '/teacher',
+            element: <RequireRole allow={['TEACHER']} />,
+            children: [
+              {
+                element: <TeacherLayout />,
+                children: [
+                  { index: true, element: <TeacherDashboardPage /> },
+                  { path: 'courses', element: <TeacherCoursesPage /> },
+                  { path: 'courses/:courseId', element: <TeacherCourseDetailPage /> },
+                  { path: 'lessons/:lessonId/exercises', element: <TeacherLessonExercisesPage /> },
+                  { path: 'exercises/:exerciseId', element: <TeacherExerciseEditorPage /> },
+                ],
+              },
+            ],
+          },
         ],
       },
       { path: '*', element: <NotFoundPage /> },
