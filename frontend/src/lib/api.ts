@@ -17,7 +17,12 @@ import {
   toWritingResult,
 } from './adapters'
 import type {
+  BeAdminCourseDetail,
+  BeAdminCourseSummary,
+  BeAdminLesson,
+  BeAdminSection,
   BeBaseResponse,
+  BeCategory,
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
@@ -25,21 +30,51 @@ import type {
   BeFinalTestStatus,
   BeLessonDetail,
   BeMyCourse,
+  BeReviewQueueItem,
   BeSpeakingResult,
+  BeStudentAccount,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
+  BeTeacherAccount,
+  BeTeacherCourseSummary,
+  BeTeacherExerciseDetail,
+  BeTeacherLessonExercises,
+  BeUser,
   BeWritingResult,
 } from './backend-types'
 import type {
+  AdminCourseDetail,
+  AdminCourseSummary,
+  AdminLessonItem,
+  AdminSectionItem,
   AnswerValue,
   AuthResponse,
+  Category,
+  CategoryInput,
   CheckAnswerResponse,
+  ContentStatus,
+  CreateTeacherInput,
   KgRecommendations,
   KgRecommendationsRequest,
+  PagedResult,
+  ReplaceExerciseQuestionsInput,
+  ReviewQueueItem,
+  SkillType,
   SpeakingSubmissionRequest,
+  StudentAccount,
   SubmissionRequest,
+  TeacherAccount,
+  TeacherCourseInput,
+  TeacherCourseSummary,
+  TeacherExerciseDetail,
+  TeacherExerciseInput,
+  TeacherLessonExercises,
+  TeacherLessonInput,
+  TeacherSectionInput,
+  UpdateTeacherInput,
   User,
+  UserStatus,
   WritingSubmissionRequest,
 } from './types'
 import { isRetryableSpeakingError, speakingSubmitMessage } from './speaking'
@@ -49,13 +84,67 @@ export const http = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? '/api',
 })
 
+function encodeBasicToken(username: string, password: string): string {
+  const bytes = new TextEncoder().encode(`${username}:${password}`)
+  let binary = ''
+  for (const byte of bytes) binary += String.fromCharCode(byte)
+  return `Basic ${btoa(binary)}`
+}
+
+function mapBeUser(u: BeUser): User {
+  return {
+    id: u.id,
+    username: u.username ?? undefined,
+    email: u.email,
+    fullName: u.fullName,
+    avatarUrl: u.avatarUrl ?? null,
+    bio: u.bio ?? null,
+    phone: u.phone ?? null,
+    role: u.role,
+    status: u.status,
+  }
+}
+
+function mapTeacherLessonExercises(raw: BeTeacherLessonExercises): TeacherLessonExercises {
+  return {
+    ...raw,
+    exercises: (raw.exercises ?? []).map((e) => ({
+      ...e,
+      passingScore: Number(e.passingScore ?? 0),
+    })),
+  }
+}
+
+function mapTeacherExerciseDetail(raw: BeTeacherExerciseDetail): TeacherExerciseDetail {
+  return {
+    ...raw,
+    passingScore: Number(raw.passingScore ?? 0),
+    questionGroups: (raw.questionGroups ?? []).map((g) => ({
+      ...g,
+      questions: (g.questions ?? []).map((q) => ({
+        ...q,
+        points: Number(q.points ?? 1),
+        options: (q.options ?? []).map((o) => ({
+          ...o,
+          isCorrect: Boolean(o.isCorrect),
+          point: o.point !== undefined && o.point !== null ? Number(o.point) : undefined,
+        })),
+      })),
+    })),
+  }
+}
+
 http.interceptors.request.use((config) => {
   if (demoAuthHeader) {
     config.headers.Authorization = demoAuthHeader
     return config
   }
-  const token = useAuthStore.getState().token
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  if (!config.headers.Authorization) {
+    const token = useAuthStore.getState().token
+    if (token) {
+      config.headers.Authorization = token.startsWith('Basic ') ? token : `Bearer ${token}`
+    }
+  }
   return config
 })
 
@@ -73,7 +162,13 @@ http.interceptors.response.use(
 
 export function errorMessage(error: unknown, fallback = 'Đã có lỗi xảy ra, vui lòng thử lại.') {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as { message?: string } | undefined
+    const data = error.response?.data as { code?: string; message?: string } | undefined
+    if (data?.code === 'ACCOUNT_PENDING') {
+      return 'Tài khoản giảng viên đang chờ quản trị viên phê duyệt.'
+    }
+    if (data?.code === 'ACCOUNT_LOCKED') {
+      return 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
+    }
     return data?.message ?? fallback
   }
   return fallback
@@ -120,6 +215,21 @@ const unwrap = <T>(body: T | BeBaseResponse<T>): T =>
 
 const data = <T>(p: Promise<{ data: T | BeBaseResponse<T> }>) => p.then((r) => unwrap(r.data))
 
+const paged = <T>(p: Promise<{ data: BeBaseResponse<T[]> }>): Promise<PagedResult<T>> =>
+  p.then((r) => {
+    const items = r.data.data ?? []
+    const meta = r.data.meta ?? { code: 200 }
+    const size = meta.size ?? (items.length || 10)
+    const total = meta.total ?? items.length
+    return {
+      items,
+      page: (meta.page ?? 0) + 1,
+      size,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / size)),
+    }
+  })
+
 /**
  * Concurrent calls for the same lesson share one request (a lesson page asks for the lesson
  * and for its exercises, which come from the same endpoint).
@@ -142,13 +252,21 @@ const mySubmissions = () =>
   data(http.get<BeSubmissionSummary[]>('/submissions/me')).then((list) => list.map(toSubmission))
 
 export const api = {
-  login: (body: { email: string; password: string }) =>
-    data(http.post<AuthResponse>('/auth/login', body)),
+  login: async (body: { email: string; password: string }): Promise<AuthResponse> => {
+    if (import.meta.env.VITE_USE_MOCK === 'false') {
+      const basicToken = encodeBasicToken(body.email.trim(), body.password)
+      const user = await data(
+        http.get<BeUser>('/users/me', { headers: { Authorization: basicToken } }),
+      ).then(mapBeUser)
+      return { accessToken: basicToken, user }
+    }
+    return data(http.post<AuthResponse>('/auth/login', body))
+  },
   register: (body: { fullName: string; email: string; password: string }) =>
     data(http.post<AuthResponse>('/auth/register', body)),
-  me: () => data(http.get<User>('/users/me')),
+  me: () => data(http.get<BeUser>('/users/me')).then(mapBeUser),
   updateMe: (body: Partial<Pick<User, 'fullName' | 'phone' | 'bio' | 'avatarUrl'>>) =>
-    data(http.put<User>('/users/me', body)),
+    data(http.put<BeUser>('/users/me', body)).then(mapBeUser),
 
   // No dashboard endpoint: the numbers are derived from the learner's courses and submissions.
   dashboard: () =>
@@ -229,5 +347,225 @@ export const api = {
       http.get<KgRecommendations>('/kg/recommendations', {
         params: { skill, errors: errors.join(','), band },
       }),
+    ),
+
+  // ---------------------------------------------------------------- categories
+  categories: () => data(http.get<BeCategory[]>('/categories')) as Promise<Category[]>,
+
+  // ---------------------------------------------------------------- admin
+  adminCategories: (params: { isActive?: boolean; q?: string; page?: number; size?: number }) =>
+    paged<Category>(
+      http.get<BeBaseResponse<BeCategory[]>>('/admin/categories', {
+        params: {
+          ...(params.isActive !== undefined ? { isActive: params.isActive } : {}),
+          ...(params.q?.trim() ? { q: params.q.trim() } : {}),
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminCreateCategory: (body: CategoryInput) =>
+    data(http.post<BeCategory>('/admin/categories', body)) as Promise<Category>,
+  adminUpdateCategory: (id: string, body: CategoryInput) =>
+    data(http.put<BeCategory>(`/admin/categories/${id}`, body)) as Promise<Category>,
+  adminDeleteCategory: (id: string) =>
+    data(http.delete<null>(`/admin/categories/${id}`)) as Promise<null>,
+
+  adminTeachers: (params: { status?: UserStatus | ''; q?: string; page?: number; size?: number }) =>
+    paged<TeacherAccount>(
+      http.get<BeBaseResponse<BeTeacherAccount[]>>('/admin/teachers', {
+        params: {
+          ...(params.status ? { status: params.status } : {}),
+          ...(params.q?.trim() ? { q: params.q.trim() } : {}),
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminTeacherDetail: (id: string) =>
+    data(http.get<BeTeacherAccount>(`/admin/teachers/${id}`)) as Promise<TeacherAccount>,
+  adminCreateTeacher: (body: CreateTeacherInput) =>
+    data(http.post<BeTeacherAccount>('/admin/teachers', body)) as Promise<TeacherAccount>,
+  adminUpdateTeacher: (id: string, body: UpdateTeacherInput) =>
+    data(http.put<BeTeacherAccount>(`/admin/teachers/${id}`, body)) as Promise<TeacherAccount>,
+  adminResetTeacherPassword: (id: string) =>
+    data(
+      http.post<BeTeacherAccount>(`/admin/teachers/${id}/reset-password`),
+    ) as Promise<TeacherAccount>,
+  adminApproveTeacher: (id: string) =>
+    data(http.post<BeTeacherAccount>(`/admin/teachers/${id}/approve`)) as Promise<TeacherAccount>,
+  adminLockTeacher: (id: string, reason: string) =>
+    data(
+      http.post<BeTeacherAccount>(`/admin/teachers/${id}/lock`, { reason }),
+    ) as Promise<TeacherAccount>,
+  adminUnlockTeacher: (id: string) =>
+    data(http.post<BeTeacherAccount>(`/admin/teachers/${id}/unlock`)) as Promise<TeacherAccount>,
+
+  adminStudents: (params: { status?: UserStatus | ''; q?: string; page?: number; size?: number }) =>
+    paged<StudentAccount>(
+      http.get<BeBaseResponse<BeStudentAccount[]>>('/admin/students', {
+        params: {
+          ...(params.status ? { status: params.status } : {}),
+          ...(params.q?.trim() ? { q: params.q.trim() } : {}),
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminLockStudent: (id: string, reason: string) =>
+    data(
+      http.post<BeStudentAccount>(`/admin/students/${id}/lock`, { reason }),
+    ) as Promise<StudentAccount>,
+  adminUnlockStudent: (id: string) =>
+    data(http.post<BeStudentAccount>(`/admin/students/${id}/unlock`)) as Promise<StudentAccount>,
+
+  adminCourses: (params: {
+    status?: ContentStatus | ''
+    isActive?: boolean
+    skill?: SkillType | ''
+    categoryId?: string
+    q?: string
+    page?: number
+    size?: number
+  }) =>
+    paged<AdminCourseSummary>(
+      http.get<BeBaseResponse<BeAdminCourseSummary[]>>('/admin/courses', {
+        params: {
+          ...(params.status ? { status: params.status } : {}),
+          ...(params.isActive !== undefined ? { isActive: params.isActive } : {}),
+          ...(params.skill ? { skill: params.skill } : {}),
+          ...(params.categoryId ? { categoryId: params.categoryId } : {}),
+          ...(params.q?.trim() ? { q: params.q.trim() } : {}),
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminSetCourseFeatured: (id: string, featured: boolean) =>
+    data(
+      http.patch<BeAdminCourseSummary>(`/admin/courses/${id}/featured`, { featured }),
+    ) as Promise<AdminCourseSummary>,
+  adminDeactivateCourse: (id: string, reason: string) =>
+    data(
+      http.post<BeAdminCourseSummary>(`/admin/courses/${id}/deactivate`, { reason }),
+    ) as Promise<AdminCourseSummary>,
+  adminActivateCourse: (id: string) =>
+    data(http.post<BeAdminCourseSummary>(`/admin/courses/${id}/activate`)) as Promise<AdminCourseSummary>,
+
+  adminCourseReviews: (params: { status?: ContentStatus; page?: number; size?: number }) =>
+    paged<ReviewQueueItem>(
+      http.get<BeBaseResponse<BeReviewQueueItem[]>>('/admin/reviews/courses', {
+        params: {
+          status: params.status ?? 'PENDING_REVIEW',
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminLessonReviews: (params: { status?: ContentStatus; page?: number; size?: number }) =>
+    paged<ReviewQueueItem>(
+      http.get<BeBaseResponse<BeReviewQueueItem[]>>('/admin/reviews/lessons', {
+        params: {
+          status: params.status ?? 'PENDING_REVIEW',
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  adminCourseDetail: (id: string) =>
+    data(http.get<BeAdminCourseDetail>(`/admin/courses/${id}`)) as Promise<AdminCourseDetail>,
+  adminApproveCourse: (id: string, note?: string) =>
+    data(
+      http.post<BeAdminCourseDetail>(`/admin/courses/${id}/approve`, note ? { note } : {}),
+    ) as Promise<AdminCourseDetail>,
+  adminRejectCourse: (id: string, reason: string) =>
+    data(
+      http.post<BeAdminCourseDetail>(`/admin/courses/${id}/reject`, { reason }),
+    ) as Promise<AdminCourseDetail>,
+  adminApproveLesson: (id: string, note?: string) =>
+    data(
+      http.post<BeReviewQueueItem>(`/admin/lessons/${id}/approve`, note ? { note } : {}),
+    ) as Promise<ReviewQueueItem>,
+  adminRejectLesson: (id: string, reason: string) =>
+    data(
+      http.post<BeReviewQueueItem>(`/admin/lessons/${id}/reject`, { reason }),
+    ) as Promise<ReviewQueueItem>,
+
+  // ---------------------------------------------------------------- teacher
+  teacherCourses: (params: { status?: ContentStatus | ''; page?: number; size?: number }) =>
+    paged<TeacherCourseSummary>(
+      http.get<BeBaseResponse<BeTeacherCourseSummary[]>>('/teacher/courses', {
+        params: {
+          ...(params.status ? { status: params.status } : {}),
+          page: Math.max(0, (params.page ?? 1) - 1),
+          size: params.size ?? 10,
+        },
+      }),
+    ),
+  teacherCourseDetail: (id: string) =>
+    data(http.get<BeAdminCourseDetail>(`/teacher/courses/${id}`)) as Promise<AdminCourseDetail>,
+  teacherCreateCourse: (body: TeacherCourseInput) =>
+    data(http.post<BeAdminCourseDetail>('/teacher/courses', body)) as Promise<AdminCourseDetail>,
+  teacherUpdateCourse: (id: string, body: TeacherCourseInput) =>
+    data(
+      http.put<BeAdminCourseDetail>(`/teacher/courses/${id}`, body),
+    ) as Promise<AdminCourseDetail>,
+  teacherDeleteCourse: (id: string) =>
+    data(http.delete<null>(`/teacher/courses/${id}`)) as Promise<null>,
+  teacherSubmitCourse: (id: string) =>
+    data(
+      http.post<BeAdminCourseDetail>(`/teacher/courses/${id}/submit`),
+    ) as Promise<AdminCourseDetail>,
+  teacherWithdrawCourse: (id: string) =>
+    data(
+      http.post<BeAdminCourseDetail>(`/teacher/courses/${id}/withdraw`),
+    ) as Promise<AdminCourseDetail>,
+  teacherArchiveCourse: (id: string) =>
+    data(
+      http.post<BeAdminCourseDetail>(`/teacher/courses/${id}/archive`),
+    ) as Promise<AdminCourseDetail>,
+  teacherCreateSection: (courseId: string, body: TeacherSectionInput) =>
+    data(
+      http.post<BeAdminSection>(`/teacher/courses/${courseId}/sections`, body),
+    ) as Promise<AdminSectionItem>,
+  teacherUpdateSection: (id: string, body: TeacherSectionInput) =>
+    data(http.put<BeAdminSection>(`/teacher/sections/${id}`, body)) as Promise<AdminSectionItem>,
+  teacherDeleteSection: (id: string) =>
+    data(http.delete<null>(`/teacher/sections/${id}`)) as Promise<null>,
+  teacherCreateLesson: (sectionId: string, body: TeacherLessonInput) =>
+    data(
+      http.post<BeAdminLesson>(`/teacher/sections/${sectionId}/lessons`, body),
+    ) as Promise<AdminLessonItem>,
+  teacherUpdateLesson: (id: string, body: TeacherLessonInput) =>
+    data(http.put<BeAdminLesson>(`/teacher/lessons/${id}`, body)) as Promise<AdminLessonItem>,
+  teacherDeleteLesson: (id: string) =>
+    data(http.delete<null>(`/teacher/lessons/${id}`)) as Promise<null>,
+  teacherSubmitLesson: (id: string) =>
+    data(http.post<BeReviewQueueItem>(`/teacher/lessons/${id}/submit`)) as Promise<ReviewQueueItem>,
+  teacherWithdrawLesson: (id: string) =>
+    data(
+      http.post<BeReviewQueueItem>(`/teacher/lessons/${id}/withdraw`),
+    ) as Promise<ReviewQueueItem>,
+  teacherLessonExercises: (lessonId: string) =>
+    data(http.get<BeTeacherLessonExercises>(`/teacher/lessons/${lessonId}/exercises`)).then(
+      mapTeacherLessonExercises,
+    ),
+  teacherCreateExercise: (lessonId: string, body: TeacherExerciseInput) =>
+    data(http.post<BeTeacherExerciseDetail>(`/teacher/lessons/${lessonId}/exercises`, body)).then(
+      mapTeacherExerciseDetail,
+    ),
+  teacherExerciseDetail: (id: string) =>
+    data(http.get<BeTeacherExerciseDetail>(`/teacher/exercises/${id}`)).then(
+      mapTeacherExerciseDetail,
+    ),
+  teacherUpdateExercise: (id: string, body: TeacherExerciseInput) =>
+    data(http.put<BeTeacherExerciseDetail>(`/teacher/exercises/${id}`, body)).then(
+      mapTeacherExerciseDetail,
+    ),
+  teacherDeleteExercise: (id: string) =>
+    data(http.delete<null>(`/teacher/exercises/${id}`)) as Promise<null>,
+  teacherReplaceExerciseQuestions: (id: string, body: ReplaceExerciseQuestionsInput) =>
+    data(http.put<BeTeacherExerciseDetail>(`/teacher/exercises/${id}/questions`, body)).then(
+      mapTeacherExerciseDetail,
     ),
 }

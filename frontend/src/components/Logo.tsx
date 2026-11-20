@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { homePathForRole } from '@/lib/moderation'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth'
 
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -19,16 +21,24 @@ export function LogoMark({ className }: { className?: string }) {
   )
 }
 
-export function Logo({ compact = false }: { compact?: boolean }) {
+export function Logo({
+  compact = false,
+  to,
+  subtitle = 'Learning Platform',
+}: {
+  compact?: boolean
+  to?: string
+  subtitle?: string
+}) {
+  const role = useAuthStore((s) => s.user?.role)
+  const target = to ?? homePathForRole(role)
   return (
-    <Link to="/" className="flex items-center gap-2.5" aria-label="IELTS Graph - Trang chủ">
+    <Link to={target} className="flex items-center gap-2.5" aria-label="IELTS Graph - Trang chủ">
       <LogoMark />
       {!compact && (
         <span className="leading-tight">
           <span className="block text-base font-bold tracking-tight">IELTS Graph</span>
-          <span className="block text-[11px] font-medium text-muted-foreground">
-            Learning Platform
-          </span>
+          <span className="block text-[11px] font-medium text-muted-foreground">{subtitle}</span>
         </span>
       )}
     </Link>

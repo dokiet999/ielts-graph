@@ -15,6 +15,8 @@ const buttonVariants = cva(
         ghost: 'hover:bg-muted',
         link: 'h-auto px-0 text-info hover:underline',
         success: 'bg-success text-white hover:bg-success/90',
+        danger: 'bg-danger text-white hover:bg-danger/90',
+        dangerSoft: 'bg-danger-soft text-danger hover:bg-danger-soft/80',
       },
       size: {
         sm: 'h-9 px-3',

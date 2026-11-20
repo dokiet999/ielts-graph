@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from '@/components/ui/menu'
 import { DEMO_MODE } from '@/lib/demo'
+import { ROLE_LABEL } from '@/lib/moderation'
 import { useAuthStore } from '@/stores/auth'
 import { useSettingsStore } from '@/stores/settings'
 
@@ -62,12 +63,19 @@ export function UserMenu() {
       <DropdownMenuContent align="end" className="w-60">
         <div className="px-3 py-2">
           <p className="truncate text-sm font-semibold">{user.fullName}</p>
-          <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {user.email || (user.username ? `@${user.username}` : '')}
+          </p>
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-primary">
+            {ROLE_LABEL[user.role]}
+          </p>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => navigate('/profile')}>
-          <UserRound /> Hồ sơ
-        </DropdownMenuItem>
+        {user.role === 'STUDENT' && (
+          <DropdownMenuItem onSelect={() => navigate('/profile')}>
+            <UserRound /> Hồ sơ
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem
           className="text-danger"
           onSelect={() => {

@@ -18,6 +18,312 @@ export interface BeBaseResponse<T> {
   data: T
 }
 
+export interface BeUser {
+  id: Id
+  username?: string | null
+  email: string
+  fullName: string
+  avatarUrl?: string | null
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN'
+  status?: 'PENDING' | 'ACTIVE' | 'LOCKED'
+  bio?: string | null
+  phone?: string | null
+  isActive?: boolean
+  lockReason?: string | null
+}
+
+export interface BeTeacherAccount {
+  id: Id
+  username: string
+  email: string
+  fullName: string
+  phone?: string | null
+  bio?: string | null
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN'
+  status: 'PENDING' | 'ACTIVE' | 'LOCKED'
+  isActive: boolean
+  emailVerified: boolean
+  lockReason?: string | null
+  courseCount?: number
+  createdAt: string
+  updatedAt: string
+  temporaryPassword?: string | null
+}
+
+export interface BeCategory {
+  id: Id
+  name: string
+  slug: string
+  description?: string | null
+  iconUrl?: string | null
+  isActive: boolean
+  ordering: number
+  courseCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BeStudentAccount {
+  id: Id
+  username: string
+  email: string
+  fullName: string
+  phone?: string | null
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN'
+  status: 'PENDING' | 'ACTIVE' | 'LOCKED'
+  isActive: boolean
+  emailVerified: boolean
+  lockReason?: string | null
+  enrollmentCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BeAdminCourseSummary {
+  id: Id
+  title: string
+  description?: string | null
+  thumbnail?: string | null
+  teacherId: Id
+  teacherName: string
+  categoryId?: Id | null
+  categoryName?: string | null
+  skillFocus?: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING' | null
+  difficultyLevel?:
+    | 'BEGINNER'
+    | 'ELEMENTARY'
+    | 'INTERMEDIATE'
+    | 'UPPER_INTERMEDIATE'
+    | 'ADVANCED'
+    | null
+  estimatedDuration?: number | null
+  isFeatured: boolean
+  isActive: boolean
+  status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  publishedAt?: string | null
+  submittedAt?: string | null
+  reviewedAt?: string | null
+  reviewNote?: string | null
+  deactivationReason?: string | null
+  totalLessons: number
+  enrollmentCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BeReviewQueueItem {
+  id: Id
+  title: string
+  teacherName: string
+  skillFocus?: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING' | null
+  status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  submittedAt: string | null
+  waitingDays: number
+  reviewedAt?: string | null
+  reviewNote?: string | null
+  pendingLessonCount?: number | null
+  courseId?: Id | null
+  courseTitle?: string | null
+  sectionId?: Id | null
+  sectionTitle?: string | null
+  lessonType?: string | null
+}
+
+export interface BeAdminLesson {
+  id: Id
+  sectionId: Id
+  title: string
+  lessonType: string
+  videoUrl?: string | null
+  videoDuration?: number | null
+  documentUrl?: string | null
+  ordering: number
+  isPreview: boolean
+  status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  exerciseCount?: number
+  submittedAt?: string | null
+  reviewedAt?: string | null
+  reviewNote?: string | null
+}
+
+export interface BeAdminSection {
+  id: Id
+  title: string
+  description?: string | null
+  ordering: number
+  lessons: BeAdminLesson[]
+}
+
+export interface BeAdminCourseDetail {
+  id: Id
+  title: string
+  description?: string | null
+  thumbnail?: string | null
+  teacherId: Id
+  teacherName: string
+  categoryId?: Id | null
+  categoryName?: string | null
+  skillFocus?: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING' | null
+  difficultyLevel?:
+    | 'BEGINNER'
+    | 'ELEMENTARY'
+    | 'INTERMEDIATE'
+    | 'UPPER_INTERMEDIATE'
+    | 'ADVANCED'
+    | null
+  estimatedDuration?: number | null
+  isFeatured: boolean
+  isActive: boolean
+  publishedAt?: string | null
+  status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  submittedAt?: string | null
+  reviewedAt?: string | null
+  reviewedById?: Id | null
+  reviewedByName?: string | null
+  reviewNote?: string | null
+  deactivationReason?: string | null
+  createdAt: string
+  updatedAt: string
+  totalLessons: number
+  sections: BeAdminSection[]
+}
+
+export interface BeTeacherCourseSummary {
+  id: Id
+  title: string
+  description?: string | null
+  skillFocus?: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING' | null
+  difficultyLevel?:
+    | 'BEGINNER'
+    | 'ELEMENTARY'
+    | 'INTERMEDIATE'
+    | 'UPPER_INTERMEDIATE'
+    | 'ADVANCED'
+    | null
+  categoryId?: Id | null
+  categoryName?: string | null
+  thumbnail?: string | null
+  estimatedDuration?: number | null
+  status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  submittedAt?: string | null
+  reviewedAt?: string | null
+  reviewNote?: string | null
+  deactivationReason?: string | null
+  publishedAt?: string | null
+  isActive: boolean
+  totalLessons: number
+  pendingLessonCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BeTeacherExerciseSummary {
+  id: Id
+  lessonId: Id
+  title: string
+  instruction?: string | null
+  audioUrl?: string | null
+  exerciseType: 'LESSON' | 'MOCK_TEST' | 'PRACTICE' | 'FINAL_TEST'
+  skillType: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING'
+  timeLimit?: number | null
+  maxAttempts: number
+  passingScore: Num
+  ordering: number
+  questionCount: number
+  submissionCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BeTeacherLessonExercises {
+  lessonId: Id
+  lessonTitle: string
+  lessonStatus: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  sectionId: Id
+  sectionTitle: string
+  courseId: Id
+  courseTitle: string
+  courseStatus: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  courseSkillFocus?: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING' | null
+  exercises: BeTeacherExerciseSummary[]
+}
+
+export interface BeTeacherQuestionOption {
+  id?: Id
+  optionText: string
+  isCorrect: boolean
+  point?: Num
+  explanation?: string | null
+  ordering?: number
+}
+
+export interface BeTeacherQuestion {
+  id?: Id
+  questionText: string
+  questionType:
+    | 'MULTIPLE_CHOICE'
+    | 'DROPLIST'
+    | 'FILL_BLANK'
+    | 'TRUE_FALSE'
+    | 'MATCHING'
+    | 'ESSAY'
+    | 'SPEAKING'
+  imageUrl?: string | null
+  audioUrl?: string | null
+  readingPassage?: string | null
+  explanation?: string | null
+  points: Num
+  ordering?: number
+  options: BeTeacherQuestionOption[]
+}
+
+export interface BeTeacherQuestionGroup {
+  id?: Id | null
+  groupTitle?: string | null
+  groupInstruction?: string | null
+  passageReference?: string | null
+  imageUrl?: string | null
+  questionType?:
+    | 'MULTIPLE_CHOICE'
+    | 'DROPLIST'
+    | 'FILL_BLANK'
+    | 'TRUE_FALSE'
+    | 'MATCHING'
+    | 'ESSAY'
+    | 'SPEAKING'
+    | null
+  questionRange?: string | null
+  ordering?: number
+  questions: BeTeacherQuestion[]
+}
+
+export interface BeTeacherExerciseDetail {
+  id: Id
+  lessonId: Id
+  lessonTitle: string
+  lessonStatus: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  sectionId: Id
+  sectionTitle: string
+  courseId: Id
+  courseTitle: string
+  courseStatus: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
+  title: string
+  instruction?: string | null
+  audioUrl?: string | null
+  content?: Record<string, unknown> | null
+  exerciseType: 'LESSON' | 'MOCK_TEST' | 'PRACTICE' | 'FINAL_TEST'
+  skillType: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING'
+  timeLimit?: number | null
+  maxAttempts: number
+  passingScore: Num
+  ordering: number
+  submissionCount: number
+  totalQuestions: number
+  questionGroups: BeTeacherQuestionGroup[]
+  createdAt: string
+  updatedAt: string
+}
+
 export interface BeCourse {
   id: Id
   teacherId: Id
