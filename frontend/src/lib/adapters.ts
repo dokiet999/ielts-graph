@@ -344,7 +344,7 @@ export function toSpeakingPronunciation(
     completeness: numOrNull(raw.completeness),
     prosody: numOrNull(raw.prosody),
     // Unknown values (and older submissions without a source) get no label rather than a wrong one
-    source: raw.source === 'gemini' || raw.source === 'azure' ? raw.source : null,
+    source: raw.source === 'gemini' ? raw.source : null,
   }
 }
 

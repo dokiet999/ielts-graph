@@ -553,7 +553,7 @@ describe('toSpeakingResult & toSubmissionDetail for Speaking', () => {
         pronunciation: { accuracy: 78.5, fluency: 72.0, completeness: null, prosody: 68.0, source },
       }).feedback.pronunciation?.source
     expect(sourceOf('gemini')).toBe('gemini')
-    expect(sourceOf('azure')).toBe('azure')
+    expect(sourceOf('azure')).toBeNull()
     expect(sourceOf('whisper')).toBeNull()
     expect(sourceOf(undefined)).toBeNull()
   })

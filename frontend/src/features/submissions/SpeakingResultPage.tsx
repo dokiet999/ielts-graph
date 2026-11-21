@@ -41,7 +41,6 @@ import { RecommendedPractice } from './RecommendedPractice'
 const PRONUNCIATION_SOURCE_NOTE: Record<PronunciationSource, string> = {
   gemini:
     'Điểm do AI (Gemini) nghe bản ghi âm và ước lượng, không phải phép đo âm học. Chỉ dùng để tham khảo.',
-  azure: 'Điểm đo bằng Azure Pronunciation Assessment.',
 }
 
 function BandBadge({ band }: { band: number }) {
