@@ -54,7 +54,6 @@ public class SpeakingGrader {
 
     private static final Pattern CODE_BLOCK_PATTERN = Pattern.compile("```(?:json)?\\s*([\\s\\S]*?)\\s*```");
     private static final Pattern NON_WORD_PATTERN = Pattern.compile("[^\\p{L}\\p{N}']+");
-    private static final Pattern CLOSING_TAG_PATTERN = Pattern.compile("(?i)</\\s*transcript\\s*>");
 
     private static final Set<String> PARTS = Set.of("QT_S_PART1", "QT_S_PART2", "QT_S_PART3");
     private static final List<String> CRITERIA = List.of("CRIT_S_FC", "CRIT_S_LR", "CRIT_S_GRA", "CRIT_S_P");
@@ -134,8 +133,7 @@ public class SpeakingGrader {
                                 ? "source: measured by an acoustic model"
                                 : "source: AI estimate from listening to the audio, not an acoustic measurement");
         // A spoken "</transcript>" must not be able to close the tag the system prompt tells the LLM to trust
-        String transcript = CLOSING_TAG_PATTERN.matcher(asr.transcript() == null ? "" : asr.transcript())
-                .replaceAll("< /transcript>");
+        String transcript = PromptSanitizer.neutralizeClosingTag(asr.transcript(), "transcript");
 
         return String.format(Locale.ROOT, """
                 Part: %s
