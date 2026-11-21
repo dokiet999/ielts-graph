@@ -15,7 +15,8 @@ public interface ExerciseService {
 
     Page<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable);
 
-    ExerciseDetailPracticeResponse getExerciseForPractice(UUID id);
+    /** Practice view for the given user (answers hidden); throws when the user may not open the exercise. */
+    ExerciseDetailPracticeResponse getExerciseForPractice(UUID id, String username);
 
     ExerciseResponse getExercise(UUID id);
 
