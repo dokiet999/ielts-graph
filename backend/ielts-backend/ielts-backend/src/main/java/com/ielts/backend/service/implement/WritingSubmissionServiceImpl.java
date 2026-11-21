@@ -58,6 +58,8 @@ import java.util.concurrent.TimeUnit;
 public class WritingSubmissionServiceImpl implements WritingSubmissionService {
 
     private static final String ATTEMPT_CONSTRAINT = "uq_submission_attempt";
+    /** The LLM graded the essay but the result could not be stored (step 3 failed). */
+    static final String PERSIST_FAILED = "PERSIST_FAILED";
     /** Shorter essays are rejected before any LLM call (Task 2 asks for 250 words; below 250 gets a warning). */
     private static final int MIN_WORDS = 50;
     private static final BigDecimal MAX_BAND = BigDecimal.valueOf(9.0);
@@ -111,10 +113,29 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
             throw new WritingGradingException("GRADING_FAILED", failure.getMessage(), failure);
         }
         WritingGradingResult graded = gradingResult;
-        WritingSubmissionResultResponse response =
-                transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        WritingSubmissionResultResponse response;
+        try {
+            response = transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        } catch (RuntimeException persistError) {
+            // The rollback left the row GRADING: mark it FAILED in a new transaction so the attempt is given back.
+            // If the database is still unreachable, StaleGradingJob fails the row later.
+            log.error("Could not store the Writing grade of submission {}", pending.submissionId(), persistError);
+            WritingGradingException persistFailure = new WritingGradingException(PERSIST_FAILED,
+                    "The grading result could not be saved. Please submit again", persistError);
+            markFailedQuietly(pending.submissionId(), persistFailure, latencyMs);   // stored code: PERSIST_FAILED
+            throw persistFailure;
+        }
         updateLearnerProfile(response.getSubmissionId());
         return response;
+    }
+
+    private void markFailedQuietly(UUID submissionId, Exception cause, int latencyMs) {
+        try {
+            transactionTemplate.executeWithoutResult(status -> markFailed(submissionId, cause, latencyMs));
+        } catch (RuntimeException ex) {
+            log.warn("Could not mark submission {} as FAILED, it is left to StaleGradingJob: {}",
+                    submissionId, ex.getMessage());
+        }
     }
 
     /**

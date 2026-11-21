@@ -2,6 +2,7 @@ package com.ielts.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ielts.backend.exception.customException.SpeakingAsrException;
+import com.ielts.backend.service.SpeakingSubmissionService;
 import com.ielts.backend.service.llm.LlmClient;
 import com.ielts.backend.service.speaking.SpeakingAsrClient;
 import com.ielts.backend.service.speaking.SpeakingAsrResult;
@@ -14,12 +15,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.util.AopTestUtils;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +55,9 @@ class SpeakingSubmissionControllerTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    SpeakingSubmissionService speakingSubmissionService;
 
     @MockitoBean
     SpeakingAsrClient speakingAsrClient;
@@ -284,6 +292,47 @@ class SpeakingSubmissionControllerTest {
                 "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'FAILED'",
                 Integer.class, SPEAKING_EXERCISE_ID.toString());
         assertThat(failedCount).isEqualTo(1);
+    }
+
+    @Test
+    void submit_audioCannotBeStored_returns503AndDoesNotUseUpAnAttempt() throws Exception {
+        // A regular file where the audio directory should be: creating the directory throws an IOException
+        Path notADirectory = Files.createTempFile("ielts-audio-dir", ".txt");
+        Object service = AopTestUtils.getTargetObject(speakingSubmissionService);
+        Object originalDir = ReflectionTestUtils.getField(service, "audioStorageDir");
+        ReflectionTestUtils.setField(service, "audioStorageDir", notADirectory.resolve("sub").toString());
+        try {
+            MockMultipartFile audio = new MockMultipartFile(
+                    "audio", "recording.webm", "audio/webm", dummyAudioBytes);
+
+            // max_attempts = 2: before the fix every failure left a GRADING row that used up an attempt
+            for (int i = 0; i < 3; i++) {
+                submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD, audio, 60)
+                        .andExpect(status().isServiceUnavailable())
+                        .andExpect(jsonPath("$.code").value("AUDIO_STORAGE_FAILED"));
+            }
+        } finally {
+            ReflectionTestUtils.setField(service, "audioStorageDir", originalDir);
+            Files.deleteIfExists(notADirectory);
+        }
+
+        Integer gradingCount = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'GRADING'",
+                Integer.class, SPEAKING_EXERCISE_ID.toString());
+        Integer failedCount = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM user_submissions WHERE exercise_id = ?::uuid AND status = 'FAILED'"
+                        + " AND ai_feedback = 'AUDIO_STORAGE_FAILED'",
+                Integer.class, SPEAKING_EXERCISE_ID.toString());
+        assertThat(gradingCount).isZero();
+        assertThat(failedCount).isEqualTo(3);
+        verify(speakingAsrClient, never()).transcribe(any(), any());
+
+        // The storage works again: the learner can still submit
+        when(speakingAsrClient.transcribe(any(), any())).thenReturn(sampleAsrResult);
+        when(llmClient.chat(any(), any())).thenReturn(sampleFeedbackJson);
+        submitSpeaking(SPEAKING_EXERCISE_ID.toString(), "student_new", PASSWORD,
+                new MockMultipartFile("audio", "recording.webm", "audio/webm", dummyAudioBytes), 60)
+                .andExpect(status().isOk());
     }
 
     @Test

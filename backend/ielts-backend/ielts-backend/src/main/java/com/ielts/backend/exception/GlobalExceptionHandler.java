@@ -32,6 +32,9 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    /** The AI grade was produced but could not be stored; the submission is marked FAILED, so resubmitting is safe. */
+    private static final String PERSIST_FAILED = "PERSIST_FAILED";
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
         return build(HttpStatus.NOT_FOUND, "NOT_FOUND", ex.getMessage(), null);
@@ -74,6 +77,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleWritingGrading(WritingGradingException ex) {
         // Details (LLM output fragments, schema errors) stay in the log, not in the response
         log.warn("Writing grading failed: {} — {}", ex.getCode(), ex.getMessage());
+        if (PERSIST_FAILED.equals(ex.getCode())) {
+            return build(HttpStatus.SERVICE_UNAVAILABLE, ex.getCode(),
+                    "The grading result could not be saved. Please submit again", null);
+        }
         return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
                 "The AI could not produce a valid grading result. Please try again", null);
     }
@@ -91,6 +98,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SpeakingGradingException.class)
     public ResponseEntity<ErrorResponse> handleSpeakingGrading(SpeakingGradingException ex) {
         log.warn("Speaking grading failed: {}", ex.getCode());
+        if (PERSIST_FAILED.equals(ex.getCode())) {
+            return build(HttpStatus.SERVICE_UNAVAILABLE, ex.getCode(),
+                    "The grading result could not be saved. Please submit again", null);
+        }
+        if ("AUDIO_STORAGE_FAILED".equals(ex.getCode())) {
+            // The server could not write the recording to disk: nothing the AI did, and the attempt is not used up
+            return build(HttpStatus.SERVICE_UNAVAILABLE, ex.getCode(),
+                    "The recording could not be saved. Please try again later", null);
+        }
         return build(HttpStatus.BAD_GATEWAY, ex.getCode(),
                 "The AI could not produce a valid grading result. Please try again", null);
     }

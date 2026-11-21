@@ -6,10 +6,12 @@ import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +76,23 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     List<UUID> findIdsNotInProfile(@Param("userId") UUID userId,
                                    @Param("status") SubmissionStatus status,
                                    @Param("skills") Collection<SkillType> skills);
+
+    /**
+     * Fails the submissions left in GRADING since before {@code threshold}: the request that was grading them
+     * died (restart, crash, a failed final save). FAILED rows do not use up an attempt.
+     *
+     * @return number of submissions changed
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+            update UserSubmission s
+            set s.status = :failed, s.aiFeedback = :code
+            where s.status = :grading and s.submittedAt < :threshold
+            """)
+    int failStaleGrading(@Param("grading") SubmissionStatus grading,
+                         @Param("failed") SubmissionStatus failed,
+                         @Param("code") String code,
+                         @Param("threshold") LocalDateTime threshold);
 
     /** AI-graded submissions of the given skills with their exercise, oldest first (personalization tab). */
     @Query("""
