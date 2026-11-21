@@ -1,4 +1,4 @@
-"""Compare pronunciation scores (Gemini estimate or Azure) with the reference Pronunciation band of Speaking set v1.
+"""Compare pronunciation scores (Gemini estimate) with the reference Pronunciation band of Speaking set v1.
 
 Two modes:
 
@@ -14,7 +14,7 @@ Two modes:
 2. Raw probe: calls the configured provider directly (no service, no Whisper) on ONE file and prints its raw
    answer, to see exactly what it returns.
        python eval_pron.py --raw ../../data/speaking_v1/audio/sp_01_p2.wav
-   Reads the same environment variables as the service (PRON_PROVIDER, GEMINI_API_KEY or AZURE_SPEECH_*).
+   Reads the same environment variables as the service (PRON_PROVIDER, GEMINI_API_KEY).
 
 Limits to keep in mind when reading the numbers: the reference band is the band of the WHOLE test given by the
 source (the 3 Parts of one speaker share it), there are only 7 speakers, and the bands are 6-9 only. The result
@@ -136,14 +136,12 @@ def evaluate(args):
 def probe(path: Path):
     from faster_whisper import decode_audio
 
-    from pronunciation import PronConfig, PronunciationError, azure_recognize, gemini_assess, to_pcm16
+    from pronunciation import PronConfig, PronunciationError, gemini_assess
 
     config = PronConfig.from_env()
-    if config.provider == "azure" and (not config.azure_key or not config.azure_region):
-        sys.exit("Set AZURE_SPEECH_KEY and AZURE_SPEECH_REGION first.")
     if config.provider == "gemini" and not config.gemini_key:
         sys.exit("Set GEMINI_API_KEY first.")
-    if config.provider not in ("azure", "gemini"):
+    if config.provider != "gemini":
         sys.exit(f"Unknown PRON_PROVIDER {config.provider!r}.")
     if not path.exists():
         sys.exit(f"Audio file not found: {path}")
@@ -151,10 +149,7 @@ def probe(path: Path):
     samples = decode_audio(str(path), sampling_rate=16000)
     raw = []
     try:
-        if config.provider == "azure":
-            result = azure_recognize(config, to_pcm16(samples), raw_sink=raw)
-        else:
-            result = gemini_assess(config, samples, raw_sink=raw)
+        result = gemini_assess(config, samples, raw_sink=raw)
     except PronunciationError as exc:
         result = f"ERROR {exc}"
     print(f"provider: {config.describe()}, audio: {len(samples) / 16000:.1f} s")

@@ -2,8 +2,8 @@ package com.ielts.backend.service;
 
 import com.ielts.backend.entity.Exercise;
 import com.ielts.backend.enums.SkillType;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.ExerciseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

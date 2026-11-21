@@ -80,7 +80,7 @@ class ExerciseSubmissionControllerTest {
         // FR-8.01: automatic grading must match manual grading on the sample data, for both skills
         List<String> exercises = jdbcTemplate.queryForList("""
                 SELECT e.id::text FROM exercises e
-                WHERE e.skill_type = ?::skill_type AND e.exercise_type <> 'MOCK_TEST'
+                WHERE e.skill_type = ?::skill_type AND e.exercise_type NOT IN ('MOCK_TEST', 'FINAL_TEST')
                   AND EXISTS (SELECT 1 FROM questions q WHERE q.exercise_id = e.id)
                 """, String.class, skill.name());
         assertThat(exercises).contains(skill == SkillType.READING ? READING : LISTENING);
@@ -89,9 +89,9 @@ class ExerciseSubmissionControllerTest {
             Map<String, Object> answers = correctAnswers(exercise);
             submit(exercise, "student_new", answers)
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.result.correctCount").value(answers.size()))
-                    .andExpect(jsonPath("$.result.percentage").value(100.0))
-                    .andExpect(jsonPath("$.incorrectQuestions", hasSize(0)));
+                    .andExpect(jsonPath("$.data.result.correctCount").value(answers.size()))
+                    .andExpect(jsonPath("$.data.result.percentage").value(100.0))
+                    .andExpect(jsonPath("$.data.incorrectQuestions", hasSize(0)));
         }
     }
 
@@ -112,23 +112,23 @@ class ExerciseSubmissionControllerTest {
 
         submit(READING, "student_new", answers)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.score").value(5))
-                .andExpect(jsonPath("$.result.maxScore").value(13))
-                .andExpect(jsonPath("$.result.correctCount").value(5))
-                .andExpect(jsonPath("$.result.totalQuestions").value(13))
-                .andExpect(jsonPath("$.result.percentage").value(38.46))
-                .andExpect(jsonPath("$.result.bandScore").value(nullValue()))
-                .andExpect(jsonPath("$.result.status").value("GRADED"))
-                .andExpect(jsonPath("$.byQuestionType[*].questionType")
+                .andExpect(jsonPath("$.data.result.score").value(5))
+                .andExpect(jsonPath("$.data.result.maxScore").value(13))
+                .andExpect(jsonPath("$.data.result.correctCount").value(5))
+                .andExpect(jsonPath("$.data.result.totalQuestions").value(13))
+                .andExpect(jsonPath("$.data.result.percentage").value(38.46))
+                .andExpect(jsonPath("$.data.result.bandScore").value(nullValue()))
+                .andExpect(jsonPath("$.data.result.status").value("GRADED"))
+                .andExpect(jsonPath("$.data.byQuestionType[*].questionType")
                         .value(contains("TRUE_FALSE", "FILL_BLANK", "MULTIPLE_CHOICE", "MATCHING")))
-                .andExpect(jsonPath("$.byQuestionType[*].correct").value(contains(1, 2, 1, 1)))
-                .andExpect(jsonPath("$.byQuestionType[*].total").value(contains(5, 4, 2, 2)))
-                .andExpect(jsonPath("$.byQuestionType[1].percentage").value(50.0))
-                .andExpect(jsonPath("$.incorrectQuestions[*].number").value(contains(2, 3, 4, 5, 7, 9, 11, 13)))
-                .andExpect(jsonPath("$.incorrectQuestions[?(@.number == 7)].userAnswer").value(contains("soil")))
-                .andExpect(jsonPath("$.incorrectQuestions[?(@.number == 7)].correctAnswer").value(contains("compost")))
-                .andExpect(jsonPath("$.incorrectQuestions[?(@.number == 3)].userAnswer").value(contains(nullValue())))
-                .andExpect(jsonPath("$.incorrectQuestions[?(@.number == 7)].explanation")
+                .andExpect(jsonPath("$.data.byQuestionType[*].correct").value(contains(1, 2, 1, 1)))
+                .andExpect(jsonPath("$.data.byQuestionType[*].total").value(contains(5, 4, 2, 2)))
+                .andExpect(jsonPath("$.data.byQuestionType[1].percentage").value(50.0))
+                .andExpect(jsonPath("$.data.incorrectQuestions[*].number").value(contains(2, 3, 4, 5, 7, 9, 11, 13)))
+                .andExpect(jsonPath("$.data.incorrectQuestions[?(@.number == 7)].userAnswer").value(contains("soil")))
+                .andExpect(jsonPath("$.data.incorrectQuestions[?(@.number == 7)].correctAnswer").value(contains("compost")))
+                .andExpect(jsonPath("$.data.incorrectQuestions[?(@.number == 3)].userAnswer").value(contains(nullValue())))
+                .andExpect(jsonPath("$.data.incorrectQuestions[?(@.number == 7)].explanation")
                         .value(contains("Paragraph D: a lightweight mixture of crushed volcanic rock and recycled compost.")));
     }
 
@@ -136,9 +136,9 @@ class ExerciseSubmissionControllerTest {
     void submit_emptyAnswers_scoresZero() throws Exception {
         submit(READING, "student_new", Map.of())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.score").value(0))
-                .andExpect(jsonPath("$.result.correctCount").value(0))
-                .andExpect(jsonPath("$.incorrectQuestions", hasSize(13)));
+                .andExpect(jsonPath("$.data.result.score").value(0))
+                .andExpect(jsonPath("$.data.result.correctCount").value(0))
+                .andExpect(jsonPath("$.data.incorrectQuestions", hasSize(13)));
     }
 
     // ---------- Storage ----------
@@ -146,12 +146,12 @@ class ExerciseSubmissionControllerTest {
     @Test
     void submit_storesAttemptsAndAnswers_visibleInSubmissionHistory() throws Exception {
         String first = submit(READING, "student_new", correctAnswers(READING))
-                .andExpect(jsonPath("$.result.attemptNumber").value(1))
+                .andExpect(jsonPath("$.data.result.attemptNumber").value(1))
                 .andReturn().getResponse().getContentAsString();
         submit(READING, "student_new", Map.of())
-                .andExpect(jsonPath("$.result.attemptNumber").value(2));
+                .andExpect(jsonPath("$.data.result.attemptNumber").value(2));
 
-        String submissionId = objectMapper.readTree(first).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(first).at("/data/result/submissionId").asText();
         Integer stored = jdbcTemplate.queryForObject(
                 "SELECT count(*) FROM question_answers WHERE submission_id = ?::uuid", Integer.class, submissionId);
         assertThat(stored).isEqualTo(13);
@@ -159,7 +159,7 @@ class ExerciseSubmissionControllerTest {
         // The history endpoint of the Listening flow also lists Reading attempts
         mockMvc.perform(get("/api/exercises/{id}/submissions", READING).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$.data", hasSize(2)));
     }
 
     @Test
@@ -222,10 +222,12 @@ class ExerciseSubmissionControllerTest {
     }
 
     @Test
-    void submit_mockTest_returns404() throws Exception {
+    void submit_mockTest_returnsBandScore() throws Exception {
         jdbcTemplate.update("UPDATE exercises SET exercise_type = 'MOCK_TEST'::exercise_type WHERE id = ?::uuid", READING);
 
-        submit(READING, "student_new", Map.of()).andExpect(status().isNotFound());
+        submit(READING, "student_new", correctAnswers(READING))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.result.bandScore").value(9.0));
     }
 
     @Test
@@ -279,10 +281,10 @@ class ExerciseSubmissionControllerTest {
 
         submit(LISTENING, "student_new", answers)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.correctCount").value(4))
-                .andExpect(jsonPath("$.result.totalQuestions").value(10))
-                .andExpect(jsonPath("$.result.bandScore").value(nullValue()))
-                .andExpect(jsonPath("$.byQuestionType[*].questionType").value(contains("FILL_BLANK", "MULTIPLE_CHOICE")));
+                .andExpect(jsonPath("$.data.result.correctCount").value(4))
+                .andExpect(jsonPath("$.data.result.totalQuestions").value(10))
+                .andExpect(jsonPath("$.data.result.bandScore").value(nullValue()))
+                .andExpect(jsonPath("$.data.byQuestionType[*].questionType").value(contains("FILL_BLANK", "MULTIPLE_CHOICE")));
     }
 
     @Test
@@ -290,18 +292,18 @@ class ExerciseSubmissionControllerTest {
         String body = submit(LISTENING, "student_new", correctAnswers(LISTENING))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/result/submissionId").asText();
 
         mockMvc.perform(get("/api/submissions/{id}/review", submissionId).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.transcript").exists())
-                .andExpect(jsonPath("$.submission.bandScore").value(nullValue()));
+                .andExpect(jsonPath("$.data.content.transcript").exists())
+                .andExpect(jsonPath("$.data.submission.bandScore").value(nullValue()));
     }
 
     @Test
     void submissionDetail_onlyOwnerAdminOrCourseTeacher() throws Exception {
         String body = submit(READING, "student_new", Map.of()).andReturn().getResponse().getContentAsString();
-        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/result/submissionId").asText();
 
         mockMvc.perform(get("/api/submissions/{id}", submissionId).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk());
@@ -323,9 +325,9 @@ class ExerciseSubmissionControllerTest {
         String body = mockMvc.perform(post("/api/exercises/{id}/submit", READING).with(httpBasic("student_new", PASSWORD))
                         .contentType(MediaType.APPLICATION_JSON).content("{\"answers\":{},\"timeSpent\":125}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.timeSpent").value(125))
+                .andExpect(jsonPath("$.data.result.timeSpent").value(125))
                 .andReturn().getResponse().getContentAsString();
-        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/result/submissionId").asText();
 
         assertThat(jdbcTemplate.queryForObject("SELECT time_spent FROM user_submissions WHERE id = ?::uuid",
                 Integer.class, submissionId)).isEqualTo(125);
@@ -335,7 +337,7 @@ class ExerciseSubmissionControllerTest {
     void submit_withoutTimeSpent_isAccepted() throws Exception {
         submit(READING, "student_new", Map.of())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.timeSpent").value(nullValue()));
+                .andExpect(jsonPath("$.data.result.timeSpent").value(nullValue()));
     }
 
     @Test
@@ -357,7 +359,7 @@ class ExerciseSubmissionControllerTest {
         // "me" must not be read as a submission id
         mockMvc.perform(get("/api/submissions/me").with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(jsonPath("$.data", hasSize(0)));
     }
 
     @Test
@@ -369,19 +371,19 @@ class ExerciseSubmissionControllerTest {
 
         mockMvc.perform(get("/api/submissions/me").with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[*].exerciseId").value(contains(LISTENING, READING)))
-                .andExpect(jsonPath("$[1].skillType").value("READING"))
-                .andExpect(jsonPath("$[1].exerciseType").value("PRACTICE"))
-                .andExpect(jsonPath("$[1].courseId").value(READING_COURSE))
-                .andExpect(jsonPath("$[1].sectionId").value("20000000-0000-0000-0000-000000000011"))
-                .andExpect(jsonPath("$[1].status").value("GRADED"))
-                .andExpect(jsonPath("$[1].correctCount").value(13))
-                .andExpect(jsonPath("$[1].questionCount").value(13))
-                .andExpect(jsonPath("$[1].score").value(13.0))
-                .andExpect(jsonPath("$[1].maxScore").value(13.0))
-                .andExpect(jsonPath("$[0].correctCount").value(0))
-                .andExpect(jsonPath("$[0].questionCount").value(10));
+                .andExpect(jsonPath("$.data", hasSize(2)))
+                .andExpect(jsonPath("$.data[*].exerciseId").value(contains(LISTENING, READING)))
+                .andExpect(jsonPath("$.data[1].skillType").value("READING"))
+                .andExpect(jsonPath("$.data[1].exerciseType").value("PRACTICE"))
+                .andExpect(jsonPath("$.data[1].courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.data[1].sectionId").value("20000000-0000-0000-0000-000000000011"))
+                .andExpect(jsonPath("$.data[1].status").value("GRADED"))
+                .andExpect(jsonPath("$.data[1].correctCount").value(13))
+                .andExpect(jsonPath("$.data[1].questionCount").value(13))
+                .andExpect(jsonPath("$.data[1].score").value(13.0))
+                .andExpect(jsonPath("$.data[1].maxScore").value(13.0))
+                .andExpect(jsonPath("$.data[0].correctCount").value(0))
+                .andExpect(jsonPath("$.data[0].questionCount").value(10));
     }
 
     // ---------- Submission result with review ----------
@@ -391,32 +393,32 @@ class ExerciseSubmissionControllerTest {
         String q1 = id(READING, 1);
         String answer = keyByNumber(READING).get(1);
         String body = submit(READING, "student_new", Map.of(q1, answer)).andReturn().getResponse().getContentAsString();
-        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/result/submissionId").asText();
 
         mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_new", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(submissionId))
-                .andExpect(jsonPath("$.correctCount").value(1))
-                .andExpect(jsonPath("$.questionCount").value(13))
-                .andExpect(jsonPath("$.answers['" + q1 + "']").value(answer))
-                .andExpect(jsonPath("$.results", hasSize(13)))
-                .andExpect(jsonPath("$.results[0].questionId").value(q1))
-                .andExpect(jsonPath("$.results[0].correct").value(true))
-                .andExpect(jsonPath("$.results[0].earned").value(1.0))
-                .andExpect(jsonPath("$.results[1].correct").value(false))
-                .andExpect(jsonPath("$.exercise.courseId").value(READING_COURSE))
-                .andExpect(jsonPath("$.exercise.content.paragraphs").exists())
-                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].explanation").exists())
-                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].options[*].isCorrect",
+                .andExpect(jsonPath("$.data.id").value(submissionId))
+                .andExpect(jsonPath("$.data.correctCount").value(1))
+                .andExpect(jsonPath("$.data.questionCount").value(13))
+                .andExpect(jsonPath("$.data.answers['" + q1 + "']").value(answer))
+                .andExpect(jsonPath("$.data.results", hasSize(13)))
+                .andExpect(jsonPath("$.data.results[0].questionId").value(q1))
+                .andExpect(jsonPath("$.data.results[0].correct").value(true))
+                .andExpect(jsonPath("$.data.results[0].earned").value(1.0))
+                .andExpect(jsonPath("$.data.results[1].correct").value(false))
+                .andExpect(jsonPath("$.data.exercise.courseId").value(READING_COURSE))
+                .andExpect(jsonPath("$.data.exercise.content.paragraphs").exists())
+                .andExpect(jsonPath("$.data.exercise.questionGroups[0].questions[0].explanation").exists())
+                .andExpect(jsonPath("$.data.exercise.questionGroups[0].questions[0].options[*].isCorrect",
                         everyItem(isA(Boolean.class))))
-                .andExpect(jsonPath("$.exercise.questionGroups[0].questions[0].options[?(@.id == '" + answer + "')].isCorrect")
+                .andExpect(jsonPath("$.data.exercise.questionGroups[0].questions[0].options[?(@.id == '" + answer + "')].isCorrect")
                         .value(contains(true)));
     }
 
     @Test
     void submissionResult_otherLearner_returns403() throws Exception {
         String body = submit(READING, "student_new", Map.of()).andReturn().getResponse().getContentAsString();
-        String submissionId = objectMapper.readTree(body).at("/result/submissionId").asText();
+        String submissionId = objectMapper.readTree(body).at("/data/result/submissionId").asText();
 
         mockMvc.perform(get("/api/submissions/{id}/detail", submissionId).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isForbidden());

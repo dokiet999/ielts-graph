@@ -183,6 +183,10 @@ const r = (x: unknown) => x as RawExercise
 // seeds in migration V5). The starter course reuses the Reading file as a short LESSON-type quiz so
 // quiz mode still has sample data.
 const readingQuiz: RawExercise = { ...r(reading01), exerciseType: 'LESSON' }
+const readingMock: RawExercise = { ...r(reading01), exerciseType: 'MOCK_TEST' }
+const listeningMock: RawExercise = { ...r(listening01), exerciseType: 'MOCK_TEST' }
+const readingFinal: RawExercise = { ...r(reading01), exerciseType: 'FINAL_TEST' }
+const listeningFinal: RawExercise = { ...r(listening01), exerciseType: 'FINAL_TEST' }
 
 export const exercises: Exercise[] = [
   buildExercise(r(reading01), place('ex-reading-01', 'c-foundation', 's-f1', 'l-f1-1')),
@@ -223,6 +227,154 @@ export const exercises: Exercise[] = [
     skillType: 'SPEAKING',
     timeLimit: 180,
     maxAttempts: 5,
+    questionGroups: [],
+  },
+
+  // Mock tests for all 4 skills across Foundation and Intensive courses
+  buildExercise(
+    readingMock,
+    place(
+      'ex-mock-reading-01',
+      'c-foundation',
+      's-f1',
+      'l-f1-2',
+      'Reading Mock Test 1 - Farming in the Sky (Timed)',
+    ),
+  ),
+  buildExercise(
+    listeningMock,
+    place(
+      'ex-mock-listening-01',
+      'c-foundation',
+      's-f2',
+      'l-f2-2',
+      'Listening Mock Test 1 - Hotel Reservation (Timed)',
+    ),
+  ),
+  buildExercise(
+    readingMock,
+    place(
+      'ex-i-mock-reading-01',
+      'c-intensive',
+      's-i1',
+      'l-i1-1',
+      'Reading Mock Test 1 - The Science of Sleep & Memory',
+    ),
+  ),
+  buildExercise(
+    listeningMock,
+    place(
+      'ex-i-mock-listening-01',
+      'c-intensive',
+      's-i2',
+      'l-i2-1',
+      'Listening Mock Test 1 - Oakwood Library Registration',
+    ),
+  ),
+  {
+    id: 'ex-i-mock-writing-01',
+    lessonId: 'l-i3-1',
+    sectionId: 's-i3',
+    courseId: 'c-intensive',
+    title: 'Writing Mock Test 1 - Remote Work & Urban Life (Task 2)',
+    instruction:
+      'You should spend about 40 minutes on this task. Write about the following topic: Many companies now allow employees to work from home instead of commuting to offices in big cities. Some people think this trend improves quality of life, while others believe it harms teamwork and urban economies. Discuss both views and give your own opinion. Write at least 250 words.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'MOCK_TEST',
+    skillType: 'WRITING',
+    timeLimit: 2400,
+    maxAttempts: 10,
+    questionGroups: [],
+  },
+  {
+    id: 'ex-i-mock-speaking-01',
+    lessonId: 'l-i4-1',
+    sectionId: 's-i4',
+    courseId: 'c-intensive',
+    title: 'Speaking Mock Test 1 - Part 2: An Important Decision',
+    instruction:
+      'Describe an important decision you made that had a positive result. You should say: what the decision was, when you had to make it, who helped you make it, and explain why it turned out to be a good decision.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'MOCK_TEST',
+    skillType: 'SPEAKING',
+    timeLimit: 120,
+    maxAttempts: 10,
+    questionGroups: [],
+  },
+
+  // Final tests (Kiểm tra cuối khóa) — 1 per skill section
+  buildExercise(
+    readingFinal,
+    place(
+      'ex-final-reading-01',
+      'c-foundation',
+      's-f1',
+      'l-f1-2',
+      'Reading Final Test - Kiểm tra cuối khóa Reading',
+    ),
+  ),
+  buildExercise(
+    listeningFinal,
+    place(
+      'ex-final-listening-01',
+      'c-foundation',
+      's-f2',
+      'l-f2-2',
+      'Listening Final Test - Kiểm tra cuối khóa Listening',
+    ),
+  ),
+  buildExercise(
+    readingFinal,
+    place(
+      'ex-i-final-reading-01',
+      'c-intensive',
+      's-i1',
+      'l-i1-1',
+      'Reading Final Test - Kiểm tra cuối khóa Reading (Intensive)',
+    ),
+  ),
+  buildExercise(
+    listeningFinal,
+    place(
+      'ex-i-final-listening-01',
+      'c-intensive',
+      's-i2',
+      'l-i2-1',
+      'Listening Final Test - Kiểm tra cuối khóa Listening (Intensive)',
+    ),
+  ),
+  {
+    id: 'ex-i-final-writing-01',
+    lessonId: 'l-i3-1',
+    sectionId: 's-i3',
+    courseId: 'c-intensive',
+    title: 'Writing Final Test - Kiểm tra cuối khóa Writing (Task 2)',
+    instruction:
+      'You should spend about 40 minutes on this task. Write about the following topic: Artificial intelligence is increasingly used in schools and universities to personalize learning and grade assignments. Do the advantages of this development outweigh the disadvantages? Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'FINAL_TEST',
+    skillType: 'WRITING',
+    timeLimit: 2400,
+    maxAttempts: 3,
+    questionGroups: [],
+  },
+  {
+    id: 'ex-i-final-speaking-01',
+    lessonId: 'l-i4-1',
+    sectionId: 's-i4',
+    courseId: 'c-intensive',
+    title: 'Speaking Final Test - Kiểm tra cuối khóa Speaking (Part 2)',
+    instruction:
+      'Describe a skill you learned during this course that has helped you communicate more effectively in English. You should say: what the skill is, how you practiced it, what challenges you faced, and explain how you will use it in the future.',
+    audioUrl: null,
+    content: null,
+    exerciseType: 'FINAL_TEST',
+    skillType: 'SPEAKING',
+    timeLimit: 120,
+    maxAttempts: 3,
     questionGroups: [],
   },
 

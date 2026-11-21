@@ -61,8 +61,7 @@ public record SpeakingAsrResult(
     /**
      * Pronunciation scores, 0-100. The whole object is null when the service did not run it. completeness is null
      * in unscripted mode (no reference text) and prosody is null when the service does not provide it.
-     * source is {@value #SOURCE_GEMINI} (an AI estimate from listening to the audio) or {@value #SOURCE_AZURE}
-     * (measured by Azure Pronunciation Assessment).
+     * source is {@value #SOURCE_GEMINI}: an AI estimate from listening to the audio, not an acoustic measurement.
      */
     public record Pronunciation(
             double accuracy,
@@ -72,11 +71,5 @@ public record SpeakingAsrResult(
             String source) {
 
         public static final String SOURCE_GEMINI = "gemini";
-        public static final String SOURCE_AZURE = "azure";
-
-        /** True when the scores are measured by an acoustic model rather than estimated by an LLM. */
-        public boolean measured() {
-            return SOURCE_AZURE.equals(source);
-        }
     }
 }

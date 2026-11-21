@@ -4,25 +4,34 @@ import { AlertTriangle, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { ErrorState, PageLoader } from '@/components/ui/states'
-import { errorMessage } from '@/lib/api'
+import { api, errorMessage } from '@/lib/api'
 import { useExercise, useSubmit } from '@/lib/queries'
-import type { Exercise } from '@/lib/types'
+import type { Exercise, ExerciseType } from '@/lib/types'
 import { cn, EXERCISE_TYPE_LABEL, formatClock } from '@/lib/utils'
-import { isAnswered, useSessionStore } from '@/stores/session'
+import { isAnswered, isInProgress, useSessionStore } from '@/stores/session'
+import { ExitConfirmDialog } from './ExitConfirmDialog'
 import { QuizRunner } from './quiz/QuizRunner'
 import { SpeakingRunner } from './speaking/SpeakingRunner'
 import { SplitPaneRunner } from './test/SplitPaneRunner'
 import { useRunnerTimer } from './test/useRunnerTimer'
+import { TestIntroScreen } from './TestIntroScreen'
 import { WritingRunner } from './writing/WritingRunner'
 
 const questionCount = (ex: Exercise) =>
   ex.questionGroups.reduce((n, g) => n + g.questions.length, 0)
 
+export function sectionTabForType(type: ExerciseType) {
+  if (type === 'FINAL_TEST') return 'final-test'
+  if (type === 'MOCK_TEST') return 'mock-tests'
+  return 'exercises'
+}
+
 function useExitTo(exercise: Exercise) {
   const navigate = useNavigate()
+  const tab = sectionTabForType(exercise.exerciseType)
   return () =>
     exercise.courseId && exercise.sectionId
-      ? navigate(`/learn/${exercise.courseId}/${exercise.sectionId}/exercises`)
+      ? navigate(`/learn/${exercise.courseId}/${exercise.sectionId}/${tab}`)
       : navigate('/')
 }
 
@@ -41,7 +50,13 @@ function useFinish(exercise: Exercise) {
       {
         onSuccess: (submission) => {
           clear(exercise.id)
-          navigate(`/submissions/${submission.id}`, { replace: true })
+          if (exercise.exerciseType === 'FINAL_TEST' && exercise.courseId && exercise.sectionId) {
+            navigate(`/learn/${exercise.courseId}/${exercise.sectionId}/final-test`, {
+              replace: true,
+            })
+          } else {
+            navigate(`/submissions/${submission.id}`, { replace: true })
+          }
         },
       },
     )
@@ -62,11 +77,10 @@ function SubmitError({ error }: { error: unknown }) {
   )
 }
 
-function TestRunner({ exercise }: { exercise: Exercise }) {
+function TestRunner({ exercise, onExit }: { exercise: Exercise; onExit: () => void }) {
   const session = useSessionStore((s) => s.sessions[exercise.id])
   const { setAnswer, toggleFlag, setHighlights } = useSessionStore()
   const [confirmOpen, setConfirmOpen] = useState(false)
-  const onExit = useExitTo(exercise)
   const { finish, submit } = useFinish(exercise)
   const { elapsed, remaining } = useRunnerTimer(exercise.id, exercise.timeLimit, {
     running: !submit.isPending && !submit.isSuccess,
@@ -155,8 +169,7 @@ function TestRunner({ exercise }: { exercise: Exercise }) {
   )
 }
 
-function Quiz({ exercise }: { exercise: Exercise }) {
-  const onExit = useExitTo(exercise)
+function Quiz({ exercise, onExit }: { exercise: Exercise; onExit: () => void }) {
   const { finish, submit } = useFinish(exercise)
   return (
     <>
@@ -175,6 +188,11 @@ export function RunnerPage() {
   const { exerciseId } = useParams()
   const { data: exercise, isLoading, error, refetch } = useExercise(exerciseId)
   const ensure = useSessionStore((s) => s.ensure)
+  const markInProgress = useSessionStore((s) => s.markInProgress)
+  const markStartedWallClock = useSessionStore((s) => s.markStartedWallClock)
+  const session = useSessionStore((s) => (exerciseId ? s.sessions[exerciseId] : undefined))
+  const hasProgress = isInProgress(session)
+  const [startedId, setStartedId] = useState<string | null>(null)
 
   useEffect(() => {
     if (exercise)
@@ -189,19 +207,89 @@ export function RunnerPage() {
       </div>
     )
   }
-  if (exercise.skillType === 'WRITING') return <WritingRunnerPage exercise={exercise} />
-  if (exercise.skillType === 'SPEAKING') return <SpeakingRunnerPage exercise={exercise} />
-  return exercise.exerciseType === 'LESSON' ? (
-    <Quiz exercise={exercise} />
-  ) : (
-    <TestRunner exercise={exercise} />
+
+  const handleStart = () => {
+    if (exercise.exerciseType === 'FINAL_TEST') {
+      markStartedWallClock(exercise.id, Date.now())
+      if (exercise.sectionId) {
+        api
+          .startSectionFinalTest(exercise.sectionId)
+          .then((srv) => {
+            const ms = new Date(srv.startedAt).getTime()
+            if (!Number.isNaN(ms)) markStartedWallClock(exercise.id, ms)
+          })
+          .catch(() => {})
+      }
+    } else {
+      markInProgress(exercise.id)
+    }
+    setStartedId(exercise.id)
+  }
+
+  const requiresIntro =
+    exercise.exerciseType === 'MOCK_TEST' || exercise.exerciseType === 'FINAL_TEST'
+
+  return (
+    <RunnerContent
+      exercise={exercise}
+      started={!requiresIntro || startedId === exercise.id || hasProgress}
+      onStart={handleStart}
+      hasProgress={hasProgress}
+    />
   )
 }
 
-function WritingRunnerPage({ exercise }: { exercise: Exercise }) {
-  return <WritingRunner exercise={exercise} onExit={useExitTo(exercise)} />
-}
+function RunnerContent({
+  exercise,
+  started,
+  hasProgress,
+  onStart,
+}: {
+  exercise: Exercise
+  started: boolean
+  hasProgress: boolean
+  onStart: () => void
+}) {
+  const navigateBack = useExitTo(exercise)
+  const markInProgress = useSessionStore((s) => s.markInProgress)
+  const [exitOpen, setExitOpen] = useState(false)
 
-function SpeakingRunnerPage({ exercise }: { exercise: Exercise }) {
-  return <SpeakingRunner exercise={exercise} onExit={useExitTo(exercise)} />
+  if (!started) {
+    return (
+      <TestIntroScreen
+        exercise={exercise}
+        totalQuestions={questionCount(exercise)}
+        hasProgress={hasProgress}
+        onStart={onStart}
+        onExit={navigateBack}
+      />
+    )
+  }
+
+  const requestExit = () => setExitOpen(true)
+  const confirmExit = () => {
+    markInProgress(exercise.id)
+    setExitOpen(false)
+    navigateBack()
+  }
+
+  return (
+    <>
+      {exercise.skillType === 'WRITING' ? (
+        <WritingRunner exercise={exercise} onExit={requestExit} />
+      ) : exercise.skillType === 'SPEAKING' ? (
+        <SpeakingRunner exercise={exercise} onExit={requestExit} />
+      ) : exercise.exerciseType === 'LESSON' ? (
+        <Quiz exercise={exercise} onExit={requestExit} />
+      ) : (
+        <TestRunner exercise={exercise} onExit={requestExit} />
+      )}
+
+      <ExitConfirmDialog
+        open={exitOpen}
+        onOpenChange={setExitOpen}
+        onConfirmExit={confirmExit}
+      />
+    </>
+  )
 }

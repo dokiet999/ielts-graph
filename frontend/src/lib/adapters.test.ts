@@ -330,6 +330,25 @@ describe('toDashboardStats', () => {
       readingBand: null,
       listeningBand: null,
     })
+
+    const mockReading = toSubmission({
+      id: 'sm1',
+      exerciseId: 'em1',
+      exerciseTitle: 'Reading Mock Test 1',
+      skillType: 'READING',
+      exerciseType: 'MOCK_TEST',
+      courseId: 'c1',
+      attemptNumber: 1,
+      status: 'GRADED',
+      score: 10,
+      maxScore: 13,
+      correctCount: 10,
+      questionCount: 13,
+      timeSpent: 900,
+      submittedAt: '2026-10-12T10:00:00',
+    })
+    expect(mockReading.bandScore).toBe(7)
+    expect(toDashboardStats(courses, [...submissions, mockReading]).readingBand).toBe(7)
   })
 })
 
@@ -534,7 +553,7 @@ describe('toSpeakingResult & toSubmissionDetail for Speaking', () => {
         pronunciation: { accuracy: 78.5, fluency: 72.0, completeness: null, prosody: 68.0, source },
       }).feedback.pronunciation?.source
     expect(sourceOf('gemini')).toBe('gemini')
-    expect(sourceOf('azure')).toBe('azure')
+    expect(sourceOf('azure')).toBeNull()
     expect(sourceOf('whisper')).toBeNull()
     expect(sourceOf(undefined)).toBeNull()
   })

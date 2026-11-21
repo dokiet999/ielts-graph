@@ -256,7 +256,13 @@ export function SpeakingRunner({ exercise, onExit }: { exercise: Exercise; onExi
         onSuccess: (result) => {
           saveResult(result.submissionId, result.feedback)
           clear(exercise.id)
-          navigate(`/submissions/${result.submissionId}`, { replace: true })
+          if (exercise.exerciseType === 'FINAL_TEST' && exercise.courseId && exercise.sectionId) {
+            navigate(`/learn/${exercise.courseId}/${exercise.sectionId}/final-test`, {
+              replace: true,
+            })
+          } else {
+            navigate(`/submissions/${result.submissionId}`, { replace: true })
+          }
         },
       },
     )

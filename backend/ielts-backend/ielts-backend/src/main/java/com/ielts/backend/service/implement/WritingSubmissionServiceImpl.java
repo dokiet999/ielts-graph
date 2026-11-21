@@ -2,24 +2,19 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.request.WritingSubmissionRequest;
 import com.ielts.backend.dto.response.WritingSubmissionResultResponse;
-import com.ielts.backend.entity.Exercise;
-import com.ielts.backend.entity.Question;
-import com.ielts.backend.entity.QuestionAnswer;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.entity.UserSubmission;
-import com.ielts.backend.enums.ExerciseType;
+import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.Role;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
-import com.ielts.backend.exception.BadRequestException;
-import com.ielts.backend.exception.ConflictException;
-import com.ielts.backend.exception.ForbiddenException;
-import com.ielts.backend.exception.LlmTimeoutException;
-import com.ielts.backend.exception.LlmUnavailableException;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.UnauthorizedException;
-import com.ielts.backend.exception.WritingGradingException;
+import com.ielts.backend.exception.customException.BadRequestException;
+import com.ielts.backend.exception.customException.ConflictException;
+import com.ielts.backend.exception.customException.ForbiddenException;
+import com.ielts.backend.exception.customException.LlmTimeoutException;
+import com.ielts.backend.exception.customException.LlmUnavailableException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
+import com.ielts.backend.exception.customException.WritingGradingException;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.QuestionAnswerRepository;
 import com.ielts.backend.repository.QuestionRepository;
@@ -27,6 +22,7 @@ import com.ielts.backend.repository.UserRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
+import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.WritingSubmissionService;
 import com.ielts.backend.service.grading.WritingEssayGrader;
 import com.ielts.backend.service.grading.WritingGradingResult;
@@ -75,6 +71,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
     private final WritingEssayGrader essayGrader;
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
+    private final LearnerProfileService learnerProfileService;
 
     /** What step 1 hands over to steps 2 and 3. Ids only, so nothing detached is reused across transactions. */
     private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
@@ -114,29 +111,43 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
             throw new WritingGradingException("GRADING_FAILED", failure.getMessage(), failure);
         }
         WritingGradingResult graded = gradingResult;
-        return transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        WritingSubmissionResultResponse response =
+                transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        updateLearnerProfile(response.getSubmissionId());
+        return response;
+    }
+
+    /**
+     * The learner profile is secondary to the grade: if it cannot be updated now (for example the Knowledge Graph
+     * is down), the graded submission is still returned, and the profile applies it the next time it is read.
+     */
+    private void updateLearnerProfile(UUID submissionId) {
+        try {
+            learnerProfileService.applySubmission(submissionId);
+        } catch (Exception ex) {
+            log.warn("Learner profile not updated for submission {}: {}", submissionId, ex.getMessage());
+        }
     }
 
     private PendingGrading startGrading(UUID exerciseId, String username, WritingSubmissionRequest request) {
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .filter(e -> e.getExerciseType() != ExerciseType.MOCK_TEST)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", exerciseId));
 
         if (exercise.getSkillType() != SkillType.WRITING) {
             throw new BadRequestException("INVALID_EXERCISE", "This exercise is not a Writing exercise");
         }
 
-        User user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+        Users users = userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
 
-        if (user.getRole() != Role.STUDENT) {
+        if (users.getRole() != Role.STUDENT) {
             throw new ForbiddenException("Only students can submit exercises");
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
 
         List<UserSubmission> previous = userSubmissionRepository
-                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(user.getId(), exerciseId);
+                .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
         long usedAttempts = previous.stream().filter(s -> s.getStatus() != SubmissionStatus.FAILED).count();
         if (exercise.getMaxAttempts() != null && exercise.getMaxAttempts() > 0
                 && usedAttempts >= exercise.getMaxAttempts()) {
@@ -158,7 +169,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
         }
 
         UserSubmission submission = saveSubmission(UserSubmission.builder()
-                .user(user)
+                .user(users)
                 .exercise(exercise)
                 .attemptNumber(attemptNumber)
                 .answers(Map.of("essayText", request.getEssayText()))

@@ -1,7 +1,9 @@
 package com.ielts.backend.exception;
 
 import com.ielts.backend.dto.response.ErrorResponse;
+import com.ielts.backend.exception.customException.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,13 +39,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /** FR-1.02: teacher account not yet approved by an admin. */
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<ErrorResponse> handlePending(DisabledException ex) {
+    public ResponseEntity<ErrorResponse> handlePending() {
         return build(HttpStatus.UNAUTHORIZED, "ACCOUNT_PENDING", "Account is waiting for admin approval", null);
     }
 
     /** FR-7.01: account locked by an admin. */
     @ExceptionHandler(LockedException.class)
-    public ResponseEntity<ErrorResponse> handleLocked(LockedException ex) {
+    public ResponseEntity<ErrorResponse> handleLocked() {
         return build(HttpStatus.UNAUTHORIZED, "ACCOUNT_LOCKED", "Account is locked", null);
     }
 
@@ -120,7 +122,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMaxUploadSizeExceededException(
-            MaxUploadSizeExceededException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+            MaxUploadSizeExceededException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
         log.warn("Audio upload exceeded maximum size: {}", ex.getMessage());
         return ResponseEntity.badRequest().body(error(
                 "AUDIO_TOO_LARGE", "Audio file exceeds the maximum allowed size", null));
@@ -133,16 +135,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
-                                                        HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, @NonNull HttpHeaders headers,
+                                                        @NonNull HttpStatusCode status, @NonNull WebRequest request) {
         String name = ex instanceof MethodArgumentTypeMismatchException m ? m.getName() : ex.getPropertyName();
         return ResponseEntity.badRequest().body(error(
                 "INVALID_PARAMETER", "Invalid value for parameter '" + name + "'", ex.getValue()));
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-                                                             HttpStatusCode statusCode, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(@NonNull Exception ex, Object body, @NonNull HttpHeaders headers,
+                                                             @NonNull HttpStatusCode statusCode, @NonNull WebRequest request) {
         // Framework messages can expose internals (e.g. JSON parser details), so only the reason phrase is returned
         log.debug("Request failed with {}", statusCode, ex);
         HttpStatus status = HttpStatus.resolve(statusCode.value());

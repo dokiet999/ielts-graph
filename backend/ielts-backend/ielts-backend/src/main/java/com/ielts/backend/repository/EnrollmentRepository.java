@@ -18,7 +18,7 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
     boolean existsByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
 
     /**
-     * Race-safe insert: two concurrent requests for the same user/course
+     * Race-safe insert: two concurrent requests for the same users/course
      * cannot violate uq_enrollment. Returns 1 when inserted, 0 when it already existed.
      */
     @Modifying
@@ -33,7 +33,7 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     Optional<Enrollment> findByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
 
-    /** Active enrollments of a user in visible (active and published) courses, newest first. */
+    /** Active enrollments of a users in visible (active and published) courses, newest first. */
     @Query("""
             select e from Enrollment e
             join fetch e.course c

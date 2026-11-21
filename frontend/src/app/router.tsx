@@ -11,12 +11,15 @@ import { OverviewPage } from '@/features/learning/OverviewPage'
 import { SyllabusPage } from '@/features/learning/SyllabusPage'
 import { LessonPage } from '@/features/learning/LessonPage'
 import { ExercisesPage } from '@/features/learning/ExercisesPage'
+import { MockTestsPage } from '@/features/learning/MockTestsPage'
+import { FinalTestPage } from '@/features/learning/FinalTestPage'
 import { CourseInfoPage } from '@/features/learning/CourseInfoPage'
 import { RunnerPage } from '@/features/runner/RunnerPage'
 import { ResultPage } from '@/features/submissions/ResultPage'
 import { ReviewPage } from '@/features/submissions/ReviewPage'
 import { HistoryPage } from '@/features/submissions/HistoryPage'
 import { ProfilePage } from '@/features/profile/ProfilePage'
+import { PersonalizationPage } from '@/features/personalization/PersonalizationPage'
 import { NotFoundPage } from '@/features/NotFoundPage'
 import { RouteError } from '@/features/RouteError'
 import { DEMO_MODE } from '@/lib/demo'
@@ -42,6 +45,7 @@ export const router = createBrowserRouter([
               { path: '/courses', element: <CourseListPage /> },
               { path: '/courses/:courseId', element: <CourseDetailPage /> },
               { path: '/history', element: <HistoryPage /> },
+              { path: '/personalization', element: <PersonalizationPage /> },
               {
                 path: '/profile',
                 element: DEMO_MODE ? <Navigate to="/" replace /> : <ProfilePage />,
@@ -58,6 +62,8 @@ export const router = createBrowserRouter([
               { path: 'syllabus', element: <SyllabusPage /> },
               { path: 'lessons/:lessonId', element: <LessonPage /> },
               { path: 'exercises', element: <ExercisesPage /> },
+              { path: 'mock-tests', element: <MockTestsPage /> },
+              { path: 'final-test', element: <FinalTestPage /> },
               { path: 'info', element: <CourseInfoPage /> },
             ],
           },

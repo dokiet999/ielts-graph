@@ -1,5 +1,6 @@
-package com.ielts.backend.exception;
+package com.ielts.backend.exception.customException;
 
+import com.ielts.backend.exception.GlobalExceptionHandler;
 import lombok.Getter;
 
 /** Mapped to HTTP 400 by {@link GlobalExceptionHandler}, with a machine-readable code and optional details. */

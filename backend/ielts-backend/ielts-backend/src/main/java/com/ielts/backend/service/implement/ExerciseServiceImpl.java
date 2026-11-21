@@ -11,7 +11,7 @@ import com.ielts.backend.entity.QuestionGroup;
 import com.ielts.backend.entity.QuestionOption;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
-import com.ielts.backend.exception.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.mapper.ExerciseMapper;
 import com.ielts.backend.repository.*;
 import com.ielts.backend.service.ExerciseService;
@@ -36,7 +36,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable) {
+    public Page<ExerciseResponse> getExercises(SkillType skill, ExerciseType type, Pageable pageable) {
         Page<Exercise> page;
         if (skill != null && type != null) {
             page = exerciseRepository.findBySkillTypeAndExerciseType(skill, type, pageable);
@@ -48,7 +48,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             page = exerciseRepository.findAll(pageable);
         }
 
-        return PageResponse.of(page, exerciseMapper::toResponse);
+        return page.map(exerciseMapper::toResponse);
     }
 
     @Override

@@ -1,7 +1,7 @@
 """AI service for IELTS Speaking: Whisper transcript + speech features + pronunciation scores.
 
 Response of POST /transcribe follows ai/schema/speaking_asr.schema.json.
-Pronunciation scores come from pronunciation.py (Gemini estimate by default, or Azure) when PRON_ENABLED=true;
+Pronunciation scores come from pronunciation.py (Gemini estimate) when PRON_ENABLED=true;
 they run in parallel with Whisper and are null when disabled or when the provider fails.
 The service has no authentication: it must listen on 127.0.0.1 only.
 """
@@ -135,7 +135,7 @@ async def transcribe(audio: UploadFile = File(...)):
             raise ApiError(400, "BAD_AUDIO", "Audio contains no samples.")
         if duration > MAX_DURATION_SEC:
             raise ApiError(413, "AUDIO_TOO_LONG", f"Audio is longer than {MAX_DURATION_SEC:.0f} s.")
-        # Azure runs while Whisper transcribes; its result is collected after Whisper is done
+        # Pronunciation scoring runs while Whisper transcribes; its result is collected after Whisper is done
         pron_future = pron_executor.submit(pron_scorer.score, samples) if pron_scorer.active else None
         try:
             t0 = time.time()
@@ -179,7 +179,7 @@ def collect_pronunciation(future) -> tuple:
     if future is None:
         return None, 0.0
     try:
-        # score() has its own timeout; the margin only guards against a stuck SDK call
+        # score() has its own timeout; the margin only guards against a stuck call
         return future.result(timeout=pron_scorer.config.timeout_sec + 15)
     except FutureTimeout:
         future.cancel()

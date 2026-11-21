@@ -2,7 +2,7 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.response.KgRecommendationResponse;
 import com.ielts.backend.dto.response.KgRecommendationResponse.RecommendationItem;
-import com.ielts.backend.exception.BadRequestException;
+import com.ielts.backend.exception.customException.BadRequestException;
 import com.ielts.backend.service.kg.KgGraphClient;
 import com.ielts.backend.service.kg.KgGraphClient.CandidateResourceRow;
 import com.ielts.backend.service.kg.KgGraphClient.ErrorClassification;

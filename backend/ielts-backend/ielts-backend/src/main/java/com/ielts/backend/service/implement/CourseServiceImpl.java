@@ -7,14 +7,10 @@ import com.ielts.backend.dto.response.EnrollmentResponse;
 import com.ielts.backend.dto.response.CourseEnrollmentResponse;
 import com.ielts.backend.dto.response.LessonSummaryResponse;
 import com.ielts.backend.dto.response.MyCourseResponse;
-import com.ielts.backend.dto.response.PageResponse;
 import com.ielts.backend.dto.response.SectionWithLessonsResponse;
-import com.ielts.backend.entity.Course;
-import com.ielts.backend.entity.Enrollment;
-import com.ielts.backend.entity.Section;
-import com.ielts.backend.entity.User;
-import com.ielts.backend.exception.ResourceNotFoundException;
-import com.ielts.backend.exception.UnauthorizedException;
+import com.ielts.backend.entity.*;
+import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.mapper.CourseMapper;
 import com.ielts.backend.mapper.LessonMapper;
 import com.ielts.backend.repository.CourseRepository;
@@ -63,7 +59,7 @@ public class CourseServiceImpl implements CourseService {
     private final LearningProgressReader progressReader;
 
     @Override
-    public PageResponse<CourseResponse> getCourses(CourseFilter filter, Pageable pageable) {
+    public Page<CourseResponse> getCourses(CourseFilter filter, Pageable pageable) {
         List<Specification<Course>> specs = Stream.of(
                         visible(),
                         hasSkill(filter.skill()),
@@ -80,14 +76,14 @@ public class CourseServiceImpl implements CourseService {
                 : enrollmentRepository.countActiveByCourseIds(courseIds).stream()
                         .collect(Collectors.toMap(CourseEnrollmentCount::getCourseId, CourseEnrollmentCount::getTotal));
 
-        return PageResponse.of(page, c -> courseMapper.toResponse(c, counts.getOrDefault(c.getId(), 0L)));
+        return page.map(c -> courseMapper.toResponse(c, counts.getOrDefault(c.getId(), 0L)));
     }
 
     @Override
     public CourseDetailResponse getCourseDetail(UUID courseId, String username) {
         Course course = findVisibleCourse(courseId);
-        User user = username != null ? findUser(username) : null;
-        ExerciseCounts counts = progressReader.countExercises(List.of(courseId), user != null ? user.getId() : null);
+        Users users = username != null ? findUser(username) : null;
+        ExerciseCounts counts = progressReader.countExercises(List.of(courseId), users != null ? users.getId() : null);
 
         List<Section> sections = sectionRepository.findByCourseIdOrderByOrderingAsc(courseId);
         // One query for all lessons of the course, then group them by section in memory
@@ -99,11 +95,11 @@ public class CourseServiceImpl implements CourseService {
 
         List<SectionWithLessonsResponse> sectionResponses = sections.stream()
                 .map(s -> courseMapper.toSectionWithLessons(s, lessonsBySection.getOrDefault(s.getId(), List.of()),
-                        counts.total(s.getId()), user != null ? counts.completed(s.getId()) : null))
+                        counts.total(s.getId()), users != null ? counts.completed(s.getId()) : null))
                 .toList();
 
-        CourseEnrollmentResponse enrollment = user == null ? null
-                : enrollmentRepository.findByUserIdAndCourseIdAndIsActiveTrue(user.getId(), courseId)
+        CourseEnrollmentResponse enrollment = users == null ? null
+                : enrollmentRepository.findByUserIdAndCourseIdAndIsActiveTrue(users.getId(), courseId)
                         .map(e -> CourseEnrollmentResponse.builder()
                                 .enrolledAt(e.getEnrollmentDate())
                                 .completedAt(e.getCompletionDate())
@@ -115,7 +111,7 @@ public class CourseServiceImpl implements CourseService {
                 .totalLessons(lessons.size())
                 .sections(sectionResponses)
                 .exerciseCount(counts.total(courseId))
-                .completedExerciseCount(user != null ? counts.completed(courseId) : null)
+                .completedExerciseCount(users != null ? counts.completed(courseId) : null)
                 .enrollment(enrollment)
                 .build();
     }
@@ -138,11 +134,11 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public EnrollmentResponse enroll(UUID courseId, String username) {
         Course course = findVisibleCourse(courseId);
-        User user = findUser(username);
+        Users users = findUser(username);
 
         // ON CONFLICT DO NOTHING keeps concurrent requests from hitting uq_enrollment
-        boolean created = enrollmentRepository.insertIfAbsent(user.getId(), course.getId()) == 1;
-        Enrollment enrollment = enrollmentRepository.findByUserIdAndCourseId(user.getId(), course.getId())
+        boolean created = enrollmentRepository.insertIfAbsent(users.getId(), course.getId()) == 1;
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndCourseId(users.getId(), course.getId())
                 .orElseThrow(() -> new IllegalStateException("Enrollment missing after insert"));
         if (!enrollment.getIsActive()) {
             enrollment.setIsActive(true);
@@ -160,8 +156,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<MyCourseResponse> getMyCourses(String username) {
-        User user = findUser(username);
-        List<Enrollment> enrollments = enrollmentRepository.findActiveInVisibleCoursesByUserId(user.getId());
+        Users users = findUser(username);
+        List<Enrollment> enrollments = enrollmentRepository.findActiveInVisibleCoursesByUserId(users.getId());
         if (enrollments.isEmpty()) {
             return List.of();
         }
@@ -169,7 +165,7 @@ public class CourseServiceImpl implements CourseService {
         List<UUID> courseIds = enrollments.stream().map(e -> e.getCourse().getId()).toList();
         Map<UUID, Long> sectionCounts = sectionRepository.countByCourseIds(courseIds).stream()
                 .collect(Collectors.toMap(CourseSectionCount::getCourseId, CourseSectionCount::getTotal));
-        ExerciseCounts counts = progressReader.countExercises(courseIds, user.getId());
+        ExerciseCounts counts = progressReader.countExercises(courseIds, users.getId());
 
         return enrollments.stream()
                 .map(e -> {
@@ -180,7 +176,7 @@ public class CourseServiceImpl implements CourseService {
                 .toList();
     }
 
-    private User findUser(String username) {
+    private Users findUser(String username) {
         return userRepository.findByUsername(DbUserDetailsService.normalize(username))
                 .orElseThrow(() -> new UnauthorizedException("Unknown user"));
     }

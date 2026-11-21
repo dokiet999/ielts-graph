@@ -45,5 +45,8 @@ app:
     eta-min: ${PROFILE_ETA_MIN:0.10}
     offset: ${PROFILE_OFFSET:3.0}
     weight-error: ${PROFILE_WEIGHT_ERROR:1.0}
-    weight-clean: ${PROFILE_WEIGHT_CLEAN:0.3}
+    # 0.5 instead of the 0.3 of the rules draft: drills no longer update the profile, and on the synthetic
+    # learners without drill events 0.5 gives the lowest MAE (0.126 vs 0.142 at week 8) and faster recovery.
+    weight-clean: ${PROFILE_WEIGHT_CLEAN:0.5}
+    # Only used to replay the synthetic logs; real drills create no profile events.
     weight-drill: ${PROFILE_WEIGHT_DRILL:1.0}

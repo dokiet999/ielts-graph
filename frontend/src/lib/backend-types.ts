@@ -6,6 +6,18 @@
 type Num = number | string
 type Id = string
 
+export interface BeMetadata {
+  code: number
+  page?: number
+  size?: number
+  total?: number
+}
+
+export interface BeBaseResponse<T> {
+  meta: BeMetadata
+  data: T
+}
+
 export interface BeCourse {
   id: Id
   teacherId: Id
@@ -111,6 +123,24 @@ export interface BeLessonDetail {
   exercises: BeExerciseSummary[]
 }
 
+export interface BeFinalTestSession {
+  sessionId: Id
+  exerciseId: Id
+  startedAt: string
+  expiresAt: string
+  remainingSeconds: number
+}
+
+export interface BeFinalTestStatus {
+  exercise: BeExerciseSummary | null
+  unlocked: boolean
+  grantExpired: boolean
+  deadlineDays: number | null
+  unlockedAt: string | null
+  grantExpiresAt: string | null
+  activeSession: BeFinalTestSession | null
+}
+
 export interface BeOption {
   id: Id
   optionText: string
@@ -173,6 +203,7 @@ export interface BeSubmissionSummary {
   maxScore: Num
   correctCount: number
   questionCount: number
+  bandScore?: Num | null
   timeSpent: number | null
   submittedAt: string
 }
@@ -189,7 +220,7 @@ export interface BeSubmissionDetail extends BeSubmissionSummary {
 
 /** POST /exercises/{id}/submit */
 export interface BeSubmitResult {
-  result: { submissionId: Id }
+  result: { submissionId: Id; bandScore?: Num | null }
 }
 
 /** One mistake in the raw feedback; the schema calls the fix `suggestion`, older output `comment`. */

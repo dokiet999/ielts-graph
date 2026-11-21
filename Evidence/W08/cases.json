@@ -1,0 +1,69 @@
+[
+  {
+    "id": "case_a_weak_writer",
+    "title": "Writing learner with low-band essays (reference 4.0, 5.5, 6.5)",
+    "learner": "student_new",
+    "skill": "WRITING",
+    "purpose": "Low-band essays give many errors, so the weaknesses come from recurring errors. Shows how the profile and the ranking move after each attempt, and how the AI band compares with the reference band.",
+    "steps": [
+      {
+        "type": "writing",
+        "essay": "w2_003",
+        "referenceBand": 4.0
+      },
+      {
+        "type": "writing",
+        "essay": "w2_013",
+        "referenceBand": 5.5
+      },
+      {
+        "type": "writing",
+        "essay": "w2_027",
+        "referenceBand": 6.5
+      }
+    ],
+    "enroll": "10000000-0000-0000-0000-000000000009"
+  },
+  {
+    "id": "case_b_high_band_writer",
+    "title": "Writing learner with high-band essays (reference 7.0, 8.0) and a higher target",
+    "learner": "student_enrolled",
+    "skill": "WRITING",
+    "purpose": "Few errors per essay, so the recommendation depends mostly on the gap to the target band. Raising the target to 8.5 raises the priority without any new essay.",
+    "steps": [
+      {
+        "type": "writing",
+        "essay": "w2_031",
+        "referenceBand": 7.0
+      },
+      {
+        "type": "writing",
+        "essay": "w2_039",
+        "referenceBand": 8.0
+      },
+      {
+        "type": "target",
+        "targetBand": 8.5
+      }
+    ]
+  },
+  {
+    "id": "case_c_speaker",
+    "title": "Speaking learner: hesitant answer, then a fluent one (synthetic voice)",
+    "learner": "student_profile",
+    "skill": "SPEAKING",
+    "purpose": "Real Speaking pipeline (Whisper, pronunciation scores, Gemini grader) and its effect on the profile. This is the seeded demo learner, so the profile already has history (see 'before'). Audio is synthetic (Windows text-to-speech), so pronunciation scores are not typical of real learners.",
+    "steps": [
+      {
+        "type": "speaking",
+        "exercise": "40000000-0000-0000-0000-000000004001",
+        "audio": "speech/c1_attempt1.wav"
+      },
+      {
+        "type": "speaking",
+        "exercise": "40000000-0000-0000-0000-000000004001",
+        "audio": "speech/c1_attempt2.wav"
+      }
+    ]
+  }
+]

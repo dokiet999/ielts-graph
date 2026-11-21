@@ -17,7 +17,7 @@ export default defineConfig({
     fs: { allow: ['..'] },
     proxy: {
       // Used when mocks are disabled (VITE_USE_MOCK=false) and the Spring Boot backend runs locally.
-      '/api': 'http://localhost:8080',
+      '/api': 'http://localhost:8081',
     },
   },
   build: {

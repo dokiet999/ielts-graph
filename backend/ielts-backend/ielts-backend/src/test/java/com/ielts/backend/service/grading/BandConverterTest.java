@@ -1,5 +1,6 @@
 package com.ielts.backend.service.grading;
 
+import com.ielts.backend.enums.SkillType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,5 +34,28 @@ class BandConverterTest {
         assertThat(converter.listening(8, 10)).isEqualTo(7.5);
         // 5 out of 10 -> scaled 20 -> Band 5.5
         assertThat(converter.listening(5, 10)).isEqualTo(5.5);
+    }
+
+    @Test
+    void reading_standardScales() {
+        assertThat(converter.reading(40, 40)).isEqualTo(9.0);
+        assertThat(converter.reading(39, 40)).isEqualTo(9.0);
+        assertThat(converter.reading(37, 40)).isEqualTo(8.5);
+        assertThat(converter.reading(35, 40)).isEqualTo(8.0);
+        assertThat(converter.reading(33, 40)).isEqualTo(7.5);
+        assertThat(converter.reading(30, 40)).isEqualTo(7.0);
+        assertThat(converter.reading(27, 40)).isEqualTo(6.5);
+        assertThat(converter.reading(23, 40)).isEqualTo(6.0);
+        assertThat(converter.reading(19, 40)).isEqualTo(5.5);
+        assertThat(converter.reading(15, 40)).isEqualTo(5.0);
+        assertThat(converter.reading(10, 40)).isEqualTo(4.0);
+        assertThat(converter.reading(0, 40)).isEqualTo(0.0);
+    }
+
+    @Test
+    void convert_dispatchesBySkill() {
+        assertThat(converter.convert(SkillType.READING, 33, 40)).isEqualTo(7.5);
+        assertThat(converter.convert(SkillType.LISTENING, 32, 40)).isEqualTo(7.5);
+        assertThat(converter.convert(SkillType.WRITING, 1, 1)).isNull();
     }
 }

@@ -6,7 +6,7 @@ import com.ielts.backend.dto.response.CourseResponse;
 import com.ielts.backend.dto.response.EnrollmentResponse;
 import com.ielts.backend.dto.response.LessonSummaryResponse;
 import com.ielts.backend.dto.response.MyCourseResponse;
-import com.ielts.backend.dto.response.PageResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public interface CourseService {
 
-    PageResponse<CourseResponse> getCourses(CourseFilter filter, Pageable pageable);
+    Page<CourseResponse> getCourses(CourseFilter filter, Pageable pageable);
 
     /**
      * @param username the logged-in user, or null for anonymous access (no progress, no enrollment)

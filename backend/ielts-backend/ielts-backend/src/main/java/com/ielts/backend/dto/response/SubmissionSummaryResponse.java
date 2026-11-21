@@ -26,6 +26,8 @@ public class SubmissionSummaryResponse {
     private SubmissionStatus status;
     private BigDecimal score;
     private BigDecimal maxScore;
+    /** IELTS band score for MOCK_TEST attempts; null for practice and lesson exercises. */
+    private Double bandScore;
     private int correctCount;
     private int questionCount;
     /** Seconds, as sent by the client; null when not sent. */

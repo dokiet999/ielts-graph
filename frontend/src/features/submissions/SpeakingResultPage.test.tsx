@@ -129,8 +129,8 @@ describe('SpeakingResultPage', () => {
     expect(screen.queryByText(/Ngữ điệu \(Prosody\)/)).not.toBeInTheDocument()
   })
 
-  it('labels Gemini pronunciation scores as an AI estimate and Azure scores as a measurement', () => {
-    const withSource = (source: 'gemini' | 'azure' | null): SubmissionDetail => ({
+  it('labels Gemini pronunciation scores as an AI estimate and shows no label for an unknown source', () => {
+    const withSource = (source: 'gemini' | null): SubmissionDetail => ({
       ...sub,
       speakingFeedback: { ...feedback, pronunciation: { ...feedback.pronunciation!, source } },
     })
@@ -138,14 +138,9 @@ describe('SpeakingResultPage', () => {
     expect(screen.getByText(/AI \(Gemini\) nghe bản ghi âm và ước lượng/)).toBeInTheDocument()
     unmount()
 
-    const second = renderPage(withSource('azure'))
-    expect(screen.getByText(/Điểm đo bằng Azure/)).toBeInTheDocument()
-    expect(screen.queryByText(/ước lượng, không phải phép đo/)).not.toBeInTheDocument()
-    second.unmount()
-
     renderPage(withSource(null))
     expect(screen.getByLabelText('Đánh giá phát âm')).toBeInTheDocument()
-    expect(screen.queryByText(/Gemini|Azure/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Gemini/)).not.toBeInTheDocument()
   })
 
   it('hides completeness when it was not measured (unscripted mode)', () => {

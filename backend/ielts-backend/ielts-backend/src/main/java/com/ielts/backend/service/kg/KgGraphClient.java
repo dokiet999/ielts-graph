@@ -1,6 +1,6 @@
 package com.ielts.backend.service.kg;
 
-import com.ielts.backend.exception.KgUnavailableException;
+import com.ielts.backend.exception.customException.KgUnavailableException;
 import lombok.RequiredArgsConstructor;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
@@ -57,10 +57,28 @@ public class KgGraphClient {
             ORDER BY id
             """;
 
-    private static final String QUERY_PRACTICED_SUBSKILLS = """
-            MATCH (r:Resource {sql_ref: $ref})-[:PRACTICES]->(s:SubSkill)
-            RETURN DISTINCT s.id AS id
-            ORDER BY id
+    private static final String QUERY_SKILL_STRUCTURE = """
+            MATCH (c:Criterion {skill: $skill})-[:HAS_SUBSKILL]->(s:SubSkill)
+            OPTIONAL MATCH (e:ErrorType)-[:AFFECTS]->(s)
+            RETURN c.id AS criterionId, c.name_vi AS criterionNameVi, c.name_en AS criterionNameEn,
+                   s.id AS subSkillId, s.name_vi AS subSkillNameVi, s.name_en AS subSkillNameEn,
+                   e.id AS errorId, e.name_vi AS errorNameVi, e.name_en AS errorNameEn
+            ORDER BY criterionId, subSkillId, errorId
+            """;
+
+    private static final String QUERY_SUBSKILL_RESOURCES = """
+            MATCH (:Criterion {skill: $skill})-[:HAS_SUBSKILL]->(s:SubSkill)<-[:PRACTICES]-(r:Resource)
+            RETURN DISTINCT s.id AS subSkillId, r.id AS resourceId, r.name_vi AS nameVi, r.name_en AS nameEn,
+                   r.sql_ref AS sqlRef,
+                   [(r)-[:FIXES]->(e:ErrorType) | e.id] AS fixes,
+                   [(r)-[:SUITABLE_FOR]->(b:BandLevel) | b.value] AS bands
+            ORDER BY subSkillId, resourceId
+            """;
+
+    private static final String QUERY_PREREQUISITES = """
+            MATCH (p:SubSkill)-[:PREREQUISITE_OF]->(s:SubSkill)
+            RETURN p.id AS prerequisiteId, s.id AS subSkillId
+            ORDER BY subSkillId, prerequisiteId
             """;
 
     private final Driver driver;
@@ -91,6 +109,33 @@ public class KgGraphClient {
             boolean practicesSubSkill,
             List<Integer> bands
     ) {}
+
+    /** One Criterion - SubSkill - ErrorType path of a skill; the error fields are null for a SubSkill without ErrorType. */
+    public record SkillStructureRow(
+            String criterionId,
+            String criterionNameVi,
+            String criterionNameEn,
+            String subSkillId,
+            String subSkillNameVi,
+            String subSkillNameEn,
+            String errorId,
+            String errorNameVi,
+            String errorNameEn
+    ) {}
+
+    /** A Resource that PRACTICES a SubSkill of the skill, with the ErrorTypes it FIXES and its bands. */
+    public record SubSkillResourceRow(
+            String subSkillId,
+            String resourceId,
+            String nameVi,
+            String nameEn,
+            String sqlRef,
+            List<String> fixes,
+            List<Integer> bands
+    ) {}
+
+    /** {@code prerequisiteId} should be mastered before {@code subSkillId} (PREREQUISITE_OF). */
+    public record PrerequisiteRow(String prerequisiteId, String subSkillId) {}
 
     public List<ErrorClassification> classifyErrors(String skill, List<String> errors) {
         if (errors == null || errors.isEmpty()) {
@@ -182,18 +227,63 @@ public class KgGraphClient {
     }
 
     /**
-     * Query 3 (W6): SubSkills practiced by the Resource matching {@code sql_ref} (e.g. {@code exercises:<uuid>}).
+     * Personalization (W7): every Criterion, SubSkill and ErrorType of a skill (SKILL_W or SKILL_S).
      */
-    public List<String> findPracticedSubSkills(String sqlRef) {
-        if (sqlRef == null || sqlRef.isBlank()) {
-            return List.of();
-        }
+    public List<SkillStructureRow> findSkillStructure(String skill) {
         TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
         try (Session session = driver.session()) {
             return session.executeRead(tx -> tx.run(
-                    QUERY_PRACTICED_SUBSKILLS,
-                    Values.parameters("ref", sqlRef)
-            ).list(record -> record.get("id").asString()), txConfig);
+                    QUERY_SKILL_STRUCTURE,
+                    Values.parameters("skill", skill)
+            ).list(record -> new SkillStructureRow(
+                    record.get("criterionId").asString(),
+                    record.get("criterionNameVi").asString(null),
+                    record.get("criterionNameEn").asString(null),
+                    record.get("subSkillId").asString(),
+                    record.get("subSkillNameVi").asString(null),
+                    record.get("subSkillNameEn").asString(null),
+                    record.get("errorId").asString(null),
+                    record.get("errorNameVi").asString(null),
+                    record.get("errorNameEn").asString(null)
+            )), txConfig);
+        } catch (Exception e) {
+            throw new KgUnavailableException("Knowledge graph query failed", e);
+        }
+    }
+
+    /**
+     * Personalization (W7): the practice Resources of the SubSkills of a skill.
+     */
+    public List<SubSkillResourceRow> findSubSkillResources(String skill) {
+        TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
+        try (Session session = driver.session()) {
+            return session.executeRead(tx -> tx.run(
+                    QUERY_SUBSKILL_RESOURCES,
+                    Values.parameters("skill", skill)
+            ).list(record -> new SubSkillResourceRow(
+                    record.get("subSkillId").asString(),
+                    record.get("resourceId").asString(),
+                    record.get("nameVi").asString(null),
+                    record.get("nameEn").asString(null),
+                    record.get("sqlRef").asString(null),
+                    record.get("fixes").asList(Value::asString),
+                    record.get("bands").asList(Value::asInt)
+            )), txConfig);
+        } catch (Exception e) {
+            throw new KgUnavailableException("Knowledge graph query failed", e);
+        }
+    }
+
+    /**
+     * Personalization (W7): all PREREQUISITE_OF relationships between SubSkills.
+     */
+    public List<PrerequisiteRow> findPrerequisites() {
+        TransactionConfig txConfig = TransactionConfig.builder().withTimeout(QUERY_TIMEOUT).build();
+        try (Session session = driver.session()) {
+            return session.executeRead(tx -> tx.run(QUERY_PREREQUISITES).list(record -> new PrerequisiteRow(
+                    record.get("prerequisiteId").asString(),
+                    record.get("subSkillId").asString()
+            )), txConfig);
         } catch (Exception e) {
             throw new KgUnavailableException("Knowledge graph query failed", e);
         }

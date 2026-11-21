@@ -3,7 +3,7 @@
 
 export type Role = 'STUDENT' | 'TEACHER' | 'ADMIN'
 export type SkillType = 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING'
-export type ExerciseType = 'LESSON' | 'MOCK_TEST' | 'PRACTICE'
+export type ExerciseType = 'LESSON' | 'MOCK_TEST' | 'PRACTICE' | 'FINAL_TEST'
 export type DifficultyLevel =
   'BEGINNER' | 'ELEMENTARY' | 'INTERMEDIATE' | 'UPPER_INTERMEDIATE' | 'ADVANCED'
 export type QuestionType =
@@ -186,6 +186,7 @@ export interface Submission {
   maxScore: number
   correctCount: number
   questionCount: number
+  bandScore?: number | null
   timeSpent: number
   submittedAt: string
 }
@@ -280,11 +281,11 @@ export interface SpeakingPronunciation {
   /** null in unscripted mode (no reference text), which is the normal case for IELTS answers. */
   completeness: number | null
   prosody: number | null
-  /** gemini: AI estimate from listening to the audio; azure: acoustic measurement; null for older submissions. */
+  /** gemini: AI estimate from listening to the audio, not an acoustic measurement; null for older submissions. */
   source: PronunciationSource | null
 }
 
-export type PronunciationSource = 'gemini' | 'azure'
+export type PronunciationSource = 'gemini'
 
 export interface SpeakingFeedback {
   part: SpeakingPartId
@@ -357,6 +358,24 @@ export interface CheckAnswerResponse {
   explanation: string | null
 }
 
+export interface FinalTestSession {
+  sessionId: string
+  exerciseId: string
+  startedAt: string
+  expiresAt: string
+  remainingSeconds: number
+}
+
+export interface FinalTestStatus {
+  exercise: ExerciseSummary | null
+  unlocked: boolean
+  grantExpired: boolean
+  deadlineDays: number | null
+  unlockedAt: string | null
+  grantExpiresAt: string | null
+  activeSession: FinalTestSession | null
+}
+
 export interface DashboardStats {
   courseCount: number
   completedCourseCount: number
@@ -372,4 +391,90 @@ export function isReadingContent(c: Exercise['content']): c is ReadingContent {
 
 export function isListeningContent(c: Exercise['content']): c is ListeningContent {
   return !!c && 'transcript' in c
+}
+
+/** Skills of the personalization tab (the AI-graded ones). */
+export type ProfileSkill = 'WRITING' | 'SPEAKING'
+
+/** WEAK: in the latest attempt. IMPROVING: gone from it. RESOLVED: gone from the last 3 attempts. */
+export type WeaknessStatus = 'WEAK' | 'IMPROVING' | 'RESOLVED'
+
+export interface BandPoint {
+  submissionId: string
+  gradedAt: string
+  band: number
+}
+
+export interface SubSkillProfile {
+  subSkill: KgNodeRef
+  /** Estimated mastery 0-1, null before any graded attempt touched it. */
+  mastery: number | null
+  evidence: number | null
+}
+
+export interface CriterionProfile {
+  criterion: KgNodeRef
+  /** Mean band of the last 3 attempts. */
+  currentBand: number | null
+  /** target - current, null without a target. */
+  gap: number | null
+  history: BandPoint[]
+  subSkills: SubSkillProfile[]
+}
+
+export interface PracticeResource {
+  resourceId: string
+  nameVi: string | null
+  nameEn: string | null
+  exerciseId: string | null
+  fixesError: boolean
+  bands: number[]
+  practicedCount: number
+}
+
+export interface Weakness {
+  errorType: KgNodeRef
+  subSkill: KgNodeRef
+  criterion: KgNodeRef
+  status: WeaknessStatus
+  occurrences: number
+  recentOccurrences: number
+  recentWindow: number
+  cleanStreak: number
+  lastSeenAt: string
+  mastery: number | null
+  criterionBand: number | null
+  targetBand: number | null
+  priority: number
+  /** A weak prerequisite SubSkill to strengthen first. */
+  prerequisite: KgNodeRef | null
+  prerequisiteMastery: number | null
+  resources: PracticeResource[]
+}
+
+export interface CriterionGap {
+  criterion: KgNodeRef
+  currentBand: number | null
+  targetBand: number | null
+  gap: number
+  /** WEAK or IMPROVING errors of the criterion; 0 means range, not errors, holds the band back. */
+  activeErrorCount: number
+}
+
+export interface SkillProfile {
+  skill: ProfileSkill
+  kgSkill: KgSkill
+  targetBand: number | null
+  currentBand: number | null
+  attemptCount: number
+  bandHistory: BandPoint[]
+  criteria: CriterionProfile[]
+  /** Most urgent first; resolved ones last. */
+  weaknesses: Weakness[]
+  gaps: CriterionGap[]
+}
+
+/** GET /api/personalization */
+export interface Personalization {
+  skills: SkillProfile[]
 }
