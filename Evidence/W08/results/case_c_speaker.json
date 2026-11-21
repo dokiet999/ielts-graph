@@ -1,0 +1,553 @@
+{
+  "case": "case_c_speaker",
+  "title": "Speaking learner: hesitant answer, then a fluent one (synthetic voice)",
+  "learner": "student_profile",
+  "skill": "SPEAKING",
+  "purpose": "Real Speaking pipeline (Whisper, pronunciation scores, Gemini grader) and its effect on the profile. This is the seeded demo learner, so the profile already has history (see 'before'). Audio is synthetic (Windows text-to-speech), so pronunciation scores are not typical of real learners.",
+  "before": {
+    "attemptCount": 6,
+    "currentBand": 6.17,
+    "targetBand": 6.5,
+    "criteriaBands": {
+      "CRIT_S_FC": 6.0,
+      "CRIT_S_LR": 6.33,
+      "CRIT_S_GRA": 6.0,
+      "CRIT_S_P": null
+    },
+    "gaps": [
+      {
+        "criterion": {
+          "id": "CRIT_S_FC",
+          "nameVi": "Độ trôi chảy và mạch lạc",
+          "nameEn": "Fluency & Coherence"
+        },
+        "currentBand": 6.0,
+        "targetBand": 6.5,
+        "gap": 0.5,
+        "activeErrorCount": 1
+      },
+      {
+        "criterion": {
+          "id": "CRIT_S_GRA",
+          "nameVi": "Phạm vi và độ chính xác ngữ pháp",
+          "nameEn": "Grammatical Range & Accuracy"
+        },
+        "currentBand": 6.0,
+        "targetBand": 6.5,
+        "gap": 0.5,
+        "activeErrorCount": 1
+      },
+      {
+        "criterion": {
+          "id": "CRIT_S_LR",
+          "nameVi": "Nguồn từ vựng",
+          "nameEn": "Lexical Resource"
+        },
+        "currentBand": 6.33,
+        "targetBand": 6.5,
+        "gap": 0.17,
+        "activeErrorCount": 1
+      }
+    ],
+    "mastery": {
+      "SUB_ANSWER_EXTEND": 0.371,
+      "SUB_DISCOURSE_MARKER": 0.773,
+      "SUB_FLUENCY": 0.125,
+      "SUB_COLLOCATION": 0.405,
+      "SUB_PARAPHRASE": 0.77,
+      "SUB_WORD_CHOICE": 0.681,
+      "SUB_AGREEMENT": 0.423,
+      "SUB_ARTICLE": 0.534,
+      "SUB_COMPLEX_SENTENCE": 0.682,
+      "SUB_PREPOSITION": 0.868,
+      "SUB_VERB_TENSE": 0.256
+    },
+    "weaknesses": [
+      {
+        "error": "ERR_LONG_PAUSE",
+        "subSkill": "SUB_FLUENCY",
+        "status": "WEAK",
+        "occurrences": 6,
+        "mastery": 0.125,
+        "priority": 0.788,
+        "resources": []
+      },
+      {
+        "error": "ERR_VERB_TENSE",
+        "subSkill": "SUB_VERB_TENSE",
+        "status": "WEAK",
+        "occurrences": 4,
+        "mastery": 0.256,
+        "priority": 0.622,
+        "resources": [
+          "RES_G_VERB_TENSE_01"
+        ]
+      },
+      {
+        "error": "ERR_WORD_CHOICE",
+        "subSkill": "SUB_WORD_CHOICE",
+        "status": "IMPROVING",
+        "occurrences": 2,
+        "mastery": 0.681,
+        "priority": 0.276,
+        "resources": [
+          "RES_L_WORD_CHOICE_01"
+        ]
+      },
+      {
+        "error": "ERR_SHORT_ANSWER",
+        "subSkill": "SUB_ANSWER_EXTEND",
+        "status": "RESOLVED",
+        "occurrences": 3,
+        "mastery": 0.371,
+        "priority": 0.364,
+        "resources": [
+          "RES_S_PART2_01"
+        ]
+      },
+      {
+        "error": "ERR_SVA",
+        "subSkill": "SUB_AGREEMENT",
+        "status": "RESOLVED",
+        "occurrences": 1,
+        "mastery": 0.423,
+        "priority": 0.339,
+        "resources": [
+          "RES_G_AGREEMENT_01"
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": 1,
+      "input": "audio speech/c1_attempt1.wav",
+      "http": 200,
+      "result": {
+        "submissionId": "cac19768-51aa-4009-a607-1ec167b4e931",
+        "attempt": 5,
+        "overallBand": 5.0,
+        "criteriaBands": {
+          "CRIT_S_FC": 5,
+          "CRIT_S_LR": 5,
+          "CRIT_S_GRA": 4,
+          "CRIT_S_P": 6
+        },
+        "errorCodes": [
+          "ERR_SELF_CORRECTION",
+          "ERR_WORD_CHOICE",
+          "ERR_VERB_TENSE",
+          "ERR_SVA"
+        ],
+        "pronunciation": {
+          "accuracy": 70.0,
+          "fluency": 65.0,
+          "completeness": null,
+          "prosody": 68.0,
+          "source": "gemini"
+        },
+        "features": {
+          "duration_sec": 19.2,
+          "word_count": 37,
+          "speech_rate_wpm": 115.6,
+          "pause_count": 8,
+          "total_pause_sec": 9.16,
+          "longest_pause_sec": 1.76
+        },
+        "transcript": "Um, my hometown is, uh, it is in the north of Vietnam. It have many mountain and the weather is cold in the winter. I like it because, um, people is very friendly. And food is delicious.",
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "speaking-v1.2",
+        "latencyMs": 16813
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "part": "QT_S_PART1",
+        "criteria": {
+          "CRIT_S_FC": {
+            "band": 5,
+            "comment": "Thí sinh có thể duy trì câu trả lời nhưng ngắt quãng và lặp từ khá nhiều khi tìm ý.",
+            "evidence": [
+              {
+                "quote": "Um, my hometown is, uh, it is",
+                "error_type": "ERR_SELF_CORRECTION",
+                "suggestion": "Tránh lặp từ hoặc dùng các từ đệm quá nhiều khi bắt đầu câu."
+              }
+            ]
+          },
+          "CRIT_S_LR": {
+            "band": 5,
+            "comment": "Vựng từ dùng ở mức cơ bản, đủ để trả lời nhưng ít sự linh hoạt hay từ vựng nâng cao.",
+            "evidence": [
+              {
+                "quote": "food is delicious",
+                "error_type": "ERR_WORD_CHOICE",
+                "suggestion": "Có thể dùng các tính từ phong phú hơn như 'local cuisine is mouth-watering'."
+              }
+            ]
+          },
+          "CRIT_S_GRA": {
+            "band": 4,
+            "comment": "Các cấu trúc câu cơ bản nhưng xuất hiện lỗi ngữ pháp về số ít/số nhiều và chia động từ.",
+            "evidence": [
+              {
+                "quote": "It have many mountain",
+                "error_type": "ERR_VERB_TENSE",
+                "suggestion": "Dùng 'It has' (số ít) và 'mountains' (số nhiều) cho đúng ngữ pháp."
+              },
+              {
+                "quote": "people is very friendly",
+                "error_type": "ERR_SVA",
+                "suggestion": "'People' là danh từ số nhiều nên phải dùng 'people are'."
+              }
+            ]
+          },
+          "CRIT_S_P": {
+            "band": 6,
+            "comment": "Theo điểm phát âm do AI nghe bản ghi âm và ước lượng, phát âm ở mức trung bình, người nghe có thể hiểu được nhưng ngữ điệu chưa thực sự tự nhiên.",
+            "evidence": []
+          }
+        },
+        "overall_band": 5.0,
+        "out_of_calibration_range": false,
+        "summary": "Thí sinh trả lời được câu hỏi ở Part 1 nhưng độ dài còn ngắn. Điểm yếu lớn nhất nằm ở lỗi ngữ pháp cơ bản (chia động từ, danh từ số ít/số nhiều) và sự ngắt quãng khi nói.",
+        "improvements": [
+          "Ôn tập lại cách chia động từ với chủ ngữ số ít và số nhiều (ví dụ: it has, people are).",
+          "Thực hành nói các câu liền mạch hơn, hạn chế các từ đệm và khoảng dừng kéo dài.",
+          "Mở rộng vốn từ vựng miêu tả phong cảnh và ẩm thực địa phương."
+        ]
+      },
+      "after": {
+        "attemptCount": 7,
+        "currentBand": 5.83,
+        "targetBand": 6.5,
+        "criteriaBands": {
+          "CRIT_S_FC": 5.67,
+          "CRIT_S_LR": 6.0,
+          "CRIT_S_GRA": 5.33,
+          "CRIT_S_P": 6.0
+        },
+        "gaps": [
+          {
+            "criterion": {
+              "id": "CRIT_S_GRA",
+              "nameVi": "Phạm vi và độ chính xác ngữ pháp",
+              "nameEn": "Grammatical Range & Accuracy"
+            },
+            "currentBand": 5.33,
+            "targetBand": 6.5,
+            "gap": 1.17,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_S_FC",
+              "nameVi": "Độ trôi chảy và mạch lạc",
+              "nameEn": "Fluency & Coherence"
+            },
+            "currentBand": 5.67,
+            "targetBand": 6.5,
+            "gap": 0.83,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_S_LR",
+              "nameVi": "Nguồn từ vựng",
+              "nameEn": "Lexical Resource"
+            },
+            "currentBand": 6.0,
+            "targetBand": 6.5,
+            "gap": 0.5,
+            "activeErrorCount": 1
+          },
+          {
+            "criterion": {
+              "id": "CRIT_S_P",
+              "nameVi": "Phát âm",
+              "nameEn": "Pronunciation"
+            },
+            "currentBand": 6.0,
+            "targetBand": 6.5,
+            "gap": 0.5,
+            "activeErrorCount": 0
+          }
+        ],
+        "mastery": {
+          "SUB_ANSWER_EXTEND": 0.413,
+          "SUB_DISCOURSE_MARKER": 0.792,
+          "SUB_FLUENCY": 0.111,
+          "SUB_COLLOCATION": 0.435,
+          "SUB_PARAPHRASE": 0.781,
+          "SUB_WORD_CHOICE": 0.613,
+          "SUB_AGREEMENT": 0.38,
+          "SUB_ARTICLE": 0.558,
+          "SUB_COMPLEX_SENTENCE": 0.698,
+          "SUB_PREPOSITION": 0.875,
+          "SUB_VERB_TENSE": 0.23,
+          "SUB_INTONATION": 0.583,
+          "SUB_SOUND": 0.583,
+          "SUB_WORD_STRESS": 0.583
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_VERB_TENSE",
+            "subSkill": "SUB_VERB_TENSE",
+            "status": "WEAK",
+            "occurrences": 5,
+            "mastery": 0.23,
+            "priority": 0.702,
+            "resources": [
+              "RES_G_VERB_TENSE_01"
+            ]
+          },
+          {
+            "error": "ERR_SELF_CORRECTION",
+            "subSkill": "SUB_FLUENCY",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.111,
+            "priority": 0.627,
+            "resources": []
+          },
+          {
+            "error": "ERR_SVA",
+            "subSkill": "SUB_AGREEMENT",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.38,
+            "priority": 0.527,
+            "resources": [
+              "RES_G_AGREEMENT_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 3,
+            "mastery": 0.613,
+            "priority": 0.443,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_LONG_PAUSE",
+            "subSkill": "SUB_FLUENCY",
+            "status": "IMPROVING",
+            "occurrences": 6,
+            "mastery": 0.111,
+            "priority": 0.727,
+            "resources": []
+          },
+          {
+            "error": "ERR_SHORT_ANSWER",
+            "subSkill": "SUB_ANSWER_EXTEND",
+            "status": "RESOLVED",
+            "occurrences": 3,
+            "mastery": 0.413,
+            "priority": 0.376,
+            "resources": [
+              "RES_S_PART2_01"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "input": "audio speech/c1_attempt2.wav",
+      "http": 200,
+      "result": {
+        "submissionId": "fe172d30-cd2d-49fc-9a29-834e1956c4a1",
+        "attempt": 6,
+        "overallBand": 8.0,
+        "criteriaBands": {
+          "CRIT_S_FC": 8,
+          "CRIT_S_LR": 7,
+          "CRIT_S_GRA": 8,
+          "CRIT_S_P": 8
+        },
+        "errorCodes": [],
+        "pronunciation": {
+          "accuracy": 92.0,
+          "fluency": 90.0,
+          "completeness": null,
+          "prosody": 88.0,
+          "source": "gemini"
+        },
+        "features": {
+          "duration_sec": 23.59,
+          "word_count": 73,
+          "speech_rate_wpm": 185.7,
+          "pause_count": 5,
+          "total_pause_sec": 3.46,
+          "longest_pause_sec": 0.9
+        },
+        "transcript": "My home town is a small coastal town in central Vietnam, and what I like most about living there is the relaxed pace of life. Everyone knows each other, and the streets are quiet in the evening, so I can walk along the beach after work without feeling stressed. Although the town is not very modern, the fresh seafood and the friendly neighbors make it a place where I feel completely at home.",
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "speaking-v1.2",
+        "latencyMs": 21102
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "part": "QT_S_PART1",
+        "criteria": {
+          "CRIT_S_FC": {
+            "band": 8,
+            "comment": "Thí sinh nói trôi chảy, các ý tưởng phát triển mạch lạc và logic mà không có sự ngập ngừng hay lặp từ đáng kể.",
+            "evidence": []
+          },
+          "CRIT_S_LR": {
+            "band": 7,
+            "comment": "Vốn từ vựng linh hoạt và phù hợp với chủ đề, sử dụng tốt các cụm từ miêu tả tự nhiên.",
+            "evidence": []
+          },
+          "CRIT_S_GRA": {
+            "band": 8,
+            "comment": "Sử dụng linh hoạt cả câu đơn và câu phức với độ chính xác cao, hầu như không có lỗi ngữ pháp.",
+            "evidence": []
+          },
+          "CRIT_S_P": {
+            "band": 8,
+            "comment": "Theo điểm phát âm do AI nghe bản ghi âm và ước lượng, phát âm rõ ràng, nhịp điệu và ngữ điệu tự nhiên, rất dễ hiểu.",
+            "evidence": []
+          }
+        },
+        "overall_band": 8.0,
+        "out_of_calibration_range": false,
+        "summary": "Bài nói rất xuất sắc cho Phần 1 với độ trôi chảy cao, cấu trúc ngữ pháp chính xác và phát âm rõ ràng, tự nhiên.",
+        "improvements": [
+          "Tiếp tục duy trì tốc độ nói và sự tự nhiên như hiện tại.",
+          "Thử áp dụng thêm một số thành ngữ hoặc từ vựng nâng cao hơn để làm phong phú thêm bài nói."
+        ]
+      },
+      "after": {
+        "attemptCount": 8,
+        "currentBand": 6.5,
+        "targetBand": 6.5,
+        "criteriaBands": {
+          "CRIT_S_FC": 6.33,
+          "CRIT_S_LR": 6.33,
+          "CRIT_S_GRA": 6.0,
+          "CRIT_S_P": 7.0
+        },
+        "gaps": [
+          {
+            "criterion": {
+              "id": "CRIT_S_GRA",
+              "nameVi": "Phạm vi và độ chính xác ngữ pháp",
+              "nameEn": "Grammatical Range & Accuracy"
+            },
+            "currentBand": 6.0,
+            "targetBand": 6.5,
+            "gap": 0.5,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_S_FC",
+              "nameVi": "Độ trôi chảy và mạch lạc",
+              "nameEn": "Fluency & Coherence"
+            },
+            "currentBand": 6.33,
+            "targetBand": 6.5,
+            "gap": 0.17,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_S_LR",
+              "nameVi": "Nguồn từ vựng",
+              "nameEn": "Lexical Resource"
+            },
+            "currentBand": 6.33,
+            "targetBand": 6.5,
+            "gap": 0.17,
+            "activeErrorCount": 1
+          }
+        ],
+        "mastery": {
+          "SUB_ANSWER_EXTEND": 0.45,
+          "SUB_DISCOURSE_MARKER": 0.808,
+          "SUB_FLUENCY": 0.156,
+          "SUB_COLLOCATION": 0.463,
+          "SUB_PARAPHRASE": 0.792,
+          "SUB_WORD_CHOICE": 0.633,
+          "SUB_AGREEMENT": 0.411,
+          "SUB_ARTICLE": 0.58,
+          "SUB_COMPLEX_SENTENCE": 0.713,
+          "SUB_PREPOSITION": 0.881,
+          "SUB_VERB_TENSE": 0.269,
+          "SUB_INTONATION": 0.643,
+          "SUB_SOUND": 0.643,
+          "SUB_WORD_STRESS": 0.643
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_VERB_TENSE",
+            "subSkill": "SUB_VERB_TENSE",
+            "status": "IMPROVING",
+            "occurrences": 5,
+            "mastery": 0.269,
+            "priority": 0.616,
+            "resources": [
+              "RES_G_VERB_TENSE_01"
+            ]
+          },
+          {
+            "error": "ERR_LONG_PAUSE",
+            "subSkill": "SUB_FLUENCY",
+            "status": "IMPROVING",
+            "occurrences": 6,
+            "mastery": 0.156,
+            "priority": 0.539,
+            "resources": []
+          },
+          {
+            "error": "ERR_SELF_CORRECTION",
+            "subSkill": "SUB_FLUENCY",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.156,
+            "priority": 0.539,
+            "resources": []
+          },
+          {
+            "error": "ERR_SVA",
+            "subSkill": "SUB_AGREEMENT",
+            "status": "IMPROVING",
+            "occurrences": 2,
+            "mastery": 0.411,
+            "priority": 0.444,
+            "resources": [
+              "RES_G_AGREEMENT_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "IMPROVING",
+            "occurrences": 3,
+            "mastery": 0.633,
+            "priority": 0.301,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_SHORT_ANSWER",
+            "subSkill": "SUB_ANSWER_EXTEND",
+            "status": "RESOLVED",
+            "occurrences": 3,
+            "mastery": 0.45,
+            "priority": 0.292,
+            "resources": [
+              "RES_S_PART2_01"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

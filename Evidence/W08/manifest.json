@@ -1,0 +1,104 @@
+{
+  "issue": "#42 W8: End-to-end demo of Writing/Speaking -> KG -> recommendation",
+  "generated_at": "2026-11-21T10:51:08Z",
+  "git_commit": "3a11d08e364b5d4aff48df8fb0f67ce24886d847",
+  "git_dirty": true,
+  "settings": {
+    "issue": "#42 W8: End-to-end demo of Writing/Speaking -> KG -> recommendation",
+    "cases": "Evidence/W08/cases.json",
+    "learners": "seed accounts student_new, student_enrolled (empty history), student_profile (seeded demo history)",
+    "writing": "Gemini grader, prompt writing-v1.2; essays from data/writing_v1 with the dev prompt of the same id",
+    "speaking": "Whisper small (faster-whisper), pronunciation scored by Gemini (source 'gemini'), grader prompt speaking-v1.2; audio synthesised with the Windows voice Microsoft Zira",
+    "profile_rules": "application.yaml: initial-mastery 0.5, eta-min 0.10, offset 3, weight-error 1.0, weight-clean 0.5, drills do not count",
+    "ranking": "priority = 0.5 (1 - mastery) + 0.3 recent error rate + 0.2 min(gap to target, 2) / 2",
+    "pronunciation_model": "gemini-3.5-flash-lite (default of PRON_GEMINI_MODEL; the earlier default gemini-4-argon answered HTTP 429)"
+  },
+  "data": [
+    {
+      "path": "data/writing_v1/essays.json",
+      "sha256": "60b8072c5ccb87c489791000b2f1826f3e132846fb520b950a5659bc9439b4bf"
+    },
+    {
+      "path": "kg/data/nodes.csv",
+      "sha256": "618cf95530978a519a88eed333d6ca810ea0ed2493b39f1ec4dc22f1b092f9b3"
+    },
+    {
+      "path": "kg/data/relationships.csv",
+      "sha256": "61e1141a4d44291c780e7c945ac46a302f8ef4351cd95cdabaed6e198c6ae4e4"
+    },
+    {
+      "path": "ai/prompts/writing_v1.system.txt",
+      "sha256": "5ac96bc7740010d08507cc03c970c7a8fa961d99ad522160f748a42f3b57cc81"
+    },
+    {
+      "path": "ai/prompts/speaking_v1.system.txt",
+      "sha256": "894075bfffb2b404f8ec55a97e2d14732ce70ed71df44efb80d1a47c6a7b601a"
+    }
+  ],
+  "files": [
+    {
+      "path": "Evidence/W08/.gitignore",
+      "sha256": "a0ec1704cd0b93763aa84ba3d56ceb4c4ab7ee0448794f524bd61f8553639808"
+    },
+    {
+      "path": "Evidence/W08/cases.json",
+      "sha256": "4ca3530e509383d5896bee17de2020429bcb2174e4f04ef9d5d50188b87a216c"
+    },
+    {
+      "path": "Evidence/W08/figures/bands_by_attempt.png",
+      "sha256": "1258a521fe1752726b3bedd97462bcc692a70e5db7ce86848aea52b7adca3ea2"
+    },
+    {
+      "path": "Evidence/W08/make_figures.py",
+      "sha256": "41e50f01406410106b21e9935e8305f0487a1fda3edbddd346bb11763afb83f4"
+    },
+    {
+      "path": "Evidence/W08/make_manifest.py",
+      "sha256": "8a29207be6c80d8a766d14b07c5197eb9d84af802a00a4b8cbd05d2e32e5a8ab"
+    },
+    {
+      "path": "Evidence/W08/README.md",
+      "sha256": "475a200fce17ebdb0a0a36edf3ab27095c1f63a298dcc2a41985d623cca87c12"
+    },
+    {
+      "path": "Evidence/W08/results/case_a_weak_writer.json",
+      "sha256": "826319c05cd1dabcdbffdc7946658f09a281443468c76aadea47ef562bb88f20"
+    },
+    {
+      "path": "Evidence/W08/results/case_b_high_band_writer.json",
+      "sha256": "8e1f33424a82ef0a71b3e4a80d38629a95718f3965a0ebaefb8cd5e32fa2ca7d"
+    },
+    {
+      "path": "Evidence/W08/results/case_c_speaker.json",
+      "sha256": "8573174b7f21d1968d073b8edd8e1890a2212403f7c20a8751ef6a1664c03b85"
+    },
+    {
+      "path": "Evidence/W08/run.sh",
+      "sha256": "aa01b7b6d51650be82b92374465ffc170a4fed26821ed236254f74fc6a1d97f3"
+    },
+    {
+      "path": "Evidence/W08/run_cases.py",
+      "sha256": "ef66bec0caf426926f444e844a9f0299c816bc41c7dd5b70ef69ce391b72ea14"
+    },
+    {
+      "path": "Evidence/W08/speech/c1_attempt1.ssml",
+      "sha256": "66965a46de50e10c482bcf5fbb66707e39d872bfee1e751bada95a6e09c7f9c5"
+    },
+    {
+      "path": "Evidence/W08/speech/c1_attempt2.ssml",
+      "sha256": "5b0621eb39fe3219dbe7410daef791f81d1732150af45240b9047cbb61f1cda8"
+    },
+    {
+      "path": "Evidence/W08/speech/make_speech.ps1",
+      "sha256": "05b92fdfc8685bac743733d11075cfa29a4d2ae3ac544d4a1d2c6c902d5e08fc"
+    },
+    {
+      "path": "Evidence/W08/summary.csv",
+      "sha256": "cd05fddf366160b5cb23047cea2d8885debc69fc11e4b1c8a19d9071999f4558"
+    },
+    {
+      "path": "Evidence/W08/test-results.txt",
+      "sha256": "d10023c0cc4f62a697c368fab26a4ecefad6c8b5210ee84bb75e4c50634927b2"
+    }
+  ]
+}

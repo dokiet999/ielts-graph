@@ -1,0 +1,632 @@
+{
+  "case": "case_a_weak_writer",
+  "title": "Writing learner with low-band essays (reference 4.0, 5.5, 6.5)",
+  "learner": "student_new",
+  "skill": "WRITING",
+  "purpose": "Low-band essays give many errors, so the weaknesses come from recurring errors. Shows how the profile and the ranking move after each attempt, and how the AI band compares with the reference band.",
+  "before": {
+    "attemptCount": 0,
+    "currentBand": null,
+    "targetBand": null,
+    "criteriaBands": {
+      "CRIT_W_TA": null,
+      "CRIT_W_TR": null,
+      "CRIT_W_CC": null,
+      "CRIT_W_LR": null,
+      "CRIT_W_GRA": null
+    },
+    "gaps": [],
+    "mastery": {},
+    "weaknesses": []
+  },
+  "steps": [
+    {
+      "step": 1,
+      "input": "essay w2_003 (reference band 4.0)",
+      "http": 200,
+      "result": {
+        "submissionId": "e8eea5d8-8ad5-49f3-ae0f-891e765d392c",
+        "attempt": 1,
+        "overallBand": 6.0,
+        "criteriaBands": {
+          "CRIT_W_TR": 6,
+          "CRIT_W_CC": 6,
+          "CRIT_W_LR": 6,
+          "CRIT_W_GRA": 6
+        },
+        "errorCodes": [
+          "ERR_UNDERDEVELOPED",
+          "ERR_UNCLEAR_REFERENCE",
+          "ERR_SPELLING",
+          "ERR_WORD_FORM",
+          "ERR_SENT_STRUCTURE"
+        ],
+        "pronunciation": null,
+        "features": null,
+        "transcript": null,
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "writing-v1.2",
+        "latencyMs": 8795
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "task": "QT_W2_OPINION",
+        "criteria": {
+          "CRIT_W_TR": {
+            "band": 6,
+            "comment": "Bài viết giải quyết đúng trọng tâm đề bài, đưa ra quan điểm rõ ràng (tiêu cực) và có triển khai ý, nhưng một số luận điểm còn thiếu sự phát triển sâu sắc hoặc lập luận chưa thực sự chặt chẽ.",
+            "evidence": [
+              {
+                "quote": "leaving our hometowns to cities just because of finding better opportunities means that we have overlooked the potential of those rural areas",
+                "error_type": "ERR_UNDERDEVELOPED",
+                "suggestion": "Luận điểm này dùng đại từ 'we/our' chưa phù hợp với văn phong học thuật, cần diễn đạt khách quan hơn và phân tích sâu hơn về việc bỏ ngỏ tiềm năng nông thôn."
+              }
+            ]
+          },
+          "CRIT_W_CC": {
+            "band": 6,
+            "comment": "Bố cục bài viết rõ ràng với các phần mở bài, thân bài, kết luận. Các liên từ cơ bản được sử dụng tốt (Firstly, Secondly, In conclusion), tuy nhiên việc liên kết ý trong câu đôi chỗ còn lủng củng và dùng đại từ nhân xưng 'we' chưa chuẩn học thuật.",
+            "evidence": [
+              {
+                "quote": "By only using these kind of techniques",
+                "error_type": "ERR_UNCLEAR_REFERENCE",
+                "suggestion": "Sử dụng 'these kind' chưa đúng ngữ pháp (phải là 'these kinds' hoặc 'this kind'), và việc tham chiếu đến kỹ thuật truyền thống chưa mượt mà."
+              }
+            ]
+          },
+          "CRIT_W_LR": {
+            "band": 6,
+            "comment": "Vựng từ đủ dùng để diễn đạt ý kiến, có một số từ vựng khá tốt nhưng cũng xuất hiện lỗi chính tả và dùng từ chưa chuẩn xác.",
+            "evidence": [
+              {
+                "quote": "the non-existance of skilled workers",
+                "error_type": "ERR_SPELLING",
+                "suggestion": "Từ 'non-existance' viết đúng chính tả là 'non-existence'."
+              },
+              {
+                "quote": "do not hesitant to receive",
+                "error_type": "ERR_WORD_FORM",
+                "suggestion": "'hesitant' là tính từ, sau trợ động từ 'do not' cần dùng động từ nguyên mẫu 'hesitate'."
+              }
+            ]
+          },
+          "CRIT_W_GRA": {
+            "band": 6,
+            "comment": "Bài viết có sự pha trộn giữa câu đơn và câu phức, nhưng các câu phức dài đôi khi bị lỗi cấu trúc hoặc dấu câu chưa hợp lý. Có lỗi ngữ pháp rải rác.",
+            "evidence": [
+              {
+                "quote": "focus to create new economic opportunities",
+                "error_type": "ERR_SENT_STRUCTURE",
+                "suggestion": "Cấu trúc 'focus to create' không chuẩn, nên dùng 'focus on creating'."
+              }
+            ]
+          }
+        },
+        "overall_band": 6.0,
+        "out_of_calibration_range": false,
+        "summary": "Bài viết trả lời đúng dạng đề Opinion với quan điểm rõ ràng, cấu trúc bài viết đầy đủ các phần. Tuy nhiên, bài viết còn một số lỗi về ngữ pháp (chia từ loại, cấu trúc câu), chính tả và việc lạm dụng đại từ nhân xưng 'we' làm giảm tính trang trọng của bài viết học thuật.",
+        "improvements": [
+          "Tránh sử dụng đại từ nhân xưng 'we/our/us' trong bài viết IELTS Task 2, hãy dùng ngôi thứ ba hoặc văn phong khách quan.",
+          "Kiểm tra lại các lỗi chính tả phổ biến như 'non-existence', 'privileges'.",
+          "Chú ý dùng đúng từ loại sau các cấu trúc ngữ pháp (ví dụ: 'focus on creating' thay vì 'focus to create').",
+          "Phát triển các ví dụ thực tế cụ thể hơn để làm rõ lập luận về kinh tế nông thôn."
+        ]
+      },
+      "after": {
+        "attemptCount": 1,
+        "currentBand": 6.0,
+        "targetBand": null,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 6.0,
+          "CRIT_W_CC": 6.0,
+          "CRIT_W_LR": 6.0,
+          "CRIT_W_GRA": 6.0
+        },
+        "gaps": [],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.333,
+          "SUB_POSITION": 0.583,
+          "SUB_TASK_ADDRESS": 0.583,
+          "SUB_LINKING": 0.583,
+          "SUB_PARAGRAPHING": 0.583,
+          "SUB_REFERENCING": 0.333,
+          "SUB_COLLOCATION": 0.583,
+          "SUB_PARAPHRASE": 0.583,
+          "SUB_SPELLING_WORDFORM": 0.333,
+          "SUB_WORD_CHOICE": 0.583,
+          "SUB_AGREEMENT": 0.583,
+          "SUB_ARTICLE": 0.583,
+          "SUB_COMPLEX_SENTENCE": 0.333,
+          "SUB_PREPOSITION": 0.583,
+          "SUB_PUNCTUATION": 0.583,
+          "SUB_VERB_TENSE": 0.583
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_SPELLING",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_REFERENCE",
+            "subSkill": "SUB_REFERENCING",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_W_REFERENCE_01"
+            ]
+          },
+          {
+            "error": "ERR_UNDERDEVELOPED",
+            "subSkill": "SUB_IDEA_DEV",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_W2_IDEA_DEV_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_FORM",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "input": "essay w2_013 (reference band 5.5)",
+      "http": 200,
+      "result": {
+        "submissionId": "a131d39f-6762-48b9-8b16-45d7ae65011a",
+        "attempt": 1,
+        "overallBand": 5.0,
+        "criteriaBands": {
+          "CRIT_W_TR": 5,
+          "CRIT_W_CC": 5,
+          "CRIT_W_LR": 5,
+          "CRIT_W_GRA": 4
+        },
+        "errorCodes": [
+          "ERR_UNDERDEVELOPED",
+          "ERR_LINKER_MISUSE",
+          "ERR_WORD_CHOICE",
+          "ERR_VERB_TENSE"
+        ],
+        "pronunciation": null,
+        "features": null,
+        "transcript": null,
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "writing-v1.2",
+        "latencyMs": 7623
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "task": "QT_W2_PROBLEM_SOLUTION",
+        "criteria": {
+          "CRIT_W_TR": {
+            "band": 5,
+            "comment": "Bài viết giải quyết cả hai phần của câu hỏi (nguyên nhân và giải pháp), nhưng lập luận và ý tưởng còn khá mơ hồ, lặp ý và thiếu phát triển sâu sắc.",
+            "evidence": [
+              {
+                "quote": "they are competing with themselves with others",
+                "error_type": "ERR_UNDERDEVELOPED",
+                "suggestion": "Ý tưởng so sánh bản thân với người khác chưa được giải thích rõ ràng và mạch lạc, cần phát triển thêm ví dụ cụ thể."
+              }
+            ]
+          },
+          "CRIT_W_CC": {
+            "band": 5,
+            "comment": "Bố cục bài viết có thể nhìn thấy với các đoạn thân bài, tuy nhiên liên kết câu đôi chỗ rời rạc, lạm dụng hoặc dùng từ nối chưa tự nhiên, tham chiếu đại từ chưa rõ ràng.",
+            "evidence": [
+              {
+                "quote": "This is to state that, it tries that, youth pay more attention",
+                "error_type": "ERR_LINKER_MISUSE",
+                "suggestion": "Cụm từ nối dùng sai ngữ pháp và tối nghĩa, nên sửa lại bằng các cấu trúc diễn giải rõ ràng hơn như 'Specifically, young people often pay...'"
+              }
+            ]
+          },
+          "CRIT_W_LR": {
+            "band": 5,
+            "comment": "Từ vựng ở mức độ hạn chế, có sự lặp lại các từ đơn giản và một số lựa chọn từ không tự nhiên hoặc sai kết hợp từ.",
+            "evidence": [
+              {
+                "quote": "fitness enthusiasts and have longer life expectancy however they are miserable",
+                "error_type": "ERR_WORD_CHOICE",
+                "suggestion": "Cách kết hợp 'fitness enthusiasts' trong câu này không trôi chảy; nên dùng 'healthier' hoặc diễn đạt lại cho tự nhiên hơn."
+              }
+            ]
+          },
+          "CRIT_W_GRA": {
+            "band": 4,
+            "comment": "Bài viết mắc rất nhiều lỗi ngữ pháp bao gồm cấu trúc câu bị đứt quãng, lỗi chia động từ, thiếu mạo từ và sai cấu trúc câu phức.",
+            "evidence": [
+              {
+                "quote": "No one can able to change the past",
+                "error_type": "ERR_VERB_TENSE",
+                "suggestion": "Sai ngữ pháp cấu trúc modal verb, phải là 'No one is able to' hoặc 'No one can change'."
+              }
+            ]
+          }
+        },
+        "overall_band": 5.0,
+        "out_of_calibration_range": false,
+        "summary": "Bài viết trả lời đúng dạng đề nguyên nhân và giải pháp nhưng chất lượng lập luận còn yếu, cấu trúc câu và từ vựng mắc nhiều lỗi cơ bản làm giảm độ rõ ràng của thông điệp.",
+        "improvements": [
+          "Cải thiện ngữ pháp cơ bản, đặc biệt là việc sử dụng động từ khuyết thiếu và cấu trúc câu đơn/phức.",
+          "Tránh lạm dụng các cụm từ nối phức tạp khi chưa nắm vững cách dùng của chúng.",
+          "Phát triển các ví dụ cụ thể và rõ nghĩa hơn cho phần nguyên nhân và giải pháp.",
+          "Mở rộng vốn từ vựng học thuật thay vì lặp lại các từ ngữ đơn giản."
+        ]
+      },
+      "after": {
+        "attemptCount": 2,
+        "currentBand": 5.5,
+        "targetBand": null,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 5.5,
+          "CRIT_W_CC": 5.5,
+          "CRIT_W_LR": 5.5,
+          "CRIT_W_GRA": 5.0
+        },
+        "gaps": [],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.25,
+          "SUB_POSITION": 0.643,
+          "SUB_TASK_ADDRESS": 0.643,
+          "SUB_LINKING": 0.417,
+          "SUB_PARAGRAPHING": 0.643,
+          "SUB_REFERENCING": 0.417,
+          "SUB_COLLOCATION": 0.643,
+          "SUB_PARAPHRASE": 0.643,
+          "SUB_SPELLING_WORDFORM": 0.417,
+          "SUB_WORD_CHOICE": 0.417,
+          "SUB_AGREEMENT": 0.643,
+          "SUB_ARTICLE": 0.643,
+          "SUB_COMPLEX_SENTENCE": 0.417,
+          "SUB_PREPOSITION": 0.643,
+          "SUB_PUNCTUATION": 0.643,
+          "SUB_VERB_TENSE": 0.417
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_UNDERDEVELOPED",
+            "subSkill": "SUB_IDEA_DEV",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.25,
+            "priority": 0.675,
+            "resources": [
+              "RES_W2_IDEA_DEV_01"
+            ]
+          },
+          {
+            "error": "ERR_LINKER_MISUSE",
+            "subSkill": "SUB_LINKING",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_W_LINKING_01"
+            ]
+          },
+          {
+            "error": "ERR_VERB_TENSE",
+            "subSkill": "SUB_VERB_TENSE",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_G_VERB_TENSE_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_SPELLING",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_REFERENCE",
+            "subSkill": "SUB_REFERENCING",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_W_REFERENCE_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_FORM",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "input": "essay w2_027 (reference band 6.5)",
+      "http": 200,
+      "result": {
+        "submissionId": "4b872334-5d8b-463e-a450-ccc66abea4c4",
+        "attempt": 1,
+        "overallBand": 6.5,
+        "criteriaBands": {
+          "CRIT_W_TR": 6,
+          "CRIT_W_CC": 7,
+          "CRIT_W_LR": 6,
+          "CRIT_W_GRA": 6
+        },
+        "errorCodes": [
+          "ERR_UNDERDEVELOPED",
+          "ERR_LINKER_MISUSE",
+          "ERR_WORD_CHOICE",
+          "ERR_PUNCT"
+        ],
+        "pronunciation": null,
+        "features": null,
+        "transcript": null,
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "writing-v1.2",
+        "latencyMs": 8281
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "task": "QT_W2_DISCUSSION",
+        "criteria": {
+          "CRIT_W_TR": {
+            "band": 6,
+            "comment": "Bài viết đã giải quyết cả hai phần của câu hỏi (vấn đề và giải pháp), tuy nhiên lập luận và phát triển ý còn ở mức cơ bản, kết luận cuối bài hơi lặp lại cấu trúc câu.",
+            "evidence": [
+              {
+                "quote": "honouring the parent, can help solve the decline caused by a trend among the younger",
+                "error_type": "ERR_UNDERDEVELOPED",
+                "suggestion": "Giải pháp 'honouring the parent' chưa rõ ràng và chưa được phát triển sâu, cần làm rõ hơn về các chính sách hỗ trợ gia đình."
+              }
+            ]
+          },
+          "CRIT_W_CC": {
+            "band": 7,
+            "comment": "Bài viết có bố cục rõ ràng, các đoạn được phân chia hợp lý với các từ nối cơ bản hoạt động tốt, tuy nhiên việc liên kết ý trong câu cuối cùng hơi lủng củng.",
+            "evidence": [
+              {
+                "quote": "While it is not completely solvable, it is reducible if governments start implementing strategies, including giving allowances to teenagers and honouring mothers, the decrease could slow down.",
+                "error_type": "ERR_LINKER_MISUSE",
+                "suggestion": "Câu kết luận bị lỗi ngữ pháp về cấu trúc mệnh đề (While... the decrease could slow down), nên tách hoặc rút gọn lại cho mạch lạc."
+              }
+            ]
+          },
+          "CRIT_W_LR": {
+            "band": 6,
+            "comment": "Từ vựng ở mức độ khá, đủ để truyền tải ý nghĩa nhưng đôi chỗ dùng từ chưa chính xác hoặc lặp lại các ý thông thường.",
+            "evidence": [
+              {
+                "quote": "teenagers below 15",
+                "error_type": "ERR_WORD_CHOICE",
+                "suggestion": "Trẻ em dưới 15 tuổi nên được gọi là 'children' hoặc 'younger people' thay vì 'teenagers' vì lứa tuổi teen bắt đầu từ 13."
+              }
+            ]
+          },
+          "CRIT_W_GRA": {
+            "band": 6,
+            "comment": "Bài viết sử dụng hỗn hợp câu đơn và câu phức với độ chính xác tương đối tốt, nhưng vẫn còn một vài lỗi nhỏ về cấu trúc và dấu câu.",
+            "evidence": [
+              {
+                "quote": "decreasing , and scientists predict",
+                "error_type": "ERR_PUNCT",
+                "suggestion": "Đặt khoảng trắng trước dấu phẩy là không đúng quy chuẩn ngữ pháp tiếng Anh."
+              }
+            ]
+          }
+        },
+        "overall_band": 6.5,
+        "out_of_calibration_range": false,
+        "summary": "Bài viết giải quyết tốt yêu cầu đề bài về thảo luận vấn đề và giải pháp với cấu trúc bài văn rõ ràng, mạch lạc. Tuy nhiên, người viết cần chú ý kiểm soát từ vựng liên quan đến lứa tuổi và tránh lỗi dùng dấu câu cũng như cấu trúc câu phức quá dài ở đoạn kết luận.",
+        "improvements": [
+          "Sử dụng từ vựng chính xác hơn cho các nhóm tuổi (ví dụ: 'children under 15' thay vì 'teenagers below 15').",
+          "Tránh đặt khoảng trắng thừa trước dấu phẩy hoặc dấu chấm.",
+          "Phát triển sâu hơn các giải pháp thay vì chỉ đưa ra ví dụ ngắn gọn.",
+          "Kiểm tra lại các câu phức dài để tránh lặp ý và lỗi ngữ pháp."
+        ]
+      },
+      "after": {
+        "attemptCount": 3,
+        "currentBand": 5.83,
+        "targetBand": null,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 5.67,
+          "CRIT_W_CC": 6.0,
+          "CRIT_W_LR": 5.67,
+          "CRIT_W_GRA": 5.33
+        },
+        "gaps": [],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.2,
+          "SUB_POSITION": 0.688,
+          "SUB_TASK_ADDRESS": 0.688,
+          "SUB_LINKING": 0.324,
+          "SUB_PARAGRAPHING": 0.688,
+          "SUB_REFERENCING": 0.481,
+          "SUB_COLLOCATION": 0.688,
+          "SUB_PARAPHRASE": 0.688,
+          "SUB_SPELLING_WORDFORM": 0.481,
+          "SUB_WORD_CHOICE": 0.324,
+          "SUB_AGREEMENT": 0.688,
+          "SUB_ARTICLE": 0.688,
+          "SUB_COMPLEX_SENTENCE": 0.481,
+          "SUB_PREPOSITION": 0.688,
+          "SUB_PUNCTUATION": 0.482,
+          "SUB_VERB_TENSE": 0.481
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_UNDERDEVELOPED",
+            "subSkill": "SUB_IDEA_DEV",
+            "status": "WEAK",
+            "occurrences": 3,
+            "mastery": 0.2,
+            "priority": 0.7,
+            "resources": [
+              "RES_W2_IDEA_DEV_01"
+            ]
+          },
+          {
+            "error": "ERR_LINKER_MISUSE",
+            "subSkill": "SUB_LINKING",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.324,
+            "priority": 0.538,
+            "resources": [
+              "RES_W_LINKING_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.324,
+            "priority": 0.538,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_PUNCT",
+            "subSkill": "SUB_PUNCTUATION",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.482,
+            "priority": 0.359,
+            "resources": [
+              "RES_G_PUNCT_01"
+            ]
+          },
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.481,
+            "priority": 0.359,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_SPELLING",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.481,
+            "priority": 0.359,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_REFERENCE",
+            "subSkill": "SUB_REFERENCING",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.481,
+            "priority": 0.359,
+            "resources": [
+              "RES_W_REFERENCE_01"
+            ]
+          },
+          {
+            "error": "ERR_VERB_TENSE",
+            "subSkill": "SUB_VERB_TENSE",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.481,
+            "priority": 0.359,
+            "resources": [
+              "RES_G_VERB_TENSE_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_FORM",
+            "subSkill": "SUB_SPELLING_WORDFORM",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.481,
+            "priority": 0.359,
+            "resources": [
+              "RES_L_SPELLING_01"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

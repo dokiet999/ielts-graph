@@ -1,0 +1,2 @@
+# Synthetic Speaking audio is generated locally by speech/make_speech.ps1, not stored in Git
+speech/*.wav
