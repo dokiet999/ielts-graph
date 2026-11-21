@@ -55,6 +55,9 @@ app:
   grading:
     # A submission GRADING for longer than this is failed by StaleGradingJob (must exceed ASR 180 s + 2 x LLM 60 s)
     stale-after: ${GRADING_STALE_AFTER:PT10M}
+  final-test:
+    # Extra seconds after the end of a final test session during which a submission is still accepted
+    submit-grace-seconds: ${FINAL_TEST_SUBMIT_GRACE_SECONDS:60}
   jobs:
     # Background jobs (StaleGradingJob, ProfileBackfillJob)
     enabled: ${APP_JOBS_ENABLED:true}

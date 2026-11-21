@@ -11,11 +11,15 @@ import com.ielts.backend.entity.QuestionGroup;
 import com.ielts.backend.entity.QuestionOption;
 import com.ielts.backend.enums.ExerciseType;
 import com.ielts.backend.enums.SkillType;
+import com.ielts.backend.entity.Users;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
+import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.mapper.ExerciseMapper;
 import com.ielts.backend.repository.*;
+import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.ExerciseService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +39,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final LessonRepository lessonRepository;
     private final ExerciseMapper exerciseMapper;
     private final CourseAccessService courseAccessService;
+    private final FinalTestGuard finalTestGuard;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -56,7 +62,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     /**
      * Same access rules as lessons (FR-2.01): preview lessons and standalone exercises for any logged-in user,
-     * other lessons only for enrolled learners and the owning teacher.
+     * other lessons only for enrolled learners and the owning teacher. A final test also needs a valid grant.
      */
     @Override
     @Transactional(readOnly = true)
@@ -64,6 +70,11 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise", id));
         courseAccessService.checkExerciseAccess(exercise, username);
+        if (FinalTestGuard.isFinalTest(exercise)) {
+            Users user = userRepository.findByUsername(DbUserDetailsService.normalize(username))
+                    .orElseThrow(() -> new UnauthorizedException("Unknown user"));
+            finalTestGuard.checkCanOpen(exercise, user);
+        }
 
         List<QuestionGroup> groups = questionGroupRepository.findByExerciseIdOrderByOrderingAsc(id);
         List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(id);

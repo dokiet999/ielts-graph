@@ -2,6 +2,7 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.response.SpeakingSubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
+import com.ielts.backend.entity.FinalTestSession;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionAnswer;
 import com.ielts.backend.entity.Users;
@@ -28,6 +29,7 @@ import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.SpeakingSubmissionService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
@@ -106,6 +108,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
     private final LearnerProfileService learnerProfileService;
+    private final FinalTestGuard finalTestGuard;
 
     @Value("${app.speaking.audio-dir:${java.io.tmpdir}/ielts-graph-speaking}")
     private String audioStorageDir;
@@ -346,6 +349,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
+        // Final test: only inside an open session (FR-4.02); the session is closed with this submission
+        FinalTestSession finalTestSession = finalTestGuard.requireOpenSession(exercise, users);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -378,6 +383,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                 .timeSpent(timeSpent)
                 .submittedAt(LocalDateTime.now())
                 .build());
+        finalTestGuard.closeSession(finalTestSession, submission.getId());
 
         return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 partOf(exercise), questionPrompt, question != null ? question.getId() : null, audioFilename, timeSpent);
@@ -393,6 +399,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         submission.setAiFeedback(failureCode(failure));
         submission.setAiLatencyMs(latencyMs);
         userSubmissionRepository.saveAndFlush(submission);
+        // A failed final test attempt gives its session back, so the learner can try again in the same session
+        finalTestGuard.reopenAfterFailure(submissionId);
     }
 
     private SpeakingSubmissionResultResponse markGraded(

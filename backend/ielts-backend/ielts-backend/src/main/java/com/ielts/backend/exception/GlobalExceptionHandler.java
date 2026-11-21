@@ -59,7 +59,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ForbiddenException.class, AccessDeniedException.class})
     public ResponseEntity<ErrorResponse> handleForbidden(RuntimeException ex) {
-        return build(HttpStatus.FORBIDDEN, "FORBIDDEN", ex.getMessage(), null);
+        String code = ex instanceof ForbiddenException fe ? fe.getCode() : ForbiddenException.DEFAULT_CODE;
+        return build(HttpStatus.FORBIDDEN, code, ex.getMessage(), null);
     }
 
     @ExceptionHandler(BadRequestException.class)

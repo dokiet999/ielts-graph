@@ -7,6 +7,7 @@ import com.ielts.backend.dto.response.FinalTestStatusResponse;
 import com.ielts.backend.dto.response.LessonDetailResponse;
 import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.ExerciseType;
+import com.ielts.backend.enums.SubmissionStatus;
 import com.ielts.backend.exception.customException.ForbiddenException;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.mapper.LessonMapper;
@@ -239,10 +240,13 @@ public class LessonServiceImpl implements LessonService {
         if (!session.getExpiresAt().isAfter(now)) {
             return null;
         }
-        // Check if learner already submitted the exercise after session.startedAt
+        // Check if learner already submitted the exercise after session.startedAt. Submitting now closes the
+        // session (FinalTestGuard), this check stays for sessions opened before that. A FAILED attempt does not
+        // count: its session is reopened so the learner can try again within the same time.
         List<UserSubmission> subs = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(userId, finalTest.getId());
         if (!subs.isEmpty() && subs.get(0).getSubmittedAt() != null
+                && subs.get(0).getStatus() != SubmissionStatus.FAILED
                 && !subs.get(0).getSubmittedAt().isBefore(session.getStartedAt())) {
             return null;
         }

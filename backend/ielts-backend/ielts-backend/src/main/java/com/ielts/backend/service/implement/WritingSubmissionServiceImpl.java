@@ -24,6 +24,7 @@ import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.WritingSubmissionService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import com.ielts.backend.service.grading.WritingEssayGrader;
 import com.ielts.backend.service.grading.WritingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
@@ -74,6 +75,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
     private final LearnerProfileService learnerProfileService;
+    private final FinalTestGuard finalTestGuard;
 
     /** What step 1 hands over to steps 2 and 3. Ids only, so nothing detached is reused across transactions. */
     private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
@@ -166,6 +168,8 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
+        // Final test: only inside an open session (FR-4.02); the session is closed with this submission
+        FinalTestSession finalTestSession = finalTestGuard.requireOpenSession(exercise, users);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -203,6 +207,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                 .timeSpent(request.getTimeSpent())
                 .submittedAt(LocalDateTime.now())
                 .build());
+        finalTestGuard.closeSession(finalTestSession, submission.getId());
 
         return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 taskOf(exercise), questionPrompt, question != null ? question.getId() : null);
@@ -215,6 +220,8 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
         submission.setAiFeedback(failureCode(failure));
         submission.setAiLatencyMs(latencyMs);
         userSubmissionRepository.saveAndFlush(submission);
+        // A failed final test attempt gives its session back, so the learner can try again in the same session
+        finalTestGuard.reopenAfterFailure(submissionId);
     }
 
     private WritingSubmissionResultResponse markGraded(PendingGrading pending, WritingGradingResult result, int latencyMs) {
