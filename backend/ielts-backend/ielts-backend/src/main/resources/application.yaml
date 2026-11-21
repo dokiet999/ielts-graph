@@ -50,6 +50,8 @@ app:
     weight-clean: ${PROFILE_WEIGHT_CLEAN:0.5}
     # Only used to replay the synthetic logs; real drills create no profile events.
     weight-drill: ${PROFILE_WEIGHT_DRILL:1.0}
+    # Graded Writing/Speaking submissions missed by the profile (KG down) are applied by ProfileBackfillJob
+    backfill-delay-ms: ${PROFILE_BACKFILL_DELAY_MS:300000}
   grading:
     # A submission GRADING for longer than this is failed by StaleGradingJob (must exceed ASR 180 s + 2 x LLM 60 s)
     stale-after: ${GRADING_STALE_AFTER:PT10M}

@@ -4,6 +4,7 @@ import com.ielts.backend.entity.UserSubmission;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
@@ -76,6 +77,16 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
     List<UUID> findIdsNotInProfile(@Param("userId") UUID userId,
                                    @Param("status") SubmissionStatus status,
                                    @Param("skills") Collection<SkillType> skills);
+
+    /** Same as {@link #findIdsNotInProfile} for every learner, oldest first, at most one page (profile backfill job). */
+    @Query("""
+            select s.id from UserSubmission s
+            where s.status = :status and s.profileAppliedAt is null and s.exercise.skillType in :skills
+            order by s.submittedAt asc
+            """)
+    List<UUID> findIdsNotInProfileForAllUsers(@Param("status") SubmissionStatus status,
+                                              @Param("skills") Collection<SkillType> skills,
+                                              Pageable pageable);
 
     /**
      * Fails the submissions left in GRADING since before {@code threshold}: the request that was grading them
