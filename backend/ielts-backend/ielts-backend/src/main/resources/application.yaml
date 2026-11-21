@@ -14,7 +14,7 @@ spring:
       max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:32MB}
 
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
 app:
   llm:
