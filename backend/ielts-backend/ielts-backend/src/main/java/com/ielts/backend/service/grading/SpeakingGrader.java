@@ -130,9 +130,7 @@ public class SpeakingGrader {
                 ? "not available"
                 : String.format(Locale.ROOT, "accuracy=%.1f, fluency=%.1f, completeness=%s, prosody=%s (%s)",
                         p.accuracy(), p.fluency(), scoreOrNa(p.completeness()), scoreOrNa(p.prosody()),
-                        p.measured()
-                                ? "source: measured by an acoustic model"
-                                : "source: AI estimate from listening to the audio, not an acoustic measurement");
+                        "source: AI estimate from listening to the audio, not an acoustic measurement");
         // A spoken "</transcript>" must not be able to close the tag the system prompt tells the LLM to trust
         String transcript = CLOSING_TAG_PATTERN.matcher(asr.transcript() == null ? "" : asr.transcript())
                 .replaceAll("< /transcript>");
@@ -208,15 +206,13 @@ public class SpeakingGrader {
         }
 
         // 5. Pronunciation evidence quotes a word of the transcript as the place of a sound problem. The grader
-        //    cannot hear the audio, so such a quote is only defensible when an acoustic model measured the
-        //    scores: with no scores, or with an AI estimate (whose phoneme claims studies found stereotyped),
-        //    the evidence is dropped and only the band and comment remain
+        //    cannot hear the audio and the scores are an AI estimate (whose phoneme claims studies found
+        //    stereotyped), so such a quote is not defensible: the evidence is dropped and only the band and
+        //    comment remain
         SpeakingAsrResult.Pronunciation pronunciationScores = asr.pronunciation();
         ObjectNode pron = (ObjectNode) criteriaObject.path("CRIT_S_P");
-        if (pronunciationScores == null || !pronunciationScores.measured()) {
-            if (pron.path("evidence") instanceof ArrayNode evidence) {
-                evidence.removeAll();
-            }
+        if (pron.path("evidence") instanceof ArrayNode evidence) {
+            evidence.removeAll();
         }
         // Without scores the learner must be told the band is indirect, whether or not the LLM said so
         if (pronunciationScores == null) {

@@ -68,7 +68,7 @@ public final class PersonalizationAssembler {
 
     /**
      * Reads the criterion bands and the ErrorTypes of the structured AI feedback of one attempt. The Pronunciation
-     * band is left out when no pronunciation scores were measured, as in the profile events.
+     * band is left out when there are no pronunciation scores, as in the profile events.
      */
     public static GradedAttempt attemptOf(UUID submissionId, LocalDateTime gradedAt, BigDecimal overallBand,
                                           Map<String, Object> feedback, Map<String, Object> answers) {

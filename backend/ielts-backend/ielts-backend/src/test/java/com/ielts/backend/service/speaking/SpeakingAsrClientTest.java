@@ -148,7 +148,6 @@ class SpeakingAsrClientTest {
                 .containsOnlyKeys("accuracy", "fluency", "completeness", "prosody", "source");
         assertThat(result.toPronunciationMap()).containsEntry("accuracy", 78.5).containsEntry("prosody", 68.0)
                 .containsEntry("source", "gemini");
-        assertThat(result.pronunciation().measured()).isFalse();
     }
 
     @Test

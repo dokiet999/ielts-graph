@@ -105,10 +105,10 @@ class SpeakingFeedbackSchemaTest {
     }
 
     @Test
-    void asrWithAzureSource_passesValidation() throws Exception {
+    void asrWithAzureSource_failsValidation() throws Exception {
         ObjectNode sampleNode = (ObjectNode) loadAsrSample();
         ((ObjectNode) sampleNode.get("pronunciation")).put("source", "azure");
-        assertThat(asrSchema.validate(sampleNode)).isEmpty();
+        assertThat(asrSchema.validate(sampleNode)).isNotEmpty();
     }
 
     @Test

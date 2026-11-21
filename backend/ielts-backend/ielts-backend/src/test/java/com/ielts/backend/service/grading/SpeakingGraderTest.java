@@ -359,7 +359,7 @@ class SpeakingGraderTest {
     @Test
     void buildUserPrompt_nullProsody_isShownAsNotApplicable() {
         SpeakingAsrResult noProsody = new SpeakingAsrResult("1.0", "whisper-small", "en", asr.transcript(),
-                asr.features(), new SpeakingAsrResult.Pronunciation(70.0, 65.0, 90.0, null, "azure"));
+                asr.features(), new SpeakingAsrResult.Pronunciation(70.0, 65.0, 90.0, null, "gemini"));
 
         assertThat(grader.buildUserPrompt(PART, QUESTION, noProsody)).contains("prosody=n/a");
     }
@@ -379,8 +379,6 @@ class SpeakingGraderTest {
     void buildUserPrompt_geminiScores_areLabelledAsAnAiEstimate() {
         assertThat(grader.buildUserPrompt(PART, QUESTION, withScores("gemini")))
                 .contains("source: AI estimate from listening to the audio, not an acoustic measurement");
-        assertThat(grader.buildUserPrompt(PART, QUESTION, withScores("azure")))
-                .contains("source: measured by an acoustic model");
     }
 
     @Test
@@ -392,16 +390,6 @@ class SpeakingGraderTest {
         assertThat(evidenceCount(result, "CRIT_S_P")).isZero();
         assertThat(result.getCriteria().get(3).getFeedback()).doesNotContain("gián tiếp");
         assertThat(result.getCriteria().get(3).getBand()).isEqualByComparingTo(BigDecimal.valueOf(6));
-    }
-
-    @Test
-    void grade_azureMeasurement_keepsPronunciationEvidence() {
-        when(llmClient.chat(any(), any())).thenReturn(json());
-
-        SpeakingGradingResult result = grader.grade(PART, QUESTION, withScores("azure"));
-
-        assertThat(evidenceCount(result, "CRIT_S_P")).isEqualTo(1);
-        assertThat(result.getCriteria().get(3).getFeedback()).doesNotContain("gián tiếp");
     }
 
     @Test
