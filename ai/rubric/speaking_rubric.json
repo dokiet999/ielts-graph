@@ -12,7 +12,7 @@
   "scoring_notes": [
     "Each criterion is scored as an integer 0-9. A response should fit the positive features of a band to receive it; a clear weakness described at a lower band caps the score.",
     "The official descriptors rate a candidate on the average performance across all parts of the test. Here a single answer is scored, so the result is only an estimate for learning, not an official IELTS result.",
-    "The grader sees a machine transcript and numbers, not the audio. Pronunciation is judged from the pronunciation scores (an AI estimate from Gemini listening to the audio, or an Azure measurement); without them the band is only an indirect estimate.",
+    "The grader sees a machine transcript and numbers, not the audio. Pronunciation is judged from the pronunciation scores (an AI estimate from Gemini listening to the audio); without them the band is only an indirect estimate.",
     "Calibration range is band 4-8; results outside it are flagged out_of_calibration_range."
   ],
   "expected_length": {
@@ -78,7 +78,7 @@
         "3": "Shows some features of band 2 and some, but not all, of band 4."
       },
       "score_hints": {
-        "note": "Hints for reading the pronunciation scores (0-100), whether estimated by Gemini listening to the audio (source gemini, an AI estimate) or measured by Azure (source azure). They are rough guides written by the team, not part of the official descriptors, and must be checked on real samples before they are relied on.",
+        "note": "Hints for reading the pronunciation scores (0-100), estimated by Gemini listening to the audio (source gemini, an AI estimate). They are rough guides written by the team, not part of the official descriptors, and must be checked on real samples before they are relied on.",
         "accuracy": "Main basis for how clear the sounds are.",
         "fluency": "Second opinion for rhythm and pauses; never the only reason for a band.",
         "prosody": "Main basis for stress, intonation and rhythm; may be null.",

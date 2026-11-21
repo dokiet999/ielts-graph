@@ -1,4 +1,4 @@
-"""Unit tests of the pronunciation scoring, with Gemini, Azure and Whisper replaced by fakes (no key, no model).
+"""Unit tests of the pronunciation scoring, with Gemini and Whisper replaced by fakes (no key, no model).
 
 Run from ai/asr_service:  python -m unittest test_pronunciation -v
 """
@@ -15,13 +15,12 @@ import numpy as np
 from jsonschema import Draft202012Validator
 
 import pronunciation as pron
-from pronunciation import (PronConfig, PronunciationError, PronunciationScorer, UtteranceScore, aggregate,
+from pronunciation import (PronConfig, PronunciationError, PronunciationScorer,
                            gemini_assess, parse_gemini_scores, to_pcm16, to_wav)
 
 SCHEMA = json.loads((Path(__file__).parents[1] / "schema" / "speaking_asr.schema.json").read_text(encoding="utf-8"))
 VALIDATOR = Draft202012Validator(SCHEMA)
 GEMINI = PronConfig(enabled=True, provider="gemini", gemini_key="test-key", gemini_model="gemini-test")
-AZURE = PronConfig(enabled=True, provider="azure", azure_key="test-key", azure_region="southeastasia")
 ONE_SECOND = np.zeros(16000, dtype=np.float32)
 
 
@@ -44,7 +43,7 @@ def schema_errors(pronunciation):
 class ConfigTest(unittest.TestCase):
     def test_disabled_by_default_and_gemini_is_the_default_provider(self):
         config = PronConfig.from_env({})
-        self.assertEqual(config.status(sdk_installed=True), pron.STATUS_DISABLED)
+        self.assertEqual(config.status(), pron.STATUS_DISABLED)
         self.assertEqual(config.provider, "gemini")
         self.assertEqual(config.gemini_model, pron.DEFAULT_GEMINI_MODEL)
 
@@ -54,13 +53,6 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(config.status(), pron.STATUS_ENABLED)
         self.assertEqual((config.gemini_key, config.gemini_model, config.timeout_sec), ("k", "gemini-4-carbon", 90.0))
         self.assertEqual(PronConfig.from_env({"PRON_ENABLED": "true"}).status(), pron.STATUS_MISCONFIGURED)
-
-    def test_azure_needs_key_region_and_sdk(self):
-        env = {"PRON_ENABLED": "true", "PRON_PROVIDER": "Azure", "AZURE_SPEECH_KEY": "k"}
-        self.assertEqual(PronConfig.from_env(env).status(sdk_installed=True), pron.STATUS_MISCONFIGURED)
-        env["AZURE_SPEECH_REGION"] = "eastus"
-        self.assertEqual(PronConfig.from_env(env).status(sdk_installed=True), pron.STATUS_ENABLED)
-        self.assertEqual(PronConfig.from_env(env).status(sdk_installed=False), pron.STATUS_SDK_MISSING)
 
     def test_unknown_provider_is_misconfigured(self):
         config = PronConfig.from_env({"PRON_ENABLED": "true", "PRON_PROVIDER": "whisper", "GEMINI_API_KEY": "k"})
@@ -175,28 +167,6 @@ class GeminiAssessTest(unittest.TestCase):
             self.assertNotIn("test-key", str(ctx.exception))
 
 
-# ---------------------------------------------------------------- azure aggregation
-
-class AggregateTest(unittest.TestCase):
-    def test_weights_each_utterance_by_its_word_count(self):
-        scores = aggregate([UtteranceScore(30, 90.0, 80.0, 70.0), UtteranceScore(10, 50.0, 40.0, 30.0)])
-        self.assertEqual(scores, {"accuracy": 80.0, "fluency": 70.0, "completeness": None,
-                                  "prosody": 60.0, "source": "azure"})
-
-    def test_prosody_uses_only_the_utterances_that_have_it(self):
-        scores = aggregate([UtteranceScore(10, 80.0, 80.0, None), UtteranceScore(10, 60.0, 60.0, 50.0)])
-        self.assertEqual((scores["accuracy"], scores["prosody"]), (70.0, 50.0))
-        self.assertIsNone(aggregate([UtteranceScore(10, 80.0, 80.0, None)])["prosody"])
-
-    def test_no_scored_word_gives_null(self):
-        self.assertIsNone(aggregate([]))
-        self.assertIsNone(aggregate([UtteranceScore(0, 80.0, 80.0, 80.0)]))
-
-    def test_result_is_valid_against_the_schema(self):
-        scores = aggregate([UtteranceScore(12, 101.0, 72.0, 68.0), UtteranceScore(4, 60.0, 55.5, None)])
-        self.assertEqual(schema_errors(scores), [])
-
-
 # ---------------------------------------------------------------- scorer
 
 class ScorerTest(unittest.TestCase):
@@ -208,7 +178,6 @@ class ScorerTest(unittest.TestCase):
 
     def test_uses_the_provider_of_the_configuration(self):
         self.assertIs(PronunciationScorer(GEMINI)._assess, pron.gemini_assess)
-        self.assertIs(PronunciationScorer(AZURE, sdk_installed=True)._assess, pron.azure_assess)
 
     def test_returns_the_provider_scores(self):
         expected = {"accuracy": 82.0, "fluency": 75.0, "completeness": None, "prosody": 70.0, "source": "gemini"}

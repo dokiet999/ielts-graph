@@ -20,65 +20,44 @@ python -m venv .venv
 
 ## Bật chấm phát âm
 
-Có hai nguồn điểm (`PRON_PROVIDER`):
+Điểm phát âm do một model Gemini **nghe** bản ghi âm và **ước lượng** theo thang cố định (`PRON_PROVIDER=gemini`, nguồn duy nhất).
+Đây là ước lượng của AI, không phải phép đo âm học. Key là `GEMINI_API_KEY` (cùng key với backend), `source` trong JSON là `"gemini"`.
 
-| | `gemini` (mặc định) | `azure` |
-|---|---|---|
-| Cách làm | Một model Gemini **nghe** bản ghi âm và **ước lượng** điểm theo thang cố định | Azure Pronunciation Assessment **đo** bằng mô hình âm học |
-| Bản chất điểm | Ước lượng của AI, không phải phép đo | Phép đo |
-| Key | `GEMINI_API_KEY` (cùng key với backend) | `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` |
-| `source` trong JSON | `"gemini"` | `"azure"` |
-
-Với `gemini`, giao diện ghi rõ "Điểm do AI (Gemini) nghe bản ghi âm và ước lượng", và bộ chấm không trích dẫn từ cụ thể
+Giao diện ghi rõ "Điểm do AI (Gemini) nghe bản ghi âm và ước lượng", và bộ chấm không trích dẫn từ cụ thể
 làm bằng chứng lỗi phát âm. Lý do: các nghiên cứu 2026 về audio LLM (kể cả Gemini 3.0 Flash) cho thấy mức khớp với giám khảo
 chỉ yếu đến trung bình, và nhận xét lỗi âm vị hay bị rập khuôn. Phải đo bằng `eval_pron.py` trước khi tin con số.
-
-### Gemini
 
 ```powershell
 $env:PRON_ENABLED="true"
 $env:GEMINI_API_KEY="<key>"                  # không ghi vào file trong Git
-# $env:PRON_GEMINI_MODEL="gemini-4-argon"    # mặc định; model phải nhận được audio
-.venv\Scripts\python app.py
-```
-
-### Azure
-
-```powershell
-$env:PRON_ENABLED="true"
-$env:PRON_PROVIDER="azure"
-$env:AZURE_SPEECH_KEY="<key>"
-$env:AZURE_SPEECH_REGION="<region, vd eastus>"
+# $env:PRON_GEMINI_MODEL="gemini-3.5-flash-lite"    # mặc định; model phải nhận được audio
 .venv\Scripts\python app.py
 ```
 
 Kiểm tra: `GET http://127.0.0.1:8000/health` phải có `"pronunciation": "enabled"`.
-Các giá trị khác: `disabled` (chưa bật), `misconfigured` (thiếu key, region hoặc provider sai), `sdk_missing` (Azure: chưa cài SDK).
+Các giá trị khác: `disabled` (chưa bật), `misconfigured` (thiếu key hoặc provider sai).
 
 | Biến | Mặc định | Ý nghĩa |
 |---|---|---|
 | `PRON_ENABLED` | `false` | `true` để chấm phát âm |
-| `PRON_PROVIDER` | `gemini` | `gemini` hoặc `azure` |
+| `PRON_PROVIDER` | `gemini` | Chỉ có `gemini` |
 | `PRON_TIMEOUT_SEC` | `150` | Thời gian tối đa cho provider; backend chờ cả request tối đa 180 s |
 | `GEMINI_API_KEY` | | Key Gemini (không bao giờ ghi ra log, gửi trong header) |
-| `PRON_GEMINI_MODEL` | `gemini-4-argon` | Model Gemini nhận audio |
-| `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION` | | Resource Azure AI Speech |
-| `PRON_LOCALE` | `en-US` | Azure: prosody chỉ được chấm với `en-US` |
+| `PRON_GEMINI_MODEL` | `gemini-3.5-flash-lite` | Model Gemini nhận audio |
 
 ### Cách tính điểm
 
 - **Unscripted**: câu trả lời IELTS là nói tự do nên không có câu mẫu; `completeness` cần câu mẫu nên **luôn là `null`**.
-- **Gemini**: gửi audio WAV 16 kHz mono trong request (bài 300 s khoảng 13 MB sau base64, dưới giới hạn 20 MB),
+- Gửi audio WAV 16 kHz mono trong request (bài 300 s khoảng 13 MB sau base64, dưới giới hạn 20 MB),
   `temperature` 0, trả JSON theo schema cố định (`accuracy`, `fluency`, `prosody`, 0-100). Prompt yêu cầu không coi giọng
   địa phương là lỗi, không đoán lỗi theo tiếng mẹ đẻ, không chấm ngữ pháp hay nội dung.
-- **Azure**: chấm từng câu, điểm cả bài là trung bình theo số từ.
-- Provider chạy song song với Whisper (header `X-Pronunciation-Sec` cho biết thời gian).
-- Audio được gửi sang Google (Gemini) hoặc Microsoft (Azure): cần ghi rõ trong báo cáo và với người học.
+- Việc chấm chạy song song với Whisper (header `X-Pronunciation-Sec` cho biết thời gian).
+- Audio được gửi sang Google (Gemini): cần ghi rõ trong báo cáo và với người học.
 
 ## Test và đánh giá
 
 ```powershell
-.venv\Scripts\python -m unittest test_pronunciation -v      # không cần key: Gemini, Azure và Whisper được giả lập
+.venv\Scripts\python -m unittest test_pronunciation -v      # không cần key: Gemini và Whisper được giả lập
 .venv\Scripts\python test_service.py                       # smoke test dịch vụ đang chạy
 
 # Xem provider trả gì (câu trả lời gốc) trên 1 file, không cần chạy dịch vụ

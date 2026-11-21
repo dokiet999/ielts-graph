@@ -28,7 +28,7 @@
       "$ref": "#/$defs/features"
     },
     "pronunciation": {
-      "description": "Pronunciation scores, unscripted (there is no reference text). Either estimated by a Gemini model listening to the audio, or measured by Azure Pronunciation Assessment (see source). null when it was disabled, not configured or failed; the grader must still work without it.",
+      "description": "Pronunciation scores, unscripted (there is no reference text). Estimated by a Gemini model listening to the audio (an AI estimate, not an acoustic measurement). null when it was disabled, not configured or failed; the grader must still work without it.",
       "oneOf": [
         { "type": "null" },
         { "$ref": "#/$defs/pronunciation" }
@@ -103,8 +103,8 @@
           "description": "Stress, intonation and rhythm (0-100); null when the service does not provide it."
         },
         "source": {
-          "enum": ["gemini", "azure"],
-          "description": "Who produced the scores. gemini: an AI estimate from listening to the audio, not an acoustic measurement, to be presented as such. azure: measured by Azure Pronunciation Assessment."
+          "enum": ["gemini"],
+          "description": "Who produced the scores. gemini: an AI estimate from listening to the audio, not an acoustic measurement, to be presented as such."
         }
       }
     }
