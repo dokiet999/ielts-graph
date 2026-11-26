@@ -5,23 +5,28 @@ import {
   Check,
   Clock,
   ExternalLink,
+  Eye,
   EyeOff,
   FileText,
   Info,
   RotateCcw,
   Star,
+  Users,
   Video,
   X,
 } from 'lucide-react'
 import { SectionLabel } from '@/components/PageHeading'
+import { Avatar } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { ProgressBar } from '@/components/ui/progress'
 import { ErrorState, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
-import { CONTENT_STATUS_META } from '@/lib/moderation'
+import { CONTENT_STATUS_META, SCHEDULE_STATUS_META } from '@/lib/moderation'
 import {
   useActivateCourse,
   useAdminCourseDetail,
+  useAdminCourseStudents,
   useApproveCourse,
   useApproveLesson,
   useDeactivateCourse,
@@ -30,7 +35,7 @@ import {
   useSetCourseFeatured,
 } from '@/lib/queries'
 import type { AdminLessonItem } from '@/lib/types'
-import { cn, formatDateTime, formatMinutes, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
+import { cn, formatDate, formatDateTime, formatMinutes, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
 import {
   ApproveContentDialog,
   ConfirmActionDialog,
@@ -41,6 +46,7 @@ import {
 export function AdminCoursePreviewPage() {
   const { courseId } = useParams<{ courseId: string }>()
   const { data: course, isLoading, error, refetch } = useAdminCourseDetail(courseId)
+  const courseStudents = useAdminCourseStudents(courseId)
 
   const approveCourse = useApproveCourse()
   const rejectCourse = useRejectCourse()
@@ -113,6 +119,17 @@ export function AdminCoursePreviewPage() {
                   Giảng viên: <strong className="text-foreground">{course.teacherName}</strong>
                 </span>
                 <span>{course.totalLessons} bài học</span>
+                <span className="inline-flex items-center gap-1">
+                  <Users className="size-4" />
+                  {course.maxStudents
+                    ? `${course.enrollmentCount ?? 0}/${course.maxStudents} học viên`
+                    : `${course.enrollmentCount ?? 0} học viên`}
+                </span>
+                {(course.startDate || course.endDate) && (
+                  <span>
+                    Lịch: {formatDate(course.startDate)} → {formatDate(course.endDate)}
+                  </span>
+                )}
                 {course.estimatedDuration && <span>{formatMinutes(course.estimatedDuration)}</span>}
                 {course.submittedAt && <span>Gửi duyệt: {formatDateTime(course.submittedAt)}</span>}
                 {course.publishedAt && <span>Xuất bản: {formatDateTime(course.publishedAt)}</span>}
@@ -331,6 +348,85 @@ export function AdminCoursePreviewPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+      </section>
+
+      <section className="space-y-4">
+        <SectionLabel>
+          Học viên & Tiến độ ({courseStudents.data?.activeStudentCount ?? course.enrollmentCount ?? 0})
+        </SectionLabel>
+        {courseStudents.isLoading ? (
+          <Skeleton className="h-32" />
+        ) : courseStudents.error ? (
+          <ErrorState
+            message={errorMessage(courseStudents.error)}
+            onRetry={() => courseStudents.refetch()}
+          />
+        ) : !courseStudents.data?.students.length ? (
+          <div className="card p-6 text-sm text-muted-foreground">
+            Chưa có học viên nào ghi danh vào khóa học này.
+          </div>
+        ) : (
+          <div className="card overflow-x-auto">
+            <table className="w-full min-w-[700px] text-sm">
+              <thead className="border-b bg-muted/40 text-left text-xs uppercase text-muted-foreground">
+                <tr>
+                  <th className="px-5 py-3 font-semibold">Học viên</th>
+                  <th className="px-4 py-3 font-semibold">Ngày ghi danh</th>
+                  <th className="px-4 py-3 font-semibold">Tiến độ</th>
+                  <th className="px-4 py-3 font-semibold">Điểm TB</th>
+                  <th className="px-4 py-3 font-semibold">Trạng thái</th>
+                  <th className="px-5 py-3 text-right font-semibold">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {courseStudents.data.students.map((st) => {
+                  const stMeta =
+                    SCHEDULE_STATUS_META[st.scheduleStatus] ?? SCHEDULE_STATUS_META.ON_TRACK
+                  return (
+                    <tr key={st.studentId}>
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center gap-2.5">
+                          <Avatar name={st.fullName} className="size-8" />
+                          <div>
+                            <p className="font-medium">{st.fullName}</p>
+                            <p className="text-xs text-muted-foreground">{st.email}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-muted-foreground">
+                        {formatDate(st.enrolledAt)}
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <div className="w-36 space-y-1">
+                          <div className="flex justify-between text-xs">
+                            <span>
+                              {st.completedExercises}/{st.totalExercises}
+                            </span>
+                            <span className="font-semibold">{st.progressPercent}%</span>
+                          </div>
+                          <ProgressBar value={st.progressPercent} />
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 font-medium">
+                        {st.averageScore !== null ? `${st.averageScore}%` : '—'}
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <Badge tone={stMeta.tone}>{stMeta.label}</Badge>
+                      </td>
+                      <td className="px-5 py-3.5 text-right">
+                        <Button asChild size="sm" variant="outline">
+                          <Link to={`/admin/courses/${course.id}/students/${st.studentId}`}>
+                            <Eye /> Chi tiết & Final Test
+                          </Link>
+                        </Button>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </section>

@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Send,
   Trash2,
+  Users,
 } from 'lucide-react'
 import { PageTitle } from '@/components/PageHeading'
 import { Badge } from '@/components/ui/badge'
@@ -27,7 +28,7 @@ import {
   useWithdrawCourse,
 } from '@/lib/queries'
 import type { ContentStatus, TeacherCourseSummary } from '@/lib/types'
-import { cn, formatDateTime, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
+import { cn, formatDate, formatDateTime, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
 import { CourseFormDialog } from './CourseFormDialog'
 
 const TABS: { key: ContentStatus | ''; label: string }[] = [
@@ -157,6 +158,17 @@ export function TeacherCoursesPage() {
 
                     <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                       <span>{course.totalLessons} bài học</span>
+                      <span className="inline-flex items-center gap-1">
+                        <Users className="size-3.5" />{' '}
+                        {course.maxStudents
+                          ? `${course.enrollmentCount ?? 0}/${course.maxStudents} học viên`
+                          : `${course.enrollmentCount ?? 0} học viên`}
+                      </span>
+                      {(course.startDate || course.endDate) && (
+                        <span>
+                          Lịch: {formatDate(course.startDate)} → {formatDate(course.endDate)}
+                        </span>
+                      )}
                       {course.pendingLessonCount > 0 && (
                         <span className="font-medium text-warning">
                           {course.pendingLessonCount} bài đang chờ duyệt
@@ -190,6 +202,11 @@ export function TeacherCoursesPage() {
                   </div>
 
                   <div className="mt-5 flex flex-wrap items-center justify-end gap-2 border-t pt-4">
+                    <Button asChild variant="outline" size="sm">
+                      <Link to={`/teacher/courses/${course.id}/students`}>
+                        <Users /> Học viên ({course.enrollmentCount ?? 0})
+                      </Link>
+                    </Button>
                     <Button asChild variant="outline" size="sm">
                       <Link to={`/teacher/courses/${course.id}`}>
                         <Eye /> Xem nội dung

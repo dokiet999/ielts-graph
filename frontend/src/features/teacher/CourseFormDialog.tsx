@@ -20,6 +20,20 @@ export interface EditableCourseValues {
   skillFocus?: SkillType | null
   difficultyLevel?: DifficultyLevel | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+}
+
+function toDateTimeInputValue(iso?: string | null): string {
+  if (!iso) return ''
+  return iso.slice(0, 16)
+}
+
+function toBackendLocalDateTime(value?: string): string | undefined {
+  const trimmed = value?.trim()
+  if (!trimmed) return undefined
+  return trimmed.length === 16 ? `${trimmed}:00` : trimmed
 }
 
 const SKILLS: SkillType[] = ['READING', 'LISTENING', 'WRITING', 'SPEAKING']
@@ -31,27 +45,50 @@ const LEVELS: DifficultyLevel[] = [
   'ADVANCED',
 ]
 
-const schema = z.object({
-  title: z.string().trim().min(1, 'Vui lòng nhập tên khóa học').max(512),
-  categoryId: z.string().min(1, 'Vui lòng chọn danh mục'),
-  skillFocus: z.enum(['READING', 'LISTENING', 'WRITING', 'SPEAKING']),
-  difficultyLevel: z.enum([
-    'BEGINNER',
-    'ELEMENTARY',
-    'INTERMEDIATE',
-    'UPPER_INTERMEDIATE',
-    'ADVANCED',
-  ]),
-  estimatedDuration: z
-    .string()
-    .trim()
-    .refine(
-      (v) => v.length === 0 || (/^\d+$/.test(v) && Number(v) > 0),
-      'Thời lượng dự kiến phải là số nguyên dương',
-    ),
-  thumbnail: z.string().trim().max(512, 'URL tối đa 512 ký tự').optional(),
-  description: z.string().trim().max(5000, 'Mô tả tối đa 5000 ký tự').optional(),
-})
+const schema = z
+  .object({
+    title: z.string().trim().min(1, 'Vui lòng nhập tên khóa học').max(512),
+    categoryId: z.string().min(1, 'Vui lòng chọn danh mục'),
+    skillFocus: z.enum(['READING', 'LISTENING', 'WRITING', 'SPEAKING']),
+    difficultyLevel: z.enum([
+      'BEGINNER',
+      'ELEMENTARY',
+      'INTERMEDIATE',
+      'UPPER_INTERMEDIATE',
+      'ADVANCED',
+    ]),
+    estimatedDuration: z
+      .string()
+      .trim()
+      .refine(
+        (v) => v.length === 0 || (/^\d+$/.test(v) && Number(v) > 0),
+        'Thời lượng dự kiến phải là số nguyên dương',
+      ),
+    maxStudents: z
+      .string()
+      .trim()
+      .refine(
+        (v) => v.length === 0 || (/^\d+$/.test(v) && Number(v) > 0),
+        'Số học viên tối đa phải là số nguyên dương',
+      ),
+    startDate: z.string().trim().optional(),
+    endDate: z.string().trim().optional(),
+    thumbnail: z.string().trim().max(512, 'URL tối đa 512 ký tự').optional(),
+    description: z.string().trim().max(5000, 'Mô tả tối đa 5000 ký tự').optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.startDate && data.endDate) {
+      const start = new Date(data.startDate).getTime()
+      const end = new Date(data.endDate).getTime()
+      if (!Number.isNaN(start) && !Number.isNaN(end) && end <= start) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['endDate'],
+          message: 'Thời gian kết thúc phải sau thời gian bắt đầu',
+        })
+      }
+    }
+  })
 
 type FormValues = z.infer<typeof schema>
 
@@ -113,6 +150,9 @@ function CourseFormBody({
       skillFocus: course?.skillFocus ?? 'READING',
       difficultyLevel: course?.difficultyLevel ?? 'INTERMEDIATE',
       estimatedDuration: course?.estimatedDuration ? String(course.estimatedDuration) : '',
+      maxStudents: course?.maxStudents ? String(course.maxStudents) : '',
+      startDate: toDateTimeInputValue(course?.startDate),
+      endDate: toDateTimeInputValue(course?.endDate),
       thumbnail: course?.thumbnail ?? '',
       description: course?.description ?? '',
     },
@@ -127,6 +167,9 @@ function CourseFormBody({
       estimatedDuration: values.estimatedDuration
         ? Number(values.estimatedDuration)
         : undefined,
+      maxStudents: values.maxStudents ? Number(values.maxStudents) : undefined,
+      startDate: toBackendLocalDateTime(values.startDate),
+      endDate: toBackendLocalDateTime(values.endDate),
       thumbnail: values.thumbnail?.trim() || undefined,
       description: values.description?.trim() || undefined,
     }
@@ -211,6 +254,49 @@ function CourseFormBody({
               placeholder="360"
               aria-invalid={!!errors.estimatedDuration}
               {...register('estimatedDuration')}
+            />
+          </Field>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Field
+            label="Sĩ số tối đa (tùy chọn)"
+            htmlFor="course-max-students"
+            error={errors.maxStudents?.message}
+          >
+            <Input
+              id="course-max-students"
+              type="number"
+              min={1}
+              placeholder="Không giới hạn"
+              aria-invalid={!!errors.maxStudents}
+              {...register('maxStudents')}
+            />
+          </Field>
+
+          <Field
+            label="Ngày bắt đầu (tùy chọn)"
+            htmlFor="course-start-date"
+            error={errors.startDate?.message}
+          >
+            <Input
+              id="course-start-date"
+              type="datetime-local"
+              aria-invalid={!!errors.startDate}
+              {...register('startDate')}
+            />
+          </Field>
+
+          <Field
+            label="Ngày kết thúc (tùy chọn)"
+            htmlFor="course-end-date"
+            error={errors.endDate?.message}
+          >
+            <Input
+              id="course-end-date"
+              type="datetime-local"
+              aria-invalid={!!errors.endDate}
+              {...register('endDate')}
             />
           </Field>
         </div>

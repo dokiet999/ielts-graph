@@ -210,8 +210,16 @@ export function AdminCoursesPage() {
                       </span>
                       <span>{course.totalLessons} bài học</span>
                       <span className="inline-flex items-center gap-1">
-                        <Users className="size-3.5" /> {course.enrollmentCount} học viên
+                        <Users className="size-3.5" />{' '}
+                        {course.maxStudents
+                          ? `${course.enrollmentCount}/${course.maxStudents} học viên`
+                          : `${course.enrollmentCount} học viên`}
                       </span>
+                      {(course.startDate || course.endDate) && (
+                        <span>
+                          Lịch: {formatDate(course.startDate)} → {formatDate(course.endDate)}
+                        </span>
+                      )}
                       <span>Tạo: {formatDate(course.createdAt)}</span>
                     </div>
 

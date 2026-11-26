@@ -16,6 +16,7 @@ import {
   RotateCcw,
   Send,
   Trash2,
+  Users,
   Video,
 } from 'lucide-react'
 import { SectionLabel } from '@/components/PageHeading'
@@ -37,7 +38,7 @@ import {
   useWithdrawLesson,
 } from '@/lib/queries'
 import type { AdminLessonItem, AdminSectionItem } from '@/lib/types'
-import { cn, formatDateTime, formatMinutes, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
+import { cn, formatDate, formatDateTime, formatMinutes, LEVEL_LABEL, SKILL_LABEL } from '@/lib/utils'
 import { CourseFormDialog } from './CourseFormDialog'
 import { LessonFormDialog } from './LessonFormDialog'
 import { SectionFormDialog } from './SectionFormDialog'
@@ -128,6 +129,16 @@ export function TeacherCourseDetailPage() {
 
               <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted-foreground">
                 <span>{course.totalLessons} bài học</span>
+                <span>
+                  {course.maxStudents
+                    ? `${course.enrollmentCount ?? 0}/${course.maxStudents} học viên`
+                    : `${course.enrollmentCount ?? 0} học viên`}
+                </span>
+                {(course.startDate || course.endDate) && (
+                  <span>
+                    Thời gian: {formatDate(course.startDate)} → {formatDate(course.endDate)}
+                  </span>
+                )}
                 {course.estimatedDuration && <span>{formatMinutes(course.estimatedDuration)}</span>}
                 {course.submittedAt && <span>Gửi duyệt: {formatDateTime(course.submittedAt)}</span>}
                 {course.publishedAt && <span>Xuất bản: {formatDateTime(course.publishedAt)}</span>}
@@ -135,6 +146,11 @@ export function TeacherCourseDetailPage() {
             </div>
 
             <div className="flex shrink-0 flex-wrap gap-2">
+              <Button asChild variant="outline">
+                <Link to={`/teacher/courses/${course.id}/students`}>
+                  <Users /> Học viên & Tiến độ ({course.enrollmentCount ?? 0})
+                </Link>
+              </Button>
               {!isCoursePending && (
                 <Button variant="outline" onClick={() => setEditCourseOpen(true)}>
                   <Pencil /> Chỉnh sửa
