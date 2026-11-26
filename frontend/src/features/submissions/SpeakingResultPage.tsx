@@ -35,6 +35,7 @@ import { countWords } from '@/lib/writing'
 import { useSpeakingResultsStore } from '@/stores/speakingResults'
 import { ExercisePager } from './ExercisePager'
 import { RecommendedPractice } from './RecommendedPractice'
+import { TeacherFeedbackCard } from './TeacherFeedbackCard'
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -200,7 +201,7 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
   const feedback = sub.speakingFeedback ?? cached ?? null
   const transcript = sub.transcript || feedback?.transcript || ''
   const ex = sub.exercise
-  const overall = feedback?.overallBand ?? sub.score
+  const overall = sub.teacherScore ?? feedback?.overallBand ?? sub.score
   const partInfo = speakingPartInfo(feedback?.part)
   const wordCount = feedback?.features?.wordCount ?? countWords(transcript)
   const listTab =
@@ -273,6 +274,8 @@ export function SpeakingResultPage({ sub }: { sub: SubmissionDetail }) {
       >
         <Info className="mt-0.5 size-4 shrink-0" /> {AI_DISCLAIMER}
       </p>
+
+      <TeacherFeedbackCard sub={sub} />
 
       <SpeechMetricsSection
         features={feedback?.features ?? null}

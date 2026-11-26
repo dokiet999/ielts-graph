@@ -27,6 +27,7 @@ import {
 import { describeAnswer, describeCorrect } from '../runner/questions/helpers'
 import { ExercisePager } from './ExercisePager'
 import { SpeakingResultPage } from './SpeakingResultPage'
+import { TeacherFeedbackCard } from './TeacherFeedbackCard'
 import { WritingResultPage } from './WritingResultPage'
 
 function Metric({
@@ -139,6 +140,8 @@ export function ResultPage() {
           </div>
         </div>
       </div>
+
+      <TeacherFeedbackCard sub={sub} />
 
       <h2 className="mb-4 mt-10 text-xl font-semibold">Đáp án</h2>
       <div className="card overflow-x-auto">

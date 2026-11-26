@@ -9,26 +9,17 @@ import {
   Clock,
   GraduationCap,
   Lock,
-  Settings2,
   ShieldCheck,
-  Sparkles,
   Timer,
-  Unlock,
 } from 'lucide-react'
 import { CoursePageHeader } from '@/layouts/CourseLayout'
 import { useCourseContext } from '@/layouts/courseContext'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/select'
 import { EmptyState, ErrorState, Skeleton } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
 import { estimateBand, formatBand } from '@/lib/band'
-import {
-  useLockFinalTest,
-  useMySubmissions,
-  useSectionFinalTest,
-  useUnlockFinalTest,
-} from '@/lib/queries'
+import { useMySubmissions, useSectionFinalTest } from '@/lib/queries'
 import { formatClock, formatDateTime, SKILL_LABEL } from '@/lib/utils'
 import { answeredCount, useSessionStore } from '@/stores/session'
 import { FinalTestResultCard } from './FinalTestResultCard'
@@ -47,9 +38,6 @@ export function FinalTestPage() {
   const { course, section } = useCourseContext()
   const { data, isLoading, error, refetch } = useSectionFinalTest(section.id)
   const { data: mySubmissions } = useMySubmissions()
-  const unlockMutation = useUnlockFinalTest()
-  const lockMutation = useLockFinalTest()
-  const [deadlineDays, setDeadlineDays] = useState(7)
   const [nowMs, setNowMs] = useState(() => Date.now())
 
   const exercise = data?.exercise ?? null
@@ -137,8 +125,7 @@ export function FinalTestPage() {
                     <ShieldCheck className="size-5 shrink-0 text-success" />
                     <div>
                       <p className="font-semibold text-success">
-                        Bài Final test đã được Admin mở khóa (Thời hạn {data.deadlineDays ?? 7}{' '}
-                        ngày)
+                        Bài Final test đã được mở khóa (Thời hạn {data.deadlineDays ?? 7} ngày)
                       </p>
                       {data.grantExpiresAt && (
                         <p className="mt-0.5 text-xs text-foreground/80">
@@ -156,9 +143,10 @@ export function FinalTestPage() {
                   <div>
                     <p className="font-semibold">Đã hết thời hạn mở bài Final test</p>
                     <p className="mt-0.5 text-xs">
-                      Thời hạn {data.deadlineDays ?? 7} ngày do Admin cấp đã kết thúc
+                      Thời hạn {data.deadlineDays ?? 7} ngày đã kết thúc
                       {data.grantExpiresAt ? ` lúc ${formatDateTime(data.grantExpiresAt)}` : ''}.
-                      Vui lòng mở lại ở bảng điều khiển Admin bên dưới.
+                      Vui lòng liên hệ giảng viên phụ trách khóa học hoặc quản trị viên để được gia
+                      hạn mở đề.
                     </p>
                   </div>
                 </div>
@@ -167,11 +155,11 @@ export function FinalTestPage() {
                   <Lock className="size-5 shrink-0 text-warning" />
                   <div>
                     <p className="font-semibold text-foreground">
-                      Bài Final test đang khóa — Chờ Admin cấp quyền
+                      Bài Final test đang khóa — Chờ cấp quyền mở bài
                     </p>
                     <p className="mt-0.5 text-xs">
-                      Bài kiểm tra cuối khóa chỉ mở khi Admin cho phép. Bạn có thể bấm nút{' '}
-                      <b>"Cho phép mở bài"</b> ở khung Admin bên dưới để mở khóa ngay.
+                      Bài kiểm tra cuối chương sẽ được giảng viên phụ trách khóa học hoặc quản trị
+                      viên mở khóa khi bạn đủ điều kiện dự thi.
                     </p>
                   </div>
                 </div>
@@ -274,7 +262,7 @@ export function FinalTestPage() {
                         </Button>
                       ) : (
                         <Button disabled className="rounded-full px-6">
-                          <Lock className="size-4" /> Đang khóa (Chờ Admin mở)
+                          <Lock className="size-4" /> Đang khóa (Chờ mở đề)
                         </Button>
                       )}
                     </div>
@@ -283,59 +271,6 @@ export function FinalTestPage() {
               </div>
             </>
           )}
-
-          {/* Admin / Teacher Unlock Control Panel */}
-          <details
-            className="card max-w-3xl border-dashed border-primary/40 bg-primary-soft/15 p-4"
-            open={!data?.unlocked}
-          >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-xs font-semibold text-primary">
-              <span className="flex items-center gap-2">
-                <Sparkles className="size-4" /> Bảng điều khiển Admin: Cấp quyền mở bài & Thời hạn
-                Final Test
-              </span>
-              <span className="inline-flex items-center gap-1 text-muted-foreground">
-                <Settings2 className="size-3.5" /> Cấu hình
-              </span>
-            </summary>
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-4 border-t border-primary/15 pt-3">
-              <p className="text-xs text-muted-foreground">
-                Admin cho phép học viên làm bài Final test cuối khóa và thiết lập thời hạn mở đề
-                (tính theo số ngày).
-              </p>
-              <div className="flex flex-wrap items-center gap-2.5">
-                <Select
-                  value={String(deadlineDays)}
-                  onChange={(e) => setDeadlineDays(Number(e.target.value))}
-                  aria-label="Thời hạn mở đề"
-                  className="w-36 bg-surface text-sm"
-                >
-                  <option value="3">Hạn 3 ngày</option>
-                  <option value="7">Hạn 7 ngày</option>
-                  <option value="14">Hạn 14 ngày</option>
-                  <option value="30">Hạn 30 ngày</option>
-                </Select>
-                <Button
-                  size="sm"
-                  onClick={() => unlockMutation.mutate({ sectionId: section.id, deadlineDays })}
-                  loading={unlockMutation.isPending}
-                >
-                  <Unlock className="size-4" />
-                  {data?.unlocked ? 'Gia hạn / Cập nhật' : 'Cho phép mở bài'}
-                </Button>
-                {data?.unlocked && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => lockMutation.mutate(section.id)}
-                    loading={lockMutation.isPending}
-                  >
-                    <Lock className="size-4" /> Khóa lại
-                  </Button>
-                )}
-              </div>
-            </div>
-          </details>
         </div>
       )}
     </div>

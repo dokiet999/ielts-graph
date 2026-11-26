@@ -26,6 +26,7 @@ import {
 import { useWritingResultsStore } from '@/stores/writingResults'
 import { ExercisePager } from './ExercisePager'
 import { RecommendedPractice } from './RecommendedPractice'
+import { TeacherFeedbackCard } from './TeacherFeedbackCard'
 
 function BandBadge({ band }: { band: number }) {
   return (
@@ -102,7 +103,7 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
   const feedback = sub.writingFeedback ?? cached ?? null
   const essay = sub.essayText ?? ''
   const ex = sub.exercise
-  const overall = feedback?.overallBand ?? sub.score
+  const overall = sub.teacherScore ?? feedback?.overallBand ?? sub.score
   const listTab =
     ex.exerciseType === 'FINAL_TEST'
       ? 'final-test'
@@ -174,6 +175,8 @@ export function WritingResultPage({ sub }: { sub: SubmissionDetail }) {
       >
         <Info className="mt-0.5 size-4 shrink-0" /> {AI_DISCLAIMER}
       </p>
+
+      <TeacherFeedbackCard sub={sub} />
 
       {feedback && feedback.criteria.length > 0 && (
         <>

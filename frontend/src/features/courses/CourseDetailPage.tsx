@@ -10,6 +10,7 @@ import {
   ListChecks,
   ListTree,
   UserRound,
+  Users,
 } from 'lucide-react'
 import { Avatar } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -17,9 +18,9 @@ import { Button } from '@/components/ui/button'
 import { ProgressBar } from '@/components/ui/progress'
 import { ErrorState, PageLoader } from '@/components/ui/states'
 import { errorMessage } from '@/lib/api'
-import { useCourse } from '@/lib/queries'
+import { useCourse, useEnrollCourse } from '@/lib/queries'
 import type { Section } from '@/lib/types'
-import { cn, formatDate, formatMinutes, LEVEL_LABEL, percent } from '@/lib/utils'
+import { cn, formatDate, formatDateTime, formatMinutes, LEVEL_LABEL, percent } from '@/lib/utils'
 
 function sectionStatus(s: Section) {
   if (s.exerciseCount > 0 && s.completedExerciseCount >= s.exerciseCount) return 'done'
@@ -82,11 +83,19 @@ function StageCard({
 export function CourseDetailPage() {
   const { courseId } = useParams()
   const { data: course, isLoading, error, refetch } = useCourse(courseId)
+  const enrollMutation = useEnrollCourse()
 
   if (isLoading) return <PageLoader />
   if (error || !course)
     return <ErrorState message={errorMessage(error)} onRetry={() => refetch()} />
 
+  const now = Date.now()
+  const isBeforeStart = Boolean(course.startDate && now < new Date(course.startDate).getTime())
+  const isEnded = Boolean(course.endDate && now > new Date(course.endDate).getTime())
+  const isFull = Boolean(
+    course.maxStudents && (course.enrollmentCount ?? 0) >= course.maxStudents,
+  )
+  const isEnrolled = Boolean(course.enrolledAt)
   const completed = course.enrollmentStatus === 'COMPLETED'
   // The stage to continue: first one not finished, otherwise the last one.
   const current =
@@ -107,6 +116,13 @@ export function CourseDetailPage() {
             <div className="mb-6 flex items-center gap-2 rounded-xl bg-success-soft px-4 py-3 text-success">
               <CheckCircle2 className="size-5" />
               Khóa học của bạn đã hoàn thành tất cả giai đoạn
+            </div>
+          )}
+          {isEnrolled && isBeforeStart && (
+            <div className="mb-6 flex items-center gap-2 rounded-xl bg-info-soft px-4 py-3 text-sm text-info">
+              <CalendarDays className="size-5 shrink-0" />
+              Bạn đã đăng ký giữ chỗ. Khóa học chính thức bắt đầu lúc{' '}
+              <b>{formatDateTime(course.startDate!)}</b> — hiện bạn có thể xem trước các bài học thử.
             </div>
           )}
           <div className="flex flex-wrap items-center gap-3 text-sm text-foreground/80">
@@ -131,17 +147,30 @@ export function CourseDetailPage() {
                 <CalendarDays className="size-4 text-muted-foreground" /> Thời gian
               </p>
               <p className="mt-1.5 text-sm text-muted-foreground">
-                Bắt đầu: {formatDate(course.enrolledAt)}
+                {course.startDate
+                  ? `Khai giảng: ${formatDate(course.startDate)}`
+                  : `Bắt đầu: ${formatDate(course.enrolledAt)}`}
                 <br />
-                {completed ? `Hoàn thành: ${formatDate(course.completedAt)}` : 'Đang diễn ra'}
+                {course.endDate
+                  ? `Kết thúc: ${formatDate(course.endDate)}`
+                  : completed
+                    ? `Hoàn thành: ${formatDate(course.completedAt)}`
+                    : 'Đang diễn ra'}
               </p>
             </div>
             <div>
               <p className="flex items-center gap-2 font-semibold">
-                <Clock className="size-4 text-muted-foreground" /> Thời lượng
+                <Clock className="size-4 text-muted-foreground" /> Thời lượng & Sĩ số
               </p>
               <p className="mt-1.5 text-sm text-muted-foreground">
                 {course.estimatedDuration ? formatMinutes(course.estimatedDuration) : '—'}
+                {' · '}
+                <span className="inline-flex items-center gap-1">
+                  <Users className="size-3.5" />
+                  {course.maxStudents
+                    ? `${course.enrollmentCount ?? 0}/${course.maxStudents} học viên`
+                    : `${course.enrollmentCount ?? 0} học viên`}
+                </span>
                 <br />
                 {course.sectionCount} giai đoạn · {course.exerciseCount} bài luyện
               </p>
@@ -162,27 +191,71 @@ export function CourseDetailPage() {
           </div>
         </div>
 
-        {current && (
+        {!isEnrolled ? (
           <div>
-            <p className="mb-3 font-semibold uppercase tracking-wide text-success">
-              {completed ? 'Giai đoạn vừa hoàn thành' : 'Giai đoạn hiện tại'}
+            <p className="mb-3 font-semibold uppercase tracking-wide text-primary">
+              {isBeforeStart ? 'Đăng ký giữ chỗ' : 'Tham gia khóa học'}
             </p>
-            <div className="card border-success/40 p-6">
-              <div className="flex flex-wrap gap-2">
-                <Badge>Giai đoạn {current.ordering}</Badge>
-              </div>
-              <h3 className="mt-3 text-xl font-semibold">{current.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {current.lessons.length} bài học · {current.completedExerciseCount}/
-                {current.exerciseCount} bài luyện
+            <div className="card space-y-4 border-primary/30 p-6">
+              <h3 className="text-xl font-semibold">
+                {isEnded
+                  ? 'Khóa học đã kết thúc'
+                  : isFull
+                    ? 'Khóa học đã đủ sĩ số'
+                    : isBeforeStart
+                      ? 'Mở đăng ký giữ chỗ trước khai giảng'
+                      : 'Sẵn sàng vào học ngay'}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {course.maxStudents
+                  ? `Sĩ số hiện tại: ${course.enrollmentCount ?? 0}/${course.maxStudents} học viên.`
+                  : `Hiện có ${course.enrollmentCount ?? 0} học viên đang theo học.`}
               </p>
-              <Button asChild className="mt-5 w-full">
-                <Link to={`/learn/${course.id}/${current.id}/overview`}>
-                  {completed ? 'Xem lại khóa' : 'Vào học'} <ArrowRight />
-                </Link>
+              {enrollMutation.error && (
+                <p className="rounded-xl bg-danger-soft px-3 py-2 text-sm text-danger">
+                  {errorMessage(enrollMutation.error)}
+                </p>
+              )}
+              <Button
+                className="w-full"
+                disabled={isEnded || isFull}
+                loading={enrollMutation.isPending}
+                onClick={() => enrollMutation.mutate(course.id)}
+              >
+                {isEnded
+                  ? 'Đã đóng đăng ký'
+                  : isFull
+                    ? 'Đã đủ số lượng học viên'
+                    : isBeforeStart
+                      ? 'Đăng ký giữ chỗ'
+                      : 'Đăng ký khóa học'}{' '}
+                <ArrowRight />
               </Button>
             </div>
           </div>
+        ) : (
+          current && (
+            <div>
+              <p className="mb-3 font-semibold uppercase tracking-wide text-success">
+                {completed ? 'Giai đoạn vừa hoàn thành' : 'Giai đoạn hiện tại'}
+              </p>
+              <div className="card border-success/40 p-6">
+                <div className="flex flex-wrap gap-2">
+                  <Badge>Giai đoạn {current.ordering}</Badge>
+                </div>
+                <h3 className="mt-3 text-xl font-semibold">{current.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {current.lessons.length} bài học · {current.completedExerciseCount}/
+                  {current.exerciseCount} bài luyện
+                </p>
+                <Button asChild className="mt-5 w-full">
+                  <Link to={`/learn/${course.id}/${current.id}/overview`}>
+                    {completed ? 'Xem lại khóa' : 'Vào học'} <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )
         )}
       </div>
 
