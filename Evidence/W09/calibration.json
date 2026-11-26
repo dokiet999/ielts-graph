@@ -1,0 +1,16 @@
+{
+  "writing_overall": {
+    "offset": 0.2188,
+    "linear": {
+      "a": 0.7685,
+      "b": 1.5787
+    }
+  },
+  "speaking_overall": {
+    "offset": 0.4375,
+    "linear": {
+      "a": 1.5789,
+      "b": -2.5658
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# S&I question texts (corpus licence: no redistribution); run.sh makes them again from the corpus
+speaking_sample.csv
+eval_exercises.sql
+__pycache__/
