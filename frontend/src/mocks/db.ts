@@ -10,7 +10,7 @@ import { DEMO_PASSWORD, exercises, seedAttempts, seedUsers } from './fixtures/co
 // In-browser stand-in for the backend database. Persisted to localStorage so registrations,
 // profile edits, moderation decisions and submissions survive reloads. Bump VERSION when the shape changes.
 const KEY = 'ielts-mock-db'
-const VERSION = 5
+const VERSION = 6
 
 export interface StoredUser extends User {
   /** Backend accounts log in by username (HTTP Basic). */
@@ -39,6 +39,29 @@ export interface StoredSubmission {
   submittedAt: string
   /** Writing/Speaking: the grader's feedback, kept like user_submissions.ai_structured_feedback. */
   aiStructuredFeedback?: Record<string, unknown> | null
+  aiScore?: number | null
+  teacherScore?: number | null
+  teacherFeedback?: string | null
+  gradingMethod?: 'AI' | 'TEACHER' | null
+  gradedByName?: string | null
+  gradedAt?: string | null
+}
+
+export interface StoredEnrollment {
+  courseId: string
+  userId: string
+  enrolledAt: string
+  completedAt: string | null
+}
+
+export interface StoredFinalTestGrant {
+  courseId: string
+  sectionId: string
+  userId: string
+  unlocked: boolean
+  deadlineDays: number
+  unlockedAt: string
+  expiresAt: string
 }
 
 interface DbState {
@@ -48,6 +71,8 @@ interface DbState {
   categories: BeCategory[]
   moderationCourses: BeAdminCourseDetail[]
   teacherExercises: BeTeacherExerciseDetail[]
+  studentEnrollments: StoredEnrollment[]
+  studentFinalTestGrants: StoredFinalTestGrant[]
 }
 
 export const allQuestions = (ex: Exercise) => ex.questionGroups.flatMap((g) => g.questions)
@@ -100,6 +125,9 @@ function seedModerationCourses(now: number): BeAdminCourseDetail[] {
       skillFocus: 'READING',
       difficultyLevel: 'INTERMEDIATE',
       estimatedDuration: 600,
+      maxStudents: 30,
+      startDate: iso(-10 * day),
+      endDate: iso(20 * day),
       isFeatured: true,
       isActive: true,
       publishedAt: iso(-10 * day),
@@ -491,6 +519,101 @@ function seedTeacherExercises(now: number): BeTeacherExerciseDetail[] {
         },
       ],
     },
+    {
+      id: 'tex-writing-approved-1',
+      lessonId: 'ml-reading-1',
+      lessonTitle: 'Introduction to IELTS Reading',
+      lessonStatus: 'APPROVED',
+      sectionId: 'ms-reading-1',
+      sectionTitle: 'Getting started',
+      courseId: 'mc-reading-approved',
+      courseTitle: 'IELTS Reading Foundations',
+      courseStatus: 'APPROVED',
+      title: 'Summary Paragraph Writing',
+      instruction: 'Write a short analytical summary of the reading passage.',
+      audioUrl: null,
+      content: { task: 'QT_W2_DISCUSSION' },
+      exerciseType: 'PRACTICE',
+      skillType: 'WRITING',
+      timeLimit: 1800,
+      maxAttempts: 3,
+      passingScore: 0,
+      ordering: 2,
+      submissionCount: 1,
+      totalQuestions: 1,
+      createdAt: iso,
+      updatedAt: iso,
+      questionGroups: [
+        {
+          id: 'tqg-wa1',
+          groupTitle: 'Essay Prompt',
+          questionType: 'ESSAY',
+          questionRange: '1',
+          ordering: 1,
+          questions: [
+            {
+              id: 'tq-wa1',
+              questionText: 'Summarize the main advantages and limitations of urban rooftop farming.',
+              questionType: 'ESSAY',
+              points: 9,
+              ordering: 1,
+              options: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'tex-reading-ft-1',
+      lessonId: 'ml-reading-1',
+      lessonTitle: 'Introduction to IELTS Reading',
+      lessonStatus: 'APPROVED',
+      sectionId: 'ms-reading-1',
+      sectionTitle: 'Getting started',
+      courseId: 'mc-reading-approved',
+      courseTitle: 'IELTS Reading Foundations',
+      courseStatus: 'APPROVED',
+      title: 'Reading Section 1 Final Test',
+      instruction: 'Complete the final assessment for Getting started.',
+      audioUrl: null,
+      content: {
+        passageTitle: 'Green Architecture',
+        paragraphs: [{ label: 'A', text: 'Modern sustainable architecture reduces urban heat islands.' }],
+      },
+      exerciseType: 'FINAL_TEST',
+      skillType: 'READING',
+      timeLimit: 1200,
+      maxAttempts: 1,
+      passingScore: 1,
+      ordering: 3,
+      submissionCount: 0,
+      totalQuestions: 1,
+      createdAt: iso,
+      updatedAt: iso,
+      questionGroups: [
+        {
+          id: 'tqg-ft1',
+          groupTitle: 'Final Question',
+          questionType: 'TRUE_FALSE',
+          questionRange: '1',
+          ordering: 1,
+          questions: [
+            {
+              id: 'tq-ft1',
+              questionText: 'Green architecture reduces urban heat islands.',
+              questionType: 'TRUE_FALSE',
+              explanation: 'Explicitly stated in paragraph A.',
+              points: 1,
+              ordering: 1,
+              options: [
+                { id: 'to-ft1-1', optionText: 'TRUE', isCorrect: true, point: 1, ordering: 1 },
+                { id: 'to-ft1-2', optionText: 'FALSE', isCorrect: false, point: 0, ordering: 2 },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ]
 }
 
@@ -612,11 +735,68 @@ function seed(): DbState {
         createdAt: new Date(now - 2 * 86_400_000).toISOString(),
         updatedAt: new Date(now - 86_400_000).toISOString(),
       },
+      {
+        id: 'u-student-active',
+        username: 'student_active',
+        email: 'student.active@ielts-graph.local',
+        fullName: 'Trần Lan Anh',
+        password: 'Demo@123',
+        avatarUrl: null,
+        bio: null,
+        phone: '0912345679',
+        role: 'STUDENT',
+        status: 'ACTIVE',
+        isActive: true,
+        emailVerified: true,
+        lockReason: null,
+        createdAt: new Date(now - 9 * 86_400_000).toISOString(),
+        updatedAt: new Date(now - 9 * 86_400_000).toISOString(),
+      },
     ],
-    submissions,
+    submissions: [
+      ...submissions,
+      {
+        id: 'sub-teacher-w1',
+        userId: 'u-demo',
+        exerciseId: 'tex-writing-approved-1',
+        attemptNumber: 1,
+        answers: {
+          essayText:
+            'Urban rooftop farming offers clear environmental benefits while still facing practical space and soil depth constraints in dense cities.',
+        },
+        results: [],
+        score: 6.5,
+        maxScore: 9,
+        aiScore: 6.5,
+        teacherScore: null,
+        teacherFeedback: null,
+        gradingMethod: 'AI',
+        gradedByName: null,
+        gradedAt: null,
+        correctCount: 0,
+        questionCount: 1,
+        timeSpent: 900,
+        submittedAt: new Date(now - 2 * 86_400_000).toISOString(),
+      },
+    ],
     categories: seedCategories(now),
     moderationCourses: seedModerationCourses(now),
     teacherExercises: seedTeacherExercises(now),
+    studentEnrollments: [
+      {
+        courseId: 'mc-reading-approved',
+        userId: 'u-demo',
+        enrolledAt: new Date(now - 9 * 86_400_000).toISOString(),
+        completedAt: null,
+      },
+      {
+        courseId: 'mc-reading-approved',
+        userId: 'u-student-active',
+        enrolledAt: new Date(now - 9 * 86_400_000).toISOString(),
+        completedAt: null,
+      },
+    ],
+    studentFinalTestGrants: [],
   }
 }
 
@@ -650,5 +830,7 @@ export function resetDb() {
   db.categories = fresh.categories
   db.moderationCourses = fresh.moderationCourses
   db.teacherExercises = fresh.teacherExercises
+  db.studentEnrollments = fresh.studentEnrollments
+  db.studentFinalTestGrants = fresh.studentFinalTestGrants
   persist()
 }

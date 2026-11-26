@@ -97,6 +97,9 @@ export interface BeAdminCourseSummary {
     | 'ADVANCED'
     | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
   isFeatured: boolean
   isActive: boolean
   status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
@@ -172,6 +175,10 @@ export interface BeAdminCourseDetail {
     | 'ADVANCED'
     | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   isFeatured: boolean
   isActive: boolean
   publishedAt?: string | null
@@ -204,6 +211,10 @@ export interface BeTeacherCourseSummary {
   categoryName?: string | null
   thumbnail?: string | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   status: 'DRAFT' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
   submittedAt?: string | null
   reviewedAt?: string | null
@@ -335,6 +346,10 @@ export interface BeCourse {
   skillFocus: string
   difficultyLevel: string
   estimatedDuration: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   createdAt?: string
   publishedAt?: string | null
 }
@@ -351,6 +366,9 @@ export interface BeMyCourse {
   teacherId: Id
   teacherName: string
   estimatedDuration: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
   enrolledAt: string
   completedAt: string | null
   sectionCount: number
@@ -507,6 +525,12 @@ export interface BeSubmissionSummary {
   status: string
   score: Num
   maxScore: Num
+  aiScore?: Num | null
+  teacherScore?: Num | null
+  teacherFeedback?: string | null
+  gradingMethod?: 'AI' | 'TEACHER' | null
+  gradedByName?: string | null
+  gradedAt?: string | null
   correctCount: number
   questionCount: number
   bandScore?: Num | null
@@ -516,6 +540,9 @@ export interface BeSubmissionSummary {
 
 /** GET /submissions/{id}/detail */
 export interface BeSubmissionDetail extends BeSubmissionSummary {
+  studentId?: Id | null
+  studentName?: string | null
+  studentEmail?: string | null
   /** Choice questions: the option id. FILL_BLANK: the typed text. Speaking/Writing: structured jsonb. */
   answers: Record<string, unknown>
   results: { questionId: Id; correct: boolean; earned: Num }[]
@@ -623,4 +650,127 @@ export interface BeSpeakingResult {
   aiPromptVersion?: string | null
   aiLatencyMs?: number | null
   rawFeedback: BeSpeakingFeedback | null
+}
+
+export interface BeCourseStudentProgressItem {
+  studentId: Id
+  fullName: string
+  username: string
+  email: string
+  enrolledAt: string
+  completedAt: string | null
+  completedExercises: number
+  totalExercises: number
+  progressPercent: number
+  averageScore: number | null
+  totalSubmissions: number
+  pendingReviewCount: number
+  lastSubmittedAt: string | null
+  scheduleStatus: string
+}
+
+export interface BeCourseProgressOverview {
+  courseId: Id
+  courseTitle: string
+  maxStudents: number | null
+  activeStudentCount: number
+  startDate: string | null
+  endDate: string | null
+  totalExercises: number
+  averageProgressPercent: number
+  completedCount: number
+  behindOrInactiveCount: number
+  preEnrolledCount: number
+  students: BeCourseStudentProgressItem[]
+}
+
+export interface BeSectionFinalTestProgress {
+  exerciseId: Id
+  exerciseTitle: string
+  unlocked: boolean
+  grantExpired: boolean
+  deadlineDays: number | null
+  unlockedAt: string | null
+  grantExpiresAt: string | null
+  attemptCount: number
+  bestScore: Num | null
+  latestSubmissionId: Id | null
+}
+
+export interface BeExerciseProgressItem {
+  exerciseId: Id
+  title: string
+  exerciseType: string
+  skillType: string
+  questionCount: number
+  maxScore: Num
+  attemptCount: number
+  bestScore: Num | null
+  completed: boolean
+  latestSubmissionId: Id | null
+  latestStatus: string | null
+  lastSubmittedAt: string | null
+  hasTeacherFeedback: boolean
+}
+
+export interface BeLessonProgressItem {
+  lessonId: Id
+  title: string
+  lessonType: string
+  ordering: number
+  completedExercises: number
+  totalExercises: number
+  exercises: BeExerciseProgressItem[]
+}
+
+export interface BeSectionProgressItem {
+  sectionId: Id
+  title: string
+  ordering: number
+  completedExercises: number
+  totalExercises: number
+  finalTest: BeSectionFinalTestProgress | null
+  lessons: BeLessonProgressItem[]
+}
+
+export interface BeStudentSubmissionHistoryItem {
+  id: Id
+  exerciseId: Id
+  exerciseTitle: string
+  skillType: string
+  exerciseType: string
+  attemptNumber: number
+  status: string
+  score: Num
+  maxScore: Num
+  aiScore: Num | null
+  teacherScore: Num | null
+  teacherFeedback: string | null
+  gradingMethod: 'AI' | 'TEACHER' | null
+  gradedByName: string | null
+  gradedAt: string | null
+  submittedAt: string
+  timeSpent: number | null
+}
+
+export interface BeStudentCourseProgressDetail {
+  courseId: Id
+  courseTitle: string
+  startDate: string | null
+  endDate: string | null
+  maxStudents: number | null
+  studentId: Id
+  fullName: string
+  username: string
+  email: string
+  enrolledAt: string
+  completedAt: string | null
+  completedExercises: number
+  totalExercises: number
+  progressPercent: number
+  averageScore: number | null
+  lastSubmittedAt: string | null
+  scheduleStatus: string
+  sections: BeSectionProgressItem[]
+  submissions: BeStudentSubmissionHistoryItem[]
 }

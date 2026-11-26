@@ -11,6 +11,8 @@ export type DifficultyLevel =
 export type QuestionType =
   'MULTIPLE_CHOICE' | 'DROPLIST' | 'FILL_BLANK' | 'TRUE_FALSE' | 'MATCHING' | 'ESSAY' | 'SPEAKING'
 export type SubmissionStatus = 'PENDING' | 'GRADING' | 'GRADED' | 'FAILED'
+export type GradingMethod = 'AI' | 'TEACHER'
+export type ScheduleStatus = 'COMPLETED' | 'PRE_ENROLLED' | 'BEHIND' | 'INACTIVE' | 'ON_TRACK'
 
 export interface User {
   id: string
@@ -116,6 +118,9 @@ export interface AdminCourseSummary {
   skillFocus?: SkillType | null
   difficultyLevel?: DifficultyLevel | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
   isFeatured: boolean
   isActive: boolean
   status: ContentStatus
@@ -185,6 +190,10 @@ export interface AdminCourseDetail {
   skillFocus?: SkillType | null
   difficultyLevel?: DifficultyLevel | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   isFeatured: boolean
   isActive: boolean
   publishedAt?: string | null
@@ -211,6 +220,10 @@ export interface TeacherCourseSummary {
   categoryName?: string | null
   thumbnail?: string | null
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   status: ContentStatus
   submittedAt?: string | null
   reviewedAt?: string | null
@@ -232,6 +245,9 @@ export interface TeacherCourseInput {
   skillFocus: SkillType
   difficultyLevel: DifficultyLevel
   estimatedDuration?: number
+  maxStudents?: number
+  startDate?: string
+  endDate?: string
 }
 
 export interface TeacherSectionInput {
@@ -406,6 +422,10 @@ export interface CourseSummary {
   categoryName?: string | null
   teacher: Teacher
   estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount?: number
   enrollmentStatus: EnrollmentStatus
   /** null when the viewer has not joined the course. */
   enrolledAt: string | null
@@ -413,6 +433,23 @@ export interface CourseSummary {
   sectionCount: number
   exerciseCount: number
   completedExerciseCount: number
+}
+
+export interface CatalogCourse {
+  id: string
+  title: string
+  description?: string | null
+  thumbnail?: string | null
+  skillFocus: SkillType
+  level: DifficultyLevel
+  categoryName?: string | null
+  teacher: Teacher
+  estimatedDuration?: number | null
+  maxStudents?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  enrollmentCount: number
+  publishedAt?: string | null
 }
 
 export interface LessonSummary {
@@ -548,6 +585,12 @@ export interface Submission {
   status: SubmissionStatus
   score: number
   maxScore: number
+  aiScore?: number | null
+  teacherScore?: number | null
+  teacherFeedback?: string | null
+  gradingMethod?: GradingMethod | null
+  gradedByName?: string | null
+  gradedAt?: string | null
   correctCount: number
   questionCount: number
   bandScore?: number | null
@@ -556,6 +599,9 @@ export interface Submission {
 }
 
 export interface SubmissionDetail extends Submission {
+  studentId?: string | null
+  studentName?: string | null
+  studentEmail?: string | null
   answers: Answers
   results: QuestionResult[]
   /** Exercise including correct options and explanations, for review. */
@@ -742,6 +788,134 @@ export interface DashboardStats {
   exercisesDone: number
   readingBand: number | null
   listeningBand: number | null
+}
+
+export interface CourseStudentProgressItem {
+  studentId: string
+  fullName: string
+  username: string
+  email: string
+  enrolledAt: string
+  completedAt: string | null
+  completedExercises: number
+  totalExercises: number
+  progressPercent: number
+  averageScore: number | null
+  totalSubmissions: number
+  pendingReviewCount: number
+  lastSubmittedAt: string | null
+  scheduleStatus: ScheduleStatus
+}
+
+export interface CourseProgressOverview {
+  courseId: string
+  courseTitle: string
+  maxStudents: number | null
+  activeStudentCount: number
+  startDate: string | null
+  endDate: string | null
+  totalExercises: number
+  averageProgressPercent: number
+  completedCount: number
+  behindOrInactiveCount: number
+  preEnrolledCount: number
+  students: CourseStudentProgressItem[]
+}
+
+export interface SectionFinalTestProgress {
+  exerciseId: string
+  exerciseTitle: string
+  unlocked: boolean
+  grantExpired: boolean
+  deadlineDays: number | null
+  unlockedAt: string | null
+  grantExpiresAt: string | null
+  attemptCount: number
+  bestScore: number | null
+  latestSubmissionId: string | null
+}
+
+export interface ExerciseProgressItem {
+  exerciseId: string
+  title: string
+  exerciseType: ExerciseType
+  skillType: SkillType
+  questionCount: number
+  maxScore: number
+  attemptCount: number
+  bestScore: number | null
+  completed: boolean
+  latestSubmissionId: string | null
+  latestStatus: SubmissionStatus | null
+  lastSubmittedAt: string | null
+  hasTeacherFeedback: boolean
+}
+
+export interface LessonProgressItem {
+  lessonId: string
+  title: string
+  lessonType: string
+  ordering: number
+  completedExercises: number
+  totalExercises: number
+  exercises: ExerciseProgressItem[]
+}
+
+export interface SectionProgressItem {
+  sectionId: string
+  title: string
+  ordering: number
+  completedExercises: number
+  totalExercises: number
+  finalTest: SectionFinalTestProgress | null
+  lessons: LessonProgressItem[]
+}
+
+export interface StudentSubmissionHistoryItem {
+  id: string
+  exerciseId: string
+  exerciseTitle: string
+  skillType: SkillType
+  exerciseType: ExerciseType
+  attemptNumber: number
+  status: SubmissionStatus
+  score: number
+  maxScore: number
+  aiScore: number | null
+  teacherScore: number | null
+  teacherFeedback: string | null
+  gradingMethod: GradingMethod | null
+  gradedByName: string | null
+  gradedAt: string | null
+  submittedAt: string
+  timeSpent: number | null
+}
+
+export interface StudentCourseProgressDetail {
+  courseId: string
+  courseTitle: string
+  startDate: string | null
+  endDate: string | null
+  maxStudents: number | null
+  studentId: string
+  fullName: string
+  username: string
+  email: string
+  enrolledAt: string
+  completedAt: string | null
+  completedExercises: number
+  totalExercises: number
+  progressPercent: number
+  averageScore: number | null
+  lastSubmittedAt: string | null
+  scheduleStatus: ScheduleStatus
+  sections: SectionProgressItem[]
+  submissions: StudentSubmissionHistoryItem[]
+}
+
+export interface TeacherSubmissionFeedbackInput {
+  teacherScore?: number | null
+  teacherFeedback: string
 }
 
 export function isReadingContent(c: Exercise['content']): c is ReadingContent {

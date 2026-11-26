@@ -8,6 +8,8 @@ import type {
   BeCategory,
   BeCourse,
   BeCourseDetail,
+  BeCourseProgressOverview,
+  BeCourseStudentProgressItem,
   BeExercise,
   BeExerciseSummary,
   BeFinalTestSession,
@@ -15,8 +17,10 @@ import type {
   BeLessonDetail,
   BeMyCourse,
   BeReviewQueueItem,
+  BeSectionFinalTestProgress,
   BeSpeakingResult,
   BeStudentAccount,
+  BeStudentCourseProgressDetail,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
@@ -136,10 +140,16 @@ function toStudentAccount(u: StoredUser): BeStudentAccount {
     isActive: u.isActive,
     emailVerified: u.emailVerified,
     lockReason: u.lockReason,
-    enrollmentCount: u.id === 'u-demo' ? courses.filter((c) => c.enrolledAt).length : 0,
+    enrollmentCount:
+      (u.id === 'u-demo' ? courses.filter((c) => c.enrolledAt).length : 0) +
+      db.studentEnrollments.filter((e) => e.userId === u.id).length,
     createdAt: u.createdAt,
     updatedAt: u.updatedAt,
   }
+}
+
+function activeEnrollmentCountForCourse(courseId: string): number {
+  return db.studentEnrollments.filter((e) => e.courseId === courseId).length
 }
 
 function toCategoryDto(cat: BeCategory): BeCategory {
@@ -162,6 +172,9 @@ function toAdminCourseSummary(c: BeAdminCourseDetail): BeAdminCourseSummary {
     skillFocus: c.skillFocus ?? null,
     difficultyLevel: c.difficultyLevel ?? null,
     estimatedDuration: c.estimatedDuration ?? null,
+    maxStudents: c.maxStudents ?? null,
+    startDate: c.startDate ?? null,
+    endDate: c.endDate ?? null,
     isFeatured: c.isFeatured,
     isActive: c.isActive,
     status: c.status,
@@ -171,7 +184,7 @@ function toAdminCourseSummary(c: BeAdminCourseDetail): BeAdminCourseSummary {
     reviewNote: c.reviewNote ?? null,
     deactivationReason: c.deactivationReason ?? null,
     totalLessons: c.sections.reduce((n, s) => n + s.lessons.length, 0),
-    enrollmentCount: c.id === 'mc-reading-approved' ? 1 : 0,
+    enrollmentCount: activeEnrollmentCountForCourse(c.id),
     createdAt: c.createdAt,
     updatedAt: c.updatedAt,
   }
@@ -224,6 +237,10 @@ function toTeacherCourseSummary(c: BeAdminCourseDetail): BeTeacherCourseSummary 
     categoryName: c.categoryName ?? null,
     thumbnail: c.thumbnail ?? null,
     estimatedDuration: c.estimatedDuration ?? null,
+    maxStudents: c.maxStudents ?? null,
+    startDate: c.startDate ?? null,
+    endDate: c.endDate ?? null,
+    enrollmentCount: activeEnrollmentCountForCourse(c.id),
     status: c.status,
     submittedAt: c.submittedAt ?? null,
     reviewedAt: c.reviewedAt ?? null,
@@ -241,6 +258,7 @@ function toTeacherCourseSummary(c: BeAdminCourseDetail): BeTeacherCourseSummary 
 function withLessonExerciseCounts(c: BeAdminCourseDetail): BeAdminCourseDetail {
   return {
     ...c,
+    enrollmentCount: activeEnrollmentCountForCourse(c.id),
     sections: c.sections.map((s) => ({
       ...s,
       lessons: s.lessons.map((l) => ({
@@ -450,7 +468,19 @@ function buildBeFinalTestStatus(sectionId: string, userId: string): BeFinalTestS
   const finalEx = exercises.find(
     (e) => e.sectionId === sectionId && e.exerciseType === 'FINAL_TEST',
   )
-  const grant = finalTestGrants.get(sectionId)
+  const studentGrant = db.studentFinalTestGrants.find(
+    (g) => g.sectionId === sectionId && g.userId === userId,
+  )
+  const grant: MockFinalTestGrant | undefined = studentGrant
+    ? {
+        sectionId: studentGrant.sectionId,
+        userId: studentGrant.userId,
+        unlocked: studentGrant.unlocked,
+        deadlineDays: studentGrant.deadlineDays,
+        grantedAt: studentGrant.unlockedAt,
+        expiresAt: studentGrant.expiresAt,
+      }
+    : finalTestGrants.get(sectionId)
   const nowMs = Date.now()
   const grantExpired = grant ? new Date(grant.expiresAt).getTime() <= nowMs : false
   const unlocked = Boolean(grant && grant.unlocked && !grantExpired)
@@ -537,8 +567,70 @@ function toBeCourseDetail(c: CourseRecord, userId: string): BeCourseDetail {
   }
 }
 
+function findAnyExerciseMeta(exerciseId: string): {
+  id: string
+  title: string
+  skillType: string
+  exerciseType: string
+  courseId: string | null
+  sectionId: string | null
+} | null {
+  const staticEx = exercises.find((e) => e.id === exerciseId)
+  if (staticEx) return staticEx
+  const teacherEx = db.teacherExercises.find((e) => e.id === exerciseId)
+  if (!teacherEx) return null
+  return {
+    id: teacherEx.id,
+    title: teacherEx.title,
+    skillType: teacherEx.skillType,
+    exerciseType: teacherEx.exerciseType,
+    courseId: teacherEx.courseId,
+    sectionId: teacherEx.sectionId,
+  }
+}
+
+function teacherExerciseToBeExercise(ex: BeTeacherExerciseDetail, review = false): BeExercise {
+  return {
+    id: ex.id,
+    lessonId: ex.lessonId,
+    sectionId: ex.sectionId,
+    courseId: ex.courseId,
+    title: ex.title,
+    instruction: ex.instruction ?? null,
+    audioUrl: ex.audioUrl ?? null,
+    content: ex.content ?? null,
+    exerciseType: ex.exerciseType,
+    skillType: ex.skillType,
+    timeLimit: ex.timeLimit ?? null,
+    maxAttempts: ex.maxAttempts,
+    questionGroups: ex.questionGroups.map((g, gi) => ({
+      id: g.id ?? `tqg-${gi}`,
+      groupTitle: g.groupTitle ?? null,
+      groupInstruction: g.groupInstruction ?? null,
+      questionType: g.questionType ?? 'MULTIPLE_CHOICE',
+      questionRange: g.questionRange ?? null,
+      imageUrl: g.imageUrl ?? null,
+      ordering: g.ordering ?? gi + 1,
+      questions: g.questions.map((q, qi) => ({
+        id: q.id ?? `tq-${qi}`,
+        ordering: q.ordering ?? qi + 1,
+        questionText: q.questionText,
+        questionType: q.questionType,
+        points: q.points,
+        ...(review && { explanation: q.explanation ?? null }),
+        options: q.options.map((o, oi) => ({
+          id: o.id ?? `to-${oi}`,
+          optionText: o.optionText,
+          ordering: o.ordering ?? oi + 1,
+          ...(review && { isCorrect: Boolean(o.isCorrect) }),
+        })),
+      })),
+    })),
+  }
+}
+
 function toBeSubmission(s: StoredSubmission): BeSubmissionSummary {
-  const ex = exercises.find((e) => e.id === s.exerciseId)!
+  const ex = findAnyExerciseMeta(s.exerciseId)!
   return {
     id: s.id,
     exerciseId: s.exerciseId,
@@ -551,6 +643,12 @@ function toBeSubmission(s: StoredSubmission): BeSubmissionSummary {
     status: 'GRADED',
     score: s.score,
     maxScore: s.maxScore,
+    aiScore: s.aiScore ?? null,
+    teacherScore: s.teacherScore ?? null,
+    teacherFeedback: s.teacherFeedback ?? null,
+    gradingMethod: s.gradingMethod ?? null,
+    gradedByName: s.gradedByName ?? null,
+    gradedAt: s.gradedAt ?? null,
     correctCount: s.correctCount,
     questionCount: s.questionCount,
     timeSpent: s.timeSpent,
@@ -559,14 +657,327 @@ function toBeSubmission(s: StoredSubmission): BeSubmissionSummary {
 }
 
 function toBeSubmissionDetail(s: StoredSubmission): BeSubmissionDetail {
-  const ex = exercises.find((e) => e.id === s.exerciseId)!
+  const staticEx = exercises.find((e) => e.id === s.exerciseId)
+  const teacherEx = !staticEx ? db.teacherExercises.find((e) => e.id === s.exerciseId) : undefined
+  const student = db.users.find((u) => u.id === s.userId)
   return {
     ...toBeSubmission(s),
+    studentId: student?.id ?? s.userId,
+    studentName: student?.fullName ?? null,
+    studentEmail: student?.email ?? null,
     answers: s.answers,
     results: s.results,
-    exercise: toBeExercise(ex, true),
+    exercise: staticEx ? toBeExercise(staticEx, true) : teacherExerciseToBeExercise(teacherEx!, true),
     aiStructuredFeedback: (s.aiStructuredFeedback ??
       null) as BeSubmissionDetail['aiStructuredFeedback'],
+  }
+}
+
+function computeMockScheduleStatus(
+  course: BeAdminCourseDetail,
+  enrolledAt: string,
+  completedExercises: number,
+  totalExercises: number,
+  progressPercent: number,
+  lastSubmittedAt: string | null,
+): string {
+  if (totalExercises > 0 && completedExercises >= totalExercises) return 'COMPLETED'
+  const now = Date.now()
+  if (course.startDate && now < new Date(course.startDate).getTime()) return 'PRE_ENROLLED'
+  if (course.startDate && course.endDate) {
+    const startMs = new Date(course.startDate).getTime()
+    const endMs = new Date(course.endDate).getTime()
+    if (endMs > startMs && now > startMs) {
+      const elapsed = Math.min(100, Math.max(0, ((now - startMs) * 100) / (endMs - startMs)))
+      if (elapsed - progressPercent >= 25) return 'BEHIND'
+    }
+  }
+  const baseline =
+    lastSubmittedAt ??
+    (course.startDate && new Date(course.startDate).getTime() > new Date(enrolledAt).getTime()
+      ? course.startDate
+      : enrolledAt)
+  if ((now - new Date(baseline).getTime()) / 86_400_000 >= 7) return 'INACTIVE'
+  return 'ON_TRACK'
+}
+
+function buildMockSectionFinalTestProgress(
+  course: BeAdminCourseDetail,
+  sectionId: string,
+  studentId: string,
+): BeSectionFinalTestProgress | null {
+  const finalEx =
+    db.teacherExercises.find(
+      (e) => e.courseId === course.id && e.sectionId === sectionId && e.exerciseType === 'FINAL_TEST',
+    ) ??
+    db.teacherExercises.find((e) => e.courseId === course.id && e.exerciseType === 'FINAL_TEST')
+  if (!finalEx) return null
+  const grant = db.studentFinalTestGrants.find(
+    (g) => g.courseId === course.id && g.sectionId === sectionId && g.userId === studentId,
+  )
+  const nowMs = Date.now()
+  const grantExpired = grant ? new Date(grant.expiresAt).getTime() <= nowMs : false
+  const unlocked = Boolean(grant && grant.unlocked && !grantExpired)
+  const subs = db.submissions
+    .filter((s) => s.userId === studentId && s.exerciseId === finalEx.id)
+    .sort((a, b) => b.submittedAt.localeCompare(a.submittedAt))
+  return {
+    exerciseId: finalEx.id,
+    exerciseTitle: finalEx.title,
+    unlocked,
+    grantExpired,
+    deadlineDays: grant?.deadlineDays ?? null,
+    unlockedAt: grant?.unlockedAt ?? null,
+    grantExpiresAt: grant?.expiresAt ?? null,
+    attemptCount: subs.length,
+    bestScore: subs.length > 0 ? Math.max(...subs.map((s) => s.score)) : null,
+    latestSubmissionId: subs[0]?.id ?? null,
+  }
+}
+
+function buildMockCourseStudents(
+  course: BeAdminCourseDetail,
+  q: string,
+  scheduleStatus: string,
+): BeCourseProgressOverview {
+  const approvedLessonIds = new Set(
+    course.sections.flatMap((s) => s.lessons).filter((l) => l.status === 'APPROVED').map((l) => l.id),
+  )
+  const countableExercises = db.teacherExercises.filter(
+    (e) =>
+      approvedLessonIds.has(e.lessonId) &&
+      e.totalQuestions > 0 &&
+      e.exerciseType !== 'MOCK_TEST' &&
+      e.exerciseType !== 'FINAL_TEST',
+  )
+  const countableIds = new Set(countableExercises.map((e) => e.id))
+  const totalExercises = countableExercises.length
+  const enrollments = db.studentEnrollments.filter((e) => e.courseId === course.id)
+  const allCourseExerciseIds = new Set(
+    db.teacherExercises.filter((e) => e.courseId === course.id).map((e) => e.id),
+  )
+
+  const items: BeCourseStudentProgressItem[] = enrollments
+    .map((enr): BeCourseStudentProgressItem | null => {
+      const student = db.users.find((u) => u.id === enr.userId)
+      if (!student) return null
+      const subs = db.submissions
+        .filter((s) => s.userId === student.id && allCourseExerciseIds.has(s.exerciseId))
+        .sort((a, b) => b.submittedAt.localeCompare(a.submittedAt))
+      const completed = new Set(subs.filter((s) => countableIds.has(s.exerciseId)).map((s) => s.exerciseId))
+      const progressPercent =
+        totalExercises > 0 ? Math.round((completed.size * 1000) / totalExercises) / 10 : 0
+      const ratios = subs.filter((s) => s.maxScore > 0).map((s) => (s.score * 100) / s.maxScore)
+      const averageScore =
+        ratios.length > 0
+          ? Math.round((ratios.reduce((a, b) => a + b, 0) * 10) / ratios.length) / 10
+          : null
+      const pendingReviewCount = subs.filter((s) => {
+        const meta = findAnyExerciseMeta(s.exerciseId)
+        return (
+          meta &&
+          (meta.skillType === 'WRITING' || meta.skillType === 'SPEAKING') &&
+          !s.teacherFeedback
+        )
+      }).length
+      const lastSubmittedAt: string | null = subs[0]?.submittedAt ?? null
+      return {
+        studentId: student.id,
+        fullName: student.fullName,
+        username: student.username,
+        email: student.email,
+        enrolledAt: enr.enrolledAt,
+        completedAt: enr.completedAt,
+        completedExercises: completed.size,
+        totalExercises,
+        progressPercent,
+        averageScore,
+        totalSubmissions: subs.length,
+        pendingReviewCount,
+        lastSubmittedAt,
+        scheduleStatus: computeMockScheduleStatus(
+          course,
+          enr.enrolledAt,
+          completed.size,
+          totalExercises,
+          progressPercent,
+          lastSubmittedAt,
+        ),
+      }
+    })
+    .filter((x): x is BeCourseStudentProgressItem => x !== null)
+
+  const needle = q.trim().toLowerCase()
+  const filterStatus = scheduleStatus.trim().toUpperCase()
+  const filtered = items
+    .filter(
+      (i) =>
+        !needle ||
+        i.fullName.toLowerCase().includes(needle) ||
+        i.email.toLowerCase().includes(needle) ||
+        i.username.toLowerCase().includes(needle),
+    )
+    .filter((i) => !filterStatus || i.scheduleStatus === filterStatus)
+
+  return {
+    courseId: course.id,
+    courseTitle: course.title,
+    maxStudents: course.maxStudents ?? null,
+    activeStudentCount: items.length,
+    startDate: course.startDate ?? null,
+    endDate: course.endDate ?? null,
+    totalExercises,
+    averageProgressPercent:
+      items.length > 0
+        ? Math.round(
+            (items.reduce((sum, i) => sum + i.progressPercent, 0) * 10) / items.length,
+          ) / 10
+        : 0,
+    completedCount: items.filter((i) => i.scheduleStatus === 'COMPLETED').length,
+    behindOrInactiveCount: items.filter(
+      (i) => i.scheduleStatus === 'BEHIND' || i.scheduleStatus === 'INACTIVE',
+    ).length,
+    preEnrolledCount: items.filter((i) => i.scheduleStatus === 'PRE_ENROLLED').length,
+    students: filtered,
+  }
+}
+
+function buildMockStudentProgressDetail(
+  course: BeAdminCourseDetail,
+  studentId: string,
+): BeStudentCourseProgressDetail | null {
+  const enr = db.studentEnrollments.find((e) => e.courseId === course.id && e.userId === studentId)
+  const student = db.users.find((u) => u.id === studentId)
+  if (!enr || !student) return null
+
+  const allCourseEx = db.teacherExercises.filter((e) => e.courseId === course.id)
+  const allCourseExIds = new Set(allCourseEx.map((e) => e.id))
+  const subs = db.submissions
+    .filter((s) => s.userId === studentId && allCourseExIds.has(s.exerciseId))
+    .sort((a, b) => b.submittedAt.localeCompare(a.submittedAt))
+
+  let courseTotal = 0
+  let courseCompleted = 0
+  const sections = course.sections.map((sec) => {
+    let secTotal = 0
+    let secCompleted = 0
+    const lessons = sec.lessons
+      .filter((l) => l.status === 'APPROVED')
+      .map((les) => {
+        let lesTotal = 0
+        let lesCompleted = 0
+        const lesExercises = db.teacherExercises
+          .filter((e) => e.lessonId === les.id && e.exerciseType !== 'FINAL_TEST')
+          .map((ex) => {
+            const exSubs = subs.filter((s) => s.exerciseId === ex.id)
+            const completed = exSubs.length > 0
+            const countable =
+              ex.totalQuestions > 0 &&
+              ex.exerciseType !== 'MOCK_TEST' &&
+              ex.exerciseType !== 'FINAL_TEST'
+            if (countable) {
+              lesTotal++
+              if (completed) lesCompleted++
+            }
+            const max = ex.skillType === 'WRITING' || ex.skillType === 'SPEAKING' ? 9 : ex.totalQuestions
+            return {
+              exerciseId: ex.id,
+              title: ex.title,
+              exerciseType: ex.exerciseType,
+              skillType: ex.skillType,
+              questionCount: ex.totalQuestions,
+              maxScore: max,
+              attemptCount: exSubs.length,
+              bestScore: exSubs.length > 0 ? Math.max(...exSubs.map((s) => s.score)) : null,
+              completed,
+              latestSubmissionId: exSubs[0]?.id ?? null,
+              latestStatus: exSubs[0] ? 'GRADED' : null,
+              lastSubmittedAt: exSubs[0]?.submittedAt ?? null,
+              hasTeacherFeedback: exSubs.some((s) => Boolean(s.teacherFeedback)),
+            }
+          })
+        secTotal += lesTotal
+        secCompleted += lesCompleted
+        return {
+          lessonId: les.id,
+          title: les.title,
+          lessonType: les.lessonType,
+          ordering: les.ordering,
+          completedExercises: lesCompleted,
+          totalExercises: lesTotal,
+          exercises: lesExercises,
+        }
+      })
+    courseTotal += secTotal
+    courseCompleted += secCompleted
+    return {
+      sectionId: sec.id,
+      title: sec.title,
+      ordering: sec.ordering,
+      completedExercises: secCompleted,
+      totalExercises: secTotal,
+      finalTest: buildMockSectionFinalTestProgress(course, sec.id, studentId),
+      lessons,
+    }
+  })
+
+  const progressPercent =
+    courseTotal > 0 ? Math.round((courseCompleted * 1000) / courseTotal) / 10 : 0
+  const ratios = subs.filter((s) => s.maxScore > 0).map((s) => (s.score * 100) / s.maxScore)
+  const averageScore =
+    ratios.length > 0
+      ? Math.round((ratios.reduce((a, b) => a + b, 0) * 10) / ratios.length) / 10
+      : null
+  const lastSubmittedAt = subs[0]?.submittedAt ?? null
+
+  return {
+    courseId: course.id,
+    courseTitle: course.title,
+    startDate: course.startDate ?? null,
+    endDate: course.endDate ?? null,
+    maxStudents: course.maxStudents ?? null,
+    studentId: student.id,
+    fullName: student.fullName,
+    username: student.username,
+    email: student.email,
+    enrolledAt: enr.enrolledAt,
+    completedAt: enr.completedAt,
+    completedExercises: courseCompleted,
+    totalExercises: courseTotal,
+    progressPercent,
+    averageScore,
+    lastSubmittedAt,
+    scheduleStatus: computeMockScheduleStatus(
+      course,
+      enr.enrolledAt,
+      courseCompleted,
+      courseTotal,
+      progressPercent,
+      lastSubmittedAt,
+    ),
+    sections,
+    submissions: subs.map((s) => {
+      const ex = findAnyExerciseMeta(s.exerciseId)!
+      return {
+        id: s.id,
+        exerciseId: s.exerciseId,
+        exerciseTitle: ex.title,
+        skillType: ex.skillType,
+        exerciseType: ex.exerciseType,
+        attemptNumber: s.attemptNumber,
+        status: 'GRADED',
+        score: s.score,
+        maxScore: s.maxScore,
+        aiScore: s.aiScore ?? null,
+        teacherScore: s.teacherScore ?? null,
+        teacherFeedback: s.teacherFeedback ?? null,
+        gradingMethod: s.gradingMethod ?? null,
+        gradedByName: s.gradedByName ?? null,
+        gradedAt: s.gradedAt ?? null,
+        submittedAt: s.submittedAt,
+        timeSpent: s.timeSpent,
+      }
+    }),
   }
 }
 
@@ -642,6 +1053,107 @@ export const handlers = [
   }),
 
   // ---------------------------------------------------------------- courses & lessons
+  http.get(`${API}/courses`, async ({ request }) => {
+    await delay(LATENCY)
+    const url = new URL(request.url)
+    const q = (url.searchParams.get('q') ?? '').trim().toLowerCase()
+    const skill = url.searchParams.get('skill') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0) || 0
+    const size = Number(url.searchParams.get('size') ?? 20) || 20
+
+    const publishedFromMod = db.moderationCourses
+      .filter((c) => c.status === 'APPROVED' && c.isActive && Boolean(c.publishedAt))
+      .map(
+        (c): BeCourse => ({
+          id: c.id,
+          teacherId: c.teacherId,
+          teacherName: c.teacherName,
+          categoryName: c.categoryName ?? null,
+          title: c.title,
+          description: c.description ?? null,
+          thumbnail: c.thumbnail ?? null,
+          skillFocus: c.skillFocus ?? 'READING',
+          difficultyLevel: c.difficultyLevel ?? 'INTERMEDIATE',
+          estimatedDuration: c.estimatedDuration ?? null,
+          maxStudents: c.maxStudents ?? null,
+          startDate: c.startDate ?? null,
+          endDate: c.endDate ?? null,
+          enrollmentCount: activeEnrollmentCountForCourse(c.id),
+          publishedAt: c.publishedAt ?? null,
+          createdAt: c.createdAt,
+        }),
+      )
+    const allCatalog: BeCourse[] = [
+      ...publishedFromMod,
+      ...courses.map((c) => ({
+        ...toBeCourse(c),
+        enrollmentCount: activeEnrollmentCountForCourse(c.id) + 1,
+      })),
+    ]
+      .filter((c) => !skill || c.skillFocus === skill)
+      .filter((c) => !q || c.title.toLowerCase().includes(q))
+
+    return okPage(allCatalog, page, size)
+  }),
+
+  http.post(`${API}/courses/:id/enroll`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'STUDENT') return forbidden()
+    const courseId = String(params.id)
+
+    const existing = db.studentEnrollments.find(
+      (e) => e.courseId === courseId && e.userId === user.id,
+    )
+    if (existing) {
+      return ok({
+        id: `enr-${courseId}-${user.id}`,
+        courseId,
+        enrollmentDate: existing.enrolledAt,
+        progressPercentage: 0,
+        completionDate: existing.completedAt,
+        created: false,
+      })
+    }
+
+    const mod = db.moderationCourses.find(
+      (c) => c.id === courseId && c.status === 'APPROVED' && c.isActive,
+    )
+    if (!mod && !courses.some((c) => c.id === courseId)) {
+      return fail(404, 'NOT_FOUND', 'Course not found')
+    }
+    if (mod) {
+      if (mod.endDate && Date.now() > new Date(mod.endDate).getTime()) {
+        return fail(409, 'COURSE_ENDED', 'Khóa học đã kết thúc thời gian đăng ký')
+      }
+      const currentCount = activeEnrollmentCountForCourse(courseId)
+      if (mod.maxStudents !== null && mod.maxStudents !== undefined && currentCount >= mod.maxStudents) {
+        return fail(409, 'COURSE_FULL', 'Khóa học đã đủ số lượng học viên tối đa')
+      }
+    }
+
+    const now = new Date().toISOString()
+    db.studentEnrollments.push({
+      courseId,
+      userId: user.id,
+      enrolledAt: now,
+      completedAt: null,
+    })
+    persist()
+    return ok(
+      {
+        id: `enr-${courseId}-${user.id}`,
+        courseId,
+        enrollmentDate: now,
+        progressPercentage: 0,
+        completionDate: null,
+        created: true,
+      },
+      201,
+    )
+  }),
+
   http.get(`${API}/courses/my`, async ({ request }) => {
     await delay(LATENCY)
     const user = currentUser(request)
@@ -654,9 +1166,53 @@ export const handlers = [
     const user = currentUser(request)
     if (!user) return unauthorized()
     const course = courses.find((c) => c.id === params.id)
-    return course
-      ? ok(toBeCourseDetail(course, user.id))
-      : fail(404, 'NOT_FOUND', 'Course not found')
+    if (course) {
+      return ok(toBeCourseDetail(course, user.id))
+    }
+    const mod = db.moderationCourses.find((c) => c.id === params.id && c.status === 'APPROVED' && c.isActive)
+    if (!mod) return fail(404, 'NOT_FOUND', 'Course not found')
+    const enr = db.studentEnrollments.find((e) => e.courseId === mod.id && e.userId === user.id)
+    return ok({
+      course: {
+        id: mod.id,
+        teacherId: mod.teacherId,
+        teacherName: mod.teacherName,
+        categoryName: mod.categoryName ?? null,
+        title: mod.title,
+        description: mod.description ?? null,
+        thumbnail: mod.thumbnail ?? null,
+        skillFocus: mod.skillFocus ?? 'READING',
+        difficultyLevel: mod.difficultyLevel ?? 'INTERMEDIATE',
+        estimatedDuration: mod.estimatedDuration ?? null,
+        maxStudents: mod.maxStudents ?? null,
+        startDate: mod.startDate ?? null,
+        endDate: mod.endDate ?? null,
+        enrollmentCount: activeEnrollmentCountForCourse(mod.id),
+        publishedAt: mod.publishedAt ?? null,
+      },
+      totalLessons: mod.totalLessons,
+      exerciseCount: 0,
+      completedExerciseCount: 0,
+      enrollment: enr ? { enrolledAt: enr.enrolledAt, completedAt: enr.completedAt } : null,
+      sections: mod.sections.map((s) => ({
+        id: s.id,
+        title: s.title,
+        description: s.description ?? null,
+        ordering: s.ordering,
+        exerciseCount: 0,
+        completedExerciseCount: 0,
+        lessons: s.lessons.filter((l) => l.status === 'APPROVED').map((l) => ({
+          id: l.id,
+          sectionId: s.id,
+          title: l.title,
+          lessonType: l.lessonType,
+          videoDuration: l.videoDuration ?? null,
+          ordering: l.ordering,
+          isPreview: l.isPreview,
+          exerciseCount: 0,
+        })),
+      })),
+    } satisfies BeCourseDetail)
   }),
 
   http.get(`${API}/lessons/:id`, async ({ request, params }) => {
@@ -734,6 +1290,7 @@ export const handlers = [
     await delay(LATENCY)
     const user = currentUser(request)
     if (!user) return unauthorized()
+    if (user.role !== 'ADMIN' && user.role !== 'TEACHER') return forbidden()
     const sectionId = params.id as string
     if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
     const body = (await request.json().catch(() => ({}))) as { deadlineDays?: number }
@@ -754,6 +1311,7 @@ export const handlers = [
     await delay(LATENCY)
     const user = currentUser(request)
     if (!user) return unauthorized()
+    if (user.role !== 'ADMIN' && user.role !== 'TEACHER') return forbidden()
     const sectionId = params.id as string
     if (!findCourseOf(sectionId)) return fail(404, 'NOT_FOUND', 'Section not found')
     const existing = finalTestGrants.get(sectionId)
@@ -1083,7 +1641,12 @@ export const handlers = [
     if (!user) return unauthorized()
     const s = db.submissions.find((x) => x.id === params.id)
     if (!s) return fail(404, 'NOT_FOUND', 'Submission not found')
-    if (s.userId !== user.id) return fail(403, 'FORBIDDEN', 'Access denied to this submission')
+    const meta = findAnyExerciseMeta(s.exerciseId)
+    const owningCourse = meta?.courseId ? db.moderationCourses.find((c) => c.id === meta.courseId) : null
+    const isTeacherOwner = user.role === 'TEACHER' && owningCourse?.teacherId === user.id
+    if (s.userId !== user.id && user.role !== 'ADMIN' && !isTeacherOwner) {
+      return fail(403, 'FORBIDDEN', 'Access denied to this submission')
+    }
     return ok(toBeSubmissionDetail(s))
   }),
 
@@ -1860,10 +2423,20 @@ export const handlers = [
       skillFocus?: SkillType
       difficultyLevel?: DifficultyLevel
       estimatedDuration?: number
+      maxStudents?: number | null
+      startDate?: string | null
+      endDate?: string | null
     }
     const title = body.title?.trim() ?? ''
     if (!title || !body.categoryId || !body.skillFocus || !body.difficultyLevel) {
       return fail(400, 'VALIDATION_ERROR', 'Vui lòng nhập đầy đủ thông tin bắt buộc.')
+    }
+    if (
+      body.startDate &&
+      body.endDate &&
+      new Date(body.endDate).getTime() <= new Date(body.startDate).getTime()
+    ) {
+      return fail(400, 'INVALID_DATE_RANGE', 'Thời gian kết thúc phải sau thời gian bắt đầu')
     }
     const category = db.categories.find((c) => c.id === body.categoryId)
     if (!category) return fail(404, 'NOT_FOUND', 'Không tìm thấy danh mục.')
@@ -1882,6 +2455,10 @@ export const handlers = [
       skillFocus: body.skillFocus,
       difficultyLevel: body.difficultyLevel,
       estimatedDuration: body.estimatedDuration ?? null,
+      maxStudents: body.maxStudents ?? null,
+      startDate: body.startDate ?? null,
+      endDate: body.endDate ?? null,
+      enrollmentCount: 0,
       isFeatured: false,
       isActive: true,
       publishedAt: null,
@@ -1923,10 +2500,28 @@ export const handlers = [
       skillFocus?: SkillType
       difficultyLevel?: DifficultyLevel
       estimatedDuration?: number
+      maxStudents?: number | null
+      startDate?: string | null
+      endDate?: string | null
     }
     const title = body.title?.trim() ?? ''
     if (!title || !body.categoryId || !body.skillFocus || !body.difficultyLevel) {
       return fail(400, 'VALIDATION_ERROR', 'Vui lòng nhập đầy đủ thông tin bắt buộc.')
+    }
+    if (
+      body.startDate &&
+      body.endDate &&
+      new Date(body.endDate).getTime() <= new Date(body.startDate).getTime()
+    ) {
+      return fail(400, 'INVALID_DATE_RANGE', 'Thời gian kết thúc phải sau thời gian bắt đầu')
+    }
+    const activeEnrolled = activeEnrollmentCountForCourse(course.id)
+    if (body.maxStudents !== null && body.maxStudents !== undefined && body.maxStudents < activeEnrolled) {
+      return fail(
+        409,
+        'MAX_STUDENTS_BELOW_ENROLLED',
+        `Số học viên tối đa không thể nhỏ hơn số học viên đang theo học (${activeEnrolled})`,
+      )
     }
     const category = db.categories.find((c) => c.id === body.categoryId)
     if (!category) return fail(404, 'NOT_FOUND', 'Không tìm thấy danh mục.')
@@ -1942,9 +2537,12 @@ export const handlers = [
     course.skillFocus = body.skillFocus
     course.difficultyLevel = body.difficultyLevel
     course.estimatedDuration = body.estimatedDuration ?? null
+    course.maxStudents = body.maxStudents ?? null
+    course.startDate = body.startDate ?? null
+    course.endDate = body.endDate ?? null
     course.updatedAt = new Date().toISOString()
     persist()
-    return ok(course)
+    return ok(withLessonExerciseCounts(course))
   }),
 
   http.delete(`${API}/teacher/courses/:id`, async ({ request, params }) => {
@@ -2662,5 +3260,260 @@ export const handlers = [
     ex.updatedAt = new Date().toISOString()
     persist()
     return ok(ex)
+  }),
+
+  // ---------------------------------------------------------------- progress & grading (teacher + admin)
+  http.get(`${API}/admin/courses/:id/students`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'ADMIN') return forbidden()
+
+    const course = db.moderationCourses.find((c) => c.id === params.id)
+    if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+    const url = new URL(request.url)
+    return ok(
+      buildMockCourseStudents(
+        course,
+        url.searchParams.get('q') ?? '',
+        url.searchParams.get('scheduleStatus') ?? '',
+      ),
+    )
+  }),
+
+  http.get(`${API}/admin/courses/:id/students/:studentId`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'ADMIN') return forbidden()
+
+    const course = db.moderationCourses.find((c) => c.id === params.id)
+    if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+    const detail = buildMockStudentProgressDetail(course, String(params.studentId))
+    return detail ? ok(detail) : fail(404, 'NOT_FOUND', 'Enrollment not found')
+  }),
+
+  http.post(
+    `${API}/admin/courses/:id/sections/:sectionId/students/:studentId/final-test/unlock`,
+    async ({ request, params }) => {
+      await delay(LATENCY)
+      const user = currentUser(request)
+      if (!user) return unauthorized()
+      if (user.role !== 'ADMIN') return forbidden()
+
+      const courseId = String(params.id)
+      const sectionId = String(params.sectionId)
+      const studentId = String(params.studentId)
+      const course = db.moderationCourses.find((c) => c.id === courseId)
+      if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+      const body = (await request.json().catch(() => ({}))) as { deadlineDays?: number }
+      const days = body.deadlineDays && body.deadlineDays > 0 ? body.deadlineDays : 7
+      const now = new Date()
+      const existing = db.studentFinalTestGrants.find(
+        (g) => g.courseId === courseId && g.sectionId === sectionId && g.userId === studentId,
+      )
+      const unlockedAt = now.toISOString()
+      const expiresAt = new Date(now.getTime() + days * 86_400_000).toISOString()
+      if (existing) {
+        existing.unlocked = true
+        existing.deadlineDays = days
+        existing.unlockedAt = unlockedAt
+        existing.expiresAt = expiresAt
+      } else {
+        db.studentFinalTestGrants.push({
+          courseId,
+          sectionId,
+          userId: studentId,
+          unlocked: true,
+          deadlineDays: days,
+          unlockedAt,
+          expiresAt,
+        })
+      }
+      persist()
+      const progress = buildMockSectionFinalTestProgress(course, sectionId, studentId)
+      return progress ? ok(progress) : fail(404, 'NOT_FOUND', 'Final test not found')
+    },
+  ),
+
+  http.post(
+    `${API}/admin/courses/:id/sections/:sectionId/students/:studentId/final-test/lock`,
+    async ({ request, params }) => {
+      await delay(LATENCY)
+      const user = currentUser(request)
+      if (!user) return unauthorized()
+      if (user.role !== 'ADMIN') return forbidden()
+
+      const courseId = String(params.id)
+      const sectionId = String(params.sectionId)
+      const studentId = String(params.studentId)
+      const course = db.moderationCourses.find((c) => c.id === courseId)
+      if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+      db.studentFinalTestGrants = db.studentFinalTestGrants.filter(
+        (g) => !(g.courseId === courseId && g.sectionId === sectionId && g.userId === studentId),
+      )
+      persist()
+      const progress = buildMockSectionFinalTestProgress(course, sectionId, studentId)
+      return progress ? ok(progress) : fail(404, 'NOT_FOUND', 'Final test not found')
+    },
+  ),
+
+  http.get(`${API}/teacher/courses/:courseId/students`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'TEACHER') return forbidden()
+
+    const course = db.moderationCourses.find((c) => c.id === params.courseId)
+    if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+    if (course.teacherId !== user.id) return forbidden()
+    const url = new URL(request.url)
+    return ok(
+      buildMockCourseStudents(
+        course,
+        url.searchParams.get('q') ?? '',
+        url.searchParams.get('scheduleStatus') ?? '',
+      ),
+    )
+  }),
+
+  http.get(`${API}/teacher/courses/:courseId/students/:studentId`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'TEACHER') return forbidden()
+
+    const course = db.moderationCourses.find((c) => c.id === params.courseId)
+    if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+    if (course.teacherId !== user.id) return forbidden()
+    const detail = buildMockStudentProgressDetail(course, String(params.studentId))
+    return detail ? ok(detail) : fail(404, 'NOT_FOUND', 'Enrollment not found')
+  }),
+
+  http.post(
+    `${API}/teacher/courses/:courseId/sections/:sectionId/students/:studentId/final-test/unlock`,
+    async ({ request, params }) => {
+      await delay(LATENCY)
+      const user = currentUser(request)
+      if (!user) return unauthorized()
+      if (user.role !== 'TEACHER') return forbidden()
+
+      const courseId = String(params.courseId)
+      const sectionId = String(params.sectionId)
+      const studentId = String(params.studentId)
+      const course = db.moderationCourses.find((c) => c.id === courseId)
+      if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+      if (course.teacherId !== user.id) return forbidden()
+      const body = (await request.json().catch(() => ({}))) as { deadlineDays?: number }
+      const days = body.deadlineDays && body.deadlineDays > 0 ? body.deadlineDays : 7
+      const now = new Date()
+      const existing = db.studentFinalTestGrants.find(
+        (g) => g.courseId === courseId && g.sectionId === sectionId && g.userId === studentId,
+      )
+      const unlockedAt = now.toISOString()
+      const expiresAt = new Date(now.getTime() + days * 86_400_000).toISOString()
+      if (existing) {
+        existing.unlocked = true
+        existing.deadlineDays = days
+        existing.unlockedAt = unlockedAt
+        existing.expiresAt = expiresAt
+      } else {
+        db.studentFinalTestGrants.push({
+          courseId,
+          sectionId,
+          userId: studentId,
+          unlocked: true,
+          deadlineDays: days,
+          unlockedAt,
+          expiresAt,
+        })
+      }
+      persist()
+      const progress = buildMockSectionFinalTestProgress(course, sectionId, studentId)
+      return progress ? ok(progress) : fail(404, 'NOT_FOUND', 'Final test not found')
+    },
+  ),
+
+  http.post(
+    `${API}/teacher/courses/:courseId/sections/:sectionId/students/:studentId/final-test/lock`,
+    async ({ request, params }) => {
+      await delay(LATENCY)
+      const user = currentUser(request)
+      if (!user) return unauthorized()
+      if (user.role !== 'TEACHER') return forbidden()
+
+      const courseId = String(params.courseId)
+      const sectionId = String(params.sectionId)
+      const studentId = String(params.studentId)
+      const course = db.moderationCourses.find((c) => c.id === courseId)
+      if (!course) return fail(404, 'NOT_FOUND', 'Course not found')
+      if (course.teacherId !== user.id) return forbidden()
+      db.studentFinalTestGrants = db.studentFinalTestGrants.filter(
+        (g) => !(g.courseId === courseId && g.sectionId === sectionId && g.userId === studentId),
+      )
+      persist()
+      const progress = buildMockSectionFinalTestProgress(course, sectionId, studentId)
+      return progress ? ok(progress) : fail(404, 'NOT_FOUND', 'Final test not found')
+    },
+  ),
+
+  http.get(`${API}/teacher/submissions/:submissionId`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'TEACHER') return forbidden()
+
+    const s = db.submissions.find((x) => x.id === params.submissionId)
+    if (!s) return fail(404, 'NOT_FOUND', 'Submission not found')
+    const meta = findAnyExerciseMeta(s.exerciseId)
+    const course = meta?.courseId ? db.moderationCourses.find((c) => c.id === meta.courseId) : null
+    if (!course || course.teacherId !== user.id) return forbidden()
+    return ok(toBeSubmissionDetail(s))
+  }),
+
+  http.put(`${API}/teacher/submissions/:submissionId/feedback`, async ({ request, params }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (user.role !== 'TEACHER') return forbidden()
+
+    const s = db.submissions.find((x) => x.id === params.submissionId)
+    if (!s) return fail(404, 'NOT_FOUND', 'Submission not found')
+    const meta = findAnyExerciseMeta(s.exerciseId)
+    const course = meta?.courseId ? db.moderationCourses.find((c) => c.id === meta.courseId) : null
+    if (!course || course.teacherId !== user.id) return forbidden()
+
+    const body = (await request.json()) as {
+      teacherScore?: number | null
+      teacherFeedback?: string
+    }
+    const feedback = body.teacherFeedback?.trim() ?? ''
+    if (!feedback) {
+      return fail(400, 'VALIDATION_ERROR', 'Vui lòng nhập nhận xét của giáo viên.')
+    }
+    if (body.teacherScore !== null && body.teacherScore !== undefined) {
+      if (body.teacherScore < 0 || body.teacherScore > s.maxScore) {
+        return fail(400, 'INVALID_SCORE', `Điểm giáo viên không được vượt quá ${s.maxScore}`)
+      }
+      if (
+        (meta?.skillType === 'WRITING' || meta?.skillType === 'SPEAKING') &&
+        Math.abs((body.teacherScore * 2) % 1) > 1e-6
+      ) {
+        return fail(400, 'INVALID_SCORE_STEP', 'Điểm Writing/Speaking phải theo bước 0.5')
+      }
+      s.teacherScore = body.teacherScore
+      s.score = body.teacherScore
+    } else {
+      s.teacherScore = null
+      if (s.aiScore !== null && s.aiScore !== undefined) {
+        s.score = s.aiScore
+      }
+    }
+    s.teacherFeedback = feedback
+    s.gradingMethod = 'TEACHER'
+    s.gradedByName = user.fullName
+    s.gradedAt = new Date().toISOString()
+    persist()
+    return ok(toBeSubmissionDetail(s))
   }),
 ]

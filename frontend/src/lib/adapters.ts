@@ -1,5 +1,6 @@
 import { estimateBand } from './band'
 import type {
+  BeCourse,
   BeCourseDetail,
   BeExercise,
   BeExerciseSummary,
@@ -19,6 +20,7 @@ import type {
 } from './backend-types'
 import type {
   Answers,
+  CatalogCourse,
   CourseDetail,
   CourseSummary,
   DashboardStats,
@@ -28,6 +30,7 @@ import type {
   ExerciseType,
   FinalTestSession,
   FinalTestStatus,
+  GradingMethod,
   Lesson,
   LessonSummary,
   QuestionType,
@@ -85,12 +88,34 @@ export function toCourseSummary(c: BeMyCourse): CourseSummary {
     categoryName: c.categoryName,
     teacher: { id: c.teacherId, fullName: c.teacherName, avatarUrl: null },
     estimatedDuration: c.estimatedDuration,
+    maxStudents: c.maxStudents ?? null,
+    startDate: c.startDate ?? null,
+    endDate: c.endDate ?? null,
     enrollmentStatus: c.completedAt ? 'COMPLETED' : 'IN_PROGRESS',
     enrolledAt: c.enrolledAt,
     completedAt: c.completedAt,
     sectionCount: c.sectionCount,
     exerciseCount: c.exerciseCount,
     completedExerciseCount: c.completedExerciseCount,
+  }
+}
+
+export function toCatalogCourse(c: BeCourse): CatalogCourse {
+  return {
+    id: c.id,
+    title: c.title,
+    description: c.description,
+    thumbnail: c.thumbnail,
+    skillFocus: c.skillFocus as SkillType,
+    level: c.difficultyLevel as DifficultyLevel,
+    categoryName: c.categoryName,
+    teacher: { id: c.teacherId, fullName: c.teacherName, avatarUrl: null },
+    estimatedDuration: c.estimatedDuration,
+    maxStudents: c.maxStudents ?? null,
+    startDate: c.startDate ?? null,
+    endDate: c.endDate ?? null,
+    enrollmentCount: c.enrollmentCount ?? 0,
+    publishedAt: c.publishedAt ?? null,
   }
 }
 
@@ -106,6 +131,10 @@ export function toCourseDetail(r: BeCourseDetail): CourseDetail {
     categoryName: c.categoryName,
     teacher: { id: c.teacherId, fullName: c.teacherName, avatarUrl: null },
     estimatedDuration: c.estimatedDuration,
+    maxStudents: c.maxStudents ?? null,
+    startDate: c.startDate ?? null,
+    endDate: c.endDate ?? null,
+    enrollmentCount: c.enrollmentCount ?? 0,
     enrollmentStatus: r.enrollment?.completedAt ? 'COMPLETED' : 'IN_PROGRESS',
     enrolledAt: r.enrollment?.enrolledAt ?? null,
     completedAt: r.enrollment?.completedAt ?? null,
@@ -249,6 +278,12 @@ export function toSubmission(s: BeSubmissionSummary): Submission {
     status: s.status as SubmissionStatus,
     score,
     maxScore: num(s.maxScore),
+    aiScore: numOrNull(s.aiScore),
+    teacherScore: numOrNull(s.teacherScore),
+    teacherFeedback: s.teacherFeedback ?? null,
+    gradingMethod: (s.gradingMethod as GradingMethod | null) ?? null,
+    gradedByName: s.gradedByName ?? null,
+    gradedAt: s.gradedAt ?? null,
     correctCount: s.correctCount,
     questionCount: s.questionCount,
     bandScore,
@@ -403,10 +438,16 @@ export function toSpeakingResult(r: BeSpeakingResult): SpeakingSubmitResult {
 
 export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
   const exercise = toExercise(s.exercise)
+  const studentMeta = {
+    studentId: s.studentId ?? null,
+    studentName: s.studentName ?? null,
+    studentEmail: s.studentEmail ?? null,
+  }
   if (s.skillType === 'WRITING') {
     const stored = s.aiStructuredFeedback as BeWritingFeedback | null | undefined
     return {
       ...toSubmission(s),
+      ...studentMeta,
       answers: {},
       results: [],
       exercise,
@@ -415,7 +456,7 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
       writingFeedback: stored
         ? toWritingFeedback(stored, {
           taskType: null,
-          overallBand: s.score,
+          overallBand: s.aiScore ?? s.score,
           outOfCalibrationRange: null,
           summary: s.aiFeedback ?? null,
           improvements: null,
@@ -433,6 +474,7 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
     const part = typeof s.answers?.part === 'string' ? s.answers.part : null
     return {
       ...toSubmission(s),
+      ...studentMeta,
       answers: {},
       results: [],
       exercise,
@@ -441,7 +483,7 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
         stored || transcript || features || pronunciation
           ? toSpeakingFeedback(stored, {
             part,
-            overallBand: s.score,
+            overallBand: s.aiScore ?? s.score,
             outOfCalibrationRange: null,
             summary: s.aiFeedback ?? null,
             improvements: null,
@@ -467,6 +509,7 @@ export function toSubmissionDetail(s: BeSubmissionDetail): SubmissionDetail {
   }
   return {
     ...toSubmission(s),
+    ...studentMeta,
     answers,
     results: s.results.map((r) => ({
       questionId: r.questionId,

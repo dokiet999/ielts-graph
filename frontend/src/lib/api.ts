@@ -3,6 +3,7 @@ import { demoAuthHeader, DEMO_MODE } from './demo'
 import { useAuthStore } from '@/stores/auth'
 import {
   toBackendAnswers,
+  toCatalogCourse,
   toCourseDetail,
   toCourseSummary,
   toDashboardStats,
@@ -23,7 +24,9 @@ import type {
   BeAdminSection,
   BeBaseResponse,
   BeCategory,
+  BeCourse,
   BeCourseDetail,
+  BeCourseProgressOverview,
   BeExercise,
   BeExerciseSummary,
   BeFinalTestSession,
@@ -31,8 +34,10 @@ import type {
   BeLessonDetail,
   BeMyCourse,
   BeReviewQueueItem,
+  BeSectionFinalTestProgress,
   BeSpeakingResult,
   BeStudentAccount,
+  BeStudentCourseProgressDetail,
   BeSubmissionDetail,
   BeSubmissionSummary,
   BeSubmitResult,
@@ -50,20 +55,27 @@ import type {
   AdminSectionItem,
   AnswerValue,
   AuthResponse,
+  CatalogCourse,
   Category,
   CategoryInput,
   CheckAnswerResponse,
   ContentStatus,
+  CourseProgressOverview,
   CreateTeacherInput,
+  ExerciseType,
   KgRecommendations,
   KgRecommendationsRequest,
   PagedResult,
   ReplaceExerciseQuestionsInput,
   ReviewQueueItem,
+  ScheduleStatus,
+  SectionFinalTestProgress,
   SkillType,
   SpeakingSubmissionRequest,
   StudentAccount,
+  StudentCourseProgressDetail,
   SubmissionRequest,
+  SubmissionStatus,
   TeacherAccount,
   TeacherCourseInput,
   TeacherCourseSummary,
@@ -72,6 +84,7 @@ import type {
   TeacherLessonExercises,
   TeacherLessonInput,
   TeacherSectionInput,
+  TeacherSubmissionFeedbackInput,
   UpdateTeacherInput,
   User,
   UserStatus,
@@ -130,6 +143,64 @@ function mapTeacherExerciseDetail(raw: BeTeacherExerciseDetail): TeacherExercise
           point: o.point !== undefined && o.point !== null ? Number(o.point) : undefined,
         })),
       })),
+    })),
+  }
+}
+
+function mapCourseProgressOverview(raw: BeCourseProgressOverview): CourseProgressOverview {
+  return {
+    ...raw,
+    students: (raw.students ?? []).map((s) => ({
+      ...s,
+      scheduleStatus: s.scheduleStatus as ScheduleStatus,
+    })),
+  }
+}
+
+function mapSectionFinalTestProgress(
+  ft: BeSectionFinalTestProgress | null | undefined,
+): SectionFinalTestProgress | null {
+  if (!ft) return null
+  return {
+    ...ft,
+    bestScore: ft.bestScore !== null && ft.bestScore !== undefined ? Number(ft.bestScore) : null,
+  }
+}
+
+function mapStudentCourseProgressDetail(
+  raw: BeStudentCourseProgressDetail,
+): StudentCourseProgressDetail {
+  return {
+    ...raw,
+    scheduleStatus: raw.scheduleStatus as ScheduleStatus,
+    sections: (raw.sections ?? []).map((sec) => ({
+      ...sec,
+      finalTest: mapSectionFinalTestProgress(sec.finalTest),
+      lessons: (sec.lessons ?? []).map((les) => ({
+        ...les,
+        exercises: (les.exercises ?? []).map((ex) => ({
+          ...ex,
+          exerciseType: ex.exerciseType as ExerciseType,
+          skillType: ex.skillType as SkillType,
+          maxScore: Number(ex.maxScore ?? 0),
+          bestScore:
+            ex.bestScore !== null && ex.bestScore !== undefined ? Number(ex.bestScore) : null,
+          latestStatus: (ex.latestStatus as SubmissionStatus | null) ?? null,
+        })),
+      })),
+    })),
+    submissions: (raw.submissions ?? []).map((sub) => ({
+      ...sub,
+      skillType: sub.skillType as SkillType,
+      exerciseType: sub.exerciseType as ExerciseType,
+      status: sub.status as SubmissionStatus,
+      score: Number(sub.score ?? 0),
+      maxScore: Number(sub.maxScore ?? 0),
+      aiScore: sub.aiScore !== null && sub.aiScore !== undefined ? Number(sub.aiScore) : null,
+      teacherScore:
+        sub.teacherScore !== null && sub.teacherScore !== undefined
+          ? Number(sub.teacherScore)
+          : null,
     })),
   }
 }
@@ -274,6 +345,18 @@ export const api = {
       toDashboardStats(courses, submissions),
     ),
   myCourses,
+  catalogCourses: (params?: { q?: string; skill?: SkillType | ''; page?: number; size?: number }) =>
+    paged<BeCourse>(
+      http.get<BeBaseResponse<BeCourse[]>>('/courses', {
+        params: {
+          ...(params?.q?.trim() ? { q: params.q.trim() } : {}),
+          ...(params?.skill ? { skill: params.skill } : {}),
+          page: Math.max(0, (params?.page ?? 1) - 1),
+          size: params?.size ?? 20,
+        },
+      }),
+    ).then((res): PagedResult<CatalogCourse> => ({ ...res, items: res.items.map(toCatalogCourse) })),
+  enrollCourse: (id: string) => data(http.post<unknown>(`/courses/${id}/enroll`)),
   course: (id: string) => data(http.get<BeCourseDetail>(`/courses/${id}`)).then(toCourseDetail),
   lesson: (id: string) => lessonDetail(id).then(toLesson),
   sectionExercises: (sectionId: string) =>
@@ -286,14 +369,6 @@ export const api = {
     ),
   sectionFinalTest: (sectionId: string) =>
     data(http.get<BeFinalTestStatus>(`/sections/${sectionId}/final-test`)).then(
-      toFinalTestStatus,
-    ),
-  unlockSectionFinalTest: (sectionId: string, deadlineDays: number) =>
-    data(
-      http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/unlock`, { deadlineDays }),
-    ).then(toFinalTestStatus),
-  lockSectionFinalTest: (sectionId: string) =>
-    data(http.post<BeFinalTestStatus>(`/sections/${sectionId}/final-test/lock`)).then(
       toFinalTestStatus,
     ),
   startSectionFinalTest: (sectionId: string) =>
@@ -451,6 +526,37 @@ export const api = {
     ) as Promise<AdminCourseSummary>,
   adminActivateCourse: (id: string) =>
     data(http.post<BeAdminCourseSummary>(`/admin/courses/${id}/activate`)) as Promise<AdminCourseSummary>,
+  adminCourseStudents: (courseId: string, params?: { q?: string; scheduleStatus?: string }) =>
+    data(
+      http.get<BeCourseProgressOverview>(`/admin/courses/${courseId}/students`, {
+        params: {
+          ...(params?.q?.trim() ? { q: params.q.trim() } : {}),
+          ...(params?.scheduleStatus ? { scheduleStatus: params.scheduleStatus } : {}),
+        },
+      }),
+    ).then(mapCourseProgressOverview),
+  adminStudentProgress: (courseId: string, studentId: string) =>
+    data(
+      http.get<BeStudentCourseProgressDetail>(`/admin/courses/${courseId}/students/${studentId}`),
+    ).then(mapStudentCourseProgressDetail),
+  adminUnlockStudentFinalTest: (
+    courseId: string,
+    sectionId: string,
+    studentId: string,
+    deadlineDays: number,
+  ) =>
+    data(
+      http.post<BeSectionFinalTestProgress>(
+        `/admin/courses/${courseId}/sections/${sectionId}/students/${studentId}/final-test/unlock`,
+        { deadlineDays },
+      ),
+    ).then((res) => mapSectionFinalTestProgress(res)!),
+  adminLockStudentFinalTest: (courseId: string, sectionId: string, studentId: string) =>
+    data(
+      http.post<BeSectionFinalTestProgress>(
+        `/admin/courses/${courseId}/sections/${sectionId}/students/${studentId}/final-test/lock`,
+      ),
+    ).then((res) => mapSectionFinalTestProgress(res)!),
 
   adminCourseReviews: (params: { status?: ContentStatus; page?: number; size?: number }) =>
     paged<ReviewQueueItem>(
@@ -568,4 +674,43 @@ export const api = {
     data(http.put<BeTeacherExerciseDetail>(`/teacher/exercises/${id}/questions`, body)).then(
       mapTeacherExerciseDetail,
     ),
+  teacherCourseStudents: (courseId: string, params?: { q?: string; scheduleStatus?: string }) =>
+    data(
+      http.get<BeCourseProgressOverview>(`/teacher/courses/${courseId}/students`, {
+        params: {
+          ...(params?.q?.trim() ? { q: params.q.trim() } : {}),
+          ...(params?.scheduleStatus ? { scheduleStatus: params.scheduleStatus } : {}),
+        },
+      }),
+    ).then(mapCourseProgressOverview),
+  teacherStudentProgress: (courseId: string, studentId: string) =>
+    data(
+      http.get<BeStudentCourseProgressDetail>(`/teacher/courses/${courseId}/students/${studentId}`),
+    ).then(mapStudentCourseProgressDetail),
+  teacherUnlockStudentFinalTest: (
+    courseId: string,
+    sectionId: string,
+    studentId: string,
+    deadlineDays: number,
+  ) =>
+    data(
+      http.post<BeSectionFinalTestProgress>(
+        `/teacher/courses/${courseId}/sections/${sectionId}/students/${studentId}/final-test/unlock`,
+        { deadlineDays },
+      ),
+    ).then((res) => mapSectionFinalTestProgress(res)!),
+  teacherLockStudentFinalTest: (courseId: string, sectionId: string, studentId: string) =>
+    data(
+      http.post<BeSectionFinalTestProgress>(
+        `/teacher/courses/${courseId}/sections/${sectionId}/students/${studentId}/final-test/lock`,
+      ),
+    ).then((res) => mapSectionFinalTestProgress(res)!),
+  teacherSubmissionDetail: (submissionId: string) =>
+    data(http.get<BeSubmissionDetail>(`/teacher/submissions/${submissionId}`)).then(
+      toSubmissionDetail,
+    ),
+  teacherGradeSubmission: (submissionId: string, body: TeacherSubmissionFeedbackInput) =>
+    data(
+      http.put<BeSubmissionDetail>(`/teacher/submissions/${submissionId}/feedback`, body),
+    ).then(toSubmissionDetail),
 }

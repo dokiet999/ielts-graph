@@ -13,6 +13,7 @@ import type {
   TeacherExerciseInput,
   TeacherLessonInput,
   TeacherSectionInput,
+  TeacherSubmissionFeedbackInput,
   UpdateTeacherInput,
   UserStatus,
   WritingSubmissionRequest,
@@ -22,6 +23,8 @@ export const keys = {
   me: ['me'] as const,
   dashboard: ['dashboard'] as const,
   myCourses: ['courses', 'my'] as const,
+  catalogCourses: (p: { q?: string; skill?: SkillType | ''; page?: number; size?: number }) =>
+    ['courses', 'catalog', p.q ?? '', p.skill ?? '', p.page ?? 1, p.size ?? 20] as const,
   course: (id: string) => ['courses', id] as const,
   lesson: (id: string) => ['lessons', id] as const,
   sectionExercises: (id: string) => ['sections', id, 'exercises'] as const,
@@ -65,15 +68,50 @@ export const keys = {
   adminLessonReviews: (p: { status?: ContentStatus; page?: number; size?: number }) =>
     ['admin', 'reviews', 'lessons', p.status ?? 'PENDING_REVIEW', p.page ?? 1, p.size ?? 10] as const,
   adminCourseDetail: (id: string) => ['admin', 'courses', id] as const,
+  adminCourseStudents: (courseId: string, p?: { q?: string; scheduleStatus?: string }) =>
+    ['admin', 'courses', courseId, 'students', p?.q ?? '', p?.scheduleStatus ?? ''] as const,
+  adminStudentProgress: (courseId: string, studentId: string) =>
+    ['admin', 'courses', courseId, 'students', studentId] as const,
   teacherCourses: (p: { status?: ContentStatus | ''; page?: number; size?: number }) =>
     ['teacher', 'courses', p.status ?? '', p.page ?? 1, p.size ?? 10] as const,
   teacherCourseDetail: (id: string) => ['teacher', 'courses', id] as const,
+  teacherCourseStudents: (courseId: string, p?: { q?: string; scheduleStatus?: string }) =>
+    ['teacher', 'courses', courseId, 'students', p?.q ?? '', p?.scheduleStatus ?? ''] as const,
+  teacherStudentProgress: (courseId: string, studentId: string) =>
+    ['teacher', 'courses', courseId, 'students', studentId] as const,
+  teacherSubmissionDetail: (submissionId: string) =>
+    ['teacher', 'submissions', submissionId] as const,
   teacherLessonExercises: (lessonId: string) => ['teacher', 'lessons', lessonId, 'exercises'] as const,
   teacherExerciseDetail: (id: string) => ['teacher', 'exercises', id] as const,
 }
 
 export const useDashboard = () => useQuery({ queryKey: keys.dashboard, queryFn: api.dashboard })
 export const useMyCourses = () => useQuery({ queryKey: keys.myCourses, queryFn: api.myCourses })
+
+export const useCatalogCourses = (params: {
+  q?: string
+  skill?: SkillType | ''
+  page?: number
+  size?: number
+} = {}) =>
+  useQuery({
+    queryKey: keys.catalogCourses(params),
+    queryFn: () => api.catalogCourses(params),
+  })
+
+export function useEnrollCourse() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (courseId: string) => api.enrollCourse(courseId),
+    onSuccess: (_data, courseId) => {
+      qc.invalidateQueries({ queryKey: ['courses'] })
+      qc.invalidateQueries({ queryKey: keys.course(courseId) })
+      qc.invalidateQueries({ queryKey: keys.dashboard })
+      qc.invalidateQueries({ queryKey: ['teacher'] })
+      qc.invalidateQueries({ queryKey: ['admin'] })
+    },
+  })
+}
 
 export const useCourse = (id: string | undefined) =>
   useQuery({ queryKey: keys.course(id ?? ''), queryFn: () => api.course(id!), enabled: !!id })
@@ -101,27 +139,6 @@ export const useSectionFinalTest = (id: string | undefined) =>
     queryFn: () => api.sectionFinalTest(id!),
     enabled: !!id,
   })
-
-export function useUnlockFinalTest() {
-  const qc = useQueryClient()
-  return useMutation({
-    mutationFn: ({ sectionId, deadlineDays }: { sectionId: string; deadlineDays: number }) =>
-      api.unlockSectionFinalTest(sectionId, deadlineDays),
-    onSuccess: (data, { sectionId }) => {
-      qc.setQueryData(keys.sectionFinalTest(sectionId), data)
-    },
-  })
-}
-
-export function useLockFinalTest() {
-  const qc = useQueryClient()
-  return useMutation({
-    mutationFn: (sectionId: string) => api.lockSectionFinalTest(sectionId),
-    onSuccess: (data, sectionId) => {
-      qc.setQueryData(keys.sectionFinalTest(sectionId), data)
-    },
-  })
-}
 
 export function useStartFinalTest() {
   const qc = useQueryClient()
@@ -700,6 +717,161 @@ export function useReplaceExerciseQuestions() {
       api.teacherReplaceExerciseQuestions(id, body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['teacher'] })
+    },
+  })
+}
+
+export const useAdminCourseStudents = (
+  courseId: string | undefined,
+  params?: { q?: string; scheduleStatus?: string },
+) =>
+  useQuery({
+    queryKey: keys.adminCourseStudents(courseId ?? '', params),
+    queryFn: () => api.adminCourseStudents(courseId!, params),
+    enabled: !!courseId,
+  })
+
+export const useAdminStudentProgress = (
+  courseId: string | undefined,
+  studentId: string | undefined,
+) =>
+  useQuery({
+    queryKey: keys.adminStudentProgress(courseId ?? '', studentId ?? ''),
+    queryFn: () => api.adminStudentProgress(courseId!, studentId!),
+    enabled: !!courseId && !!studentId,
+  })
+
+export const useTeacherCourseStudents = (
+  courseId: string | undefined,
+  params?: { q?: string; scheduleStatus?: string },
+) =>
+  useQuery({
+    queryKey: keys.teacherCourseStudents(courseId ?? '', params),
+    queryFn: () => api.teacherCourseStudents(courseId!, params),
+    enabled: !!courseId,
+  })
+
+export const useTeacherStudentProgress = (
+  courseId: string | undefined,
+  studentId: string | undefined,
+) =>
+  useQuery({
+    queryKey: keys.teacherStudentProgress(courseId ?? '', studentId ?? ''),
+    queryFn: () => api.teacherStudentProgress(courseId!, studentId!),
+    enabled: !!courseId && !!studentId,
+  })
+
+export function useAdminUnlockStudentFinalTest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      courseId,
+      sectionId,
+      studentId,
+      deadlineDays,
+    }: {
+      courseId: string
+      sectionId: string
+      studentId: string
+      deadlineDays: number
+    }) => api.adminUnlockStudentFinalTest(courseId, sectionId, studentId, deadlineDays),
+    onSuccess: (_data, { courseId, sectionId, studentId }) => {
+      qc.invalidateQueries({ queryKey: keys.adminStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.teacherStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.sectionFinalTest(sectionId) })
+      qc.invalidateQueries({ queryKey: ['sections'] })
+    },
+  })
+}
+
+export function useAdminLockStudentFinalTest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      courseId,
+      sectionId,
+      studentId,
+    }: {
+      courseId: string
+      sectionId: string
+      studentId: string
+    }) => api.adminLockStudentFinalTest(courseId, sectionId, studentId),
+    onSuccess: (_data, { courseId, sectionId, studentId }) => {
+      qc.invalidateQueries({ queryKey: keys.adminStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.teacherStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.sectionFinalTest(sectionId) })
+      qc.invalidateQueries({ queryKey: ['sections'] })
+    },
+  })
+}
+
+export function useTeacherUnlockStudentFinalTest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      courseId,
+      sectionId,
+      studentId,
+      deadlineDays,
+    }: {
+      courseId: string
+      sectionId: string
+      studentId: string
+      deadlineDays: number
+    }) => api.teacherUnlockStudentFinalTest(courseId, sectionId, studentId, deadlineDays),
+    onSuccess: (_data, { courseId, sectionId, studentId }) => {
+      qc.invalidateQueries({ queryKey: keys.teacherStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.adminStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.sectionFinalTest(sectionId) })
+      qc.invalidateQueries({ queryKey: ['sections'] })
+    },
+  })
+}
+
+export function useTeacherLockStudentFinalTest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      courseId,
+      sectionId,
+      studentId,
+    }: {
+      courseId: string
+      sectionId: string
+      studentId: string
+    }) => api.teacherLockStudentFinalTest(courseId, sectionId, studentId),
+    onSuccess: (_data, { courseId, sectionId, studentId }) => {
+      qc.invalidateQueries({ queryKey: keys.teacherStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.adminStudentProgress(courseId, studentId) })
+      qc.invalidateQueries({ queryKey: keys.sectionFinalTest(sectionId) })
+      qc.invalidateQueries({ queryKey: ['sections'] })
+    },
+  })
+}
+
+export const useTeacherSubmissionDetail = (submissionId: string | undefined) =>
+  useQuery({
+    queryKey: keys.teacherSubmissionDetail(submissionId ?? ''),
+    queryFn: () => api.teacherSubmissionDetail(submissionId!),
+    enabled: !!submissionId,
+  })
+
+export function useTeacherGradeSubmission() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      submissionId,
+      body,
+    }: {
+      submissionId: string
+      body: TeacherSubmissionFeedbackInput
+    }) => api.teacherGradeSubmission(submissionId, body),
+    onSuccess: (_data, { submissionId }) => {
+      qc.invalidateQueries({ queryKey: keys.teacherSubmissionDetail(submissionId) })
+      qc.invalidateQueries({ queryKey: keys.submission(submissionId) })
+      qc.invalidateQueries({ queryKey: ['teacher'] })
+      qc.invalidateQueries({ queryKey: ['admin'] })
+      qc.invalidateQueries({ queryKey: keys.mySubmissions })
     },
   })
 }
