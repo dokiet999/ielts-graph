@@ -3,12 +3,14 @@ package com.ielts.backend.repository;
 import com.ielts.backend.entity.Course;
 import com.ielts.backend.entity.Users;
 import com.ielts.backend.enums.ContentStatus;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,6 +38,10 @@ public interface CourseRepository extends JpaRepository<Course, UUID>, JpaSpecif
 
     @EntityGraph(attributePaths = {"teacher", "category", "reviewedBy"})
     Optional<Course> findWithDetailsById(UUID id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select c from Course c where c.id = :id")
+    Optional<Course> findByIdForUpdate(@Param("id") UUID id);
 
     @EntityGraph(attributePaths = {"teacher", "category"})
     @Query("""

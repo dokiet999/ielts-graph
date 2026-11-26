@@ -28,6 +28,7 @@ import com.ielts.backend.service.ObjectiveSubmissionService;
 import com.ielts.backend.service.grading.BandConverter;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator.Evaluation;
+import com.ielts.backend.service.progress.EnrollmentProgressSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
     private final CourseAccessService courseAccessService;
     private final ObjectiveAnswerEvaluator evaluator;
     private final BandConverter bandConverter;
+    private final EnrollmentProgressSyncService enrollmentProgressSyncService;
 
     @Override
     @Transactional
@@ -86,7 +88,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         if (users.getRole() != Role.STUDENT) {
             throw new ForbiddenException("Only students can submit exercises");
         }
-        courseAccessService.checkExerciseAccess(exercise, username);
+        courseAccessService.checkExerciseSubmittable(exercise, username);
 
         List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(exerciseId);
         if (questions.isEmpty()) {
@@ -204,6 +206,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
                 .build());
         questionAnswers.forEach(qa -> qa.setSubmission(submission));
         questionAnswerRepository.saveAll(questionAnswers);
+        enrollmentProgressSyncService.syncForUserAndExercise(users.getId(), exercise.getId());
 
         SubmissionResultResponse result = SubmissionResultResponse.builder()
                 .submissionId(submission.getId())

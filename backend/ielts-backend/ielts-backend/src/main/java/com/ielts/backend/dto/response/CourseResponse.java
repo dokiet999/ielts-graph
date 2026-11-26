@@ -24,6 +24,9 @@ public class CourseResponse {
     private SkillType skillFocus;
     private DifficultyLevel difficultyLevel;
     private Integer estimatedDuration;
+    private Integer maxStudents;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private Boolean isFeatured;
     private Integer enrollmentCount;
     private BigDecimal rating;

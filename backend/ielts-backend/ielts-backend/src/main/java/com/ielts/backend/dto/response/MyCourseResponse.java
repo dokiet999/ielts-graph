@@ -22,6 +22,9 @@ public class MyCourseResponse {
     private UUID teacherId;
     private String teacherName;
     private Integer estimatedDuration;
+    private Integer maxStudents;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private LocalDateTime enrolledAt;
     private LocalDateTime completedAt;
     private int sectionCount;

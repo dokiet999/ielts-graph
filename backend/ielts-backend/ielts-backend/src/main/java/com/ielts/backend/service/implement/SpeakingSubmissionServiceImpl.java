@@ -30,6 +30,7 @@ import com.ielts.backend.service.SpeakingSubmissionService;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
+import com.ielts.backend.service.progress.EnrollmentProgressSyncService;
 import com.ielts.backend.service.speaking.SpeakingAsrClient;
 import com.ielts.backend.service.speaking.SpeakingAsrResult;
 import lombok.RequiredArgsConstructor;
@@ -101,6 +102,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     private final SpeakingGrader speakingGrader;
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
+    private final EnrollmentProgressSyncService enrollmentProgressSyncService;
 
     @Value("${app.speaking.audio-dir:${java.io.tmpdir}/ielts-graph-speaking}")
     private String audioStorageDir;
@@ -117,7 +119,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     @Value("${app.speaking.min-transcript-words:10}")
     private int minTranscriptWords = 10;
 
-    private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
+    private record PendingGrading(UUID submissionId, UUID userId, UUID exerciseId, String exerciseTitle, int attemptNumber,
                                   String part, String questionPrompt, UUID questionId, String audioFilename,
                                   Integer timeSpent) {
     }
@@ -301,7 +303,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
             throw new ForbiddenException("Only students can submit exercises");
         }
 
-        courseAccessService.checkExerciseAccess(exercise, username);
+        courseAccessService.checkExerciseSubmittable(exercise, username);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -335,7 +337,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                 .submittedAt(LocalDateTime.now())
                 .build());
 
-        return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
+        return new PendingGrading(submission.getId(), users.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 partOf(exercise), questionPrompt, question != null ? question.getId() : null, audioFilename, timeSpent);
     }
 
@@ -384,6 +386,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                             .pointsEarned(result.getOverallBand())
                             .build()));
         }
+        enrollmentProgressSyncService.syncForUserAndExercise(pending.userId(), pending.exerciseId());
 
         return SpeakingSubmissionResultResponse.builder()
                 .submissionId(submission.getId())

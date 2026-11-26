@@ -21,6 +21,10 @@ public class TeacherCourseSummaryResponse {
     private String categoryName;
     private String thumbnail;
     private Integer estimatedDuration;
+    private Integer maxStudents;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private long enrollmentCount;
     private ContentStatus status;
     private LocalDateTime submittedAt;
     private LocalDateTime reviewedAt;

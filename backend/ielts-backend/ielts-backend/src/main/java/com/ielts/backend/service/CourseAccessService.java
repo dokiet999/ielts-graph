@@ -28,6 +28,14 @@ public interface CourseAccessService {
     void checkExerciseAccess(Exercise exercise, String username);
 
     /**
+     * Checks whether the learner may submit an attempt right now (course schedule window included).
+     * Defaults to {@link #checkExerciseAccess} for test doubles.
+     */
+    default void checkExerciseSubmittable(Exercise exercise, String username) {
+        checkExerciseAccess(exercise, username);
+    }
+
+    /**
      * Listing the content of a whole section requires an active enrollment, or being the teacher
      * who owns the course, even when some of its lessons are previews.
      *

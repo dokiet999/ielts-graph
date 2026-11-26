@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,6 +35,13 @@ public class TeacherCourseRequest {
 
     @Positive
     private Integer estimatedDuration;
+
+    @Positive
+    private Integer maxStudents;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private Map<String, Object> courseOutline;
 }

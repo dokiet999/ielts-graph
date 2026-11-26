@@ -71,6 +71,16 @@ public class Course {
     @Column(name = "estimated_duration")
     private Integer estimatedDuration;
 
+    @Positive
+    @Column(name = "max_students")
+    private Integer maxStudents;
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
     @NotNull
     @Column(name = "is_featured", nullable = false)
     @Builder.Default

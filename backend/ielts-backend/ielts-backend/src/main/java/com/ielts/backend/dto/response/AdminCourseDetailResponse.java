@@ -24,6 +24,10 @@ public class AdminCourseDetailResponse {
     private SkillType skillFocus;
     private DifficultyLevel difficultyLevel;
     private Integer estimatedDuration;
+    private Integer maxStudents;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private long enrollmentCount;
     private Boolean isFeatured;
     private Boolean isActive;
     private LocalDateTime publishedAt;

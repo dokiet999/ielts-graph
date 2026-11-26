@@ -70,6 +70,16 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID>, JpaSp
         long getTotal();
     }
 
+    @Query("""
+            select e from Exercise e
+            join fetch e.lesson l
+            join fetch l.section s
+            where s.course.id = :courseId and l.status = :lessonStatus
+            order by s.ordering asc, l.ordering asc, e.ordering asc
+            """)
+    List<Exercise> findAllByCourseIdAndLessonStatus(@Param("courseId") UUID courseId,
+                                                    @Param("lessonStatus") ContentStatus lessonStatus);
+
     /** Exercises of every approved lesson in a section, except mock/final tests, ordered by lesson then exercise. */
     default List<Exercise> findBySectionIdOrdered(UUID sectionId) {
         return findBySectionIdExcludingTypes(sectionId, ExerciseType.TEST_TYPES, ContentStatus.APPROVED);

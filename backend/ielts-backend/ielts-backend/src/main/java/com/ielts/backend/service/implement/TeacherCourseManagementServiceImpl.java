@@ -60,6 +60,7 @@ public class TeacherCourseManagementServiceImpl implements TeacherCourseManageme
     @Override
     public AdminCourseDetailResponse createCourse(String teacherUsername, TeacherCourseRequest request) {
         Users teacher = findTeacherOrUnauthorized(teacherUsername);
+        validateSchedule(request);
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", request.getCategoryId()));
         if (!Boolean.TRUE.equals(category.getIsActive())) {
@@ -75,6 +76,9 @@ public class TeacherCourseManagementServiceImpl implements TeacherCourseManageme
                 .skillFocus(request.getSkillFocus())
                 .difficultyLevel(request.getDifficultyLevel())
                 .estimatedDuration(request.getEstimatedDuration())
+                .maxStudents(request.getMaxStudents())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
                 .courseOutline(request.getCourseOutline())
                 .status(ContentStatus.DRAFT)
                 .publishedAt(null)
@@ -90,6 +94,15 @@ public class TeacherCourseManagementServiceImpl implements TeacherCourseManageme
     public AdminCourseDetailResponse updateCourse(UUID courseId, String teacherUsername, TeacherCourseRequest request) {
         Course course = findOwnedCourse(courseId, teacherUsername);
         ensureCourseNotPendingReview(course);
+        validateSchedule(request);
+
+        if (request.getMaxStudents() != null) {
+            long activeCount = enrollmentRepository.countByCourseIdAndIsActiveTrue(courseId);
+            if (request.getMaxStudents() < activeCount) {
+                throw new ConflictException("MAX_STUDENTS_BELOW_ENROLLED",
+                        "Số học viên tối đa không thể nhỏ hơn số học viên đang theo học (" + activeCount + ")");
+            }
+        }
 
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", request.getCategoryId()));
@@ -105,12 +118,22 @@ public class TeacherCourseManagementServiceImpl implements TeacherCourseManageme
         course.setSkillFocus(request.getSkillFocus());
         course.setDifficultyLevel(request.getDifficultyLevel());
         course.setEstimatedDuration(request.getEstimatedDuration());
+        course.setMaxStudents(request.getMaxStudents());
+        course.setStartDate(request.getStartDate());
+        course.setEndDate(request.getEndDate());
         if (request.getCourseOutline() != null) {
             course.setCourseOutline(request.getCourseOutline());
         }
 
         courseRepository.saveAndFlush(course);
         return contentReviewService.getCourseDetailForTeacher(courseId, teacherUsername);
+    }
+
+    private static void validateSchedule(TeacherCourseRequest request) {
+        if (request.getStartDate() != null && request.getEndDate() != null
+                && !request.getEndDate().isAfter(request.getStartDate())) {
+            throw new BadRequestException("INVALID_DATE_RANGE", "Thời gian kết thúc phải sau thời gian bắt đầu");
+        }
     }
 
     @Override

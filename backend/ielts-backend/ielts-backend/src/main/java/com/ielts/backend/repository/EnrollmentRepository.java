@@ -38,6 +38,22 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
     Optional<Enrollment> findByUserIdAndCourseIdAndIsActiveTrue(UUID userId, UUID courseId);
 
     @Query("""
+            select e from Enrollment e
+            join fetch e.user u
+            where e.course.id = :courseId and e.isActive = true
+            order by e.enrollmentDate desc, u.fullName asc
+            """)
+    List<Enrollment> findActiveWithUserByCourseId(@Param("courseId") UUID courseId);
+
+    @Query("""
+            select e from Enrollment e
+            join fetch e.user u
+            where e.course.id = :courseId and e.user.id = :userId and e.isActive = true
+            """)
+    Optional<Enrollment> findActiveWithUserByCourseIdAndUserId(@Param("courseId") UUID courseId,
+                                                               @Param("userId") UUID userId);
+
+    @Query("""
             select e.user.id as userId, count(e) as total
             from Enrollment e
             where e.user.id in :userIds and e.isActive = true

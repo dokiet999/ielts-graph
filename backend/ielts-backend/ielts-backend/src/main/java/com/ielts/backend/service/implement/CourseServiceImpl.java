@@ -9,6 +9,7 @@ import com.ielts.backend.dto.response.LessonSummaryResponse;
 import com.ielts.backend.dto.response.MyCourseResponse;
 import com.ielts.backend.dto.response.SectionWithLessonsResponse;
 import com.ielts.backend.entity.*;
+import com.ielts.backend.exception.customException.ConflictException;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.mapper.CourseMapper;
@@ -31,9 +32,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -135,6 +138,30 @@ public class CourseServiceImpl implements CourseService {
     public EnrollmentResponse enroll(UUID courseId, String username) {
         Course course = findVisibleCourse(courseId);
         Users users = findUser(username);
+
+        Optional<Enrollment> existingActive = enrollmentRepository
+                .findByUserIdAndCourseIdAndIsActiveTrue(users.getId(), course.getId());
+        if (existingActive.isPresent()) {
+            Enrollment existing = existingActive.get();
+            return EnrollmentResponse.builder()
+                    .id(existing.getId())
+                    .courseId(courseId)
+                    .enrollmentDate(existing.getEnrollmentDate())
+                    .progressPercentage(existing.getProgressPercentage())
+                    .completionDate(existing.getCompletionDate())
+                    .created(false)
+                    .build();
+        }
+
+        Course lockedCourse = courseRepository.findByIdForUpdate(course.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", courseId));
+        if (lockedCourse.getEndDate() != null && LocalDateTime.now().isAfter(lockedCourse.getEndDate())) {
+            throw new ConflictException("COURSE_ENDED", "Khóa học đã kết thúc thời gian đăng ký");
+        }
+        if (lockedCourse.getMaxStudents() != null
+                && enrollmentRepository.countByCourseIdAndIsActiveTrue(course.getId()) >= lockedCourse.getMaxStudents()) {
+            throw new ConflictException("COURSE_FULL", "Khóa học đã đủ số lượng học viên tối đa");
+        }
 
         // ON CONFLICT DO NOTHING keeps concurrent requests from hitting uq_enrollment
         boolean created = enrollmentRepository.insertIfAbsent(users.getId(), course.getId()) == 1;

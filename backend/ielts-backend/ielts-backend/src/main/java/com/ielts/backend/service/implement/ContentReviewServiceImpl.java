@@ -16,6 +16,8 @@ import com.ielts.backend.exception.customException.ForbiddenException;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.exception.customException.UnauthorizedException;
 import com.ielts.backend.repository.CourseRepository;
+import com.ielts.backend.repository.EnrollmentRepository;
+import com.ielts.backend.repository.EnrollmentRepository.CourseEnrollmentCount;
 import com.ielts.backend.repository.ExerciseRepository;
 import com.ielts.backend.repository.ExerciseRepository.LessonExerciseCount;
 import com.ielts.backend.repository.LessonRepository;
@@ -46,6 +48,7 @@ public class ContentReviewServiceImpl implements ContentReviewService {
     private final SectionRepository sectionRepository;
     private final LessonRepository lessonRepository;
     private final ExerciseRepository exerciseRepository;
+    private final EnrollmentRepository enrollmentRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -125,6 +128,7 @@ public class ContentReviewServiceImpl implements ContentReviewService {
                 .toList();
 
         Users reviewer = course.getReviewedBy();
+        long enrollmentCount = enrollmentRepository.countByCourseIdAndIsActiveTrue(courseId);
         return AdminCourseDetailResponse.builder()
                 .id(course.getId())
                 .title(course.getTitle())
@@ -137,6 +141,10 @@ public class ContentReviewServiceImpl implements ContentReviewService {
                 .skillFocus(course.getSkillFocus())
                 .difficultyLevel(course.getDifficultyLevel())
                 .estimatedDuration(course.getEstimatedDuration())
+                .maxStudents(course.getMaxStudents())
+                .startDate(course.getStartDate())
+                .endDate(course.getEndDate())
+                .enrollmentCount(enrollmentCount)
                 .isFeatured(course.getIsFeatured())
                 .isActive(course.getIsActive())
                 .publishedAt(course.getPublishedAt())
@@ -257,6 +265,9 @@ public class ContentReviewServiceImpl implements ContentReviewService {
                 : toCountMap(lessonRepository.countByCourseIds(courseIds));
         Map<UUID, Long> pendingLessons = courseIds.isEmpty() ? Map.of()
                 : toCountMap(lessonRepository.countByCourseIdsAndStatus(courseIds, ContentStatus.PENDING_REVIEW));
+        Map<UUID, Long> enrollmentCounts = courseIds.isEmpty() ? Map.of()
+                : enrollmentRepository.countActiveByCourseIds(courseIds).stream()
+                        .collect(Collectors.toMap(CourseEnrollmentCount::getCourseId, CourseEnrollmentCount::getTotal));
 
         return page.map(course -> TeacherCourseSummaryResponse.builder()
                 .id(course.getId())
@@ -268,6 +279,10 @@ public class ContentReviewServiceImpl implements ContentReviewService {
                 .categoryName(course.getCategory() != null ? course.getCategory().getName() : null)
                 .thumbnail(course.getThumbnail())
                 .estimatedDuration(course.getEstimatedDuration())
+                .maxStudents(course.getMaxStudents())
+                .startDate(course.getStartDate())
+                .endDate(course.getEndDate())
+                .enrollmentCount(enrollmentCounts.getOrDefault(course.getId(), 0L))
                 .status(course.getStatus())
                 .submittedAt(course.getSubmittedAt())
                 .reviewedAt(course.getReviewedAt())

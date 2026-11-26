@@ -26,6 +26,7 @@ import com.ielts.backend.service.WritingSubmissionService;
 import com.ielts.backend.service.grading.WritingEssayGrader;
 import com.ielts.backend.service.grading.WritingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
+import com.ielts.backend.service.progress.EnrollmentProgressSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,9 +71,10 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
     private final WritingEssayGrader essayGrader;
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
+    private final EnrollmentProgressSyncService enrollmentProgressSyncService;
 
     /** What step 1 hands over to steps 2 and 3. Ids only, so nothing detached is reused across transactions. */
-    private record PendingGrading(UUID submissionId, UUID exerciseId, String exerciseTitle, int attemptNumber,
+    private record PendingGrading(UUID submissionId, UUID userId, UUID exerciseId, String exerciseTitle, int attemptNumber,
                                   String task, String questionPrompt, UUID questionId) {
     }
 
@@ -127,7 +129,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
             throw new ForbiddenException("Only students can submit exercises");
         }
 
-        courseAccessService.checkExerciseAccess(exercise, username);
+        courseAccessService.checkExerciseSubmittable(exercise, username);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -166,7 +168,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                 .submittedAt(LocalDateTime.now())
                 .build());
 
-        return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
+        return new PendingGrading(submission.getId(), users.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 taskOf(exercise), questionPrompt, question != null ? question.getId() : null);
     }
 
@@ -202,6 +204,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                             .pointsEarned(result.getOverallBand())
                             .build()));
         }
+        enrollmentProgressSyncService.syncForUserAndExercise(pending.userId(), pending.exerciseId());
 
         return WritingSubmissionResultResponse.builder()
                 .submissionId(submission.getId())
