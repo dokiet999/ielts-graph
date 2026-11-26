@@ -1,6 +1,7 @@
 package com.ielts.backend.dto.response;
 
 import com.ielts.backend.enums.ExerciseType;
+import com.ielts.backend.enums.GradingMethod;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
 import lombok.Data;
@@ -26,6 +27,12 @@ public class SubmissionSummaryResponse {
     private SubmissionStatus status;
     private BigDecimal score;
     private BigDecimal maxScore;
+    private BigDecimal aiScore;
+    private BigDecimal teacherScore;
+    private String teacherFeedback;
+    private GradingMethod gradingMethod;
+    private String gradedByName;
+    private LocalDateTime gradedAt;
     /** IELTS band score for MOCK_TEST attempts; null for practice and lesson exercises. */
     private Double bandScore;
     private int correctCount;

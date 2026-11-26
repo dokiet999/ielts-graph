@@ -53,7 +53,7 @@ public class SectionController {
     }
 
     @PostMapping("/{id}/final-test/unlock")
-    @Operation(summary = "Unlock the section's final test for a number of days (Admin / Demo)")
+    @Operation(summary = "Unlock the section's final test for a number of days (Course Teacher / Admin)")
     public BaseResponse<FinalTestStatusResponse> unlockSectionFinalTest(@PathVariable UUID id,
                                                           @RequestBody(required = false) @Valid UnlockFinalTestRequest request,
                                                           @AuthenticationPrincipal UserDetails principal) {
@@ -61,7 +61,7 @@ public class SectionController {
     }
 
     @PostMapping("/{id}/final-test/lock")
-    @Operation(summary = "Lock the section's final test (Admin / Demo)")
+    @Operation(summary = "Lock the section's final test (Course Teacher / Admin)")
     public BaseResponse<FinalTestStatusResponse> lockSectionFinalTest(@PathVariable UUID id,
                                                         @RequestParam(required = false) String username,
                                                         @AuthenticationPrincipal UserDetails principal) {

@@ -94,6 +94,9 @@ public class SubmissionMapper {
                                              ExerciseReviewResponse exercise) {
         int correctCount = (int) results.stream().filter(QuestionScoreResponse::isCorrect).count();
         return withSummary(SubmissionDetailResponse.builder(), submission, results.size(), correctCount)
+                .studentId(submission.getUser().getId())
+                .studentName(submission.getUser().getFullName())
+                .studentEmail(submission.getUser().getEmail())
                 .answers(submission.getAnswers())
                 .results(results)
                 .exercise(exercise)
@@ -126,6 +129,12 @@ public class SubmissionMapper {
                 .status(submission.getStatus())
                 .score(submission.getScore())
                 .maxScore(submission.getMaxScore())
+                .aiScore(submission.getAiScore())
+                .teacherScore(submission.getTeacherScore())
+                .teacherFeedback(submission.getTeacherFeedback())
+                .gradingMethod(submission.getGradingMethod())
+                .gradedByName(submission.getGradedBy() != null ? submission.getGradedBy().getFullName() : null)
+                .gradedAt(submission.getGradedAt())
                 .bandScore(bandScore)
                 .correctCount(correctCount)
                 .questionCount(questionCount)

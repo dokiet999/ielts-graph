@@ -61,7 +61,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Transactional(readOnly = true)
     public SubmissionResponse getSubmissionDetail(UUID submissionId, String username) {
         Users users = findUser(username);
-        UserSubmission submission = userSubmissionRepository.findById(submissionId)
+        UserSubmission submission = userSubmissionRepository.findByIdWithFullCourseHierarchy(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
         ensureSubmissionAccess(submission, users);
@@ -74,7 +74,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Transactional(readOnly = true)
     public SubmissionReviewResponse getSubmissionReview(UUID submissionId, String username) {
         Users users = findUser(username);
-        UserSubmission submission = userSubmissionRepository.findById(submissionId)
+        UserSubmission submission = userSubmissionRepository.findByIdWithFullCourseHierarchy(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
         ensureSubmissionAccess(submission, users);
@@ -203,7 +203,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Transactional(readOnly = true)
     public SubmissionDetailResponse getSubmissionResult(UUID submissionId, String username) {
         Users users = findUser(username);
-        UserSubmission submission = userSubmissionRepository.findById(submissionId)
+        UserSubmission submission = userSubmissionRepository.findByIdWithFullCourseHierarchy(submissionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", submissionId));
 
         ensureSubmissionAccess(submission, users);

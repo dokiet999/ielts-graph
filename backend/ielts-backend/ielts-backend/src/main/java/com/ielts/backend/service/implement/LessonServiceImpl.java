@@ -7,6 +7,8 @@ import com.ielts.backend.dto.response.FinalTestStatusResponse;
 import com.ielts.backend.dto.response.LessonDetailResponse;
 import com.ielts.backend.entity.*;
 import com.ielts.backend.enums.ExerciseType;
+import com.ielts.backend.enums.Role;
+import com.ielts.backend.exception.customException.ConflictException;
 import com.ielts.backend.exception.customException.ForbiddenException;
 import com.ielts.backend.exception.customException.ResourceNotFoundException;
 import com.ielts.backend.mapper.LessonMapper;
@@ -134,6 +136,7 @@ public class LessonServiceImpl implements LessonService {
     public FinalTestStatusResponse unlockSectionFinalTest(UUID sectionId, UnlockFinalTestRequest request, String actorUsername) {
         Section section = sectionRepository.findByIdWithCourse(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", sectionId));
+        Users actor = requireFinalTestManager(section, actorUsername);
         String targetUsername = (request != null && request.getUsername() != null && !request.getUsername().isBlank())
                 ? request.getUsername()
                 : actorUsername;
@@ -141,7 +144,6 @@ public class LessonServiceImpl implements LessonService {
         if (targetUsers == null) {
             throw new ResourceNotFoundException("User", targetUsername);
         }
-        Users actor = findUserOrNull(actorUsername);
         int days = (request != null && request.getDeadlineDays() != null && request.getDeadlineDays() > 0)
                 ? request.getDeadlineDays()
                 : 7;
@@ -152,7 +154,7 @@ public class LessonServiceImpl implements LessonService {
                         .userId(targetUsers.getId())
                         .sectionId(section.getId())
                         .build());
-        grant.setUnlockedBy(actor != null ? actor.getId() : null);
+        grant.setUnlockedBy(actor.getId());
         grant.setDeadlineDays(days);
         grant.setUnlockedAt(now);
         grant.setExpiresAt(now.plusDays(days));
@@ -166,6 +168,7 @@ public class LessonServiceImpl implements LessonService {
     public FinalTestStatusResponse lockSectionFinalTest(UUID sectionId, String targetUsername, String actorUsername) {
         Section section = sectionRepository.findByIdWithCourse(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", sectionId));
+        requireFinalTestManager(section, actorUsername);
         String effectiveUsername = (targetUsername != null && !targetUsername.isBlank()) ? targetUsername : actorUsername;
         Users targetUsers = findUserOrNull(effectiveUsername);
         if (targetUsers != null) {
@@ -174,12 +177,33 @@ public class LessonServiceImpl implements LessonService {
         return getSectionFinalTest(sectionId, effectiveUsername);
     }
 
+    private Users requireFinalTestManager(Section section, String actorUsername) {
+        Users actor = findUserOrNull(actorUsername);
+        if (actor == null) {
+            throw new ForbiddenException("Authentication required");
+        }
+        boolean isAdmin = actor.getRole() == Role.ADMIN;
+        boolean isCourseTeacher = actor.getRole() == Role.TEACHER
+                && section.getCourse().getTeacher() != null
+                && section.getCourse().getTeacher().getId().equals(actor.getId());
+        if (!isAdmin && !isCourseTeacher) {
+            throw new ForbiddenException("Only the course teacher or an administrator can manage Final Test access");
+        }
+        return actor;
+    }
+
     @Override
     @Transactional
     public FinalTestSessionDto startSectionFinalTest(UUID sectionId, String username) {
         Section section = sectionRepository.findByIdWithCourse(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", sectionId));
         courseAccessService.checkSectionAccess(section, username);
+
+        LocalDateTime now = LocalDateTime.now();
+        Course course = section.getCourse();
+        if (course.getEndDate() != null && now.isAfter(course.getEndDate())) {
+            throw new ConflictException("COURSE_ENDED", "Khóa học đã kết thúc thời gian làm bài thi");
+        }
 
         Exercise finalTest = findFinalTestOfSection(section);
         if (finalTest == null) {
@@ -190,9 +214,8 @@ public class LessonServiceImpl implements LessonService {
             throw new ForbiddenException("Authentication required");
         }
 
-        LocalDateTime now = LocalDateTime.now();
         FinalTestGrant grant = finalTestGrantRepository.findByUserIdAndSectionId(users.getId(), section.getId())
-                .orElseThrow(() -> new ForbiddenException("Bài Final test chưa được Admin mở khóa."));
+                .orElseThrow(() -> new ForbiddenException("Bài Final test chưa được Giáo viên mở khóa."));
         if (!grant.getExpiresAt().isAfter(now)) {
             throw new ForbiddenException("Thời hạn mở bài Final test đã hết hạn.");
         }

@@ -1,6 +1,8 @@
 package com.ielts.backend.repository;
 
 import com.ielts.backend.entity.UserSubmission;
+import com.ielts.backend.enums.ContentStatus;
+import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +32,44 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
             where s.id = :id
             """)
     Optional<UserSubmission> findByIdWithExerciseAndUser(@Param("id") UUID id);
+
+    @Query("""
+            select s from UserSubmission s
+            join fetch s.user
+            join fetch s.exercise e
+            left join fetch e.lesson l
+            left join fetch l.section sec
+            left join fetch sec.course c
+            left join fetch c.teacher
+            left join fetch s.gradedBy
+            where s.id = :id
+            """)
+    Optional<UserSubmission> findByIdWithFullCourseHierarchy(@Param("id") UUID id);
+
+    @Query("""
+            select s.id as id, s.user.id as userId, e.id as exerciseId,
+                   e.skillType as skillType, s.score as score, s.maxScore as maxScore,
+                   s.status as status, s.teacherFeedback as teacherFeedback, s.submittedAt as submittedAt
+            from UserSubmission s
+            join s.exercise e
+            join e.lesson l
+            join l.section sec
+            where sec.course.id = :courseId and l.status = :approvedStatus
+            """)
+    List<CourseUserSubmissionRow> findCourseSubmissionRows(@Param("courseId") UUID courseId,
+                                                           @Param("approvedStatus") ContentStatus approvedStatus);
+
+    @Query("""
+            select s from UserSubmission s
+            join fetch s.exercise e
+            join fetch e.lesson l
+            join fetch l.section sec
+            left join fetch s.gradedBy
+            where sec.course.id = :courseId and s.user.id = :userId
+            order by s.submittedAt desc, s.attemptNumber desc
+            """)
+    List<UserSubmission> findByCourseIdAndUserIdDetailed(@Param("courseId") UUID courseId,
+                                                         @Param("userId") UUID userId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from UserSubmission s where s.id = :id")
@@ -100,5 +141,25 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
         BigDecimal getScore();
 
         SubmissionStatus getStatus();
+    }
+
+    interface CourseUserSubmissionRow {
+        UUID getId();
+
+        UUID getUserId();
+
+        UUID getExerciseId();
+
+        SkillType getSkillType();
+
+        BigDecimal getScore();
+
+        BigDecimal getMaxScore();
+
+        SubmissionStatus getStatus();
+
+        String getTeacherFeedback();
+
+        LocalDateTime getSubmittedAt();
     }
 }

@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /** A graded attempt with the learner's answers and the exercise including its answer key, for review. */
 @Data
@@ -14,6 +15,9 @@ import java.util.Map;
 @ToString(callSuper = true)
 @SuperBuilder
 public class SubmissionDetailResponse extends SubmissionSummaryResponse {
+    private UUID studentId;
+    private String studentName;
+    private String studentEmail;
     /** Answers as sent by the learner: question id -> option id or typed text, or Writing/Speaking payload. */
     private Map<String, Object> answers;
     /** One entry per question, in question order. */
