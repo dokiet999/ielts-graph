@@ -240,7 +240,8 @@ class LearningProgressControllerTest {
 
     @Test
     void exerciseDetail_hasCourseAndSection() throws Exception {
-        mockMvc.perform(get("/api/exercises/{id}", READING))
+        // The detail needs login (P0-8); student_enrolled has joined the Reading course
+        mockMvc.perform(get("/api/exercises/{id}", READING).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.lessonId").value(SKIMMING_LESSON))
                 .andExpect(jsonPath("$.data.sectionId").value(GETTING_STARTED_SECTION))

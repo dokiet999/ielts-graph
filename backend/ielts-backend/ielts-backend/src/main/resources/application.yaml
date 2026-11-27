@@ -14,7 +14,7 @@ spring:
       max-request-size: ${SPEAKING_MAX_REQUEST_SIZE:32MB}
 
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
 app:
   llm:
@@ -50,3 +50,14 @@ app:
     weight-clean: ${PROFILE_WEIGHT_CLEAN:0.5}
     # Only used to replay the synthetic logs; real drills create no profile events.
     weight-drill: ${PROFILE_WEIGHT_DRILL:1.0}
+    # Graded Writing/Speaking submissions missed by the profile (KG down) are applied by ProfileBackfillJob
+    backfill-delay-ms: ${PROFILE_BACKFILL_DELAY_MS:300000}
+  grading:
+    # A submission GRADING for longer than this is failed by StaleGradingJob (must exceed ASR 180 s + 2 x LLM 60 s)
+    stale-after: ${GRADING_STALE_AFTER:PT10M}
+  final-test:
+    # Extra seconds after the end of a final test session during which a submission is still accepted
+    submit-grace-seconds: ${FINAL_TEST_SUBMIT_GRACE_SECONDS:60}
+  jobs:
+    # Background jobs (StaleGradingJob, ProfileBackfillJob)
+    enabled: ${APP_JOBS_ENABLED:true}

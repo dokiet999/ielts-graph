@@ -25,6 +25,7 @@ import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.ObjectiveSubmissionService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import com.ielts.backend.service.grading.BandConverter;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator;
 import com.ielts.backend.service.grading.ObjectiveAnswerEvaluator.Evaluation;
@@ -70,6 +71,7 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
     private final CourseAccessService courseAccessService;
     private final ObjectiveAnswerEvaluator evaluator;
     private final BandConverter bandConverter;
+    private final FinalTestGuard finalTestGuard;
 
     @Override
     @Transactional
@@ -87,6 +89,8 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
             throw new ForbiddenException("Only students can submit exercises");
         }
         courseAccessService.checkExerciseAccess(exercise, username);
+        // Final test: only inside an open session started after the grant (FR-4.02); locked until commit
+        FinalTestSession finalTestSession = finalTestGuard.requireOpenSession(exercise, users);
 
         List<Question> questions = questionRepository.findByExerciseIdOrderByOrderingAsc(exerciseId);
         if (questions.isEmpty()) {
@@ -110,8 +114,10 @@ public class ObjectiveSubmissionServiceImpl implements ObjectiveSubmissionServic
         Map<String, Object> answers = request.getAnswers();
         validateAnswers(questions, optionsByQuestion, answers);
 
-        return gradeAndSave(users, exercise, questions, optionsByQuestion, answers, request.getTimeSpent(),
-                previous.isEmpty() ? 1 : previous.get(0).getAttemptNumber() + 1);
+        ObjectiveSubmissionResultResponse response = gradeAndSave(users, exercise, questions, optionsByQuestion,
+                answers, request.getTimeSpent(), previous.isEmpty() ? 1 : previous.get(0).getAttemptNumber() + 1);
+        finalTestGuard.closeSession(finalTestSession, response.getResult().getSubmissionId());
+        return response;
     }
 
     /** Rejects unknown question ids and malformed answers in one 400 listing every problem. */

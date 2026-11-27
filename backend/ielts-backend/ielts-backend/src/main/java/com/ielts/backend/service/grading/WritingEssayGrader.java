@@ -36,7 +36,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WritingEssayGrader {
 
-    public static final String PROMPT_VERSION = "writing-v1.2";
+    /** v1.3: the essay can no longer close the {@code <essay>} tag (see {@link PromptSanitizer}). */
+    public static final String PROMPT_VERSION = "writing-v1.3";
     private static final int MAX_RETRIES = 1;
     private static final int TASK_2_MIN_WORDS = 250;
     private static final int MAX_IMPROVEMENTS = 5;
@@ -135,7 +136,11 @@ public class WritingEssayGrader {
         throw lastError != null ? lastError : new WritingGradingException("LLM_INVALID_RESPONSE", "Essay grading failed");
     }
 
-    private String buildUserPrompt(String task, String questionPrompt, String essayText, int wordCount) {
+    /**
+     * The essay is only escaped here, in the text sent to the LLM. Word count and the quote check of the
+     * evidence still use the original essay, so a learner who really typed "</essay>" is not penalised.
+     */
+    String buildUserPrompt(String task, String questionPrompt, String essayText, int wordCount) {
         return """
                 Task: %s
                 Word count: %d
@@ -151,7 +156,7 @@ public class WritingEssayGrader {
                 task,
                 wordCount,
                 questionPrompt != null ? questionPrompt : "Write an IELTS Task 2 Essay.",
-                essayText
+                PromptSanitizer.neutralizeClosingTag(essayText, "essay")
         );
     }
 

@@ -2,6 +2,7 @@ package com.ielts.backend.service.implement;
 
 import com.ielts.backend.dto.response.SpeakingSubmissionResultResponse;
 import com.ielts.backend.entity.Exercise;
+import com.ielts.backend.entity.FinalTestSession;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionAnswer;
 import com.ielts.backend.entity.Users;
@@ -28,6 +29,7 @@ import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
 import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.SpeakingSubmissionService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import com.ielts.backend.service.grading.SpeakingGrader;
 import com.ielts.backend.service.grading.SpeakingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
@@ -77,6 +79,9 @@ import java.util.concurrent.TimeUnit;
 public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService {
 
     private static final String ATTEMPT_CONSTRAINT = "uq_submission_attempt";
+    static final String AUDIO_STORAGE_FAILED = "AUDIO_STORAGE_FAILED";
+    /** ASR and LLM succeeded but the result could not be stored (step 3 failed). */
+    static final String PERSIST_FAILED = "PERSIST_FAILED";
     private static final BigDecimal MAX_BAND = BigDecimal.valueOf(9.0);
     private static final Set<String> ALLOWED_EXTENSIONS = Set.of("webm", "ogg", "mp3", "wav", "m4a");
     private static final Map<String, String> CONTENT_TYPE_TO_EXT = Map.of(
@@ -103,6 +108,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
     private final LearnerProfileService learnerProfileService;
+    private final FinalTestGuard finalTestGuard;
 
     @Value("${app.speaking.audio-dir:${java.io.tmpdir}/ielts-graph-speaking}")
     private String audioStorageDir;
@@ -134,15 +140,16 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         PendingGrading pending = transactionTemplate.execute(
                 status -> startGrading(exerciseId, username, audio, timeSpent));
 
-        Path savedAudioPath = saveAudioFile(audio, pending.audioFilename());
-
-        // Step 2: transcribe with ASR and grade with LLM outside any transaction
+        // Step 2: store the audio, transcribe with ASR and grade with LLM outside any transaction.
+        // Storing the audio is inside the try: the GRADING row is already committed, so any failure from here
+        // on must mark it FAILED, otherwise it stays GRADING forever and keeps using up an attempt.
         long startNanos = System.nanoTime();
         SpeakingAsrResult asrResult = null;
         SpeakingGradingResult gradingResult = null;
         Exception failure = null;
 
         try {
+            Path savedAudioPath = saveAudioFile(audio, pending.audioFilename());
             asrResult = speakingAsrClient.transcribe(savedAudioPath, audio.getOriginalFilename());
             validateAsrOutput(asrResult);
             gradingResult = speakingGrader.grade(pending.part(), pending.questionPrompt(), asrResult);
@@ -153,7 +160,12 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
         // Step 3: update submission record to GRADED or FAILED before re-throwing any exception
         if (failure != null) {
-            log.error("Speaking grading failed for user {} exercise {}: {}", username, exerciseId, failure.getMessage());
+            if (failure instanceof BadRequestException) {
+                // The learner's recording was not usable (for example too short): not a server error
+                log.warn("Speaking submission rejected for user {} exercise {}: {}", username, exerciseId, failure.getMessage());
+            } else {
+                log.error("Speaking grading failed for user {} exercise {}: {}", username, exerciseId, failure.getMessage());
+            }
             Exception cause = failure;
             SpeakingAsrResult partialAsr = asrResult;
             transactionTemplate.executeWithoutResult(
@@ -166,8 +178,25 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
 
         SpeakingAsrResult finalAsr = asrResult;
         SpeakingGradingResult finalGraded = gradingResult;
-        SpeakingSubmissionResultResponse response =
-                transactionTemplate.execute(status -> markGraded(pending, finalAsr, finalGraded, latencyMs));
+        SpeakingSubmissionResultResponse response;
+        try {
+            response = transactionTemplate.execute(status -> markGraded(pending, finalAsr, finalGraded, latencyMs));
+        } catch (RuntimeException persistError) {
+            // The rollback left the row GRADING: mark it FAILED in a new transaction so the attempt is given back.
+            // If the database is still unreachable, StaleGradingJob fails the row later.
+            log.error("Could not store the Speaking grade of submission {}", pending.submissionId(), persistError);
+            SpeakingGradingException persistFailure =
+                    new SpeakingGradingException(PERSIST_FAILED, "The grading result could not be saved");
+            try {
+                // stored code: PERSIST_FAILED
+                transactionTemplate.executeWithoutResult(status -> markFailed(pending.submissionId(),
+                        pending.audioFilename(), finalAsr, persistFailure, latencyMs));
+            } catch (RuntimeException ex) {
+                log.warn("Could not mark submission {} as FAILED, it is left to StaleGradingJob: {}",
+                        pending.submissionId(), ex.getMessage());
+            }
+            throw persistFailure;
+        }
         updateLearnerProfile(response.getSubmissionId());
         return response;
     }
@@ -277,9 +306,10 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
             return target;
         } catch (BadRequestException ex) {
             throw ex;
-        } catch (IOException ex) {
+        } catch (IOException | RuntimeException ex) {
+            // RuntimeException too: for example InvalidPathException or a SecurityException from the file system
             log.error("Failed to save uploaded audio file {}", generatedFilename, ex);
-            throw new IllegalStateException("Could not store uploaded audio file", ex);
+            throw new SpeakingGradingException(AUDIO_STORAGE_FAILED, "Could not store the uploaded audio file");
         }
     }
 
@@ -319,6 +349,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         }
 
         courseAccessService.checkExerciseAccess(exercise, username);
+        // Final test: only inside an open session (FR-4.02); the session is closed with this submission
+        FinalTestSession finalTestSession = finalTestGuard.requireOpenSession(exercise, users);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -351,6 +383,7 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
                 .timeSpent(timeSpent)
                 .submittedAt(LocalDateTime.now())
                 .build());
+        finalTestGuard.closeSession(finalTestSession, submission.getId());
 
         return new PendingGrading(submission.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 partOf(exercise), questionPrompt, question != null ? question.getId() : null, audioFilename, timeSpent);
@@ -366,6 +399,8 @@ public class SpeakingSubmissionServiceImpl implements SpeakingSubmissionService 
         submission.setAiFeedback(failureCode(failure));
         submission.setAiLatencyMs(latencyMs);
         userSubmissionRepository.saveAndFlush(submission);
+        // A failed final test attempt gives its session back, so the learner can try again in the same session
+        finalTestGuard.reopenAfterFailure(submissionId);
     }
 
     private SpeakingSubmissionResultResponse markGraded(

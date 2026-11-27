@@ -35,8 +35,8 @@ cd ielts-backend/ielts-backend
 DB_USERNAME=postgres DB_PASSWORD=... ./mvnw spring-boot:run
 ```
 
-- API: `http://localhost:8080/api`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- API: `http://localhost:8081/api` (port from `server.port`, override with `SERVER_PORT`)
+- Swagger UI: `http://localhost:8081/swagger-ui.html`
 
 ## Test
 

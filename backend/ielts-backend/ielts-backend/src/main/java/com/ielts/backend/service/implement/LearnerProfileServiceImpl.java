@@ -18,11 +18,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 /**
@@ -70,9 +70,16 @@ public class LearnerProfileServiceImpl implements LearnerProfileService {
             }
 
             if (!events.isEmpty()) {
-                Set<String> subskillIds = new LinkedHashSet<>();
+                // Sorted, so concurrent transactions create and lock the rows in the same order (no deadlock)
+                Set<String> subskillIds = new TreeSet<>();
                 for (ProfileEvent ev : events) {
                     subskillIds.add(ev.subskillId());
+                }
+
+                // Make sure every row exists before locking: FOR UPDATE does not lock rows that do not exist yet
+                double initialMastery = skillStateUpdater.initialState().mastery();
+                for (String subskillId : subskillIds) {
+                    learnerSkillStateRepository.insertIfMissing(userId, subskillId, initialMastery);
                 }
 
                 List<LearnerSkillState> existingRows = learnerSkillStateRepository

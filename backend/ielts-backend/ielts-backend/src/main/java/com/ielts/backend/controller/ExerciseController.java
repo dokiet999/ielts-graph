@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,8 +48,10 @@ public class ExerciseController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get exercise detail for practice with question groups and questions (answers hidden)")
-    public BaseResponse<ExerciseDetailPracticeResponse> getExerciseForPractice(@PathVariable UUID id) {
-        return BaseResponse.ofSuccess(exerciseService.getExerciseForPractice(id));
+    public BaseResponse<ExerciseDetailPracticeResponse> getExerciseForPractice(
+            @PathVariable UUID id, @AuthenticationPrincipal UserDetails principal) {
+        // Login required (SecurityConfig): the content of a Listening exercise holds its transcript
+        return BaseResponse.ofSuccess(exerciseService.getExerciseForPractice(id, principal.getUsername()));
     }
 
     @PostMapping
