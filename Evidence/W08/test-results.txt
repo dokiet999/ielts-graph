@@ -1,0 +1,8 @@
+# Backend (./mvnw test, empty PostgreSQL, Flyway V1-V19)
+[INFO] Tests run: 261, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+# Frontend (npx vitest run, npx tsc --noEmit)
+ Test Files  22 passed (22)
+      Tests  141 passed (141)
+tsc: no errors

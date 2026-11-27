@@ -44,6 +44,7 @@ public record SpeakingAsrResult(
         map.put("fluency", pronunciation.fluency());
         map.put("completeness", pronunciation.completeness());
         map.put("prosody", pronunciation.prosody());
+        map.put("source", pronunciation.source());
         return map;
     }
 
@@ -57,11 +58,18 @@ public record SpeakingAsrResult(
             double longestPauseSec) {
     }
 
-    /** Azure scores, 0-100. The whole object is null when the service did not run it. */
+    /**
+     * Pronunciation scores, 0-100. The whole object is null when the service did not run it. completeness is null
+     * in unscripted mode (no reference text) and prosody is null when the service does not provide it.
+     * source is {@value #SOURCE_GEMINI}: an AI estimate from listening to the audio, not an acoustic measurement.
+     */
     public record Pronunciation(
             double accuracy,
             double fluency,
-            double completeness,
-            Double prosody) {
+            Double completeness,
+            Double prosody,
+            String source) {
+
+        public static final String SOURCE_GEMINI = "gemini";
     }
 }

@@ -6,6 +6,7 @@ import com.ielts.backend.entity.Lesson;
 import com.ielts.backend.entity.Question;
 import com.ielts.backend.entity.QuestionGroup;
 import com.ielts.backend.entity.QuestionOption;
+import com.ielts.backend.enums.QuestionType;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -35,6 +36,24 @@ public class ExerciseMapper {
                 .build();
     }
 
+    /**
+     * List item: same fields as {@link #toResponse} without {@code content}. The content of a Listening exercise
+     * holds the transcript, which contains every answer, and a list has no use for the full content.
+     */
+    public ExerciseResponse toListItem(Exercise exercise) {
+        ExerciseResponse response = toResponse(exercise);
+        response.setContent(null);
+        return response;
+    }
+
+    /**
+     * Question types answered by typing. Their options are the accepted answers (see ObjectiveAnswerEvaluator),
+     * so the practice view never sends them.
+     */
+    private static boolean isFreeText(QuestionType type) {
+        return type == QuestionType.FILL_BLANK;
+    }
+
     public ExerciseDetailPracticeResponse toPracticeResponse(
             Exercise exercise,
             List<QuestionGroup> groups,
@@ -47,7 +66,9 @@ public class ExerciseMapper {
             List<Question> questions = questionsByGroup.getOrDefault(g.getId(), Collections.emptyList());
 
             List<QuestionPracticeResponse> questionResponses = questions.stream().map(q -> {
-                List<QuestionOption> options = optionsByQuestion.getOrDefault(q.getId(), Collections.emptyList());
+                List<QuestionOption> options = isFreeText(q.getQuestionType())
+                        ? Collections.emptyList()
+                        : optionsByQuestion.getOrDefault(q.getId(), Collections.emptyList());
 
                 List<QuestionOptionPracticeResponse> optionResponses = options.stream().map(opt ->
                         QuestionOptionPracticeResponse.builder()

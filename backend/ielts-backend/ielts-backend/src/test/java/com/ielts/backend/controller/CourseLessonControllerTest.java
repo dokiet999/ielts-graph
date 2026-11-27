@@ -131,14 +131,14 @@ class CourseLessonControllerTest {
     void listCourses_invalidSkill_returns400() throws Exception {
         mockMvc.perform(get("/api/courses").param("skill", "COOKING"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("INVALID_PARAMETER"));
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
     }
 
     @Test
     void listCourses_invalidLevel_returns400() throws Exception {
         mockMvc.perform(get("/api/courses").param("level", "EXPERT"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("INVALID_PARAMETER"));
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
     }
 
     // ---------- Course detail ----------

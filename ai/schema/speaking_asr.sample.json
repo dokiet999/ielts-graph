@@ -14,7 +14,8 @@
   "pronunciation": {
     "accuracy": 78.5,
     "fluency": 72.0,
-    "completeness": 96.0,
+    "completeness": null,
+    "source": "gemini",
     "prosody": 68.0
   }
 }

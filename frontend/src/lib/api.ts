@@ -66,6 +66,8 @@ import type {
   KgRecommendations,
   KgRecommendationsRequest,
   PagedResult,
+  Personalization,
+  ProfileSkill,
   ReplaceExerciseQuestionsInput,
   ReviewQueueItem,
   ScheduleStatus,
@@ -405,7 +407,8 @@ export const api = {
       body.filename ?? (body.audio instanceof File ? body.audio.name : 'recording.webm')
     form.append('audio', body.audio, filename)
     if (body.part) form.append('part', body.part)
-    if (body.durationSec !== undefined) form.append('timeSpent', String(Math.round(body.durationSec)))
+    if (body.durationSec !== undefined)
+      form.append('timeSpent', String(Math.round(body.durationSec)))
     return data(
       http.post<BeSpeakingResult>(`/exercises/${body.exerciseId}/submit/speaking`, form, {
         timeout: 180_000,
@@ -713,4 +716,9 @@ export const api = {
     data(
       http.put<BeSubmissionDetail>(`/teacher/submissions/${submissionId}/feedback`, body),
     ).then(toSubmissionDetail),
+
+  /** Weaknesses of the learner across their graded Writing and Speaking attempts (learner profile + KG). */
+  personalization: () => data(http.get<Personalization>('/personalization')),
+  setTargetBand: (skill: ProfileSkill, targetBand: number) =>
+    data(http.put<Personalization>('/personalization/target-band', { skill, targetBand })),
 }

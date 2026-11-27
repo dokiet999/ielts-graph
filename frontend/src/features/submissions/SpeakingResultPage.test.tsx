@@ -30,6 +30,7 @@ const feedback: SpeakingFeedback = {
     fluency: 72.0,
     completeness: 96.0,
     prosody: 68.0,
+    source: 'gemini',
   },
   criteria: [
     {
@@ -126,6 +127,33 @@ describe('SpeakingResultPage', () => {
     renderPage(noProsodySub)
     expect(screen.getByLabelText('Đánh giá phát âm')).toBeInTheDocument()
     expect(screen.queryByText(/Ngữ điệu \(Prosody\)/)).not.toBeInTheDocument()
+  })
+
+  it('labels Gemini pronunciation scores as an AI estimate and shows no label for an unknown source', () => {
+    const withSource = (source: 'gemini' | null): SubmissionDetail => ({
+      ...sub,
+      speakingFeedback: { ...feedback, pronunciation: { ...feedback.pronunciation!, source } },
+    })
+    const { unmount } = renderPage(withSource('gemini'))
+    expect(screen.getByText(/AI \(Gemini\) nghe bản ghi âm và ước lượng/)).toBeInTheDocument()
+    unmount()
+
+    renderPage(withSource(null))
+    expect(screen.getByLabelText('Đánh giá phát âm')).toBeInTheDocument()
+    expect(screen.queryByText(/Gemini/)).not.toBeInTheDocument()
+  })
+
+  it('hides completeness when it was not measured (unscripted mode)', () => {
+    const unscriptedSub: SubmissionDetail = {
+      ...sub,
+      speakingFeedback: {
+        ...feedback,
+        pronunciation: { ...feedback.pronunciation!, completeness: null },
+      },
+    }
+    renderPage(unscriptedSub)
+    expect(screen.getByText('78.5 / 100')).toBeInTheDocument()
+    expect(screen.queryByText(/Độ đầy đủ \(Completeness\)/)).not.toBeInTheDocument()
   })
 
   it('renders 4 speaking criteria cards and highlights quotes in transcript', () => {

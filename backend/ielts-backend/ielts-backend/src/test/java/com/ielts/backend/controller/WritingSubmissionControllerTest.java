@@ -5,6 +5,8 @@ import com.ielts.backend.dto.request.WritingSubmissionRequest;
 import com.ielts.backend.exception.customException.LlmTimeoutException;
 import com.ielts.backend.exception.customException.LlmUnavailableException;
 import com.ielts.backend.service.llm.LlmClient;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,10 @@ class WritingSubmissionControllerTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    /** The test transaction spans every request: flush JPA changes before reading rows with JDBC. */
+    @PersistenceContext
+    EntityManager entityManager;
 
     @MockitoBean
     LlmClient llmClient;
@@ -272,6 +278,42 @@ class WritingSubmissionControllerTest {
         submitWriting(WRITING_EXERCISE_ID.toString(), "student_new", PASSWORD, request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.attemptNumber").value(3));
+    }
+
+    @Test
+    void submit_finalTest_retryAfterAiFailure_worksInTheSameSession() throws Exception {
+        // Writing Final Test (V17) of the Writing course, which student_enrolled has joined
+        String finalTest = "40000000-0000-0000-0000-000000006003";
+        String section = "20000000-0000-0000-0000-000000000091";
+        String studentEnrolled = "00000000-0000-0000-0000-000000000011";
+        jdbcTemplate.update("DELETE FROM final_test_sessions WHERE user_id = ?::uuid", studentEnrolled);
+        jdbcTemplate.update("DELETE FROM final_test_grants WHERE user_id = ?::uuid", studentEnrolled);
+        jdbcTemplate.update("DELETE FROM user_submissions WHERE user_id = ?::uuid AND exercise_id = ?::uuid",
+                studentEnrolled, finalTest);
+        jdbcTemplate.update("""
+                INSERT INTO final_test_grants (user_id, section_id, deadline_days, unlocked_at, expires_at)
+                VALUES (?::uuid, ?::uuid, 7, NOW(), NOW() + INTERVAL '7 days')
+                """, studentEnrolled, section);
+        mockMvc.perform(post("/api/sections/{id}/final-test/start", section).with(httpBasic("student_enrolled", PASSWORD)))
+                .andExpect(status().isOk());
+        WritingSubmissionRequest request = WritingSubmissionRequest.builder().essayText(sampleEssay).timeSpent(600).build();
+
+        // The AI is down: the attempt fails and the runner offers "try again"
+        when(llmClient.chat(any(), any())).thenThrow(new LlmUnavailableException("down"));
+        submitWriting(finalTest, "student_enrolled", PASSWORD, request).andExpect(status().is5xxServerError());
+        entityManager.flush();
+        entityManager.clear();
+        String openSessions = """
+                SELECT count(*) FROM final_test_sessions
+                WHERE user_id = ?::uuid AND exercise_id = ?::uuid AND submitted_at IS NULL
+                """;
+        assertThat(jdbcTemplate.queryForObject(openSessions, Integer.class, studentEnrolled, finalTest)).isEqualTo(1);
+
+        // Trying again in the same session works, and then closes the session
+        doReturn(sampleJson).when(llmClient).chat(any(), any());
+        submitWriting(finalTest, "student_enrolled", PASSWORD, request).andExpect(status().isOk());
+        entityManager.flush();
+        assertThat(jdbcTemplate.queryForObject(openSessions, Integer.class, studentEnrolled, finalTest)).isZero();
     }
 
     @Test

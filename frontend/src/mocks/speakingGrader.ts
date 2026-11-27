@@ -19,8 +19,10 @@ export const SAMPLE_SPEAKING_FEATURES: BeSpeakingFeatures = {
 export const SAMPLE_SPEAKING_PRONUNCIATION: BeSpeakingPronunciation = {
   accuracy: 78.5,
   fluency: 72.0,
-  completeness: 96.0,
+  // Same shape as the real ASR service: unscripted mode has no reference text, so no completeness
+  completeness: null,
   prosody: 68.0,
+  source: 'gemini',
 }
 
 export function fakeSpeakingFeedback(part = 'QT_S_PART2'): BeSpeakingFeedback {

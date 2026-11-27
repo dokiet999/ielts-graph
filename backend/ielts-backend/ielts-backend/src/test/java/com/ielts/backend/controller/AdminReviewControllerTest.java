@@ -234,7 +234,7 @@ class AdminReviewControllerTest {
                 .andExpect(jsonPath("$.data[*].id", not(hasItem(newLessonId.toString()))));
 
         // Exercises of unapproved lessons are hidden from public & section endpoints and cannot be submitted
-        mockMvc.perform(get("/api/exercises/{id}", newExerciseId))
+        mockMvc.perform(get("/api/exercises/{id}", newExerciseId).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isNotFound());
         mockMvc.perform(get("/api/exercises").param("size", "100"))
                 .andExpect(status().isOk())
@@ -299,7 +299,7 @@ class AdminReviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(5)))
                 .andExpect(jsonPath("$.data[*].id", hasItem(newLessonId.toString())));
-        mockMvc.perform(get("/api/exercises/{id}", newExerciseId))
+        mockMvc.perform(get("/api/exercises/{id}", newExerciseId).with(httpBasic("student_enrolled", PASSWORD)))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/api/sections/{id}/exercises", GETTING_STARTED_SECTION)
                         .with(httpBasic("student_enrolled", PASSWORD)))

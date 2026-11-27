@@ -28,7 +28,7 @@
       "$ref": "#/$defs/features"
     },
     "pronunciation": {
-      "description": "Pronunciation scores (Azure Pronunciation Assessment). null when it was not run or failed; the grader must still work without it.",
+      "description": "Pronunciation scores, unscripted (there is no reference text). Estimated by a Gemini model listening to the audio (an AI estimate, not an acoustic measurement). null when it was disabled, not configured or failed; the grader must still work without it.",
       "oneOf": [
         { "type": "null" },
         { "$ref": "#/$defs/pronunciation" }
@@ -76,7 +76,7 @@
     "pronunciation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["accuracy", "fluency", "completeness", "prosody"],
+      "required": ["accuracy", "fluency", "completeness", "prosody", "source"],
       "properties": {
         "accuracy": {
           "type": "number",
@@ -91,16 +91,20 @@
           "description": "How natural the rhythm and the silences between words are (0-100)."
         },
         "completeness": {
-          "type": "number",
+          "type": ["number", "null"],
           "minimum": 0,
           "maximum": 100,
-          "description": "Share of the expected words that were actually spoken (0-100)."
+          "description": "Share of the expected words that were actually spoken (0-100). Only meaningful when there is a reference text, so null in unscripted mode (IELTS Speaking answers have none)."
         },
         "prosody": {
           "type": ["number", "null"],
           "minimum": 0,
           "maximum": 100,
           "description": "Stress, intonation and rhythm (0-100); null when the service does not provide it."
+        },
+        "source": {
+          "enum": ["gemini"],
+          "description": "Who produced the scores. gemini: an AI estimate from listening to the audio, not an acoustic measurement, to be presented as such."
         }
       }
     }

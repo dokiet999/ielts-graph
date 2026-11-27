@@ -20,7 +20,7 @@ test('final test flow: intro screen → start → exit & save → continue → s
 
   // Open Foundation course -> Reading section -> Final test tab
   await page.goto('/learn/c-foundation/s-f1/final-test')
-  await expect(page.getByRole('heading', { name: 'Final Test' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Final Test', exact: true })).toBeVisible()
   await expect(page.getByText(/Reading Final Test/)).toBeVisible()
 
   // Start Final Test -> shows TestIntroScreen first

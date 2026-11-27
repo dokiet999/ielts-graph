@@ -22,7 +22,9 @@ import com.ielts.backend.repository.UserRepository;
 import com.ielts.backend.repository.UserSubmissionRepository;
 import com.ielts.backend.security.DbUserDetailsService;
 import com.ielts.backend.service.CourseAccessService;
+import com.ielts.backend.service.LearnerProfileService;
 import com.ielts.backend.service.WritingSubmissionService;
+import com.ielts.backend.service.finaltest.FinalTestGuard;
 import com.ielts.backend.service.grading.WritingEssayGrader;
 import com.ielts.backend.service.grading.WritingGradingResult;
 import com.ielts.backend.service.llm.LlmClient;
@@ -58,6 +60,8 @@ import java.util.concurrent.TimeUnit;
 public class WritingSubmissionServiceImpl implements WritingSubmissionService {
 
     private static final String ATTEMPT_CONSTRAINT = "uq_submission_attempt";
+    /** The LLM graded the essay but the result could not be stored (step 3 failed). */
+    static final String PERSIST_FAILED = "PERSIST_FAILED";
     /** Shorter essays are rejected before any LLM call (Task 2 asks for 250 words; below 250 gets a warning). */
     private static final int MIN_WORDS = 50;
     private static final BigDecimal MAX_BAND = BigDecimal.valueOf(9.0);
@@ -72,6 +76,8 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
     private final LlmClient llmClient;
     private final TransactionTemplate transactionTemplate;
     private final EnrollmentProgressSyncService enrollmentProgressSyncService;
+    private final LearnerProfileService learnerProfileService;
+    private final FinalTestGuard finalTestGuard;
 
     /** What step 1 hands over to steps 2 and 3. Ids only, so nothing detached is reused across transactions. */
     private record PendingGrading(UUID submissionId, UUID userId, UUID exerciseId, String exerciseTitle, int attemptNumber,
@@ -111,7 +117,46 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
             throw new WritingGradingException("GRADING_FAILED", failure.getMessage(), failure);
         }
         WritingGradingResult graded = gradingResult;
-        return transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        WritingSubmissionResultResponse response;
+        try {
+            response = transactionTemplate.execute(status -> markGraded(pending, graded, latencyMs));
+        } catch (RuntimeException persistError) {
+            // The rollback left the row GRADING: mark it FAILED in a new transaction so the attempt is given back.
+            // If the database is still unreachable, StaleGradingJob fails the row later.
+            log.error("Could not store the Writing grade of submission {}", pending.submissionId(), persistError);
+            WritingGradingException persistFailure = new WritingGradingException(PERSIST_FAILED,
+                    "The grading result could not be saved. Please submit again", persistError);
+            markFailedQuietly(pending.submissionId(), persistFailure, latencyMs);   // stored code: PERSIST_FAILED
+            throw persistFailure;
+        }
+        updateLearnerProfile(response.getSubmissionId());
+        try {
+            enrollmentProgressSyncService.syncForUserAndExercise(pending.userId(), pending.exerciseId());
+        } catch (Exception ex) {
+            log.warn("Enrollment progress not synced for submission {}: {}", response.getSubmissionId(), ex.getMessage());
+        }
+        return response;
+    }
+
+    private void markFailedQuietly(UUID submissionId, Exception cause, int latencyMs) {
+        try {
+            transactionTemplate.executeWithoutResult(status -> markFailed(submissionId, cause, latencyMs));
+        } catch (RuntimeException ex) {
+            log.warn("Could not mark submission {} as FAILED, it is left to StaleGradingJob: {}",
+                    submissionId, ex.getMessage());
+        }
+    }
+
+    /**
+     * The learner profile is secondary to the grade: if it cannot be updated now (for example the Knowledge Graph
+     * is down), the graded submission is still returned, and the profile applies it the next time it is read.
+     */
+    private void updateLearnerProfile(UUID submissionId) {
+        try {
+            learnerProfileService.applySubmission(submissionId);
+        } catch (Exception ex) {
+            log.warn("Learner profile not updated for submission {}: {}", submissionId, ex.getMessage());
+        }
     }
 
     private PendingGrading startGrading(UUID exerciseId, String username, WritingSubmissionRequest request) {
@@ -130,6 +175,8 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
         }
 
         courseAccessService.checkExerciseSubmittable(exercise, username);
+        // Final test: only inside an open session (FR-4.02); the session is closed with this submission
+        FinalTestSession finalTestSession = finalTestGuard.requireOpenSession(exercise, users);
 
         List<UserSubmission> previous = userSubmissionRepository
                 .findByUserIdAndExerciseIdOrderByAttemptNumberDesc(users.getId(), exerciseId);
@@ -167,6 +214,7 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                 .timeSpent(request.getTimeSpent())
                 .submittedAt(LocalDateTime.now())
                 .build());
+        finalTestGuard.closeSession(finalTestSession, submission.getId());
 
         return new PendingGrading(submission.getId(), users.getId(), exercise.getId(), exercise.getTitle(), attemptNumber,
                 taskOf(exercise), questionPrompt, question != null ? question.getId() : null);
@@ -179,6 +227,8 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
         submission.setAiFeedback(failureCode(failure));
         submission.setAiLatencyMs(latencyMs);
         userSubmissionRepository.saveAndFlush(submission);
+        // A failed final test attempt gives its session back, so the learner can try again in the same session
+        finalTestGuard.reopenAfterFailure(submissionId);
     }
 
     private WritingSubmissionResultResponse markGraded(PendingGrading pending, WritingGradingResult result, int latencyMs) {
@@ -204,7 +254,6 @@ public class WritingSubmissionServiceImpl implements WritingSubmissionService {
                             .pointsEarned(result.getOverallBand())
                             .build()));
         }
-        enrollmentProgressSyncService.syncForUserAndExercise(pending.userId(), pending.exerciseId());
 
         return WritingSubmissionResultResponse.builder()
                 .submissionId(submission.getId())

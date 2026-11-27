@@ -5,6 +5,7 @@ import type {
   ContentStatus,
   CreateTeacherInput,
   KgRecommendationsRequest,
+  ProfileSkill,
   ReplaceExerciseQuestionsInput,
   SkillType,
   SpeakingSubmissionRequest,
@@ -36,6 +37,7 @@ export const keys = {
   mySubmissions: ['submissions', 'me'] as const,
   kgRecommendations: (r: KgRecommendationsRequest | null) =>
     ['kg', 'recommendations', r?.skill, r?.errors.join(','), r?.band] as const,
+  personalization: ['personalization'] as const,
   categories: ['categories'] as const,
   adminCategories: (p: { isActive?: boolean; q?: string; page?: number; size?: number }) =>
     ['admin', 'categories', p.isActive ?? 'all', p.q ?? '', p.page ?? 1, p.size ?? 10] as const,
@@ -185,6 +187,20 @@ export const useKgRecommendations = (request: KgRecommendationsRequest | null) =
     staleTime: 5 * 60_000,
   })
 
+/** Not retried: a KG that is down answers 503 again right away. */
+export const usePersonalization = () =>
+  useQuery({ queryKey: keys.personalization, queryFn: api.personalization, retry: false })
+
+/** The response is the updated personalization, so it replaces the cached one. */
+export function useSetTargetBand() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ skill, targetBand }: { skill: ProfileSkill; targetBand: number }) =>
+      api.setTargetBand(skill, targetBand),
+    onSuccess: (data) => qc.setQueryData(keys.personalization, data),
+  })
+}
+
 function useInvalidateAfterSubmit() {
   const qc = useQueryClient()
   // Scores, progress and history all depend on submissions.
@@ -194,6 +210,7 @@ function useInvalidateAfterSubmit() {
     qc.invalidateQueries({ queryKey: ['courses'] })
     qc.invalidateQueries({ queryKey: keys.mySubmissions })
     qc.invalidateQueries({ queryKey: keys.dashboard })
+    qc.invalidateQueries({ queryKey: keys.personalization })
   }
 }
 

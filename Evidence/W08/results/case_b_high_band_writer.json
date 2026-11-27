@@ -1,0 +1,475 @@
+{
+  "case": "case_b_high_band_writer",
+  "title": "Writing learner with high-band essays (reference 7.0, 8.0) and a higher target",
+  "learner": "student_enrolled",
+  "skill": "WRITING",
+  "purpose": "Few errors per essay, so the recommendation depends mostly on the gap to the target band. Raising the target to 8.5 raises the priority without any new essay.",
+  "before": {
+    "attemptCount": 0,
+    "currentBand": null,
+    "targetBand": null,
+    "criteriaBands": {
+      "CRIT_W_TA": null,
+      "CRIT_W_TR": null,
+      "CRIT_W_CC": null,
+      "CRIT_W_LR": null,
+      "CRIT_W_GRA": null
+    },
+    "gaps": [],
+    "mastery": {},
+    "weaknesses": []
+  },
+  "steps": [
+    {
+      "step": 1,
+      "input": "essay w2_031 (reference band 7.0)",
+      "http": 200,
+      "result": {
+        "submissionId": "8e787dbc-4963-44b4-9e0c-f9d3423f2124",
+        "attempt": 2,
+        "overallBand": 7.5,
+        "criteriaBands": {
+          "CRIT_W_TR": 7,
+          "CRIT_W_CC": 8,
+          "CRIT_W_LR": 7,
+          "CRIT_W_GRA": 7
+        },
+        "errorCodes": [
+          "ERR_UNCLEAR_POSITION",
+          "ERR_WORD_CHOICE",
+          "ERR_SENT_STRUCTURE"
+        ],
+        "pronunciation": null,
+        "features": null,
+        "transcript": null,
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "writing-v1.2",
+        "latencyMs": 6608
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "task": "QT_W2_ADV_DISADV",
+        "criteria": {
+          "CRIT_W_TR": {
+            "band": 7,
+            "comment": "Bài viết đã trả lời đầy đủ các phần của đề bài, nêu rõ bất lợi và đưa ra quan điểm rằng bất lợi lớn hơn ưu điểm. Các ý chính được phát triển tốt, tuy nhiên phần kết luận mâu thuẫn nhẹ với thân bài khi câu cuối lại kêu gọi 'cân bằng' thay vì giữ vững quan điểm áp đảo.",
+            "evidence": [
+              {
+                "quote": "Therefore, the disadvantages outweigh the benefits, and cities should strive to find a balance between preserving the past and embracing the future.",
+                "error_type": "ERR_UNCLEAR_POSITION",
+                "suggestion": "Phần kết luận nên khẳng định lại rõ ràng rằng bất lợi lớn hơn ưu điểm mà không nên mâu thuẫn bằng cách đề xuất tìm kiếm sự cân bằng."
+              }
+            ]
+          },
+          "CRIT_W_CC": {
+            "band": 8,
+            "comment": "Bài viết có sự liên kết và tổ chức mạch lạc, các ý được sắp xếp logic với các từ nối phù hợp và đoạn văn được phân chia hợp lý.",
+            "evidence": []
+          },
+          "CRIT_W_LR": {
+            "band": 7,
+            "comment": "Từ vựng phong phú và phù hợp với văn cảnh học thuật (như 'cultural richness', 'environmental degradation', 'space-efficient'), mặc dù thỉnh thoảng có vài chỗ dùng từ chưa hoàn toàn tự nhiên.",
+            "evidence": [
+              {
+                "quote": "urban infrastructure isn't to be excluded",
+                "error_type": "ERR_WORD_CHOICE",
+                "suggestion": "Cụm từ này không tự nhiên trong ngữ cảnh này; có thể thay bằng 'urban infrastructure is no exception'."
+              }
+            ]
+          },
+          "CRIT_W_GRA": {
+            "band": 7,
+            "comment": "Sử dụng đa dạng các cấu trúc câu phức với độ chính xác cao, ngữ pháp và dấu câu nhìn chung được kiểm soát tốt.",
+            "evidence": [
+              {
+                "quote": "As I think, the drawbacks which this approach brings can't be compared to its advantages.",
+                "error_type": "ERR_SENT_STRUCTURE",
+                "suggestion": "Nên dùng văn phong trang trọng hơn cho bài luận IELTS, ví dụ: 'In my view, the drawbacks of this approach far outweigh the advantages.'"
+              }
+            ]
+          }
+        },
+        "overall_band": 7.5,
+        "out_of_calibration_range": false,
+        "summary": "Bài viết có bố cục rất tốt, ngữ pháp và từ vựng đạt mức độ linh hoạt và chính xác cao (Band 7-8). Tuy nhiên, cần lưu ý giữ tính nhất quán trong quan điểm ở phần kết luận để tránh mâu thuẫn với thân bài.",
+        "improvements": [
+          "Đảm bảo phần kết luận nhắc lại chính xác quan điểm đã nêu ở mở bài và thân bài thay vì đưa ra nhận định mang tính trung lập ở cuối bài.",
+          "Sử dụng các cụm từ vựng học thuật tự nhiên hơn thay vì dịch trực tiếp từ tiếng mẹ đẻ.",
+          "Kiểm tra kỹ lưỡng các cấu trúc câu mở đầu để đảm bảo tính trang trọng phù hợp với văn phong bài luận IELTS Task 2."
+        ]
+      },
+      "after": {
+        "attemptCount": 1,
+        "currentBand": 7.5,
+        "targetBand": null,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 7.0,
+          "CRIT_W_CC": 8.0,
+          "CRIT_W_LR": 7.0,
+          "CRIT_W_GRA": 7.0
+        },
+        "gaps": [],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.583,
+          "SUB_POSITION": 0.333,
+          "SUB_TASK_ADDRESS": 0.583,
+          "SUB_LINKING": 0.583,
+          "SUB_PARAGRAPHING": 0.583,
+          "SUB_REFERENCING": 0.583,
+          "SUB_COLLOCATION": 0.583,
+          "SUB_PARAPHRASE": 0.583,
+          "SUB_SPELLING_WORDFORM": 0.583,
+          "SUB_WORD_CHOICE": 0.333,
+          "SUB_AGREEMENT": 0.583,
+          "SUB_ARTICLE": 0.583,
+          "SUB_COMPLEX_SENTENCE": 0.333,
+          "SUB_PREPOSITION": 0.583,
+          "SUB_PUNCTUATION": 0.583,
+          "SUB_VERB_TENSE": 0.583
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_POSITION",
+            "subSkill": "SUB_POSITION",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_W2_POSITION_01"
+            ]
+          },
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.333,
+            "priority": 0.633,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "input": "essay w2_039 (reference band 8.0)",
+      "http": 200,
+      "result": {
+        "submissionId": "34f1acb7-2eca-4f96-bd46-49388620b0f3",
+        "attempt": 1,
+        "overallBand": 6.5,
+        "criteriaBands": {
+          "CRIT_W_TR": 7,
+          "CRIT_W_CC": 7,
+          "CRIT_W_LR": 6,
+          "CRIT_W_GRA": 6
+        },
+        "errorCodes": [
+          "ERR_UNDERDEVELOPED",
+          "ERR_WORD_CHOICE",
+          "ERR_PUNCT"
+        ],
+        "pronunciation": null,
+        "features": null,
+        "transcript": null,
+        "aiModel": "gemini-3.5-flash-lite",
+        "promptVersion": "writing-v1.2",
+        "latencyMs": 3102
+      },
+      "rawFeedback": {
+        "schema_version": "1.0",
+        "task": "QT_W2_DISCUSSION",
+        "criteria": {
+          "CRIT_W_TR": {
+            "band": 7,
+            "comment": "Bài viết đã trả lời đầy đủ các phần của đề bài (nguyên nhân và giải pháp), quan điểm rõ ràng và các ý chính được phát triển, hỗ trợ bằng ví dụ.",
+            "evidence": [
+              {
+                "quote": "The main causes are extreme usage of the things made of these items in our day-to-day lives and inefficient recycling methods.",
+                "error_type": "ERR_UNDERDEVELOPED",
+                "suggestion": "Nên phát triển sâu hơn về mặt kinh tế hoặc công nghiệp thay vì chỉ nêu chung chung."
+              }
+            ]
+          },
+          "CRIT_W_CC": {
+            "band": 7,
+            "comment": "Bài viết có bố cục rõ ràng, tổ chức các đoạn logic và sử dụng các từ nối linh hoạt, mặc dù đôi khi có lỗi nhỏ trong việc liên kết câu.",
+            "evidence": []
+          },
+          "CRIT_W_LR": {
+            "band": 6,
+            "comment": "Từ vựng đủ dùng để diễn đạt ý nghĩa với một số lựa chọn từ tốt, tuy nhiên vẫn còn một số lỗi chọn từ và lặp từ cơ bản.",
+            "evidence": [
+              {
+                "quote": "a large volume of these products used by humans are directly disposed without appropriate recycling measures",
+                "error_type": "ERR_WORD_CHOICE",
+                "suggestion": "Nên dùng 'disposed of' thay vì 'disposed' hoặc dùng từ 'discarded'."
+              }
+            ]
+          },
+          "CRIT_W_GRA": {
+            "band": 6,
+            "comment": "Có sự pha trộn giữa câu đơn và câu phức với cấu trúc tương đối tốt, nhưng vẫn còn một số lỗi ngữ pháp nhỏ như thiếu giới từ hoặc lỗi dấu câu.",
+            "evidence": [
+              {
+                "quote": "disposed into the soil , they deteriorate",
+                "error_type": "ERR_PUNCT",
+                "suggestion": "Bỏ khoảng trắng trước dấu phẩy: 'soil, they'."
+              }
+            ]
+          }
+        },
+        "overall_band": 6.5,
+        "out_of_calibration_range": false,
+        "summary": "Bài viết có bố cục mạch lạc, giải quyết tốt yêu cầu của đề bài về nguyên nhân và giải pháp. Tuy nhiên, một số lỗi về từ vựng, ngữ pháp nhỏ và cách dùng từ nối cần được khắc phục để đạt điểm cao hơn.",
+        "improvements": [
+          "Tránh kết hợp 'Although' và 'however' trong cùng một câu.",
+          "Chú ý kiểm tra lỗi đặt khoảng trắng trước dấu câu.",
+          "Mở rộng vốn từ vựng chuyên sâu về chủ đề môi trường và tái chế.",
+          "Phát triển các ý tưởng chi tiết và sâu sắc hơn trong phần thân bài."
+        ]
+      },
+      "after": {
+        "attemptCount": 2,
+        "currentBand": 7.0,
+        "targetBand": null,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 7.0,
+          "CRIT_W_CC": 7.5,
+          "CRIT_W_LR": 6.5,
+          "CRIT_W_GRA": 6.5
+        },
+        "gaps": [],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.417,
+          "SUB_POSITION": 0.417,
+          "SUB_TASK_ADDRESS": 0.643,
+          "SUB_LINKING": 0.643,
+          "SUB_PARAGRAPHING": 0.643,
+          "SUB_REFERENCING": 0.643,
+          "SUB_COLLOCATION": 0.643,
+          "SUB_PARAPHRASE": 0.643,
+          "SUB_SPELLING_WORDFORM": 0.643,
+          "SUB_WORD_CHOICE": 0.25,
+          "SUB_AGREEMENT": 0.643,
+          "SUB_ARTICLE": 0.643,
+          "SUB_COMPLEX_SENTENCE": 0.417,
+          "SUB_PREPOSITION": 0.643,
+          "SUB_PUNCTUATION": 0.417,
+          "SUB_VERB_TENSE": 0.643
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.25,
+            "priority": 0.675,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_PUNCT",
+            "subSkill": "SUB_PUNCTUATION",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_G_PUNCT_01"
+            ]
+          },
+          {
+            "error": "ERR_UNDERDEVELOPED",
+            "subSkill": "SUB_IDEA_DEV",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_W2_IDEA_DEV_01"
+            ]
+          },
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_POSITION",
+            "subSkill": "SUB_POSITION",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.442,
+            "resources": [
+              "RES_W2_POSITION_01"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "input": "target band 8.5",
+      "http": 200,
+      "after": {
+        "attemptCount": 2,
+        "currentBand": 7.0,
+        "targetBand": 8.5,
+        "criteriaBands": {
+          "CRIT_W_TA": null,
+          "CRIT_W_TR": 7.0,
+          "CRIT_W_CC": 7.5,
+          "CRIT_W_LR": 6.5,
+          "CRIT_W_GRA": 6.5
+        },
+        "gaps": [
+          {
+            "criterion": {
+              "id": "CRIT_W_LR",
+              "nameVi": "Nguồn từ vựng",
+              "nameEn": "Lexical Resource"
+            },
+            "currentBand": 6.5,
+            "targetBand": 8.5,
+            "gap": 2.0,
+            "activeErrorCount": 1
+          },
+          {
+            "criterion": {
+              "id": "CRIT_W_GRA",
+              "nameVi": "Phạm vi và độ chính xác ngữ pháp",
+              "nameEn": "Grammatical Range & Accuracy"
+            },
+            "currentBand": 6.5,
+            "targetBand": 8.5,
+            "gap": 2.0,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_W_TR",
+              "nameVi": "Đáp ứng đề bài",
+              "nameEn": "Task Response"
+            },
+            "currentBand": 7.0,
+            "targetBand": 8.5,
+            "gap": 1.5,
+            "activeErrorCount": 2
+          },
+          {
+            "criterion": {
+              "id": "CRIT_W_CC",
+              "nameVi": "Mạch lạc và liên kết",
+              "nameEn": "Coherence & Cohesion"
+            },
+            "currentBand": 7.5,
+            "targetBand": 8.5,
+            "gap": 1.0,
+            "activeErrorCount": 0
+          }
+        ],
+        "mastery": {
+          "SUB_IDEA_DEV": 0.417,
+          "SUB_POSITION": 0.417,
+          "SUB_TASK_ADDRESS": 0.643,
+          "SUB_LINKING": 0.643,
+          "SUB_PARAGRAPHING": 0.643,
+          "SUB_REFERENCING": 0.643,
+          "SUB_COLLOCATION": 0.643,
+          "SUB_PARAPHRASE": 0.643,
+          "SUB_SPELLING_WORDFORM": 0.643,
+          "SUB_WORD_CHOICE": 0.25,
+          "SUB_AGREEMENT": 0.643,
+          "SUB_ARTICLE": 0.643,
+          "SUB_COMPLEX_SENTENCE": 0.417,
+          "SUB_PREPOSITION": 0.643,
+          "SUB_PUNCTUATION": 0.417,
+          "SUB_VERB_TENSE": 0.643
+        },
+        "weaknesses": [
+          {
+            "error": "ERR_WORD_CHOICE",
+            "subSkill": "SUB_WORD_CHOICE",
+            "status": "WEAK",
+            "occurrences": 2,
+            "mastery": 0.25,
+            "priority": 0.875,
+            "resources": [
+              "RES_L_WORD_CHOICE_01"
+            ]
+          },
+          {
+            "error": "ERR_PUNCT",
+            "subSkill": "SUB_PUNCTUATION",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.642,
+            "resources": [
+              "RES_G_PUNCT_01"
+            ]
+          },
+          {
+            "error": "ERR_UNDERDEVELOPED",
+            "subSkill": "SUB_IDEA_DEV",
+            "status": "WEAK",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.592,
+            "resources": [
+              "RES_W2_IDEA_DEV_01"
+            ]
+          },
+          {
+            "error": "ERR_SENT_STRUCTURE",
+            "subSkill": "SUB_COMPLEX_SENTENCE",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.642,
+            "resources": [
+              "RES_G_COMPLEX_01"
+            ]
+          },
+          {
+            "error": "ERR_UNCLEAR_POSITION",
+            "subSkill": "SUB_POSITION",
+            "status": "IMPROVING",
+            "occurrences": 1,
+            "mastery": 0.417,
+            "priority": 0.592,
+            "resources": [
+              "RES_W2_POSITION_01"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

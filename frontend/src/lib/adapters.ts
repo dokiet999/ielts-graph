@@ -375,8 +375,11 @@ export function toSpeakingPronunciation(
   return {
     accuracy: num(raw.accuracy ?? 0),
     fluency: num(raw.fluency ?? 0),
-    completeness: num(raw.completeness ?? 0),
+    // A missing score is unknown, not zero: showing "0 / 100" would tell the learner they skipped every word
+    completeness: numOrNull(raw.completeness),
     prosody: numOrNull(raw.prosody),
+    // Unknown values (and older submissions without a source) get no label rather than a wrong one
+    source: raw.source === 'gemini' ? raw.source : null,
   }
 }
 

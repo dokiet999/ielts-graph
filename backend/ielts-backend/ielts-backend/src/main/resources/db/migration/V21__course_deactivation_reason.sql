@@ -1,6 +1,6 @@
 -- ============================================================
 -- IELTS Graph - Admin course deactivation reason
--- Migration: V19__course_deactivation_reason.sql
+-- Migration: V21__course_deactivation_reason.sql
 -- ============================================================
 
 ALTER TABLE courses

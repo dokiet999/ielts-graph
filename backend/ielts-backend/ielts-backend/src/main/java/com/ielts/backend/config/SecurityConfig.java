@@ -84,8 +84,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/courses/my").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/categories").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/courses/**", "/api/lessons/**").permitAll()
-                        // Only the exercise list and detail are public; /{id}/submissions needs login
-                        .requestMatchers(HttpMethod.GET, "/api/exercises", "/api/exercises/*").permitAll()
+                        // Only the exercise list (without content) is public. The detail needs login: its content
+                        // can hold a Listening transcript, and access depends on enrolment and final test grants
+                        .requestMatchers(HttpMethod.GET, "/api/exercises").permitAll()
                         // API docs, health check, demo UI and static assets
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
                                 "/actuator/health", "/error", "/listening-demo.html", "/", "/index.html", "/static/**").permitAll()

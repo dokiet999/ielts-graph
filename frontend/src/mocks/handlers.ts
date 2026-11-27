@@ -44,6 +44,7 @@ import type {
   DifficultyLevel,
   Exercise,
   ExerciseType,
+  ProfileSkill,
   QuestionType,
   SkillType,
   User,
@@ -58,6 +59,7 @@ import {
   type StoredUser,
 } from './db'
 import { courses, exercises, type CourseRecord } from './fixtures/courses'
+import { personalizationFixture } from './fixtures/personalization'
 import { KgRequestError, recommend } from './kg'
 import {
   fakeSpeakingFeedback,
@@ -88,6 +90,8 @@ const okPage = <T>(items: T[], page: number, size: number) => {
     data: slice,
   })
 }
+
+const targetBands = new Map<string, Partial<Record<ProfileSkill, number>>>()
 
 /** Backend error format: { code, message, details, timestamp }. */
 const fail = (status: number, code: string, message: string, details?: unknown) =>
@@ -1622,6 +1626,42 @@ export const handlers = [
       if (e instanceof KgRequestError) return fail(400, e.code, e.message, e.details)
       throw e
     }
+  }),
+
+  // Personalization tab: same shape as GET /api/personalization; the target bands live in memory.
+  http.get(`${API}/personalization`, async ({ request }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    if (localStorage.getItem(MOCK_KG_DOWN_KEY) === '1') {
+      return fail(
+        503,
+        'KG_UNAVAILABLE',
+        'The knowledge graph is temporarily unavailable. Please try again later',
+      )
+    }
+    return ok(personalizationFixture(targetBands.get(user.id) ?? {}))
+  }),
+
+  http.put(`${API}/personalization/target-band`, async ({ request }) => {
+    await delay(LATENCY)
+    const user = currentUser(request)
+    if (!user) return unauthorized()
+    const body = (await request.json()) as { skill?: string; targetBand?: number }
+    if (body.skill !== 'WRITING' && body.skill !== 'SPEAKING') {
+      return fail(400, 'INVALID_SKILL', 'skill must be WRITING or SPEAKING')
+    }
+    const band = Number(body.targetBand)
+    if (!(band >= 4 && band <= 9) || (band * 2) % 1 !== 0) {
+      return fail(
+        400,
+        'INVALID_TARGET_BAND',
+        'targetBand must be a multiple of 0.5 between 4.0 and 9.0',
+      )
+    }
+    const targets = { ...(targetBands.get(user.id) ?? {}), [body.skill]: band }
+    targetBands.set(user.id, targets)
+    return ok(personalizationFixture(targets))
   }),
 
   http.get(`${API}/submissions/me`, async ({ request }) => {

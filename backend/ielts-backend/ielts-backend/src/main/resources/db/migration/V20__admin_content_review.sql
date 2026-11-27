@@ -1,6 +1,6 @@
 -- ============================================================
 -- IELTS Graph - Admin content moderation & teacher lock reason
--- Migration: V18__admin_content_review.sql
+-- Migration: V20__admin_content_review.sql
 -- ============================================================
 
 -- Content moderation: DRAFT -> PENDING_REVIEW -> APPROVED | REJECTED

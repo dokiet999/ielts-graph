@@ -5,8 +5,10 @@ import com.ielts.backend.enums.ContentStatus;
 import com.ielts.backend.enums.SkillType;
 import com.ielts.backend.enums.SubmissionStatus;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -130,6 +132,56 @@ public interface UserSubmissionRepository extends JpaRepository<UserSubmission, 
 
         long getTotal();
     }
+
+    /** Graded submissions of the given skills whose events are not in the learner profile yet, oldest first. */
+    @Query("""
+            select s.id from UserSubmission s
+            where s.user.id = :userId and s.status = :status and s.profileAppliedAt is null
+              and s.exercise.skillType in :skills
+            order by s.submittedAt asc
+            """)
+    List<UUID> findIdsNotInProfile(@Param("userId") UUID userId,
+                                   @Param("status") SubmissionStatus status,
+                                   @Param("skills") Collection<SkillType> skills);
+
+    /** Same as {@link #findIdsNotInProfile} for every learner, oldest first, at most one page (profile backfill job). */
+    @Query("""
+            select s.id from UserSubmission s
+            where s.status = :status and s.profileAppliedAt is null and s.exercise.skillType in :skills
+            order by s.submittedAt asc
+            """)
+    List<UUID> findIdsNotInProfileForAllUsers(@Param("status") SubmissionStatus status,
+                                              @Param("skills") Collection<SkillType> skills,
+                                              Pageable pageable);
+
+    /**
+     * Fails the submissions left in GRADING since before {@code threshold}: the request that was grading them
+     * died (restart, crash, a failed final save). FAILED rows do not use up an attempt.
+     *
+     * @return number of submissions changed
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+            update UserSubmission s
+            set s.status = :failed, s.aiFeedback = :code
+            where s.status = :grading and s.submittedAt < :threshold
+            """)
+    int failStaleGrading(@Param("grading") SubmissionStatus grading,
+                         @Param("failed") SubmissionStatus failed,
+                         @Param("code") String code,
+                         @Param("threshold") LocalDateTime threshold);
+
+    /** AI-graded submissions of the given skills with their exercise, oldest first (personalization tab). */
+    @Query("""
+            select s from UserSubmission s
+            join fetch s.exercise e
+            where s.user.id = :userId and s.status = :status and e.skillType in :skills
+              and s.aiStructuredFeedback is not null
+            order by s.submittedAt asc, s.attemptNumber asc
+            """)
+    List<UserSubmission> findGradedWithFeedback(@Param("userId") UUID userId,
+                                                @Param("status") SubmissionStatus status,
+                                                @Param("skills") Collection<SkillType> skills);
 
     interface SubmissionScore {
         UUID getId();

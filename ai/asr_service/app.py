@@ -1,6 +1,8 @@
-"""AI service for IELTS Speaking: Whisper transcript + speech features.
+"""AI service for IELTS Speaking: Whisper transcript + speech features + pronunciation scores.
 
 Response of POST /transcribe follows ai/schema/speaking_asr.schema.json.
+Pronunciation scores come from pronunciation.py (Gemini estimate) when PRON_ENABLED=true;
+they run in parallel with Whisper and are null when disabled or when the provider fails.
 The service has no authentication: it must listen on 127.0.0.1 only.
 """
 import logging
@@ -9,6 +11,8 @@ import tempfile
 import threading
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FutureTimeout
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -16,6 +20,8 @@ from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from faster_whisper import WhisperModel, decode_audio
+
+from pronunciation import STATUS_DISABLED, PronConfig, PronunciationScorer
 
 MODEL_SIZE = os.getenv("ASR_MODEL_SIZE", "small")
 DEVICE = os.getenv("ASR_DEVICE", "cpu")
@@ -33,6 +39,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 
 state = {"model": None}
 infer_lock = threading.Lock()
+pron_scorer = PronunciationScorer(PronConfig.from_env())
+# Provider calls are network-bound: a small pool lets them overlap with Whisper (and with each other)
+pron_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="pron")
 
 
 class ApiError(Exception):
@@ -45,7 +54,15 @@ async def lifespan(_: FastAPI):
     t0 = time.time()
     state["model"] = WhisperModel(MODEL_SIZE, device=DEVICE, compute_type=COMPUTE_TYPE)
     log.info("model whisper-%s loaded in %.1fs", MODEL_SIZE, time.time() - t0)
+    if pron_scorer.active:
+        log.info("pronunciation: %s", pron_scorer.config.describe())
+    elif pron_scorer.status == STATUS_DISABLED:
+        log.info("pronunciation: disabled (set PRON_ENABLED=true)")
+    else:
+        log.warning("pronunciation: %s for provider '%s', scores will be null (see ai/asr_service/README.md)",
+                    pron_scorer.status, pron_scorer.config.provider)
     yield
+    pron_executor.shutdown(wait=False, cancel_futures=True)
 
 
 app = FastAPI(title="IELTS ASR service", lifespan=lifespan)
@@ -65,7 +82,8 @@ async def validation_handler(_: Request, exc: RequestValidationError):
 def health():
     ready = state["model"] is not None
     return JSONResponse(
-        {"status": "ok" if ready else "loading", "asr_model": f"whisper-{MODEL_SIZE}", "language": LANGUAGE},
+        {"status": "ok" if ready else "loading", "asr_model": f"whisper-{MODEL_SIZE}", "language": LANGUAGE,
+         "pronunciation": pron_scorer.status},
         status_code=200 if ready else 503,
     )
 
@@ -117,6 +135,8 @@ async def transcribe(audio: UploadFile = File(...)):
             raise ApiError(400, "BAD_AUDIO", "Audio contains no samples.")
         if duration > MAX_DURATION_SEC:
             raise ApiError(413, "AUDIO_TOO_LONG", f"Audio is longer than {MAX_DURATION_SEC:.0f} s.")
+        # Pronunciation scoring runs while Whisper transcribes; its result is collected after Whisper is done
+        pron_future = pron_executor.submit(pron_scorer.score, samples) if pron_scorer.active else None
         try:
             t0 = time.time()
             with infer_lock:
@@ -132,10 +152,13 @@ async def transcribe(audio: UploadFile = File(...)):
             elapsed = time.time() - t0
         except Exception:
             log.exception("whisper failed")
+            if pron_future is not None:
+                pron_future.cancel()
             raise ApiError(500, "ASR_FAILED", "Speech recognition failed.")
         words = [w for s in segments for w in (s.words or [])]
         transcript = " ".join(s.text.strip() for s in segments).strip()
         log.info("transcribed %.1fs audio in %.1fs (%d words)", duration, elapsed, len(transcript.split()))
+        pronunciation, pron_elapsed = collect_pronunciation(pron_future)
         return JSONResponse(
             {
                 "schema_version": "1.0",
@@ -143,12 +166,28 @@ async def transcribe(audio: UploadFile = File(...)):
                 "language": LANGUAGE,
                 "transcript": transcript,
                 "features": compute_features(words, duration, transcript),
-                "pronunciation": None,
+                "pronunciation": pronunciation,
             },
-            headers={"X-Processing-Sec": f"{elapsed:.2f}"},
+            headers={"X-Processing-Sec": f"{elapsed:.2f}", "X-Pronunciation-Sec": f"{pron_elapsed:.2f}"},
         )
     finally:
         path.unlink(missing_ok=True)
+
+
+def collect_pronunciation(future) -> tuple:
+    """Pronunciation scores of a running assessment, or (None, 0) when it is off, failed or too slow."""
+    if future is None:
+        return None, 0.0
+    try:
+        # score() has its own timeout; the margin only guards against a stuck call
+        return future.result(timeout=pron_scorer.config.timeout_sec + 15)
+    except FutureTimeout:
+        future.cancel()
+        log.warning("pronunciation assessment did not finish in time, scores are null")
+        return None, 0.0
+    except Exception as exc:  # score() never raises, but the request must not fail because of it
+        log.warning("pronunciation assessment crashed (%s)", type(exc).__name__)
+        return None, 0.0
 
 
 if __name__ == "__main__":
