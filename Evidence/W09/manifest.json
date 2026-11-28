@@ -1,0 +1,111 @@
+{
+  "issue": "W9: Calibration with human scoring subset",
+  "generated_at": "2026-11-25T20:36:44Z",
+  "git_commit": "e3fcea06264389e87875e9743c33da11f0c699ba",
+  "git_dirty": false,
+  "settings": {
+    "issue": "W9: Calibration with human scoring subset",
+    "writing": "writing_v1, 40 essays: dev (16) = calibration, test (24) = held-out; reference bands of the source (community scores, 4 criteria and overall); grader prompt writing-v1.2, gemini-3.5-flash-lite",
+    "speaking": "Speak & Improve Corpus 2025 dev set, Part 3 (60 s opinion answer), 30 answers stratified by human mark (seed 9): 8 calibration, 22 held-out; graded as QT_S_PART3; Whisper small, pronunciation by Gemini, grader prompt speaking-v1.2",
+    "speaking_scale": "human mark 0-6 (3 = B1, 4 = B2, 5 = C1) vs AI band through mark = (band - 4.5) / 1.5 + 3",
+    "pronunciation": "speechocean762 test split, adults, 49 sentences stratified by expert total (seed 9), pronunciation.py gemini_assess with gemini-3.5-flash-lite",
+    "calibration": "fitted on the calibration split only: offset and linear least squares, rounded to 0.5",
+    "not_in_git": "corpus audio, essays text and transcripts (licences), only ids and scores are kept"
+  },
+  "data": [
+    {
+      "path": "data/writing_v1/essays.json",
+      "sha256": "60b8072c5ccb87c489791000b2f1826f3e132846fb520b950a5659bc9439b4bf"
+    },
+    {
+      "path": "ai/prompts/writing_v1.system.txt",
+      "sha256": "5ac96bc7740010d08507cc03c970c7a8fa961d99ad522160f748a42f3b57cc81"
+    },
+    {
+      "path": "ai/prompts/speaking_v1.system.txt",
+      "sha256": "894075bfffb2b404f8ec55a97e2d14732ce70ed71df44efb80d1a47c6a7b601a"
+    },
+    {
+      "path": "ai/rubric/writing_rubric.json",
+      "sha256": "576e290b149d9fb69353aa69716e3fe1a2a5d1fe9f07958554955290ce3eb34b"
+    },
+    {
+      "path": "ai/rubric/speaking_rubric.json",
+      "sha256": "0dbe9eebd316e5cf001d70463f31c668c736a940aa62365871a9df2213eec02c"
+    }
+  ],
+  "files": [
+    {
+      "path": "Evidence/W09/.gitignore",
+      "sha256": "67f96a9df3d2076c408f0bda0a90bcc56f98c3fe8759c405ff702f15a9033e82"
+    },
+    {
+      "path": "Evidence/W09/analyze.py",
+      "sha256": "77d4ead9819b3d7a5916e8896bd1d76576eec5dd3a380051e7911b770c504b0c"
+    },
+    {
+      "path": "Evidence/W09/calibration.json",
+      "sha256": "8b19c309925552c0ffb441c0e44c5715c615eaa0f3569ea7b55e8a81efc16a95"
+    },
+    {
+      "path": "Evidence/W09/errors.csv",
+      "sha256": "9277c5159277b97f6aef08cd411f93deed8531cc7de27b74c5c450c28cea728c"
+    },
+    {
+      "path": "Evidence/W09/eval_exercises.sql",
+      "sha256": "cc0b95ada70fbfce338c0e1d0508df281898ff6ab004f6fbb7d1e7b4258f0de3"
+    },
+    {
+      "path": "Evidence/W09/eval_pron_speechocean.py",
+      "sha256": "9c32d22bb8801cbe97714a5ca11ad127bea72e5ac60f19d3422fe7c974a9bae4"
+    },
+    {
+      "path": "Evidence/W09/figures/agreement.png",
+      "sha256": "330a7bb2c97966e95cd16cb75ebda555b5fd3f21c1c7439b56b0260885734bb0"
+    },
+    {
+      "path": "Evidence/W09/make_figures.py",
+      "sha256": "3bbfa6ecb0c1796a4765a8aed196b9d227ca6d3be17c2bebdcfe34f3d7c8604a"
+    },
+    {
+      "path": "Evidence/W09/make_manifest.py",
+      "sha256": "82db341fffd968da62db5a799a3344dcfa9ecdc466f49b4a8252f139a69fdb49"
+    },
+    {
+      "path": "Evidence/W09/metrics.csv",
+      "sha256": "57c49798f574927e009786bb8bd8a86cea3a49ffe2881d25dc8d63cdbcd5eda2"
+    },
+    {
+      "path": "Evidence/W09/pron_speechocean.csv",
+      "sha256": "16401ffd2aab211d9c0d4846a03ee8ec4e6303a5ff9362aad686cb0522039827"
+    },
+    {
+      "path": "Evidence/W09/README.md",
+      "sha256": "8364ee42644bb7eaa01f975b2af3268c366a4594d2f3e20fdedcff9ca7933fab"
+    },
+    {
+      "path": "Evidence/W09/results/speaking.jsonl",
+      "sha256": "f12f1046f7ffbbd216af494f010d40f764ea057f9bd977f9402bb7832c727efb"
+    },
+    {
+      "path": "Evidence/W09/results/writing.jsonl",
+      "sha256": "ad07a146b648996ee2431258bc0bb17faf149acf2fd58e29da74ddafd866da94"
+    },
+    {
+      "path": "Evidence/W09/run.sh",
+      "sha256": "e5da91dcf1edeb8c7d07f3fe35b3d1697cd4d2ff2b072a02db30102de21c1c07"
+    },
+    {
+      "path": "Evidence/W09/run_eval.py",
+      "sha256": "991b76b94b5b3e150485283ecd2cd7aadd09d20393c912d481d495dcac0928e2"
+    },
+    {
+      "path": "Evidence/W09/select_speaking.py",
+      "sha256": "5ef10fc1f9a5002a5dcad2d584e0fcba6b712b2a34ce69e5b4dda9126c585e91"
+    },
+    {
+      "path": "Evidence/W09/speaking_sample.csv",
+      "sha256": "31028e3ff7d3ccc63878797f95a791e74340459063ab7b44d4a5c815810f9aa5"
+    }
+  ]
+}

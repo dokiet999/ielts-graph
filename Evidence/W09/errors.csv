@@ -1,0 +1,34 @@
+skill,id,split,human,ai,diff_band,kind,largest_criterion_gap,word_count,task,duration_sec,speech_rate_wpm
+writing,w2_003,calibration,4.0,6.0,2.0,"over-scored, low band",CRIT_W_TR,354,QT_W2_OPINION,,
+writing,w2_004,heldout,4.0,5.5,1.5,"over-scored, low band",CRIT_W_TR,354,QT_W2_ADV_DISADV,,
+writing,w2_005,calibration,4.5,5.5,1.0,"over-scored, low band",CRIT_W_TR,268,QT_W2_OPINION,,
+writing,w2_010,heldout,5.0,6.0,1.0,"over-scored, low band",CRIT_W_LR,255,QT_W2_DISCUSSION,,
+writing,w2_012,heldout,5.0,6.0,1.0,"over-scored, low band",CRIT_W_LR,332,QT_W2_OPINION,,
+writing,w2_015,heldout,5.5,4.0,-1.5,under-scored,CRIT_W_CC,354,QT_W2_OPINION,,
+writing,w2_021,heldout,6.0,4.5,-1.5,under-scored,CRIT_W_CC,285,QT_W2_PROBLEM_SOLUTION,,
+writing,w2_022,calibration,6.0,5.0,-1.0,under-scored,CRIT_W_LR,436,QT_W2_OPINION,,
+writing,w2_024,heldout,6.5,5.0,-1.5,under-scored,CRIT_W_GRA,407,QT_W2_DISCUSSION,,
+writing,w2_028,heldout,7.0,5.0,-2.0,"under-scored, high band",CRIT_W_TR,250,QT_W2_OPINION,,
+writing,w2_033,heldout,7.5,4.5,-3.0,"under-scored, high band",CRIT_W_CC,394,QT_W2_PROBLEM_SOLUTION,,
+writing,w2_034,heldout,7.5,6.0,-1.5,"under-scored, high band",CRIT_W_TR,283,QT_W2_DISCUSSION,,
+writing,w2_035,calibration,7.5,6.0,-1.5,"under-scored, high band",CRIT_W_LR,263,QT_W2_OPINION,,
+writing,w2_036,heldout,8.0,5.0,-3.0,"under-scored, high band",CRIT_W_TR,346,QT_W2_PROBLEM_SOLUTION,,
+writing,w2_037,heldout,8.0,7.0,-1.0,"under-scored, high band",CRIT_W_CC,328,QT_W2_OPINION,,
+writing,w2_038,heldout,8.0,6.0,-2.0,"under-scored, high band",CRIT_W_GRA,259,QT_W2_ADV_DISADV,,
+writing,w2_039,calibration,8.0,6.0,-2.0,"under-scored, high band",CRIT_W_CC,301,QT_W2_DISCUSSION,,
+writing,w2_040,calibration,8.0,6.0,-2.0,"under-scored, high band",CRIT_W_GRA,258,QT_W2_OPINION,,
+speaking,SI1267-01104-P30017,calibration,3.0,5.0,2.0,"over-scored, low band",CRIT_S_P,83,S&I P3,59.89,83.2
+speaking,SI114J-00752-P30017,heldout,3.0,5.5,2.5,"over-scored, low band",CRIT_S_P,71,S&I P3,48.8,87.3
+speaking,SI137O-00798-P30017,heldout,3.75,5.0,1.25,"over-scored, low band",CRIT_S_P,46,S&I P3,59.89,46.1
+speaking,SI114J-00206-P30017,calibration,4.5,5.5,1.0,"over-scored, low band",CRIT_S_FC,109,S&I P3,57.16,114.4
+speaking,SI12BD-00189-P30017,heldout,6.0,4.5,-1.5,under-scored,CRIT_S_FC,52,S&I P3,59.72,52.2
+speaking,SI1267-00100-P30017,calibration,6.75,5.5,-1.25,under-scored,CRIT_S_FC,62,S&I P3,54.94,67.7
+speaking,SI137O-00420-P30017,heldout,6.75,5.0,-1.75,under-scored,CRIT_S_GRA,111,S&I P3,57.67,115.5
+speaking,SI12BD-00576-P30017,calibration,7.5,5.5,-2.0,"under-scored, high band",CRIT_S_LR,103,S&I P3,58.51,105.6
+speaking,SI1267-00862-P30017,heldout,7.5,6.5,-1.0,"under-scored, high band",CRIT_S_FC,135,S&I P3,59.04,137.2
+speaking,SI127E-00770-P30017,heldout,7.5,6.5,-1.0,"under-scored, high band",CRIT_S_LR,137,S&I P3,58.52,140.5
+speaking,SI114J-00699-P30017,heldout,7.5,6.5,-1.0,"under-scored, high band",CRIT_S_FC,87,S&I P3,56.47,92.4
+speaking,SI114J-00622-P30017,calibration,8.25,5.5,-2.75,"under-scored, high band",CRIT_S_FC,105,S&I P3,58.52,107.6
+speaking,SI114J-00644-P30017,heldout,8.25,7.0,-1.25,"under-scored, high band",CRIT_S_FC,122,S&I P3,60.06,121.9
+speaking,SI127E-01688-P30017,heldout,8.25,7.0,-1.25,"under-scored, high band",CRIT_S_FC,116,S&I P3,59.77,116.4
+speaking,SI12BD-00535-P30017,heldout,8.25,6.5,-1.75,"under-scored, high band",CRIT_S_FC,102,S&I P3,59.89,102.2
